@@ -6,7 +6,7 @@ import { User } from './user';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://10.121.60.51:3333/login';
+  private url = 'https://sophisticated-torpid-freckle.glitch.me:3333/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient) {}
