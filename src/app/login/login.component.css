@@ -1,0 +1,295 @@
+:root {
+  --web-view-ids: Pgina_Inicial;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+@media only screen and (max-width: 800px) {
+  #div_video {
+    display: none;
+  }
+
+  #Grupo_19 {
+    position: relative;
+    transform: translate(-40%, -25%);
+  }
+}
+
+
+#Pgina_Inicial {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255,255,255,1);
+  overflow: hidden;
+  --web-view-name: Página Inicial;
+  --web-view-id: Pgina_Inicial;
+  --web-scale-on-resize: true;
+  --web-enable-deep-linking: true;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+#Grupo_19 {
+  position: absolute;
+  width: 510px;
+  height: 568px;
+  left: 285px;
+  top: 183px;
+  overflow: visible;
+}
+#DIEPNG {
+  position: absolute;
+  width: 111px;
+  height: 115px;
+  left: 200px;
+  top: 0px;
+  overflow: visible;
+}
+#Sistema_de_Instruo_e_Ensino {
+  left: 28px;
+  top: 147px;
+  position: absolute;
+  overflow: visible;
+  width: 455px;
+  height: 38px;
+  text-align: center;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+  color: rgba(13,13,13,1);
+}
+#Login_-_botes_filho {
+  position: absolute;
+  width: 510px;
+  height: 351px;
+  left: 0px;
+  top: 217px;
+  overflow: visible;
+}
+#Senha_campo {
+  position: absolute;
+  width: 510px;
+  height: 99px;
+  left: 0px;
+  top: 127px;
+  overflow: visible;
+}
+#Retngulo_27 {
+  fill: rgba(255,255,255,1);
+  stroke: rgba(112,112,112,1);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-miterlimit: 4;
+  shape-rendering: auto;
+}
+.Retngulo_27 {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.161));
+  position: absolute;
+  overflow: visible;
+  width: 516px;
+  height: 73px;
+  left: 0px;
+  top: 32px;
+  padding-left: 15px;
+  font-size: 20px;
+}
+#Senha {
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  overflow: visible;
+  width: 57px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(13,13,13,1);
+}
+#Login_-_LDAP {
+  position: absolute;
+  width: 510px;
+  height: 99px;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+#Retngulo_27_ {
+  fill: rgba(255,255,255,1);
+  stroke: rgba(112,112,112,1);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-miterlimit: 4;
+  shape-rendering: auto;
+}
+.Retngulo_27_ {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.161));
+  position: absolute;
+  overflow: visible;
+  width: 516px;
+  height: 73px;
+  left: 0px;
+  top: 32px;
+  padding-left: 15px;
+  font-size: 20px;
+
+}
+#Login_-_LDAP_ {
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  overflow: visible;
+  width: 115px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(13,13,13,1);
+}
+#Icon_open-account-login {
+  fill: rgba(13,13,13,1);
+}
+.Icon_open-account-login {
+  overflow: visible;
+  position: absolute;
+  width: 13.868px;
+  height: 13.815px;
+  left: 122.544px;
+  top: 5.217px;
+  transform: matrix(1,0,0,1,0,0);
+}
+#Remember-me {
+  position: absolute;
+  width: 136px;
+  height: 24px;
+  left: 6px;
+  top: 230px;
+  overflow: visible;
+}
+#Lembrar-me {
+  left: 26px;
+  top: 0px;
+  position: absolute;
+  overflow: visible;
+  width: 111px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(13,13,13,1);
+}
+#Retngulo_33 {
+  fill: rgba(255,255,255,1);
+  stroke: rgba(13,13,13,1);
+  stroke-width: 1px;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+  stroke-miterlimit: 4;
+  shape-rendering: auto;
+}
+.Retngulo_33 {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.161));
+  position: absolute;
+  overflow: visible;
+  width: 23px;
+  height: 23px;
+  left: 0px;
+  top: 3px;
+}
+#Boto_entrar {
+  position: absolute;
+  width: 510px;
+  height: 65px;
+  left: 0px;
+  top: 286px;
+  overflow: visible;
+  transition: all 0.30000001192092896s ease-out;
+  --web-animation: fadein 0.30000001192092896s ease-out;
+  --web-action-type: page;
+  --web-action-target: Home___Logado.html;
+  cursor: pointer;
+}
+#Retngulo_27_ba {
+  fill: rgba(38,49,77,1);
+}
+.Retngulo_27_ba {
+  filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.161));
+  position: absolute;
+  overflow: visible;
+  width: 514.5px;
+  height: 69.5px;
+  left: 0px;
+  top: 0px;
+
+}
+#Entrar {
+  left: 166px;
+  top: 12px;
+  position: absolute;
+  overflow: visible;
+  width: 179px;
+  height: 44px;
+  text-align: center;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  color: rgba(255,255,255,1);
+}
+#Composio_1 {
+  opacity: 0.92;
+  fill: transparent;
+}
+.Composio_1 {
+  overflow: hidden;
+  position: absolute;
+  width: 608px;
+  height: 1080px;
+  left: 1027px;
+  top: 0px;
+  transform: matrix(1,0,0,1,0,0);
+}
+.botao_entrar {
+  align-items: flex-end;
+  background-color: #26314D;
+  border-radius: 8px;
+  box-shadow: 3px 1px 1px #00000029;
+  cursor: pointer;
+  height: 65px;
+  justify-content: center;
+  margin-top: 32px;
+  min-width: 510px;
+  padding: 7px 164px;
+  transition: background-color 0.3s ease; /* Adicionado para suavizar a transição de cores */
+}
+
+.botao_entrar:hover {
+  background-color: #26314db9; /* Substitua pelo código de cor desejado para o hover */
+  border-color: #26314d00;
+}
+
+.botao_entrar_text {
+  color: white;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing:0;
+  line-height: 36px;
+  min-height: 36px;
+  text-align:center;
+}
+
+.botao_entrar:hover .botao_entrar_text {
+  color: white; /* Substitua pelo código de cor desejado para o texto no hover */
+}
