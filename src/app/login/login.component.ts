@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../shared/authentication';
+import { AuthenticationService } from '../shared/service/authentication';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
