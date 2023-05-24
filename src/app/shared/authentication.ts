@@ -23,6 +23,8 @@ export class AuthenticationService {
             // Se não estiver marcada, armazene o token em sessionStorage
             sessionStorage.setItem('token', response.token);
           }
+          this.user = response.user;
+          console.log(this.user)
           // Lógica adicional, como redirecionar para outra página, etc.
           resolve({logado: true, erro: ''}); // resolve a promise como true porque o login foi bem-sucedido
         },
@@ -32,7 +34,7 @@ export class AuthenticationService {
           if (error.status === 401) {
             resolve({logado: false, erro: error.error.message}); 
           } else {
-            reject({logado: false, erro: 'Erro na autenticação'}); 
+            reject({logado: false, erro: 'Erro na autenticação'});
           }
         }
       );
