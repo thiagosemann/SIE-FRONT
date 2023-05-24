@@ -7,7 +7,7 @@ import { User } from './user';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://localhost:3333/tasks';
+  private url = 'http://10.121.61.82:3333/tasks';
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
 
