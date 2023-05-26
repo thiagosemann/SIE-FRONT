@@ -1,20 +1,27 @@
+<app-nav-bar></app-nav-bar>
+
 <div class="content">
-    <app-nav-bar></app-nav-bar>
     <div class="tab-container">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#content1">Cursos BBM</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#content2">Tab 2</a>
+                <a class="nav-link " id="tab2" data-bs-toggle="tab" href="#content2">Datas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#content3">Tab 3</a>
+                <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#content3">Local</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tab4" data-bs-toggle="tab" href="#content4">Coord.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tab5" data-bs-toggle="tab" href="#content5">Docentes</a>
             </li>
         </ul>
     </div>
     <div class="rectangle tab-content">
-        <div class="tab-pane fade show active" id="content1">
+        <div class="tab-pane fade show active " id="content1">
           <div class="table-container">
             <table>
               <thead>
@@ -80,13 +87,17 @@
             </table>
           </div>  
         </div>
-        <div class="tab-pane fade" id="content2">
-            <h4>Content 2</h4>
-            <p>Content for Tab 2</p>
+        <div class="tab-pane fade " id="content2">
+            <app-inscricao></app-inscricao>
         </div>
-        <div class="tab-pane fade" id="content3">
-            <h4>Content 3</h4>
-            <p>Content for Tab 3</p>
+        <div class="tab-pane fade " id="content3">
+            <app-local-apresentacao></app-local-apresentacao>
+        </div>
+        <div class="tab-pane fade" id="content4">
+          <app-coordenador></app-coordenador>
+        </div>
+        <div class="tab-pane fade " id="content5">
+          <app-docentes></app-docentes>
         </div>
     </div>
 </div>

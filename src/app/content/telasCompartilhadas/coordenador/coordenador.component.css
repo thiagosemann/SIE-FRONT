@@ -1,0 +1,13 @@
+.custom-form {
+    padding: 10px 50px;  /* padding-top/bottom: 10px, padding-right/left: 50px */
+}
+
+.form-control {
+    font-size: 18px;
+    height: 40px;
+}
+.coordenadorHeader{
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato';
+}

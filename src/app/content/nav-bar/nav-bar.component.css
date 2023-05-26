@@ -1,7 +1,8 @@
 .navbar-nav .nav-link {
     color: #fff; /* Cor branca forte */
-    font-weight: bold; /* Negrito */
     font-size: 1.2rem; /* Fonte maior */
+    font-family: Fira Sans;
+
 }
 
 .navbar-nav .nav-link:hover {
@@ -11,9 +12,10 @@
     color: #fff; 
     background-color: #8d0d0dd3; 
     border-radius: 5px; 
-    padding: 5px 25px; /* padding adicional para dar espaço ao redor do texto */
+    padding: 5px 15px; /* padding adicional para dar espaço ao redor do texto */
 	font-weight: bold; /* Negrito */
-    font-size: 1.2rem; /* Fonte maior */
+    font-size: 0.8rem; /* Fonte maior */
+
 }
 
 .nav-link.exit-btn:hover {

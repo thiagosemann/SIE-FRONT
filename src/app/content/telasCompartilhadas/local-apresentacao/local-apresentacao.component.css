@@ -1,0 +1,19 @@
+.form-control {
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+}
+
+.custom-select {
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+}
+.localHeader{
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato';
+}
+.custom-form {
+    padding: 10px 40vh;  /* padding-top/bottom: 10px, padding-right/left: 50px */
+}

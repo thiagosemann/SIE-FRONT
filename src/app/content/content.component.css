@@ -9,7 +9,7 @@
 
 .tab-container {
     position: absolute;
-    top: 160px;
+    top: 100px;
     margin-left: 10%;
     z-index: 1;
     border-radius: 10px 10px 0 0;
@@ -25,14 +25,14 @@
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #212b44; /* Define a cor de fundo para azul quando selecionada */
+    background-color: #4B6199; /* Define a cor de fundo para azul quando selecionada */
     color: white; /* Define a cor da fonte para branca quando selecionada */
     z-index: 3; /* Ajusta o z-index da aba ativa para ficar na frente das outras */
 }
 
 .rectangle {
     position: absolute;
-    top: 200px;
+    top: 140px;
     margin-left: 10%;
     width: calc(100% - 20%);
     height: 100%;
