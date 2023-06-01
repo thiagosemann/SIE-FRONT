@@ -1,0 +1,28 @@
+<div class="rectangle tab-content">
+  <div class="tab-pane fade show active" id="content1">
+    <div class="text-container">
+      <div class="text-header">
+        <div class="text-header-item">Nº Processo</div>
+        <div class="text-header-item">Situação</div>
+        <div class="text-header-item">Sigla</div>
+        <div class="text-header-item">Local</div>
+        <div class="text-header-item">Carga Horária</div>
+        <div class="text-header-item">Ações</div>
+      </div>
+      <div class="text-body-container">
+        <ng-container *ngFor="let item of filteredData; let i = index; let even = even; let odd = odd;">
+          <div class="text-body" [ngClass]="{'even-row': even, 'odd-row': odd}">
+            <div class="text-body-item">{{item.id}}</div>
+            <div class="text-body-item">{{item.situacao}}</div>
+            <div class="text-body-item">{{item.sigla}}</div>
+            <div class="text-body-item">{{item.local}}</div>
+            <div class="text-body-item">{{item.ha}}</div>
+            <div class="text-body-item">
+              <button class="btn btn-primary" data-toggle="tab">{{ getActionButtonText(item.situacao) }}</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>  
+  </div>
+</div>

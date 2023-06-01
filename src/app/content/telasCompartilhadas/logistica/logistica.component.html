@@ -1,0 +1,88 @@
+<div class="text-white p-3 logisticaHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Logística</h2>
+    </div>
+</div>
+  
+<div class="container">
+    <div id="semDiariasMilitares">
+        <div>
+            <h5>a) Diárias Militares:</h5>
+            <p>Não serão pagas diárias militares aos alunos e instrutores.</p>
+            <h5>b) Alimentação:</h5>
+            <p>- Será fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.
+            - O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:(OPCIONAL)</p>
+            <table class="table" id="tableAlimLog">
+                <thead>
+                    <tr>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Unidade</th>
+                        <th scope="col">Quant</th>
+                        <th scope="col"></th>    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input class="form-control" id="itemAlimDesc"></td>
+                        <td><input class='form-control' id="itemAlimUnid"></td>
+                        <td><input class='form-control' type='number' min='1' value='1' id="itemAlimQuant"></td>
+                        <td><button class="btn btn-primary">Adicionar</button></td>    
+                    </tr>
+                </tbody>
+            </table> 
+        </div> 
+    </div>
+
+
+
+    <div id="uniformeMateriais" >
+        <div>
+            <h5>f) Uniforme</h5>
+            <p> Selecione o(s) fardamento(s) a serem utilizado(s) na atividade de ensino.</p>
+            <div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="cb5a">
+                                    <label class="form-check-label" for="cb5a">5ºA (OPERACIONAL)</label>
+                                </div>
+                            </th>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p> Detalhar outros uniformes/fardamentos a serem utilizados na atividade de ensino</p>
+            <textarea class="form-control" id="paragraphUniformeText" disabled="true">
+                - Outros 1
+                - Outros 2        
+            </textarea>
+        </div>
+    </div>
+    <div>
+        <h5>g) Materiais e quantitativos necessários:</h5>
+        <p>Descreva todos os equipamentos, materiais e suprimentos necessários para a atividade de ensino, se houver:</p>
+
+        <button class="btn btn-primary" onclick="btnLogIndividual()" id="btnLogInd">ADICIONAR MATERIAIS INDIVÍDUAIS</button>
+        <div class="d-none" id="logisticaIndividualDivAnswer">
+            <h6>MATERIAIS INDIVÍDUAIS:</h6>
+            <textarea class="form-control" id="paragraphLogisticaIndivual"  >
+                (1)
+                (2)
+                (3)...
+            </textarea>
+        </div>
+
+        <button class="btn btn-primary" onclick="btnLogColetivo()" id="btnLogCol">ADICIONAR MATERIAIS COLETIVOS</button>
+        <div class="d-none" id="logisticaColetivoDivAnswer">
+            <h6>MATERIAIS COLETIVOS:</h6>
+            <textarea class="form-control" id="paragraphLogisticaColetivo"  >
+                (1)
+                (2)
+                (3)...
+            </textarea>
+        </div>
+    </div>
+</div>

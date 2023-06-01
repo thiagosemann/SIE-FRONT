@@ -14,6 +14,11 @@ import { DatasAberturaComponent } from './content/telasCompartilhadas/datas-aber
 import { LocalApresentacaoComponent } from './content/telasCompartilhadas/local-apresentacao/local-apresentacao.component';
 import { CoordenadorComponent } from './content/telasCompartilhadas/coordenador/coordenador.component';
 import { DocentesComponent } from './content/telasCompartilhadas/docentes/docentes.component';
+import { PgeComponent } from './content/telasCompartilhadas/pge/pge.component';
+import { RequisitosComplementaresComponent } from './content/telasCompartilhadas/requisitos-complementares/requisitos-complementares.component';
+import { LogisticaComponent } from './content/telasCompartilhadas/logistica/logistica.component';
+import { PrescricoesComplementaresComponent } from './content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
+import { GoogleScriptService } from './shared/service/googleScriptService'; // Importe o seu serviço aqui
 
 @NgModule({
   declarations: [
@@ -25,6 +30,10 @@ import { DocentesComponent } from './content/telasCompartilhadas/docentes/docent
     LocalApresentacaoComponent,
     CoordenadorComponent,
     DocentesComponent,
+    PgeComponent,
+    RequisitosComplementaresComponent,
+    LogisticaComponent,
+    PrescricoesComplementaresComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,7 @@ import { DocentesComponent } from './content/telasCompartilhadas/docentes/docent
     BrowserAnimationsModule,
   ],
   
-  providers: [],
+  providers: [GoogleScriptService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

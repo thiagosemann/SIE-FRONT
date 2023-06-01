@@ -1,0 +1,32 @@
+<div class="text-white p-3 prescricoesHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Prescrições Complementares</h2>
+    </div>
+</div>
+<div class="container">
+
+    <div class="form-group">
+        <label><strong>Prescrições diversas:</strong></label>
+        <textarea class="form-control" style="height: 150px;" disabled>
+            a) Ao final da atividade de ensino os alunos aprovados receberão certificado emitido pela Diretoria de Instrução e Ensino.
+            b) Os esclarecimentos e dúvidas relativos à operacionalização e execução da presente atividade de ensino, deverão ser direcionados ao coordenador da atividade de ensino, conforme contato previsto no item 1 deste edital.
+            c) As situações que porventura não estiverem previstas neste edital serão resolvidas pela Diretoria de Instrução e Ensino. 
+        </textarea>
+    </div>
+
+    <div class="form-group">
+        <label><strong>Prescrições complementares:</strong></label>
+        <textarea class="form-control" style="height: 60px;" disabled> Este campo não deve ser utilizado para repetir prescrições já relacionados nos itens descritos acima e muito menos contradizê-los. O referido campo será objeto de atenta análise pela DIE.</textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="btnPrescricoesComplementares()" id="btnPreComp">Adicionar Prescrições Complementares</button>
+    
+    <div class="form-group d-none" id="prescricoesDivAnswer">
+        <label><strong>Prescrições Complementares:</strong></label>
+        <textarea class="form-control" id="paragraphPrescricoesComplementares">
+            10.1
+            10.2
+            10.3...
+        </textarea>
+    </div> 
+</div>

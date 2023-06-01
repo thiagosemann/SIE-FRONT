@@ -6,7 +6,7 @@ import { User } from '../utilitarios/user';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://10.121.61.82:3333/login';
+  private url = 'http://10.121.61.147:3333/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient) {}

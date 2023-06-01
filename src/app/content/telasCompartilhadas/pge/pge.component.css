@@ -1,0 +1,46 @@
+.text-container {
+  border-radius: 0px 10px 0 0;
+  overflow: hidden;
+}
+
+.text-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #4B6199;
+  color: white;
+  font-weight: bold;
+  padding: 20px;
+  height: 70px;
+}
+
+.text-header-item {
+  flex: 1;
+  text-align: center;
+}
+
+.text-body-container {
+  height: 65vh; /* ajuste de acordo com a sua necessidade */
+  overflow-y: auto; /* habilita a rolagem vertical quando necessário */
+}
+
+.text-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.text-body-item {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.even-row {
+  background-color: #a7bad3;
+}
+
+.odd-row {
+  background-color: #ffffff;
+}
