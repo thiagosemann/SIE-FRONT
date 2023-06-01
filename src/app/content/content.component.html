@@ -1,103 +1,15 @@
-<app-nav-bar></app-nav-bar>
+    <app-nav-bar></app-nav-bar>
 
-<div class="content">
-    <div class="tab-container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#content1">Cursos BBM</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " id="tab2" data-bs-toggle="tab" href="#content2">Datas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#content3">Local</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="tab4" data-bs-toggle="tab" href="#content4">Coord.</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="tab5" data-bs-toggle="tab" href="#content5">Docentes</a>
-            </li>
-        </ul>
-    </div>
-    <div class="rectangle tab-content">
-        <div class="tab-pane fade show active" id="content1">
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Nº Processo</th>
-                  <th>Situação</th>
-                  <th>Sigla</th>
-                  <th>Local</th>
-                  <th>Carga Horária</th>
-                  <th>Ações</th> 
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>10.124.121.45</td>
-                  <td>Andamento</td>
-                  <td>TBAE</td>
-                  <td>Florianópolis</td>
-                  <td>16</td>
-                  <td>BOTAO</td>
-                </tr>
-                <tr>
-                  <td>10.124.121.45</td>
-                  <td>Previsto</td>
-                  <td>TBAE</td>
-                  <td>Florianópolis</td>
-                  <td>16</td>
-                  <td>BOTAO</td>
-                </tr>
-                <tr>
-                  <td>10.112.121.45</td>
-                  <td>Previsto</td>
-                  <td>CBC</td>
-                  <td>Florianópolis</td>
-                  <td>291</td>
-                  <td>BOTAO</td>
-                </tr>
-                <tr>
-                  <td>10.112.121.45</td>
-                  <td>Andamento</td>
-                  <td>CBC</td>
-                  <td>Florianópolis</td>
-                  <td>291</td>
-                  <td>BOTAO</td>
-                </tr>
-                <tr>
-                  <td>10.112.121.45</td>
-                  <td>Previsto</td>
-                  <td>CBC</td>
-                  <td>Florianópolis</td>
-                  <td>291</td>
-                  <td>BOTAO</td>
-                </tr>
-                <tr>
-                  <td>10.112.121.45</td>
-                  <td>Previsto</td>
-                  <td>CBC</td>
-                  <td>Florianópolis</td>
-                  <td>291</td>
-                  <td>BOTAO</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>  
+    <div class="content">
+        <div class="tab-container">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" *ngFor="let component of components; index as i">
+                    <a class="nav-link" [class.active]="i === 0" [id]="'tab' + i" data-bs-toggle="tab" [href]="'#content' + i" (click)="loadComponent(i)">{{component.name}}</a>
+                </li>
+            </ul>
         </div>
-        <div class="tab-pane fade " id="content2">
-            <app-inscricao></app-inscricao>
-        </div>
-        <div class="tab-pane fade " id="content3">
-            <app-local-apresentacao></app-local-apresentacao>
-        </div>
-        <div class="tab-pane fade" id="content4">
-          <app-coordenador></app-coordenador>
-        </div>
-        <div class="tab-pane fade " id="content5">
-          <app-docentes></app-docentes>
+        <div class="rectangle tab-content">
+            <ng-template #componentHost></ng-template>
         </div>
     </div>
-</div>
+    
