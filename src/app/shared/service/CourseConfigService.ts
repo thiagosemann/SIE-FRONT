@@ -37,6 +37,7 @@ export class CourseConfigService {
     { component: LogisticaComponent, name: 'Logística' },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições'},
   ];
+  
 
   getComponents(courseType: string): ComponentItem[] {
     switch(courseType) {
