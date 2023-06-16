@@ -38,12 +38,10 @@ export class ContentComponent implements OnInit {
     this.currentComponent = this.componentHost.createComponent(componentFactory);
   }
   alterarCourseType(valor: string) {
-    console.log(valor)
     this.courseType = valor;
     this.changeComponents(1);
   }
   changeComponents(activeTab:number){
-    ;
     this.components = this.courseConfigService.getComponents(this.courseType);
     // Load the first component by default
     if (this.components.length > 0) {
@@ -51,6 +49,5 @@ export class ContentComponent implements OnInit {
     }
     this.activeTab = activeTab
     this.loadComponent(activeTab);
-
   }
 }

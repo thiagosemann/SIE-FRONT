@@ -6,29 +6,14 @@ import { Curso } from '../utilitarios/objetoCurso';
 })
 export class CursoService {
   private cursos: Curso[] = [];
+  private cursoEscolhidoId: number = 0;
 
   constructor() { }
 
   // Método para adicionar um novo curso à lista
   adicionarCurso(curso: Curso): void {
-   // Atribui um novo ID ao curso
+    // Atribui um novo ID ao curso
     this.cursos.push(curso);
-  }
-
-  // Método para atualizar um curso existente na lista
-  atualizarCurso(curso: Curso): void {
-    const index = this.cursos.findIndex(c => c.id === curso.id);
-    if (index !== -1) {
-      this.cursos[index] = curso;
-    }
-  }
-
-  // Método para remover um curso da lista
-  removerCurso(id: number): void {
-    const index = this.cursos.findIndex(curso => curso.id === id);
-    if (index !== -1) {
-      this.cursos.splice(index, 1);
-    }
   }
 
   // Método para obter todos os cursos
@@ -36,8 +21,28 @@ export class CursoService {
     return this.cursos;
   }
 
+  getIdEscolhido() {
+    return this.cursoEscolhidoId;
+  }
+
+  getCursoEscolhido(){
+    return this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
+  }
+  
+  // Método para encontrar um curso pelo ID e definir como curso escolhido
+  setIdCursoEscolhido(id: number): void {
+    this.cursoEscolhidoId = id;
+  }
+
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {
     return this.cursos.find(curso => curso.id === id);
+  }
+
+  setPropertyOnCursosByCursoEscolhidoID(properties: Partial<Curso>): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      Object.assign(cursoEscolhido, properties);
+    }
   }
 }

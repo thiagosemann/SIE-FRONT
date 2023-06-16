@@ -1,9 +1,9 @@
 export interface Curso {
     id:number;
     startInscritiondate?: Date;
-    startInscritiondateHorario?: string;
+    startInscritionHorario?: string;
     endInscritiondate?: Date;
-    endInscritiondateHorario?: string;
+    endInscritionHorario?: string;
     emailInscrition?: string;
     iniCur?: Date,
     fimCur?: Date;

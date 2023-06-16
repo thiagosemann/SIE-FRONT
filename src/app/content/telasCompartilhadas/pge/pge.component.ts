@@ -22,7 +22,6 @@ export class PgeComponent implements OnInit {
   ngOnInit() {
     this.googleService.getPgeData().subscribe(data => {
       this.data = data;
-      console.log(this.data);
       this.applyFilters();
     });
   }
@@ -37,12 +36,11 @@ export class PgeComponent implements OnInit {
     if (situacao === 'ANDAMENTO') {
       return 'Encerrar';
     } else if (situacao === 'PREVISTO') {
-      return 'Abrir';
+      return 'Abrir'; // COLOCAR CONTINUAR SE JÀ TIVER COMEÇADO
     } else {
       return '';
     }
   }
-
   selectCourse(item: any) {
     const firstThreeDigits = item.id.substr(0, 3);
   
@@ -72,33 +70,38 @@ export class PgeComponent implements OnInit {
   
   handleCursoMilitar(item: any) {
     const cursos = this.cursoService.getCursos();
-  
-    // Verifica se já existe um curso com o mesmo ID
     const cursoExistente = cursos.find(curso => curso.id === item.id);
     if (cursoExistente) {
-      if (item.situacao === 'PREVISTO'){
+      if (item.situacao === 'PREVISTO') {
         this.contentComponent.alterarCourseType('aberturaCursoMilitar');
-      }else if (item.situacao === 'ANDAMENTO') {
+      } else if (item.situacao === 'ANDAMENTO') {
         this.contentComponent.alterarCourseType('encerramentoCursoMilitar');
       }
-      // Já existe um curso com o mesmo ID, não é necessário adicionar novamente
+      this.cursoService.setIdCursoEscolhido(item.id);
       return;
     }
-  
+
+    let type: string;
     if (item.situacao === 'PREVISTO') {
-      const novoCurso: Curso = {
-        id: item.id, // O ID será atribuído pelo CursoService
-        type: 'Abertura'
-      };
+      type = 'abertura';
       this.contentComponent.alterarCourseType('aberturaCursoMilitar');
-      this.cursoService.adicionarCurso(novoCurso);
+
     } else if (item.situacao === 'ANDAMENTO') {
-      const novoCurso: Curso = {
-        id: item.id, // O ID será atribuído pelo CursoService
-        type: 'Encerramento'
-      };
+      console.log("Andamento")
+      type = 'encerramento';
       this.contentComponent.alterarCourseType('encerramentoCursoMilitar');
-      this.cursoService.adicionarCurso(novoCurso);
+    } else {
+      return;
     }
+
+    const novoCurso: Curso = {
+      id: item.id,
+      type: type
+    };
+  
+    this.cursoService.adicionarCurso(novoCurso);
+    this.cursoService.setIdCursoEscolhido(item.id);
   }
+
 }
+
