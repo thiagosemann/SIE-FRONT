@@ -1,15 +1,14 @@
-    <app-nav-bar></app-nav-bar>
+<app-nav-bar></app-nav-bar>
 
-    <div class="content">
-        <div class="tab-container">
-            <ul class="nav nav-tabs">
-                <li class="nav-item" *ngFor="let component of components; index as i">
-                    <a class="nav-link" [class.active]="i === 0" [id]="'tab' + i" data-bs-toggle="tab" [href]="'#content' + i" (click)="loadComponent(i)">{{component.name}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="rectangle tab-content">
-            <ng-template #componentHost></ng-template>
-        </div>
-    </div>
-    
+<div class="content">
+  <div class="tab-container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item" *ngFor="let component of components; index as i">
+        <a class="nav-link" [class.active]="i === activeTab" [id]="'tab' + i" data-bs-toggle="tab" [href]="'#content' + i" (click)="loadComponent(i)">{{component.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="rectangle tab-content">
+    <ng-template #componentHost></ng-template>
+  </div>
+</div>

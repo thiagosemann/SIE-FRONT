@@ -18,7 +18,7 @@
             <div class="text-body-item">{{item.local}}</div>
             <div class="text-body-item">{{item.ha}}</div>
             <div class="text-body-item">
-              <button class="btn btn-primary" data-toggle="tab">{{ getActionButtonText(item.situacao) }}</button>
+              <button class="btn btn-primary" data-toggle="tab" (click)="selectCourse(item)">{{ getActionButtonText(item.situacao) }}</button>
             </div>
           </div>
         </ng-container>
