@@ -14,6 +14,7 @@ export class PgeComponent implements OnInit {
   data: any[] = [];
   filteredData: any[] = [];
   courseType = 'aberturaCursoMilitar';
+  skeletonItems: any[] = Array(12).fill({}); // Adjust the number of skeleton rows as needed
 
   constructor(private googleService: GoogleScriptService, 
               private contentComponent: ContentComponent, 
@@ -24,6 +25,7 @@ export class PgeComponent implements OnInit {
       this.data = data;
       this.applyFilters();
     });
+
   }
   
   applyFilters() {
@@ -41,6 +43,16 @@ export class PgeComponent implements OnInit {
       return '';
     }
   }
+  getButtonClass(situacao: string): string {
+    if (situacao === 'ANDAMENTO') {
+      return 'encerrar-button';
+    } else if (situacao === 'PREVISTO') {
+      return 'abrir-button';
+    } else {
+      return '';
+    }
+  }
+
   selectCourse(item: any) {
     const firstThreeDigits = item.id.substr(0, 3);
   

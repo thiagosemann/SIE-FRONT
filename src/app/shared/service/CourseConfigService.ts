@@ -12,7 +12,8 @@ import { PrescricoesComplementaresComponent } from '../../content/telasCompartil
 
 export interface ComponentItem {
     component: Type<any>,
-    name: string
+    name: string,
+    validity : boolean
 }
 
 @Injectable({
@@ -20,24 +21,27 @@ export interface ComponentItem {
 })
 export class CourseConfigService {
   private aberturaCursoMilitar: ComponentItem[] = [
-    { component: PgeComponent, name: 'Cursos BBM' },
-    { component: DatasAberturaComponent, name: 'Datas' },
-    { component: LocalApresentacaoComponent, name: 'Local' },
-    { component: CoordenadorComponent, name: 'Coordenador' },
-    { component: DocentesComponent, name: 'Docentes' },
-    { component: RequisitosComplementaresComponent, name: 'Requisitos' },
-    { component: LogisticaComponent, name: 'Logística' },
-    { component: PrescricoesComplementaresComponent, name: 'Prescrições'},
+    { component: PgeComponent, name: 'Cursos BBM' ,validity: false },
+    { component: DatasAberturaComponent, name: 'Datas',validity: false  },
+    { component: LocalApresentacaoComponent, name: 'Local',validity: false  },
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false  },
+    { component: DocentesComponent, name: 'Docentes',validity: false  },
+    { component: RequisitosComplementaresComponent, name: 'Requisitos',validity: false  },
+    { component: LogisticaComponent, name: 'Logística',validity: false  },
+    { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
   ];
 
   private aberturaTreinamentoMilitar: ComponentItem[] = [
-    { component: PgeComponent, name: 'Cursos BBM' },
-    { component: DatasAberturaComponent, name: 'Datas' },
-    { component: LocalApresentacaoComponent, name: 'Local' },
-    { component: LogisticaComponent, name: 'Logística' },
-    { component: PrescricoesComplementaresComponent, name: 'Prescrições'},
+    { component: PgeComponent, name: 'Cursos BBM',validity: false  },
+    { component: DatasAberturaComponent, name: 'Datas',validity: false  },
+    { component: LocalApresentacaoComponent, name: 'Local',validity: false  },
+    { component: LogisticaComponent, name: 'Logística',validity: false  },
+    { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
   ];
-  
+
+  private pge: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false  }
+  ];
 
   getComponents(courseType: string): ComponentItem[] {
     switch(courseType) {
@@ -45,6 +49,8 @@ export class CourseConfigService {
         return this.aberturaCursoMilitar;
       case 'aberturaTreinamentoMilitar':
         return this.aberturaTreinamentoMilitar;
+        case 'pge':
+          return this.pge;        
       default:
         return [];
     }

@@ -4,7 +4,13 @@
   <div class="tab-container">
     <ul class="nav nav-tabs">
       <li class="nav-item" *ngFor="let component of components; index as i">
-        <a class="nav-link" [class.active]="i === activeTab" [id]="'tab' + i" data-bs-toggle="tab" [href]="'#content' + i" (click)="loadComponent(i)">{{component.name}}</a>
+        <a class="nav-link" [class.active]="isTabActive(i)" [id]="'tab' + i" data-bs-toggle="tab" [href]="'#content' + i" (click)="loadComponent(i)">
+          {{component.name}}
+          <span class="status-icon" [ngClass]="{'text-success': component.validity, 'text-danger': !component.validity}" *ngIf="component.name !== 'Cursos BBM'">
+            <i class="fas fa-check-circle" *ngIf="component.validity && !isTabActive(i)" ></i>
+            <i class="fas fa-times-circle" *ngIf="!component.validity && !isTabActive(i)"></i>
+          </span>
+        </a>
       </li>
     </ul>
   </div>

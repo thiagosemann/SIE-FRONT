@@ -10,18 +10,48 @@
         <div class="text-header-item">Ações</div>
       </div>
       <div class="text-body-container">
-        <ng-container *ngFor="let item of filteredData; let i = index; let even = even; let odd = odd;">
-          <div class="text-body" [ngClass]="{'even-row': even, 'odd-row': odd}">
-            <div class="text-body-item">{{item.id}}</div>
-            <div class="text-body-item">{{item.situacao}}</div>
-            <div class="text-body-item">{{item.sigla}}</div>
-            <div class="text-body-item">{{item.local}}</div>
-            <div class="text-body-item">{{item.ha}}</div>
-            <div class="text-body-item">
-              <button class="btn btn-primary" data-toggle="tab" (click)="selectCourse(item)">{{ getActionButtonText(item.situacao) }}</button>
+        <ng-container *ngIf="filteredData.length === 0; else contentSkeleton">
+          <!-- Skeleton screen markup -->
+          <div class="skeleton-row" *ngFor="let item of skeletonItems">
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
+            </div>
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
+            </div>
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
+            </div>
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
+            </div>
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
+            </div>
+            <div class="skeleton-text">
+              <div class="skeleton-animation"></div>
             </div>
           </div>
         </ng-container>
+        <ng-template #contentSkeleton>
+          <!-- Actual content markup -->
+          <ng-container *ngFor="let item of filteredData; let i = index; let even = even; let odd = odd;">
+            <div class="text-body" [ngClass]="{'even-row': even, 'odd-row': odd}">
+              <div class="text-body-item">{{item.id}}</div>
+              <div class="text-body-item">{{item.situacao}}</div>
+              <div class="text-body-item">{{item.sigla}}</div>
+              <div class="text-body-item">{{item.local}}</div>
+              <div class="text-body-item">{{item.ha}}</div>
+              <div class="text-body-item" *ngIf="item.sigla !== 'CAEE'">
+                <button class="btn btn-primary" data-toggle="tab" (click)="selectCourse(item)" [ngClass]="getButtonClass(item.situacao)">{{ getActionButtonText(item.situacao) }}</button>
+              </div>
+              <div class="text-body-item" *ngIf="item.sigla == 'CAEE'">
+                <button class="btn doisbotoesPrimeiro" data-toggle="tab" (click)="selectCourse(item)" >Parcial</button>
+                <button class="btn doisbotoesSegundo"  data-toggle="tab" (click)="selectCourse(item)" >Encerrar</button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
       </div>
     </div>  
   </div>

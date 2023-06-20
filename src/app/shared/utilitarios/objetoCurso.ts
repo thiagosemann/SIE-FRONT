@@ -10,6 +10,10 @@ export interface Curso {
     apresentacaoHorario?: string;
     processoSeletivoDate?: Date;
     processoSeletivoHorario?: string;
+    localAtiBairro?: string,
+    localAtiRua?: string,
+    localAtiNumeral?: string,
+    localAtiNome?: string,
     type?: string;
   }
 

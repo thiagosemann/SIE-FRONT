@@ -5,36 +5,34 @@
 </div>
 
 <div class="container-fluid">
-    <form [formGroup]="datasForm" (ngSubmit)="enviarDados()">
-        <button type="submit" class="btn btn-primary mt-3">Enviar</button>
-
-        <div class="row">
+    <form [formGroup]="datasForm">
+      <div class="row">
             <div class="col-sm-4">
                 <h3 class="text-center pb-2 pt-5">Inscrição</h3>
                 <p>As inscrições devem ser realizadas com no mínimo 15 dias de antecedência.</p>
                 <div class="row">
                     <div class="col-6">
                         <label for="startInscritiondate" class="form-label">Data de início:</label>
-                        <input type="date" class="form-control" formControlName="startInscritiondate" id="startInscritiondate" onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="startInscritiondate" id="startInscritiondate" required onkeydown="return false" />
                     </div>
                     <div class="col-6">
                         <label for="startInscritionHorario" class="form-label">Horário de início:</label>
-                        <input type="time" class="form-control" formControlName="startInscritionHorario" id="startInscritionHorario" onkeydown="return false" />
+                        <input type="time" class="form-control" formControlName="startInscritionHorario" id="startInscritionHorario" required onkeydown="return false" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label for="endInscritiondate" class="form-label">Data de término:</label>
-                        <input type="date" class="form-control" formControlName="endInscritiondate" id="endInscritiondate" onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="endInscritiondate" id="endInscritiondate" required onkeydown="return false" />
                     </div>
                     <div class="col-6">
                         <label for="endInscritionHorario" class="form-label">Horário de término:</label>
-                        <input type="time" class="form-control" formControlName="endInscritionHorario" id="endInscritionHorario" onkeydown="return false" />
+                        <input type="time" class="form-control" formControlName="endInscritionHorario" id="endInscritionHorario" required onkeydown="return false" />
                     </div>
                 </div>
                 <div class="row">
                     <label for="emailInscrition" class="form-label">E-mail inscrição:</label>
-                    <input type="text" class="form-control" formControlName="emailInscrition" id="emailInscrition" onkeydown="return false" />
+                    <input type="text" class="form-control" formControlName="emailInscrition" id="emailInscrition" required />
                 </div>
             </div>
             <div class="col-sm-4 neumorphic">
@@ -43,11 +41,11 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="data1_1" class="form-label">Insira a data 1.1:</label>
-                        <input type="date" class="form-control" formControlName="processoSeletivoDate" id="processoSeletivoDate" onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="processoSeletivoDate" id="processoSeletivoDate" required onkeydown="return false" />
                     </div>
                     <div class="col-6">
                         <label for="data1_2" class="form-label">Insira a data 1.2:</label>
-                        <input type="time" class="form-control" formControlName="processoSeletivoHorario" id="processoSeletivoHorario" onkeydown="return false" />
+                        <input type="time" class="form-control" formControlName="processoSeletivoHorario" id="processoSeletivoHorario" required onkeydown="return false" />
                     </div>
                 </div>
             </div>
@@ -57,17 +55,17 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="iniCur" class="form-label">Data de início:</label>
-                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" onkeydown="return false" required />
                     </div>
                     <div class="col-6">
                         <label for="apresentacaoHorario" class="form-label">Horário de início:</label>
-                        <input type="time" class="form-control" formControlName="apresentacaoHorario" id="apresentacaoHorario" onkeydown="return false" />
+                        <input type="time" class="form-control" formControlName="apresentacaoHorario" id="apresentacaoHorario" onkeydown="return false" required/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label for="fimCur" class="form-label">Data de término:</label>
-                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" onkeydown="return false" required/>
                     </div>
                 </div>
             </div>
