@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleScriptService } from '../../../shared/service/googleScriptService';
+import { PgeService } from 'src/app/shared/service/pgeService';
 import { ContentComponent } from '../../content.component';
 import { CursoService } from '../../../shared/service/objetosCursosService'; // Importe o CursoService aqui
 import { Curso } from '../../../shared/utilitarios/objetoCurso';
@@ -18,14 +19,14 @@ export class PgeComponent implements OnInit {
 
   constructor(private googleService: GoogleScriptService, 
               private contentComponent: ContentComponent, 
-              private cursoService: CursoService) {}
+              private cursoService: CursoService,
+              private pgeService: PgeService) {}
 
   ngOnInit() {
-    this.googleService.getPgeData().subscribe(data => {
+    this.pgeService.getPge().subscribe(data => {
       this.data = data;
       this.applyFilters();
     });
-
   }
   
   applyFilters() {
@@ -72,8 +73,6 @@ export class PgeComponent implements OnInit {
     } else {
       this.courseType = '';
     }
-  
-    console.log(this.cursoService.getCursos());
   }
   
   handleTreinamentoMilitar() {

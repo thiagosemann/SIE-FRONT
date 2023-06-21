@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, Type, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, Type, OnInit,ChangeDetectorRef } from '@angular/core';
 import { CourseConfigService, ComponentItem } from '../shared/service/CourseConfigService';
 
 @Component({
@@ -17,12 +17,16 @@ export class ContentComponent implements OnInit {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private courseConfigService: CourseConfigService
+    private courseConfigService: CourseConfigService,
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.changeComponents(0);
   }
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+ }
 
   loadComponent(index: number) {
    if (this.currentComponent) {

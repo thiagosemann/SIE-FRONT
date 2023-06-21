@@ -8,7 +8,7 @@ import { ContentComponent } from '../../content.component';
   templateUrl: './datas-abertura.component.html',
   styleUrls: ['./datas-abertura.component.css']
 })
-export class DatasAberturaComponent implements OnInit {
+export class DatasAberturaComponent implements OnInit,AfterViewInit {
   datasForm: FormGroup;
 
   constructor(
@@ -53,7 +53,7 @@ export class DatasAberturaComponent implements OnInit {
       this.enviarDados();
     });
   }
-  ngAfterInit(){
+  ngAfterViewInit(){
     this.isFormValid()
   }
 

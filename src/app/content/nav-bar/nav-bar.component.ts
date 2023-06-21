@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../shared/service/authentication';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { NgModel } from '@angular/forms';
 
 @Component({
@@ -11,12 +9,9 @@ import { NgModel } from '@angular/forms';
 })
 export class NavBarComponent {
   
-  constructor(private authService: AuthenticationService, private router: Router, private toastr: ToastrService) {}
+  constructor(private authService: AuthenticationService) {}
 
   logout(): void {
     this.authService.logout();
-    this.toastr.error("Deslogado.")
-    this.router.navigate(['/login']);
-
   }
 }

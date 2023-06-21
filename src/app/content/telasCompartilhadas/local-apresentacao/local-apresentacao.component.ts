@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CursoService } from '../../../shared/service/objetosCursosService';
 import { debounceTime } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { ContentComponent } from '../../content.component';
   templateUrl: './local-apresentacao.component.html',
   styleUrls: ['./local-apresentacao.component.css']
 })
-export class LocalApresentacaoComponent implements OnInit, AfterViewInit {
+export class LocalApresentacaoComponent implements OnInit {
   localForm: FormGroup;
 
   constructor(
@@ -39,10 +39,6 @@ export class LocalApresentacaoComponent implements OnInit, AfterViewInit {
     this.localForm.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => this.enviarDados());
-  }
-
-  ngAfterViewInit() {
-      this.isFormValid();
   }
 
   enviarDados() {

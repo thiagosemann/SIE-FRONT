@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../utilitarios/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class AuthenticationService {
   private url = 'http://10.121.60.52:3333/login';
   private user: User | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string, rememberMe: boolean): Promise<{logado: boolean, erro: string}> {
     const loginData = { email, password };
@@ -55,6 +56,7 @@ export class AuthenticationService {
     // Remova também as informações do usuário de localStorage e sessionStorage
     localStorage.removeItem('user');
     sessionStorage.removeItem('user');
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
@@ -64,5 +66,20 @@ export class AuthenticationService {
       this.user = JSON.parse(sessionStorage.getItem('user')!); // Recupere as informações do usuário de sessionStorage
     }
     return localStorage.getItem('token') !== null || sessionStorage.getItem('token') !== null;
+  }
+  getToken(): string | null {
+    let token: string | null = null;
+    
+    // Verifique se o token está armazenado em localStorage
+    if (localStorage.getItem('token') !== null) {
+      token = localStorage.getItem('token');
+    }
+    
+    // Se não estiver em localStorage, verifique se está armazenado em sessionStorage
+    else if (sessionStorage.getItem('token') !== null) {
+      token = sessionStorage.getItem('token');
+    }
+    
+    return token;
   }
 }
