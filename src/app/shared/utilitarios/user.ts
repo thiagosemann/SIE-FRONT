@@ -1,7 +1,7 @@
 export interface User {
     id?: number,
     username: string;
-    first_name: string;
+    name: string;
     last_name: string;
     cpf: string;
     email: string;
@@ -11,4 +11,5 @@ export interface User {
     credito: number;
     password: string;
     token:string;
+    ldap:string;
   }

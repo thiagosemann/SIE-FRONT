@@ -1,78 +1,81 @@
 <div class="text-white p-3 docentesHeader text-center">
-    <div class="container">
-        <h2 class="mb-0">Docentes</h2>
-    </div>
+        <h2 class="mb-0">Professores</h2>
 </div>
 <div class="container">
-    <h3 class="text-center">Selecionar os docentes previstos para a atividade de ensino.</h3>
     <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label>Procurar Docente Militar:</label>
-                <input class="form-control"
-                    type="text" 
-                    id="searchProfessorsInput" 
-                    placeholder="Procurar Militar por Matrícula, Nome e Graduação....">
-            </div>
-            <div class="table-responsive" id="professorTable">
-                <table class="table table-striped custom-table" id="professorTableID">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>MTCL</th>
-                            <th>GRAD</th>
-                            <th>NOME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0609905-0-1</td>
-                            <td>SD 1 Classe</td>
-                            <td>THIAGO GHELFI SEMANN</td>
-                        </tr>
-                        <tr>
-                            <td>0609905-0-1</td>
-                            <td>SD 1 Classe</td>
-                            <td>THIAGO GHELFI SEMANN</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="col-md-6">
+        <h2>Todos os Professores</h2>
+        <input type="text" class="form-control search-input" placeholder="Pesquisar...">
+        <div class="table-wrapper">
+          <table class="table table-striped">
+            <thead class="docentesHeader">
+                <tr>
+                  <th>Mtcl</th>
+                  <th>Nome</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users">
+                  <td>{{ user.name }}</td>
+                  <td>
+                    <button class="btn btn-primary" (click)="addProfessor(user)">
+                      Adicionar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
         </div>
-        <div class="col text-center my-auto">
-            <button class="btn btn-primary mb-3" id="addBtn">Adicionar >></button>
-            <button class="btn btn-danger mb-3"  id="removeBtn"><< Remover</button>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Procurar Docente Selecionado:</label>
-                <input class="form-control"
-                    type="text" 
-                    id="searchSelectedProfessorsInput" 
-                    placeholder="Procurar Militar por Matrícula, Nome e Graduação....">
-            </div>
-            <div class="table-responsive" id="professorTableSelected">
-                <table class="table table-striped custom-table-selected" id="professorTableSelectedID">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>MTCL</th>
-                            <th>GRAD</th>
-                            <th>NOME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0609905-0-1</td>
-                            <td>SD 1 Classe</td>
-                            <td>THIAGO GHELFI SEMANN</td>
-                        </tr>
-                        <tr>
-                            <td>0609905-0-1</td>
-                            <td>SD 1 Classe</td>
-                            <td>THIAGO GHELFI SEMANN</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> 
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          </li>
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próxima</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h2>Professores Selecionados</h2>
+        <input type="text" class="form-control search-input" placeholder="Pesquisar...">
+        <table class="table table-striped">
+          <thead class="tableHeaderColor">
+            <tr>
+              <th>Nome</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let professor of professoresSelecionados">
+              <td>{{ professor.name }}</td>
+              <td>
+                <button class="btn btn-danger" (click)="removeProfessor(professor)">
+                  Remover
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          </li>
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próxima</a>
+          </li>
+        </ul>
+      </div>
     </div>
-</div>
+  </div>
+  

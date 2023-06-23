@@ -12,8 +12,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(email: string, password: string, rememberMe: boolean): Promise<{logado: boolean, erro: string}> {
-    const loginData = { email, password };
+  login(username: string, password: string, rememberMe: boolean): Promise<{logado: boolean, erro: string}> {
+    const loginData = { username, password };
     return new Promise<{logado: boolean, erro: string}>((resolve, reject) => {
       this.http.post(this.url, loginData).subscribe(
         (response: any) => {
@@ -30,7 +30,7 @@ export class AuthenticationService {
             sessionStorage.setItem('user', JSON.stringify(response.user));
           }
           this.user = response.user;
-          this.user!.username = email;
+          this.user!.username = username;
 
           console.log(this.user)
           // Lógica adicional, como redirecionar para outra página, etc.

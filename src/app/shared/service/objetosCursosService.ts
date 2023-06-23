@@ -44,5 +44,15 @@ export class CursoService {
     if (cursoEscolhido) {
       Object.assign(cursoEscolhido, properties);
     }
+    console.log(this.getCursos())
   }
+  setCoordenadorOnCursosByCursoEscolhidoID(properties: Partial<Curso>): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.coordenador = properties.coordenador;
+    }
+    console.log(this.getCursos())
+
+  }
+  
 }

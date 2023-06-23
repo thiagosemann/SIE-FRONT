@@ -8,7 +8,6 @@
           {{component.name}}
           <span class="status-icon" [ngClass]="{'text-success': component.validity, 'text-danger': !component.validity}" *ngIf="component.name !== 'Cursos BBM'">
             <i class="fas fa-check-circle" *ngIf="component.validity && !isTabActive(i)" ></i>
-            <i class="fas fa-times-circle" *ngIf="!component.validity && !isTabActive(i)"></i>
           </span>
         </a>
       </li>

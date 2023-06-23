@@ -40,9 +40,8 @@ export class ContentComponent implements OnInit {
     if(this.isTabActive(0) == true){
       this.courseType = 'pge';
       this.components = this.courseConfigService.getComponents(this.courseType);
-    }else{
-      
     }
+
 
   }
 
@@ -57,6 +56,7 @@ export class ContentComponent implements OnInit {
 
   changeComponents(activeTab: number) {
     this.components = this.courseConfigService.getComponents(this.courseType);
+    this.resetValidity();
     this.activeTab = activeTab;
     this.loadComponent(activeTab);
   }
@@ -66,6 +66,12 @@ export class ContentComponent implements OnInit {
     if (index !== -1 && this.isTabActive(index)) {
       this.components[index].validity = validity;
     }
+  }
+
+  resetValidity(): void {
+    this.components.forEach(component => {
+      component.validity = false;
+    });
   }
   
 }

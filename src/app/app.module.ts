@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,7 +45,10 @@ import { GoogleScriptService } from './shared/service/googleScriptService'; // I
     HttpClientModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
+    NgxPaginationModule
+
   ],
   
   providers: [GoogleScriptService],

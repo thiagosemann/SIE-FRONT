@@ -37,7 +37,7 @@
           <!-- Actual content markup -->
           <ng-container *ngFor="let item of filteredData; let i = index; let even = even; let odd = odd;">
             <div class="text-body" [ngClass]="{'even-row': even, 'odd-row': odd}">
-              <div class="text-body-item">{{item.id}}</div>
+              <div class="text-body-item">{{item.procNum}}</div>
               <div class="text-body-item">{{item.situacao}}</div>
               <div class="text-body-item">{{item.sigla}}</div>
               <div class="text-body-item">{{item.local}}</div>

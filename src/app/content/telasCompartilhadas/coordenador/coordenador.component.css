@@ -1,13 +1,61 @@
 .custom-form {
-    padding: 10px 50px;  /* padding-top/bottom: 10px, padding-right/left: 50px */
-}
-
-.form-control {
-    font-size: 18px;
-    height: 40px;
-}
-.coordenadorHeader{
-    border-radius: 0px 10px 0 0;
-    background-color: #4B6199;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .coordenadorHeader {
+    border-radius: 8px 8px 0 0;
+    background-color: #4b6199;
     font-family: 'lato';
-}
+  }
+  
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .font-weight-bold {
+    font-weight: bold;
+  }
+  
+  .input-group {
+    position: relative;
+  }
+  
+  .input-group-append,
+  .input-group-prepend {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+  }
+  
+  .input-group-text {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+  }
+  
+  .nome-completo {
+    font-size: 14px;
+    margin-top: 4px;
+    display: block;
+  }
+  
+  .fa-user,
+  .fa-envelope,
+  .fa-phone {
+    color: #495057;
+  }
+  
+  .fa-user:before {
+    content: "\f007";
+  }
+  
+  .fa-envelope:before {
+    content: "\f0e0";
+  }
+  
+  .fa-phone:before {
+    content: "\f095";
+  }
+  

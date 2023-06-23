@@ -55,7 +55,7 @@ export class PgeComponent implements OnInit {
   }
 
   selectCourse(item: any) {
-    const firstThreeDigits = item.id.substr(0, 3);
+    const firstThreeDigits = item.procNum.substr(0, 3);
   
     if (firstThreeDigits === '1.9') {
       this.handleTreinamentoMilitar();

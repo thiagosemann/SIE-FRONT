@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { User } from '../utilitarios/user';
 
@@ -7,37 +7,25 @@ import { User } from '../utilitarios/user';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://10.121.60.52:3333/tasks';
+  private url = 'http://10.121.60.52:3333/users';
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+  }
+
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.url);
+    const headers = this.getHeaders();
+    return this.http.get<User[]>(this.url, { headers });
   }
 
-  addUser(user: User): Observable<any> {
-    return this.http.post(this.url, user);
-  }
-
-  updateUserList(): void {
-    this.getUsers().subscribe(users => {
-      this.users = users;
-      this.userListSubject.next(this.users); // Notifica os componentes sobre a atualização da lista
-    });
-  }
-
-  getUserList(): User[] {
-    return this.users;
-  }
-
-  getUserListObservable(): Observable<User[]> {
-    return this.userListSubject.asObservable();
-  }
-
-  loadUserList(): Observable<User[]> {
-    this.updateUserList();
-    return this.getUserListObservable();
+  getUserByMtcl(mtcl: string): Observable<User> {
+    const userUrl = `${this.url}/${mtcl}`;
+    const headers = this.getHeaders();
+    return this.http.get<User>(userUrl, { headers });
   }
 }
