@@ -39,7 +39,7 @@ export class DocentesComponent implements OnInit {
   }
 
   isFormValid(): void {
-    if(this.professoresSelecionados.length >=0){
+    if(this.professoresSelecionados.length >0){
       this.contentComponent.changeValidityByComponentName(DocentesComponent, true);
     }else{
       this.contentComponent.changeValidityByComponentName(DocentesComponent, false);
@@ -96,6 +96,7 @@ export class DocentesComponent implements OnInit {
     this.searchInputUsers = '';
     this.updatePaginatedUsers();
     this.cursoService.setSelectedProfessorsByCursoEscolhidoID(this.professoresSelecionados);
+    this.isFormValid();
   }
 
   removeProfessor(professor: User): void {
@@ -110,7 +111,7 @@ export class DocentesComponent implements OnInit {
     this.searchInputProfessores = '';
     this.updatePaginatedProfessoresSelecionados();
     this.cursoService.setSelectedProfessorsByCursoEscolhidoID(this.professoresSelecionados);
-
+    this.isFormValid();
   }
 
   updatePaginatedProfessoresSelecionados(): void {

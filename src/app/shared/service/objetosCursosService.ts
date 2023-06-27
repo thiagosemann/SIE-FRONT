@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
 import { User } from '../utilitarios/user';
+import { Requisito } from '../utilitarios/requisito';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -60,5 +62,11 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
-  
+  setRequisitoComplementarEscolhidoID(requisitoComplementar: Requisito[]): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.requisitoComplementar = requisitoComplementar;
+    }
+    console.log(this.getCursos());
+  }
 }

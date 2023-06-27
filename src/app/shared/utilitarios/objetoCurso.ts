@@ -1,4 +1,5 @@
 import { Coordenador } from "./coordenador";
+import { Requisito } from "./requisito";
 import { User } from "./user";
 
 export interface Curso {
@@ -21,4 +22,5 @@ export interface Curso {
   type?: string;
   coordenador?: Coordenador;
   selectedProfessors?: User[]; // Propriedade adicionada
+  requisitoComplementar?: Requisito[];
 }
