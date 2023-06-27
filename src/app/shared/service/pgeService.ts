@@ -8,7 +8,7 @@ import { AuthenticationService } from './authentication';
   providedIn: 'root'
 })
 export class PgeService {
-  private url = 'http://10.121.60.52:3333/pge'; // URL específica para o serviço PGE
+  private url = 'http://10.121.60.66:3333/pge'; // URL específica para o serviço PGE
   private pgeListSubject: Subject<Pge[]> = new Subject<Pge[]>();
 
   constructor(private http: HttpClient, private authService: AuthenticationService) {}

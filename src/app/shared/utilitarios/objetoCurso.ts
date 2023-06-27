@@ -1,5 +1,6 @@
-
 import { Coordenador } from "./coordenador";
+import { User } from "./user";
+
 export interface Curso {
   id: number;
   startInscritiondate?: Date;
@@ -19,4 +20,5 @@ export interface Curso {
   localAtiMunicipio?: string;
   type?: string;
   coordenador?: Coordenador;
+  selectedProfessors?: User[]; // Propriedade adicionada
 }

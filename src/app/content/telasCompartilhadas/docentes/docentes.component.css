@@ -22,13 +22,19 @@
 
   .table th:nth-child(1),
   .table td:nth-child(1) {
-    width: 70%; /* Defina a largura da primeira coluna conforme necessário */
+    width: 25%; /* Defina a largura da primeira coluna conforme necessário */
     white-space: nowrap;
   }
   
   .table th:nth-child(2),
   .table td:nth-child(2) {
-    width: 30%; /* Defina a largura da segunda coluna conforme necessário */
+    width: 60%; /* Defina a largura da segunda coluna conforme necessário */
+    white-space: nowrap;
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    width: 15%; /* Defina a largura da segunda coluna conforme necessário */
     white-space: nowrap;
   }
 
@@ -43,13 +49,20 @@
   
   .pagination {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
-  
+  .pagination .page-item {
+    width: 40px; /* Define a largura fixa para cada item da paginação */
+    text-align: center;
+  }
   .page-item.active .page-link {
     background-color: #4B6199;
     border-color: #4B6199;
+    color: white; /* Define a cor da letra como branca */
+
   }
-  
+
   .page-link {
     color: #4B6199;
   }
@@ -58,6 +71,7 @@
     color: #fff;
     background-color: #4B6199;
     border-color: #4B6199;
+    cursor: pointer;
   }
   
   .btn-primary {
@@ -83,4 +97,10 @@
     height: 420px; /* Define a altura fixa da tabela */
     overflow: hidden; /* Adiciona uma barra de rolagem vertical */
   }
-  
+  .alert-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }

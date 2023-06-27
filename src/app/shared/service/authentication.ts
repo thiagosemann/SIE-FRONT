@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://10.121.60.52:3333/login';
+  private url = 'http://10.121.60.66:3333/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -30,8 +30,6 @@ export class AuthenticationService {
             sessionStorage.setItem('user', JSON.stringify(response.user));
           }
           this.user = response.user;
-          this.user!.username = username;
-
           console.log(this.user)
           // Lógica adicional, como redirecionar para outra página, etc.
           resolve({logado: true, erro: ''}); // resolve a promise como true porque o login foi bem-sucedido

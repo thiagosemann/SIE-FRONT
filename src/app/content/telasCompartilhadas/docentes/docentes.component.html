@@ -1,81 +1,89 @@
 <div class="text-white p-3 docentesHeader text-center">
-        <h2 class="mb-0">Professores</h2>
+  <h2 class="mb-0">Professores</h2>
 </div>
 <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Todos os Professores</h2>
-        <input type="text" class="form-control search-input" placeholder="Pesquisar...">
-        <div class="table-wrapper">
-          <table class="table table-striped">
-            <thead class="docentesHeader">
-                <tr>
-                  <th>Mtcl</th>
-                  <th>Nome</th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let user of users">
-                  <td>{{ user.name }}</td>
-                  <td>
-                    <button class="btn btn-primary" (click)="addProfessor(user)">
-                      Adicionar
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-          </table>
-        </div>
-        <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-          </li>
-          <li class="page-item active" aria-current="page">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Próxima</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <h2>Professores Selecionados</h2>
-        <input type="text" class="form-control search-input" placeholder="Pesquisar...">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Militares</h2>
+      <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputUsers" (input)="updatePaginatedUsers()">
+      <div class="table-wrapper">
         <table class="table table-striped">
           <thead class="tableHeaderColor">
             <tr>
+              <th>Mtcl</th>
               <th>Nome</th>
-              <th></th>
+              <th>Ação</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let professor of professoresSelecionados">
-              <td>{{ professor.name }}</td>
+            <tr *ngFor="let user of paginatedUsers">
+              <td>{{ user.mtcl }}</td>
+              <td>{{ user.name }}</td>
               <td>
-                <button class="btn btn-danger" (click)="removeProfessor(professor)">
-                  Remover
+                <button class="btn btn-primary" (click)="addProfessor(user)">
+                  <i class="fa fa-plus"></i> 
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div *ngIf="isSearchInputUsersEmpty()">
         <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          <li class="page-item ">
+            <a class="page-link" (click)="previousPageUsers()"><</a>
           </li>
-          <li class="page-item active" aria-current="page">
-            <a class="page-link" href="#">1</a>
+          <li *ngFor="let page of visibleUsersPages" class="page-item" [ngClass]="{ 'active': page === currentPageUsers }">
+            <a class="page-link" (click)="setCurrentPageUsers(page)">{{ page }}</a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item">
-            <a class="page-link" href="#">Próxima</a>
+            <a class="page-link" (click)="nextPageUsers()">></a>
           </li>
         </ul>
       </div>
     </div>
-  </div>
+    <div class="col-md-6">
+      <h2>Professores Selecionados</h2>
+      <p class="alert-message" *ngIf="professoresSelecionados.length === 0">Selecione um professor.</p>
+      <div *ngIf="professoresSelecionados.length !== 0 ">
+        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputProfessores" (input)="updatePaginatedProfessoresSelecionados()">
+        <div class="table-wrapper">
+          <table class="table table-striped">
+            <thead class="tableHeaderColor">
+              <tr>
+                <th>Mtcl</th>
+                <th>Nome</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let professor of paginatedProfessoresSelecionados">
+                <td>{{ professor.mtcl }}</td>
+                <td>{{ professor.name }}</td>
+                <td>
+                  <button class="btn btn-danger" (click)="removeProfessor(professor)">
+                    <i class="fa fa-trash"></i> 
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
   
+        <div *ngIf="isSearchInputProfessorsEmpty()">
+          <ul class="pagination">
+            <li class="page-item ">
+              <a class="page-link" (click)="previousPageProfessores()"><</a>
+            </li>
+            <li *ngFor="let page of visibleProfessoresPages" class="page-item" [ngClass]="{ 'active': page === currentPageProfessores }">
+              <a class="page-link" (click)="setCurrentPageProfessores(page)">{{ page }}</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="nextPageProfessores()">></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,43 +1,102 @@
-<div class="text-white p-3 requisitosHeader text-center">
+<div class="requisitos-header text-center">
   <div class="container">
-      <h2 class="mb-0">Requisitos</h2>
+    <h2 class="mb-0">Requisitos</h2>
   </div>
 </div>
 
-<label class="fw-bold">Requisitos Básicos:</label>
-<textarea class="form-control mb-3" style="height: 200px;" disabled>
-  A) São requisitos básicos para concorrer às vagas internas ao CBMSC:
-  (1) Ser bombeiro militar da ativa.
-  (2) Ser voluntário ou ter sido convocado.
-  (3) Ser autorizado por seu comandante de Batalhão, de Região Bombeiro Militar, Diretor, Chefe do Estado Maior Geral, Subcomandante Geral ou Comandante Geral, aos que servirem respectivamente às suas ordens.
-  (4) Não se encontrar em qualquer tipo de afastamento durante todo o período da atividade de ensino.
-  (5) Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar.
-  (6) Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.
-  
-  B) São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):
-  (1) Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando
-  Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.
-  (2) Se militar:
-  (a) Ser da ativa.
-  (b) Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar.
-  (c) Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.
-</textarea>
-
-<label class="fw-bold">Requisitos Específicos:</label>
-<textarea class="form-control mb-3" id="paragraphRequisitosEspecifico" style="height: 100px;" disabled>
-</textarea>
-
-<label class="fw-bold">Requisitos Complementares:</label>
-<textarea class="form-control mb-3 text-warning" style="height: 100px;" disabled>
-A princípio todos os requisitos estarão contemplados pelos básicos e específicos. Contudo, para casos excepcionais...
-</textarea>
-
-<button class="btn btn-primary mb-3" id="btnReqComp">Adicionar Requisitos Complementares</button>
-<div class="d-none mb-3" id="requisitosDivAnswer">
-  <label class="fw-bold">Requisitos Complementares:</label>
-  <textarea class="form-control" id="paragraphRequisitosComplementares">
-(a)
-(b)
-(c)...      
-  </textarea>
+<div class="container mt-4" style="max-width: 1700px;">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="requisitos-column">
+        <div>
+          <label class="font-weight-bold labelRequisitos">Requisitos Básicos:</label>
+          <div class="requisitos-basicos">
+            <p>
+              A) São requisitos básicos para concorrer às vagas internas ao CBMSC:
+            </p>
+            <ol>
+              <li>Ser bombeiro militar da ativa.</li>
+              <li>Ser voluntário ou ter sido convocado.</li>
+              <li>Ser autorizado por seu comandante de Batalhão, de Região Bombeiro Militar, Diretor, Chefe do Estado Maior Geral, Subcomandante Geral ou Comandante Geral,
+                aos que servirem respectivamente às suas ordens.</li>
+              <li>Não se encontrar em qualquer tipo de afastamento durante todo o período da atividade de ensino.</li>
+              <li>Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar.</li>
+              <li>Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.</li>
+            </ol>
+            <p>
+              B) São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):
+            </p>
+            <ol>
+              <li>Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.</li>
+              <li>Se militar:</li>
+              <ul>
+                <li>Ser da ativa.</li>
+                <li>Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar.</li>
+                <li>Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.</li>
+              </ul>
+            </ol>
+          </div>
+        </div>
+        <div>
+          <label class="font-weight-bold labelRequisitos">Requisitos Específicos:</label>
+          <div class="requisitos-especificos">
+            <pre>
+              <!-- Seu texto dos requisitos específicos aqui -->
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="requisitos-column">
+        <div class="mb-3" id="requisitosDivAnswer">
+          <label class="font-weight-bold labelRequisitos">Requisitos Complementares:</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" #novoRequisitoInput placeholder="Adicionar requisito">
+            <div class="input-group-append">
+              <button class="btn btn-primary" (click)="adicionarRequisito(novoRequisitoInput.value)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Requisito</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let requisito of requisitos; let i = index">
+                <td>
+                  {{ requisito.letra }}) {{ requisito.item }}
+                  <ul class="requisitos-list">
+                    <li *ngFor="let subitem of requisito.subitens; let j = index">
+                      {{ subitem }}
+                      <i class="fa-solid fa-square-xmark fa-sm" (click)="removerSubItem(i, j)"></i>
+                    </li>
+                  </ul>
+                  <div class="input-group mt-2">
+                    <input type="text" class="form-control" [(ngModel)]="subitensTemp[i]" placeholder="Adicionar subitem">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary add-subitem" (click)="adicionarSubItem(i, subitensTemp[i])">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="removerRequisito(i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
 </div>

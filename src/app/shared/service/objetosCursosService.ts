@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
-
+import { User } from '../utilitarios/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,7 +52,13 @@ export class CursoService {
       cursoEscolhido.coordenador = properties.coordenador;
     }
     console.log(this.getCursos())
-
+  }
+  setSelectedProfessorsByCursoEscolhidoID(selectedProfessors: User[]): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.selectedProfessors = selectedProfessors;
+    }
+    console.log(this.getCursos());
   }
   
 }

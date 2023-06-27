@@ -21,7 +21,7 @@ import { PgeComponent } from './content/telasCompartilhadas/pge/pge.component';
 import { RequisitosComplementaresComponent } from './content/telasCompartilhadas/requisitos-complementares/requisitos-complementares.component';
 import { LogisticaComponent } from './content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from './content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
-import { GoogleScriptService } from './shared/service/googleScriptService'; // Importe o seu serviço aqui
+import { GoogleScriptService } from './shared/service/googleScriptService';
 
 @NgModule({
   declarations: [
