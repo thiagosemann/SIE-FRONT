@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
 import { User } from '../utilitarios/user';
 import { Requisito } from '../utilitarios/requisito';
+import { Prescricao } from '../utilitarios/prescricao';
+import { Alimento } from '../utilitarios/alimento';
+import { Uniforme } from '../utilitarios/uniforme';
+import { Material } from '../utilitarios/material';
 
 @Injectable({
   providedIn: 'root'
@@ -69,4 +73,37 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
+  setPrescricaoComplementarEscolhidoID(prescricaoComplementar: Prescricao[]): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.prescricaoComplementar = prescricaoComplementar;
+    }
+    console.log(this.getCursos());
+  }
+  setAlimentosEscolhidoID(alimentos: Alimento[]): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.alimentos = alimentos;
+    }
+    console.log(this.getCursos());
+  }
+  setUniformesEscolhidoID(uniformes: Uniforme[]): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.uniformes = uniformes;
+    }
+    console.log(this.getCursos());
+  }  
+  setMaterialEscolhidoID(material: Material[], type: string): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      if(type === "Coletivo"){
+        cursoEscolhido.materialColetivo = material;
+      }else{
+        cursoEscolhido.materialIndividual = material;
+      }
+    }
+    console.log(this.getCursos());
+  }  
+
 }

@@ -1,88 +1,209 @@
-<div class="text-white p-3 logisticaHeader text-center">
-    <div class="container">
-        <h2 class="mb-0">Logística</h2>
+<div class="text-white p-3 logisticaHeader text-center mb-3">
+    <div class="container-fluid">
+      <h2 class="mb-0">Logística</h2>
     </div>
-</div>
+  </div>
   
-<div class="container">
-    <div id="semDiariasMilitares">
-        <div>
-            <h5>a) Diárias Militares:</h5>
-            <p>Não serão pagas diárias militares aos alunos e instrutores.</p>
-            <h5>b) Alimentação:</h5>
-            <p>- Será fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.
-            - O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:(OPCIONAL)</p>
-            <table class="table" id="tableAlimLog">
-                <thead>
-                    <tr>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Unidade</th>
-                        <th scope="col">Quant</th>
-                        <th scope="col"></th>    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input class="form-control" id="itemAlimDesc"></td>
-                        <td><input class='form-control' id="itemAlimUnid"></td>
-                        <td><input class='form-control' type='number' min='1' value='1' id="itemAlimQuant"></td>
-                        <td><button class="btn btn-primary">Adicionar</button></td>    
-                    </tr>
-                </tbody>
-            </table> 
-        </div> 
-    </div>
-
-
-
-    <div id="uniformeMateriais" >
-        <div>
-            <h5>f) Uniforme</h5>
-            <p> Selecione o(s) fardamento(s) a serem utilizado(s) na atividade de ensino.</p>
-            <div>
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="cb5a">
-                                    <label class="form-check-label" for="cb5a">5ºA (OPERACIONAL)</label>
-                                </div>
-                            </th>
-
-                        </tr>
-                    </tbody>
-                </table>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 h-100 mb-4">
+            <div id="semDiariasMilitares" class="h-100">
+            <h4 class="text-center">Alimentação</h4>
+            <p>Texto explicativo sobre Alimentação.</p>
+            <div class="input-group mb-3">
+              <input class="form-control" [(ngModel)]="itemAlimDesc" placeholder="Descrição do item">
+              <input class="form-control" [(ngModel)]="itemAlimUnid" placeholder="Unidade">
+              <button class="btn btn-primary btn-add-row" (click)="adicionarAlimento(itemAlimDesc, itemAlimUnid)">
+                <i class="fas fa-plus"></i>
+              </button>
             </div>
-            <p> Detalhar outros uniformes/fardamentos a serem utilizados na atividade de ensino</p>
-            <textarea class="form-control" id="paragraphUniformeText" disabled="true">
-                - Outros 1
-                - Outros 2        
-            </textarea>
+            <table class="table" id="tableAlimLog">
+              <thead>
+                <tr>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Unidade</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let alimento of alimentos; let i = index">
+                  <td>
+                    <ng-container *ngIf="editandoIndexAlimento !== i; else editarAlimento">
+                      {{ alimento.descricao }}
+                    </ng-container>
+                    <ng-template #editarAlimento>
+                      <input class="form-control" [(ngModel)]="alimento.descricao">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="editandoIndexAlimento !== i; else editarUnidade">
+                      {{ alimento.unidade }}
+                    </ng-container>
+                    <ng-template #editarUnidade>
+                      <input class="form-control" [(ngModel)]="alimento.unidade">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="editandoIndexAlimento !== i; else confirmarEdicao">
+                      <button class="btn btn-primary btn-edit-row" (click)="editarItem('alimentos', i)">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                    </ng-container>
+                    <ng-template #confirmarEdicao>
+                      <button class="btn btn-success btn-confirm-row" (click)="confirmarEdicaoItem('alimentos', i)">
+                        <i class="fas fa-check"></i>
+                      </button>
+                    </ng-template>
+                    <button class="btn btn-danger btn-remove-row" (click)="removerItem('alimentos', i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
         </div>
+      </div>
+      <div class="col-md-3 h-100 mb-4">
+        <div id="uniformeMateriais" class="h-100">
+            <h4 class="text-center">Uniforme</h4>
+            <p>Texto explicativo sobre Uniforme.</p>
+            <div class="input-group mb-3">
+              <input class="form-control" [(ngModel)]="itemUniformeDesc" placeholder="Descrição do item">
+              <button class="btn btn-primary btn-add-row" (click)="adicionarUniforme(itemUniformeDesc)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Descrição</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let uniforme of uniformes; let i = index">
+                  <td>
+                    <ng-container *ngIf="editandoIndexUniforme !== i; else editarUniforme">
+                      {{ uniforme.descricao }}
+                    </ng-container>
+                    <ng-template #editarUniforme>
+                      <input class="form-control" [(ngModel)]="uniforme.descricao">
+                    </ng-template>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="editandoIndexUniforme !== i; else confirmarEdicao">
+                      <button class="btn btn-primary btn-edit-row" (click)="editarItem('uniformes', i)">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                    </ng-container>
+                    <ng-template #confirmarEdicao>
+                      <button class="btn btn-success btn-confirm-row" (click)="confirmarEdicaoItem('uniformes', i)">
+                        <i class="fas fa-check"></i>
+                      </button>
+                    </ng-template>
+                    <button class="btn btn-danger btn-remove-row" (click)="removerItem('uniformes', i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="col-md-3 h-100 mb-4">
+        <div>
+          <h4 class="text-center">Materiais Individuais</h4>
+          <p>Texto explicativo sobre Materiais Individuais.</p>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" [(ngModel)]="itemMaterialIndividualDesc" placeholder="Descrição do item">
+            <button class="btn btn-primary btn-add-row" (click)="adicionarMaterialIndividual(itemMaterialIndividualDesc)">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let material of materiaisIndividuais; let i = index">
+                <td>
+                  <ng-container *ngIf="editandoIndexMatInd !== i; else editarMaterialInd">
+                    {{ material.descricao }}
+                  </ng-container>
+                  <ng-template #editarMaterialInd>
+                    <input class="form-control" [(ngModel)]="material.descricao">
+                  </ng-template>
+                </td>
+                <td>
+                  <ng-container *ngIf="editandoIndexMatInd !== i; else confirmarEdicao">
+                    <button class="btn btn-primary btn-edit-row" (click)="editarItem('materiaisIndividuais', i)">
+                      <i class="fas fa-pencil"></i>
+                    </button>
+                  </ng-container>
+                  <ng-template #confirmarEdicao>
+                    <button class="btn btn-success btn-confirm-row" (click)="confirmarEdicaoItem('materiaisIndividuais', i)">
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </ng-template>
+                  <button class="btn btn-danger btn-remove-row" (click)="removerItem('materiaisIndividuais', i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-3 h-100 mb-4">
+        <div>
+          <h4 class="text-center">Materiais Coletivos</h4>
+          <p>Texto explicativo sobre Materiais Coletivos.</p>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" [(ngModel)]="itemMaterialColetivoDesc" placeholder="Descrição do item">
+            <button class="btn btn-primary btn-add-row" (click)="adicionarMaterialColetivo(itemMaterialColetivoDesc)">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let material of materiaisColetivos; let i = index">
+                <td>
+                  <ng-container *ngIf="editandoIndexMatCol !== i; else editarMaterialCol">
+                    {{ material.descricao }}
+                  </ng-container>
+                  <ng-template #editarMaterialCol>
+                    <input class="form-control" [(ngModel)]="material.descricao">
+                  </ng-template>
+                </td>
+                <td>
+                  <ng-container *ngIf="editandoIndexMatCol !== i; else confirmarEdicao">
+                    <button class="btn btn-primary btn-edit-row" (click)="editarItem('materiaisColetivos', i)">
+                      <i class="fas fa-pencil"></i>
+                    </button>
+                  </ng-container>
+                  <ng-template #confirmarEdicao>
+                    <button class="btn btn-success btn-confirm-row" (click)="confirmarEdicaoItem('materiaisColetivos', i)">
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </ng-template>
+                  <button class="btn btn-danger btn-remove-row" (click)="removerItem('materiaisColetivos', i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div>
-        <h5>g) Materiais e quantitativos necessários:</h5>
-        <p>Descreva todos os equipamentos, materiais e suprimentos necessários para a atividade de ensino, se houver:</p>
-
-        <button class="btn btn-primary" onclick="btnLogIndividual()" id="btnLogInd">ADICIONAR MATERIAIS INDIVÍDUAIS</button>
-        <div class="d-none" id="logisticaIndividualDivAnswer">
-            <h6>MATERIAIS INDIVÍDUAIS:</h6>
-            <textarea class="form-control" id="paragraphLogisticaIndivual"  >
-                (1)
-                (2)
-                (3)...
-            </textarea>
-        </div>
-
-        <button class="btn btn-primary" onclick="btnLogColetivo()" id="btnLogCol">ADICIONAR MATERIAIS COLETIVOS</button>
-        <div class="d-none" id="logisticaColetivoDivAnswer">
-            <h6>MATERIAIS COLETIVOS:</h6>
-            <textarea class="form-control" id="paragraphLogisticaColetivo"  >
-                (1)
-                (2)
-                (3)...
-            </textarea>
-        </div>
-    </div>
-</div>
+  </div>
+  

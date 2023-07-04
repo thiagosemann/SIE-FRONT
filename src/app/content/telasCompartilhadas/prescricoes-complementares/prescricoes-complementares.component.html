@@ -1,32 +1,85 @@
-<div class="text-white p-3 prescricoesHeader text-center">
+<div class="prescricoes-header text-center">
     <div class="container">
-        <h2 class="mb-0">Prescrições Complementares</h2>
+      <h2 class="mb-0">Prescrições</h2>
     </div>
-</div>
-<div class="container">
-
-    <div class="form-group">
-        <label><strong>Prescrições diversas:</strong></label>
-        <textarea class="form-control" style="height: 150px;" disabled>
-            a) Ao final da atividade de ensino os alunos aprovados receberão certificado emitido pela Diretoria de Instrução e Ensino.
-            b) Os esclarecimentos e dúvidas relativos à operacionalização e execução da presente atividade de ensino, deverão ser direcionados ao coordenador da atividade de ensino, conforme contato previsto no item 1 deste edital.
-            c) As situações que porventura não estiverem previstas neste edital serão resolvidas pela Diretoria de Instrução e Ensino. 
-        </textarea>
+  </div>
+  
+  <div class="container mt-4" style="max-width: 1700px;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="prescricoes-column">
+          <div>
+            <label class="font-weight-bold labelPrescricoes">Prescrições Diversas:</label>
+            <div class="prescricoes-diversas">
+              <p>
+                a) Ao final da atividade de ensino os alunos aprovados receberão certificado emitido pela Diretoria de Instrução e Ensino.
+              </p>
+              <p>
+                b) Os esclarecimentos e dúvidas relativos à operacionalização e execução da presente atividade de ensino, deverão ser direcionados ao coordenador da atividade de ensino, conforme contato previsto no item 1 deste edital.
+              </p>
+              <p>
+                c) As situações que porventura não estiverem previstas neste edital serão resolvidas pela Diretoria de Instrução e Ensino.
+              </p>
+            </div>
+          </div>
+          <div>
+            <label class="font-weight-bold labelPrescricoes">Prescrições Específicas:</label>
+            <div class="prescricoes-especificas">
+                <p class="alert-message" >Esta atividade de ensino não possui prescrições específicas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="prescricoes-column">
+          <div class="mb-3" id="prescricoesDivAnswer">
+            <label class="font-weight-bold labelPrescricoes">Prescrições Complementares:</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" #novaPrescricaoInput placeholder="Adicionar prescrição">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="adicionarPrescricao(novaPrescricaoInput.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <p class="alert-message" *ngIf="prescricoes.length === 0">Este campo não deve ser utilizado para repetir prescrições já relacionados nos itens descritos acima e muito menos contradizê-los. O referido campo será objeto de atenta análise pela DIE.</p>
+            <table class="table table-bordered" *ngIf="prescricoes.length !== 0">
+              <thead>
+                <tr>
+                  <th>Prescrição</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let prescricao of prescricoes; let i = index">
+                  <td>
+                    {{ prescricao.letra }}) {{ prescricao.item }}
+                    <ul class="prescricoes-list">
+                      <li *ngFor="let subitem of prescricao.subitens; let j = index">
+                        {{ subitem }}
+                        <i class="fa-solid fa-square-xmark fa-sm delete-Sub_item" (click)="removerSubItem(i, j)"></i>
+                      </li>
+                    </ul>
+                    <div class="input-group mt-2">
+                      <input type="text" class="form-control" [(ngModel)]="subitensTemp[i]" placeholder="Adicionar subitem">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary add-subitem" (click)="adicionarSubItem(i, subitensTemp[i])">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="removerPrescricao(i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="form-group">
-        <label><strong>Prescrições complementares:</strong></label>
-        <textarea class="form-control" style="height: 60px;" disabled> Este campo não deve ser utilizado para repetir prescrições já relacionados nos itens descritos acima e muito menos contradizê-los. O referido campo será objeto de atenta análise pela DIE.</textarea>
-    </div>
-
-    <button class="btn btn-primary" onclick="btnPrescricoesComplementares()" id="btnPreComp">Adicionar Prescrições Complementares</button>
-    
-    <div class="form-group d-none" id="prescricoesDivAnswer">
-        <label><strong>Prescrições Complementares:</strong></label>
-        <textarea class="form-control" id="paragraphPrescricoesComplementares">
-            10.1
-            10.2
-            10.3...
-        </textarea>
-    </div> 
-</div>
+  </div>
+  

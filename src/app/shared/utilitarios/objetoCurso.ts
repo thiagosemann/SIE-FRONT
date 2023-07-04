@@ -1,5 +1,9 @@
+import { Alimento } from "./alimento";
 import { Coordenador } from "./coordenador";
+import { Material } from "./material";
+import { Prescricao } from "./prescricao";
 import { Requisito } from "./requisito";
+import { Uniforme } from "./uniforme";
 import { User } from "./user";
 
 export interface Curso {
@@ -23,4 +27,9 @@ export interface Curso {
   coordenador?: Coordenador;
   selectedProfessors?: User[]; // Propriedade adicionada
   requisitoComplementar?: Requisito[];
+  prescricaoComplementar?: Prescricao[];
+  alimentos?: Alimento[];
+  uniformes?:Uniforme[];
+  materialIndividual?: Material[];
+  materialColetivo?: Material[];
 }

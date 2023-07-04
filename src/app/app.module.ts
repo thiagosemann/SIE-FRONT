@@ -22,6 +22,7 @@ import { RequisitosComplementaresComponent } from './content/telasCompartilhadas
 import { LogisticaComponent } from './content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from './content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
 import { GoogleScriptService } from './shared/service/googleScriptService';
+import { PreviewDocComponent } from './content/telasCompartilhadas/preview-doc/preview-doc.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { GoogleScriptService } from './shared/service/googleScriptService';
     RequisitosComplementaresComponent,
     LogisticaComponent,
     PrescricoesComplementaresComponent,
+    PreviewDocComponent,
   ],
   imports: [
     BrowserModule,

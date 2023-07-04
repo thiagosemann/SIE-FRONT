@@ -9,6 +9,7 @@ import { PgeComponent } from '../../content/telasCompartilhadas/pge/pge.componen
 import { RequisitosComplementaresComponent } from '../../content/telasCompartilhadas/requisitos-complementares/requisitos-complementares.component';
 import { LogisticaComponent } from '../../content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from '../../content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
+import { PreviewDocComponent } from 'src/app/content/telasCompartilhadas/preview-doc/preview-doc.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -29,6 +30,8 @@ export class CourseConfigService {
     { component: RequisitosComplementaresComponent, name: 'Requisitos',validity: false  },
     { component: LogisticaComponent, name: 'Logística',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
+    { component: PreviewDocComponent, name: 'Preview',validity: false },
+    
   ];
 
   private aberturaTreinamentoMilitar: ComponentItem[] = [
