@@ -6,7 +6,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,8 +48,6 @@ import { PreviewDocComponent } from './content/telasCompartilhadas/preview-doc/p
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
-    NgxPaginationModule
-
   ],
   
   providers: [GoogleScriptService],

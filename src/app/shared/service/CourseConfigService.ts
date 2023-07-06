@@ -44,6 +44,8 @@ export class CourseConfigService {
 
   private pge: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false  }
+    //{ component: PreviewDocComponent, name: 'Preview',validity: false },
+
   ];
 
   getComponents(courseType: string): ComponentItem[] {

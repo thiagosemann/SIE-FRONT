@@ -104,10 +104,12 @@ export class PgeComponent implements OnInit {
     } else {
       return;
     }
-
+    console.log(item)
     const novoCurso: Curso = {
       id: item.id,
-      type: type
+      type: type,
+      bbm:item.bbm
+
     };
   
     this.cursoService.adicionarCurso(novoCurso);

@@ -8,6 +8,7 @@ import { User } from "./user";
 
 export interface Curso {
   id: number;
+  bbm?:string;
   startInscritiondate?: Date;
   startInscritionHorario?: string;
   endInscritiondate?: Date;
