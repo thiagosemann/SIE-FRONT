@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
+import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 
 @Component({
   selector: 'app-preview-doc',
@@ -20,7 +21,7 @@ export class PreviewDocComponent implements OnInit {
   async generatePdf(): Promise<void> {
     try {
       const curso = this.cursoService.getCursoEscolhido();
-  
+      //const cursoTest : Curso = {id:1};
       if (curso) {
         const pdfBlob = await this.pdfService.generatePdf(curso);
         const pdfUrl = URL.createObjectURL(pdfBlob);

@@ -108,7 +108,11 @@ export class PgeComponent implements OnInit {
     const novoCurso: Curso = {
       id: item.id,
       type: type,
-      bbm:item.bbm
+      bbm:item.bbm,
+      sigla: item.sigla,
+      nomeCurso: item.nome,
+      haCurso:item.ha,
+      numeroProcesso:item.procNum
 
     };
   

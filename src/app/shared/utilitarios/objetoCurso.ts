@@ -9,13 +9,17 @@ import { User } from "./user";
 export interface Curso {
   id: number;
   bbm?:string;
-  startInscritiondate?: Date;
+  sigla?: string,
+  nomeCurso?: string,
+  haCurso?:string,
+  numeroProcesso?:string,
+  startInscritiondate?: string;
   startInscritionHorario?: string;
-  endInscritiondate?: Date;
+  endInscritiondate?: string;
   endInscritionHorario?: string;
   emailInscrition?: string;
-  iniCur?: Date;
-  fimCur?: Date;
+  iniCur?: string;
+  fimCur?: string;
   apresentacaoHorario?: string;
   processoSeletivoDate?: Date;
   processoSeletivoHorario?: string;
@@ -33,4 +37,7 @@ export interface Curso {
   uniformes?:Uniforme[];
   materialIndividual?: Material[];
   materialColetivo?: Material[];
+  periodoInscricao?:string;
+  periodoAtividade?:string;
+  localApresentacao?:string;
 }
