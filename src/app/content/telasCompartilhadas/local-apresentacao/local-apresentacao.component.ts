@@ -58,6 +58,7 @@ export class LocalApresentacaoComponent implements OnInit {
       localAtiMunicipio:this.localForm.get('localAtiMunicipio')?.value
     };
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
+    this.cursoService.setLocalAbertura();
     this.isFormValid();
   }
 

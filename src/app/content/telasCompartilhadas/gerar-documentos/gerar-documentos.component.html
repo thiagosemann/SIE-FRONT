@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div *ngIf="hasPendingDocuments; else noPendingDocuments">
+            <h4>Pendências do usuário:</h4>
+            <!-- Exiba as pendências do usuário aqui -->
+            <ul>
+              <li>Pendência 1</li>
+              <li>Pendência 2</li>
+              <li>Pendência 3</li>
+            </ul>
+          </div>
+
+          <ng-template #noPendingDocuments>
+            <p>Não há pendências.</p>
+          </ng-template>
+
+          <div *ngIf="!hasPendingDocuments">
+            <button class="btn btn-primary" (click)="downloadDocumentos()">Gerar Documentos</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

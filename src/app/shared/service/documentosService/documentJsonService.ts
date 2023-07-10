@@ -32,6 +32,7 @@ export class DocumentJsonService {
                 dados: [
                   ['Nome da atividade de ensino', '{nomeCurso}'],
                   ['Coordenador da atividade de ensino', 'Dado 3'],
+                  ['Contato coordenador', 'Dado 3'],
                   ['Período de inscrição', '{periodoInscricao}'],
                   ['Período da atividade de ensino', '{periodoAtividade}'],
                   ['Local de apresentação dos alunos', '{localApresentacao}'],
@@ -355,16 +356,165 @@ export class DocumentJsonService {
           
         ]
       };
+
+      private planoCapacitacao = {
+        documento: [
+          {
+            tipo:'preambulo',
+            data:[
+                'EDITAL {numeroProcesso}/{anoAtual}/DIE/CBMSC',
+                'Código de autenticação para uso da DIE: {auth}',
+                '{nomeCurso} ({sigla})'
+            ]
+          },
+          {
+            tipo:'intro',
+            data:'O Tenente-Coronel BM Túlio Tartari Zanin, respondendo pela Diretoria de Instrução e Ensino do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), de acordo com o Plano Geral de Ensino,torna público que no período de {periodoInscricaoExtenso}, encontram-se abertas as inscrições da seleção para o {nomeCurso} ({sigla}), a ser realizado no(a) {bbm} - {municipio}'
+          },
+          {
+            tipo: 'capitulo',
+            numero: '1',
+            texto: 'Síntese',
+            itens: [
+              {
+                tipo: 'tabela',
+                content: 'left',
+                hasHeader: false,
+                dados: [
+                  ['Nome da atividade de ensino', '{nomeCurso}'],
+                  ['Coordenador da atividade de ensino', 'Dado 3'],
+                  ['Contato coordenador', 'Dado 3'],
+                  ['Período de inscrição', '{periodoInscricao}'],
+                  ['Período da atividade de ensino', '{periodoAtividade}'],
+                  ['Local de apresentação dos alunos', '{localApresentacao}'],
+                  ['Data e hora de apresentação dos alunos', '{iniCur} {apresentacaoHorario}h'],
+                  ['Carga horária total', '{haCurso}'],
+                  ['Finalidade', '{finalidade}']
+                ]
+              }
+            ]
+          },
+          {
+            tipo: 'capitulo',
+            numero: '2',
+            texto: 'VAGAS',
+            itens: [
+              {
+                tipo: 'item',
+                numero: '2.1',
+                texto: 'A distribuição das vagas não limita a quantidade de inscritos.'
+              },
+              {
+                tipo: 'item',
+                numero: '2.2',
+                texto: 'É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.'
+              },
+              {
+                tipo: 'item',
+                numero: '2.3',
+                texto: 'Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.'
+              }
+            ]
+          },
+          {
+            tipo: 'capitulo',
+            numero: '3',
+            texto: 'REQUISITOS',
+            itens: [
+              {
+                tipo: 'item',
+                numero: '3.1',
+                texto: 'Requisitos básicos',
+                subitens: [
+                  {
+                    tipo: 'subitem',
+                    letra: 'a)',
+                    texto: 'São requisitos básicos para concorrer às vagas internas ao CBMSC:',
+                    subsubitens: [
+                      {
+                        tipo: 'subsubitem',
+                        letra: '(1)',
+                        texto: '{requisitosCSM}',
+                      },
+                      {
+                        tipo: 'subsubitem',
+                        letra: '(2)',
+                        texto: 'Ser voluntário ou ter sido convocado.',
+                      },
+                    ]
+                  },
+                  {
+                    tipo: 'subitem',
+                    letra: 'b)',
+                    texto: 'São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):',
+                    subsubitens: [
+                      {
+                        tipo: 'subsubitem',
+                        letra: '(1)',
+                        texto: 'Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.',
+                      },
+                      {
+                        tipo: 'subsubitem',
+                        letra: '(2)',
+                        texto: 'Se militar: ',
+                        subsubsubitens: [
+                          {
+                            tipo: 'subsubsubitem',
+                            letra: '(a)',
+                            texto: 'Ser da ativa. '
+                          },
+                          {
+                            tipo: 'subsubsubitem',
+                            letra: '(b)',
+                            texto: 'Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar. '
+                          },
+                          {
+                            tipo: 'subsubsubitem',
+                            letra: '(c)',
+                            texto: 'Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade. '
+                          },
+                        ]
+                      },
+                    ]
+                  }
+                ]
+              },
+              {
+                tipo: 'item',
+                numero: '3.2',
+                texto: 'Requisitos específicos',
+                subitens: [
+                  {
+                    tipo: 'subitem',
+                    letra: 'a)',
+                    texto: 'São requisitos básicos para concorrer às vagas internas ao CBMSC:'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
       
 
   constructor() { }
 
-  getEditalCapacitacao(curso: Curso): Observable<any> {
-    const edital = JSON.parse(JSON.stringify(this.editalCapacitacao)); // Faz uma cópia do JSON original
-    this.setPropriedadesAbertura(curso)
-    this.replaceProperties(edital, curso); // Chama a função para substituir as propriedades
+  getEdital(curso: Curso, type: string): Observable<any> {
+    let edital: any;
+    if (type === 'Capacitacao') {
+      edital = JSON.parse(JSON.stringify(this.editalCapacitacao)); // Faz uma cópia do JSON original
+      this.replaceProperties(edital, curso); // Chama a função para substituir as propriedades
+    }
+    return of(edital); // Retorna o JSON modificado ou undefined se type não for igual a 'Capacitacao'
+  }
 
-    return of(edital); // Retorna o JSON modificado
+  getPlanoDeEnsino(curso: Curso,type:string): Observable<any> {
+    let plano: any;
+    if (type === 'Capacitacao') {
+      plano = JSON.parse(JSON.stringify(this.planoCapacitacao)); // Faz uma cópia do JSON original
+      this.replaceProperties(plano, curso); // Chama a função para substituir as propriedades
+    }
+    return of(plano); // Retorna o JSON modificado ou undefined se type não for igual a 'Capacitacao'
   }
 
   private replaceProperties(objeto: any, curso: Curso) {
@@ -376,36 +526,7 @@ export class DocumentJsonService {
       }
     }
   }
-  setPropriedadesAbertura(curso: Curso){
-    if(curso.startInscritiondate && curso.endInscritiondate ){
-      curso.periodoInscricao = this.formatDateExtenso(curso.startInscritiondate,curso.endInscritiondate)
-    }
-    if(curso.iniCur && curso.fimCur ){
-      curso.periodoAtividade = this.formatDateExtenso(curso.iniCur,curso.fimCur)
-    }
-    curso.localApresentacao = curso.localAtiRua +", "+ curso.localAtiNumeral +", "+ curso.localAtiBairro +", "+ curso.localAtiMunicipio +" - "+ curso.localAtiNome;
-  }
 
-  formatDateExtenso(dataIni:string, dataFim:string) {
-    const mes = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
-    let dIni = dataIni[8] + dataIni[9];
-    let mIni = dataIni[5] + dataIni[6];
-    let aIni = dataIni[0] + dataIni[1] + dataIni[2] + dataIni[3];
-    let dFim = dataFim[8] + dataFim[9];
-    let mFim = dataFim[5] + dataFim[6];
-    let aFim = dataFim[0] + dataFim[1] + dataFim[2] + dataFim[3];
- 
-    if(dIni == dFim && mIni == mFim){
-      return  dIni + " de " + mes[parseInt(mIni)-1] + " de " + aIni;
-    }else if(aIni == aFim && mIni == mFim){
-      return  dIni + " a " + dFim + " de " + mes[parseInt(mIni)-1] + " de " + aIni;
-    }else if(aIni == aFim && mIni != mFim){
-      return  dIni + " de " + mes[parseInt(mIni)-1] + " a " + dFim + " de "  + mes[parseInt(mFim)-1] + " de " + aIni;
-    } else  if(aIni != aFim){
-      return   dIni + " de " + mes[parseInt(mIni)-1] + " de " + aIni + " a " + dFim + " de "  + mes[parseInt(mFim)-1] + " de " + aFim;
-    }
-    return ""
-  }
 
   
   

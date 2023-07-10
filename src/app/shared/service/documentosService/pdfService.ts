@@ -11,17 +11,21 @@ export class PdfService {
 
   async generatePdf(curso: Curso): Promise<Blob> {
     const doc = new jsPDF();
-    const editalCapacitacao = await this.documentJsonService.getEditalCapacitacao(curso).toPromise();
-    await this.generateEditalCapacitacao(doc, editalCapacitacao);
 
+    const editalCapacitacao = await this.documentJsonService.getEdital(curso,'Capacitacao').toPromise();
+    await this.generateEdital(doc, editalCapacitacao);
+
+   // const planoCapacitacao = await this.documentJsonService.getPlanoDeEnsino(curso,'Capacitacao').toPromise();
+   // await this.generatePlano(doc, planoCapacitacao);
 
     return new Promise<Blob>((resolve, reject) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
   }
+  
 
-  private async generateEditalCapacitacao(doc: jsPDF, editalCapacitacao: any) {
+  private async generateEdital(doc: jsPDF, editalCapacitacao: any) {
     const capituloTitleFontSize = 11;
     const lineHeight = 6;
     let positionY = 7;
@@ -206,9 +210,10 @@ export class PdfService {
     const startY = positionY;
     const columnWidth = 80;
     const rowHeight = 9; // Altura inicial da linha
-    const borderWidth = 1;
+    const borderWidth = 0.2;
     const borderColor = 'black';
     const headerFontStyle = 'bold';
+    const cellPaddingTop = 2; // Espaçamento superior da célula
   
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
@@ -220,11 +225,12 @@ export class PdfService {
       const rowY = lastRowY; // Mantém a posição vertical da linha anterior
   
       // Calcula a altura necessária para a linha com base no número de linhas de texto
-      const numLines = Math.max(Math.ceil(rowData.length / 3), 1); // 3 é o número de colunas por linha
-      const cellHeight = Math.max(rowHeight, lineHeight * numLines);
+      const numRows = Math.ceil(rowData.length / 3); // 3 é o número de colunas por linha
+      const numLines = rowData.reduce((count, cellText) => count + doc.splitTextToSize(cellText, columnWidth - 2 * borderWidth).length, 0);
+      const cellHeight = Math.max(rowHeight, lineHeight * numLines / numRows);
   
       // Atualiza a posição vertical da próxima linha com base na altura da célula
-      lastRowY += cellHeight;
+      lastRowY += cellHeight * numRows;
   
       for (let j = 0; j < rowData.length; j++) {
         const columnX = startX + (j % 3) * columnWidth; // 3 é o número de colunas por linha
@@ -243,23 +249,20 @@ export class PdfService {
         // Calcula a altura necessária para a célula
         const requiredCellHeight = lineHeight * lines.length;
   
-        // Verifica se a altura necessária excede a altura atual da célula
-        if (requiredCellHeight > cellHeight) {
-          // Atualiza a altura da linha
-          lastRowY += requiredCellHeight - cellHeight;
-        }
-
+        // Desenha as bordas da célula
         doc.setDrawColor(borderColor);
-        doc.rect(columnX, rowY, cellWidth, cellHeight, 'S');
-    
+        doc.setLineWidth(borderWidth);
+        doc.rect(columnX, rowY, cellWidth, cellHeight * numRows);
+  
         // Adicionar texto da célula
         doc.setFont('helvetica', textStyle);
         if (content === 'left') {
           const marginLeft = 2; // Margem maior para tabela de síntese
-          doc.text(lines, columnX + borderWidth + marginLeft, rowY + cellHeight - 2, {
-            align: 'left',
-            maxWidth: cellWidth - borderWidth * 2,
-          });
+          let textY = rowY + cellHeight - 2 - (numLines - 1) * lineHeight + cellPaddingTop;
+          for (let k = 0; k < lines.length; k++) {
+            doc.text(lines[k], columnX + borderWidth + marginLeft, textY);
+            textY += lineHeight;
+          }
         } else if (content === 'center') {
           const textX = columnX + cellWidth / 2;
           const textY = rowY + (cellHeight + 3) / 2;
@@ -282,6 +285,4 @@ export class PdfService {
   }
   
   
-  
-
 }

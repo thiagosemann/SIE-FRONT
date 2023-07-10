@@ -70,8 +70,10 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       iniCur: this.datasForm.get('iniCur')?.value,
       fimCur: this.datasForm.get('fimCur')?.value,
       processoSeletivoDate: this.datasForm.get('processoSeletivoDate')?.value
+      
     };
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
+    this.cursoService.setDatasAbertura()
     this.isFormValid()
   }
   isFormValid(): void {
@@ -87,6 +89,8 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
     }
     this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, true);
   }
+
+
   
   
 

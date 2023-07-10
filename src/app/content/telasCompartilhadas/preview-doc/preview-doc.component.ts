@@ -26,6 +26,7 @@ export class PreviewDocComponent implements OnInit {
         const pdfBlob = await this.pdfService.generatePdf(curso);
         const pdfUrl = URL.createObjectURL(pdfBlob);
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+        console.log( this.pdfUrl)
       } else {
         console.error('Curso não selecionado.');
       }

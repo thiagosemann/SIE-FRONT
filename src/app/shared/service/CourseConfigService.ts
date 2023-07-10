@@ -10,6 +10,7 @@ import { RequisitosComplementaresComponent } from '../../content/telasCompartilh
 import { LogisticaComponent } from '../../content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from '../../content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
 import { PreviewDocComponent } from 'src/app/content/telasCompartilhadas/preview-doc/preview-doc.component';
+import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -31,6 +32,8 @@ export class CourseConfigService {
     { component: LogisticaComponent, name: 'Logística',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
     { component: PreviewDocComponent, name: 'Preview',validity: false },
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false },
+
     
   ];
 

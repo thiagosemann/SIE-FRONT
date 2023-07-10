@@ -104,6 +104,45 @@ export class CursoService {
       }
     }
     console.log(this.getCursos());
-  }  
+  } 
+
+  setDatasAbertura(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      if(curso.startInscritiondate && curso.endInscritiondate ){
+        curso.periodoInscricao = this.formatDateExtenso(curso.startInscritiondate,curso.endInscritiondate)
+      }
+      if(curso.iniCur && curso.fimCur ){
+        curso.periodoAtividade = this.formatDateExtenso(curso.iniCur,curso.fimCur)
+      }
+    }
+  }
+  setLocalAbertura(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      curso.localApresentacao = curso.localAtiRua +", "+ curso.localAtiNumeral +", "+ curso.localAtiBairro +", "+ curso.localAtiMunicipio +" - "+ curso.localAtiNome;
+    }
+  }
+
+  formatDateExtenso(dataIni:string, dataFim:string) {
+    const mes = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
+    let dIni = dataIni[8] + dataIni[9];
+    let mIni = dataIni[5] + dataIni[6];
+    let aIni = dataIni[0] + dataIni[1] + dataIni[2] + dataIni[3];
+    let dFim = dataFim[8] + dataFim[9];
+    let mFim = dataFim[5] + dataFim[6];
+    let aFim = dataFim[0] + dataFim[1] + dataFim[2] + dataFim[3];
+ 
+    if(dIni == dFim && mIni == mFim){
+      return  dIni + " de " + mes[parseInt(mIni)-1] + " de " + aIni;
+    }else if(aIni == aFim && mIni == mFim){
+      return  dIni + " a " + dFim + " de " + mes[parseInt(mIni)-1] + " de " + aIni;
+    }else if(aIni == aFim && mIni != mFim){
+      return  dIni + " de " + mes[parseInt(mIni)-1] + " a " + dFim + " de "  + mes[parseInt(mFim)-1] + " de " + aIni;
+    } else  if(aIni != aFim){
+      return   dIni + " de " + mes[parseInt(mIni)-1] + " de " + aIni + " a " + dFim + " de "  + mes[parseInt(mFim)-1] + " de " + aFim;
+    }
+    return ""
+  } 
 
 }
