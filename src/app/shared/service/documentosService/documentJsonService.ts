@@ -374,7 +374,7 @@ export class DocumentJsonService {
           {
             tipo:'preambulo',
             data:[
-                'EDITAL {numeroProcesso}/{anoAtual}/DIE/CBMSC',
+                'PLANO DE ENSINO {numeroProcesso}/{anoAtual}/DIE/CBMSC',
                 'Código de autenticação para uso da DIE: {auth}',
                 '{nomeCurso} ({sigla})'
             ]
@@ -620,10 +620,12 @@ export class DocumentJsonService {
 
   private replaceProperties(objeto: any, curso: Curso) {
     for (let prop in objeto) {
-      if (typeof objeto[prop] === 'string') {
-        objeto[prop] = objeto[prop].replace(/{([^}]+)}/g, (match: string, p1: string) => curso[p1 as keyof Curso] || '');
-      } else if (typeof objeto[prop] === 'object') {
-        this.replaceProperties(objeto[prop], curso);
+      if (objeto.hasOwnProperty(prop)) {
+        if (typeof objeto[prop] === 'string' && objeto[prop].trim() !== '') {
+          objeto[prop] = objeto[prop].replace(/{([^}]+)}/g, (match: string, p1: string) => curso[p1 as keyof Curso] || '');
+        } else if (typeof objeto[prop] === 'object' && objeto[prop] !== null && !Array.isArray(objeto[prop])) {
+          this.replaceProperties(objeto[prop], curso);
+        }
       }
     }
   }

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://10.121.60.239:3333/login';
+  private url = 'http://localhost:3333/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}

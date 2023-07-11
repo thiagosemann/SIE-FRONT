@@ -1,5 +1,6 @@
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, Type, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, Type, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CourseConfigService, ComponentItem } from '../shared/service/CourseConfigService';
+import { AuthenticationService } from '../shared/service/authentication';
 
 @Component({
   selector: 'app-content',
@@ -18,18 +19,20 @@ export class ContentComponent implements OnInit {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private courseConfigService: CourseConfigService,
+    private authService: AuthenticationService,
     private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.changeComponents(0);
   }
+
   ngAfterContentChecked() {
     this.cdref.detectChanges();
- }
+  }
 
   loadComponent(index: number) {
-   if (this.currentComponent) {
+    if (this.currentComponent) {
       this.currentComponent.destroy();
     }
 
@@ -37,12 +40,11 @@ export class ContentComponent implements OnInit {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
     this.currentComponent = this.componentHost.createComponent(componentFactory);
     this.activeTab = index;
-    if(this.isTabActive(0) == true){
-      this.courseType = 'pge';
+    const user = this.authService.getUser();
+    if (this.isTabActive(0) && user && user.role === 'admin') {
+      this.courseType = 'admin';
       this.components = this.courseConfigService.getComponents(this.courseType);
     }
-
-
   }
 
   isTabActive(index: number): boolean {
@@ -55,6 +57,10 @@ export class ContentComponent implements OnInit {
   }
 
   changeComponents(activeTab: number) {
+    const user = this.authService.getUser();
+    if (user && user.role === 'admin') {
+      this.courseType = 'admin';
+    }
     this.components = this.courseConfigService.getComponents(this.courseType);
     this.resetValidity();
     this.activeTab = activeTab;
@@ -73,5 +79,4 @@ export class ContentComponent implements OnInit {
       component.validity = false;
     });
   }
-  
 }

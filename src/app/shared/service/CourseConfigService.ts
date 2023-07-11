@@ -60,8 +60,10 @@ export class CourseConfigService {
         return this.aberturaCursoMilitar;
       case 'aberturaTreinamentoMilitar':
         return this.aberturaTreinamentoMilitar;
-        case 'pge':
-          return this.pge;        
+      case 'pge':
+        return this.pge;    
+        case 'admin':
+          return this.admin;  
       default:
         return [];
     }

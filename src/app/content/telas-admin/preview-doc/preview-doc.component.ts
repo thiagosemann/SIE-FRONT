@@ -19,20 +19,14 @@ export class PreviewDocComponent implements OnInit {
   }
 
   async generatePdf(): Promise<void> {
-    try {
-      const curso = this.cursoService.getCursoEscolhido();
-      //const cursoTest : Curso = {id:1};
-      if (curso) {
-        const pdfBlob = await this.pdfService.generatePlanoPdf(curso);
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
-        console.log( this.pdfUrl)
-      } else {
-        console.error('Curso não selecionado.');
-      }
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    }
+   
+  const curso: Curso = {id:1};
+  //const cursoTest : Curso = {id:1};
+  if (curso) {
+    const pdfBlob = await this.pdfService.generatePlanoPdf(curso);
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+    console.log( this.pdfUrl)
+   }
   }
-  
 }
