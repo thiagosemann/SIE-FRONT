@@ -23,7 +23,7 @@ export class DocumentJsonService {
           {
             tipo: 'capitulo',
             numero: '1',
-            texto: 'Síntese',
+            texto: 'SÍNTESE',
             itens: [
               {
                 tipo: 'tabela',
@@ -48,6 +48,18 @@ export class DocumentJsonService {
             numero: '2',
             texto: 'VAGAS',
             itens: [
+              {
+                tipo: 'tabela',
+                content: 'center',
+                hasHeader: true,
+                dados: [
+                    ['BBM', 'Quantidade'],
+                    ['Martelo', '2'],
+                    ['Alicate', '4'],
+                    ['Teste', '6'],
+                    ['Teste', '8']
+                ]
+              },
               {
                 tipo: 'item',
                 numero: '2.1',
@@ -368,127 +380,216 @@ export class DocumentJsonService {
             ]
           },
           {
-            tipo:'intro',
-            data:'O Tenente-Coronel BM Túlio Tartari Zanin, respondendo pela Diretoria de Instrução e Ensino do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), de acordo com o Plano Geral de Ensino,torna público que no período de {periodoInscricaoExtenso}, encontram-se abertas as inscrições da seleção para o {nomeCurso} ({sigla}), a ser realizado no(a) {bbm} - {municipio}'
-          },
-          {
             tipo: 'capitulo',
             numero: '1',
-            texto: 'Síntese',
+            texto: 'FINALIDADE',
             itens: [
               {
-                tipo: 'tabela',
-                content: 'left',
-                hasHeader: false,
-                dados: [
-                  ['Nome da atividade de ensino', '{nomeCurso}'],
-                  ['Coordenador da atividade de ensino', 'Dado 3'],
-                  ['Contato coordenador', 'Dado 3'],
-                  ['Período de inscrição', '{periodoInscricao}'],
-                  ['Período da atividade de ensino', '{periodoAtividade}'],
-                  ['Local de apresentação dos alunos', '{localApresentacao}'],
-                  ['Data e hora de apresentação dos alunos', '{iniCur} {apresentacaoHorario}h'],
-                  ['Carga horária total', '{haCurso}'],
-                  ['Finalidade', '{finalidade}']
-                ]
-              }
+              tipo: 'item',
+              numero: '',
+              texto: 'Regular o funcionamento do {nomeCurso} ({sigla}), de acordo com o previsto no Plano Geral de Ensino (PGE), a ser realizado no(a) {bbm} - {municipio}, subsidiando a análise prévia da Diretoria de Instrução e Ensino com o objetivo de aprovar a sua realização.'
+              },
             ]
           },
           {
             tipo: 'capitulo',
             numero: '2',
-            texto: 'VAGAS',
+            texto: 'PLANEJAMENTO',
             itens: [
               {
                 tipo: 'item',
                 numero: '2.1',
-                texto: 'A distribuição das vagas não limita a quantidade de inscritos.'
+                texto: 'Síntese',
+                subitens:[
+                  {
+                    tipo: 'tabela',
+                    content: 'left',
+                    hasHeader: false,
+                    dados: [
+                      ['Nome da atividade de ensino', '{nomeCurso}'],
+                      ['Período de inscrição', '{periodoInscricao}'],
+                      ['Período da atividade de ensino', '{periodoAtividade}'],
+                      ['Local de apresentação dos alunos', '{localApresentacao}'],
+                      ['Data e hora de apresentação dos alunos', '{iniCur} {apresentacaoHorario}h'],
+                      ['Carga horária total', '{haCurso}'],
+                      ['Carga horária indenizável', '{haCurso}'],
+                      ['Finalidade', '{finalidade}']
+                    ]
+                  }
+                ]
               },
               {
                 tipo: 'item',
                 numero: '2.2',
-                texto: 'É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.'
+                texto: 'Das Vagas:',
+                subitens:[
+                  {
+                    tipo: 'tabela',
+                    content: 'center',
+                    hasHeader: true,
+                    dados: [
+                        ['BBM', 'Quantidade'],
+                        ['Martelo', '2'],
+                        ['Alicate', '4'],
+                        ['Teste', '6'],
+                        ['Teste', '8']
+                    ]
+                  },
+                  {
+                    tipo: 'item',
+                    letra: 'a)',
+                    texto: 'A distribuição das vagas não limita a quantidade de inscritos.'
+                  },
+                  {
+                    tipo: 'item',
+                    letra: 'b)',
+                    texto: 'É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.'
+                  },
+                  {
+                    tipo: 'item',
+                    letra: 'c)',
+                    texto: 'Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.'
+                  }
+                ]
               },
               {
                 tipo: 'item',
                 numero: '2.3',
-                texto: 'Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.'
-              }
+                texto: 'Previsão dos custos de indenização de ensino:',
+                subitens:[
+                  {
+                    tipo: 'tabela',
+                    content: 'center',
+                    hasHeader: true,
+                    dados: [
+                        ['Custos', 'PGE '],
+                        ['Hora-aula', '{valorPrevistoHA}'],
+                        ['Diárias de Curso', '{valorPrevistoDiaCurso}'],
+                        ['Diária Militar', '{valorPrevistoDiaMilitar}'],
+                        ['Alimentação', '{pgeTotal}']
+                    ]
+                  }
+                ]
+              },
+              {
+                tipo: 'item',
+                numero: '2.4',
+                texto: 'Calendário das atividades de ensino:',
+                subitens:[
+                  {
+                    tipo: 'item',
+                    letra: 'a)',
+                    texto: 'A atividade de ensino ocorrerá dentro do período {dataAtiviExtenso} e observará o currículo e o programa de matérias/plano de unidades didáticas (PROMAPUD), mais atuais, constante do processo de homologação, conforme SGPe CBMSC {sgpeAtividade}.'
+                  },
+                  {
+                    tipo: 'item',
+                    letra: 'b)',
+                    texto: 'É responsabilidade do coordenador distribuir a execução do conteúdo dentro do período previsto para a realização da atividade de ensino. '
+                  },
+                ]
+                },
+                {
+                  tipo: 'item',
+                  numero: '2.5',
+                  texto: 'Desenvolvimento da atividade de ensino:',
+                  subitens:[
+                    {
+                      tipo: 'item',
+                      letra: 'a)',
+                      texto: 'A atividade de ensino será desenvolvida conforme Quadro de Trabalho (QT), observando fidedignamente as atividades e quantidades previstas no Plano de Ensino e no PROMAPUD respectivo.'
+                    },
+                    {
+                      tipo: 'item',
+                      letra: 'b)',
+                      texto: 'O Quadro de Trabalho (QT), devidamente assinado, deverá ser anexado ao processo no SGPe quando da apresentação do Relatório Final de Curso/Treinamento.'
+                    },
+                    {
+                      tipo: 'item',
+                      letra: 'c)',
+                      texto: 'É de responsabilidade da coordenação da atividade de ensino, bem como, solidariamente da B-3, a conferência dos dados lançados no QTS.'
+                    },
+                    {
+                      tipo: 'item',
+                      letra: 'd)',
+                      texto: 'A DIE, por meio da DiCAE, efetuará a conferência dos referidos documentos, por amostragem, a seu critério.'
+                    }
+                  ]
+                  },
             ]
           },
           {
             tipo: 'capitulo',
             numero: '3',
-            texto: 'REQUISITOS',
+            texto: 'ADMINISTRAÇÃO',
             itens: [
               {
                 tipo: 'item',
                 numero: '3.1',
-                texto: 'Requisitos básicos',
+                texto: 'Coordenador',
                 subitens: [
                   {
                     tipo: 'subitem',
                     letra: 'a)',
-                    texto: 'São requisitos básicos para concorrer às vagas internas ao CBMSC:',
-                    subsubitens: [
-                      {
-                        tipo: 'subsubitem',
-                        letra: '(1)',
-                        texto: '{requisitosCSM}',
-                      },
-                      {
-                        tipo: 'subsubitem',
-                        letra: '(2)',
-                        texto: 'Ser voluntário ou ter sido convocado.',
-                      },
-                    ]
+                    texto: '{coordPG} BM MTCL {coordMtcl} {coordNome}',
                   },
                   {
                     tipo: 'subitem',
                     letra: 'b)',
-                    texto: 'São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):',
-                    subsubitens: [
-                      {
-                        tipo: 'subsubitem',
-                        letra: '(1)',
-                        texto: 'Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.',
-                      },
-                      {
-                        tipo: 'subsubitem',
-                        letra: '(2)',
-                        texto: 'Se militar: ',
-                        subsubsubitens: [
-                          {
-                            tipo: 'subsubsubitem',
-                            letra: '(a)',
-                            texto: 'Ser da ativa. '
-                          },
-                          {
-                            tipo: 'subsubsubitem',
-                            letra: '(b)',
-                            texto: 'Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar. '
-                          },
-                          {
-                            tipo: 'subsubsubitem',
-                            letra: '(c)',
-                            texto: 'Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade. '
-                          },
-                        ]
-                      },
-                    ]
+                    texto: 'Contato: {coordContato}',
                   }
                 ]
               },
               {
                 tipo: 'item',
                 numero: '3.2',
-                texto: 'Requisitos específicos',
+                texto: 'Corpo docente',
                 subitens: [
                   {
                     tipo: 'subitem',
                     letra: 'a)',
-                    texto: 'São requisitos básicos para concorrer às vagas internas ao CBMSC:'
-                  }
+                    texto: 'O corpo docente será cadastrado pela coordenação, conforme as indicações apresentadas  pela respectiva coordenadoria ou diretoria responsável pela atividade de ensino, observando os seguintes critérios:',
+                    subsubitens:[
+                      {
+                        tipo: 'subitem',
+                        letra: '(1)',
+                        texto: 'Cursos/Treinamento de capacitação: ',
+                        subsubsubitens:[
+                          {
+                            tipo: 'subitem',
+                            letra: '(a)',
+                            texto: 'Possuir o Curso de Técnicas de Ensino (CTE) ou realizá-lo na primeira oportunidade.',
+                          },
+                          {
+                            tipo: 'subitem',
+                            letra: '(b)',
+                            texto: 'Possuir o curso de instrutor ou no mínimo o curso de capacitação da presente atividade de ensino.',
+                          }
+                        ]
+                      },
+                      {
+                        tipo: 'subitem',
+                        letra: '(2)',
+                        texto: 'Cursos de instrutor:',
+                        subsubsubitens:[
+                          {
+                            tipo: 'subitem',
+                            letra: '(a)',
+                            texto: 'Possuir o Curso de Técnicas de Ensino (CTE).',
+                          },
+                          {
+                            tipo: 'subitem',
+                            letra: '(b)',
+                            texto: 'Possuir o curso de instrutor da presente atividade de ensino, caso o curso esteja homologado e existam instrutores formados. Não havendo instrutores formados, o indicado deve contar ao menos com o curso de capacitação.  ',
+                          }
+                        ]
+                      },
+                      {
+                        tipo: 'subitem',
+                        letra: '(3)',
+                        texto: 'A coordenadoria ou diretoria responsável pela atividade de ensino poderá, excepcional e justificadamente, indicar instrutores que não preencham os requisitos elencados, desde que os mesmos possuam notório conhecimento e experiência acerca dos assuntos a serem ministrados.',
+                      }
+                    ]
+                  },
                 ]
               }
             ]

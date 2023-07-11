@@ -23,7 +23,7 @@ export class PreviewDocComponent implements OnInit {
       const curso = this.cursoService.getCursoEscolhido();
       //const cursoTest : Curso = {id:1};
       if (curso) {
-        const pdfBlob = await this.pdfService.generatePdf(curso);
+        const pdfBlob = await this.pdfService.generatePlanoPdf(curso);
         const pdfUrl = URL.createObjectURL(pdfBlob);
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
         console.log( this.pdfUrl)

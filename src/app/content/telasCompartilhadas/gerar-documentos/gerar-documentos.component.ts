@@ -25,8 +25,12 @@ export class GerarDocumentosComponent implements OnInit {
     try {
       const curso = this.cursoService.getCursoEscolhido();
       if (curso) {
-        const pdfBlob = await this.pdfService.generatePdf(curso);
-        this.downloadFile(pdfBlob, 'edital.pdf');
+        const editalPdf = await this.pdfService.generateEditalPdf(curso);
+        this.downloadFile(editalPdf as Blob, 'edital.pdf');
+       
+        const planoPdf = await this.pdfService.generatePlanoPdf(curso);
+        this.downloadFile(planoPdf as Blob, 'plano.pdf');
+        
       } else {
         console.error('Curso não selecionado.');
       }

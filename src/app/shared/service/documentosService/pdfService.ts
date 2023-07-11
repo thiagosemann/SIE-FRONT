@@ -9,15 +9,19 @@ import { DocumentJsonService } from './documentJsonService';
 export class PdfService {
   constructor(private documentJsonService: DocumentJsonService) {}
 
-  async generatePdf(curso: Curso): Promise<Blob> {
+  async generateEditalPdf(curso: Curso): Promise<Blob> {
     const doc = new jsPDF();
-
     const editalCapacitacao = await this.documentJsonService.getEdital(curso,'Capacitacao').toPromise();
     await this.generateEdital(doc, editalCapacitacao);
-
-   // const planoCapacitacao = await this.documentJsonService.getPlanoDeEnsino(curso,'Capacitacao').toPromise();
-   // await this.generatePlano(doc, planoCapacitacao);
-
+    return new Promise<Blob>((resolve, reject) => {
+      const pdfBlob = doc.output('blob');
+      resolve(pdfBlob);
+    });
+  }
+  async generatePlanoPdf(curso: Curso): Promise<Blob> {
+    const doc = new jsPDF();
+    const planoCapacitacao = await this.documentJsonService.getPlanoDeEnsino(curso,'Capacitacao').toPromise();
+    await this.generateEdital(doc, planoCapacitacao);
     return new Promise<Blob>((resolve, reject) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);

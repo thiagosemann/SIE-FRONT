@@ -21,7 +21,7 @@ import { RequisitosComplementaresComponent } from './content/telasCompartilhadas
 import { LogisticaComponent } from './content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from './content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
 import { GoogleScriptService } from './shared/service/googleScriptService';
-import { PreviewDocComponent } from './content/telasCompartilhadas/preview-doc/preview-doc.component';
+import { PreviewDocComponent } from './content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 
 @NgModule({

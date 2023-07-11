@@ -65,9 +65,29 @@ export class AuthenticationService {
     }
     return localStorage.getItem('token') !== null || sessionStorage.getItem('token') !== null;
   }
+
+  getUser(): User | null {
+    if (this.user === null) {
+      // Verifique se o usuário está armazenado em localStorage
+      const userStr = localStorage.getItem('user');
+      if (userStr !== null) {
+        this.user = JSON.parse(userStr);
+      }
+      
+      // Se não estiver em localStorage, verifique se está armazenado em sessionStorage
+      if (this.user === null) {
+        const userSessionStr = sessionStorage.getItem('user');
+        if (userSessionStr !== null) {
+          this.user = JSON.parse(userSessionStr);
+        }
+      }
+    }
+    return this.user;
+  }
+
   getToken(): string | null {
     let token: string | null = null;
-    
+
     // Verifique se o token está armazenado em localStorage
     if (localStorage.getItem('token') !== null) {
       token = localStorage.getItem('token');
