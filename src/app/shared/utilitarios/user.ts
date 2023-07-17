@@ -1,7 +1,7 @@
 export interface User {
   id?: number;  
   cpf: string;
-  dateFilter: string;
+  dateFilter: boolean;
   escolaridade: string;
   graduacao: string;
   ldap: string;

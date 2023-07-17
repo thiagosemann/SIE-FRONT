@@ -4,6 +4,9 @@ import { CursoService } from '../../../shared/service/objetosCursosService';
 import { debounceTime } from 'rxjs/operators';
 import { ContentComponent } from '../../content.component';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
+import { User } from 'src/app/shared/utilitarios/user';
+import { AuthenticationService } from 'src/app/shared/service/authentication';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -19,11 +22,14 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   iniCurMinDate: string;
   fimCurMinDate: string;
   cursoEscolhido : Curso | undefined;
+  user : User | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
     private cursoService: CursoService,
     private contentComponent : ContentComponent,
+    private authenticationService : AuthenticationService,
+    private toastr: ToastrService
   ) {
     this.datasForm = this.formBuilder.group({
       startInscritiondate: null,
@@ -46,6 +52,8 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
 
   ngOnInit() {
      this.cursoEscolhido = this.cursoService.getCursoEscolhido();
+     this.user = this.authenticationService.getUser()!;
+    console.log(this.user)
     if (this.cursoEscolhido) {
       const propertiesGroup = {
         startInscritiondate: this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
@@ -60,7 +68,6 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
         processoSeletivoDate: this.formatDateForSelect(this.cursoEscolhido.processoSeletivoDate??'')
       };
       this.datasForm.patchValue(propertiesGroup);
-      const date = new Date(); 
     }
     this.datasForm.valueChanges
     .pipe(debounceTime(300)) // Adicione um atraso de 300ms para evitar chamadas excessivas
@@ -68,7 +75,16 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       this.enviarDados();
     });
 
+
     // Adicione os observadores aos controles relevantes
+    const emailInscritionInput = document.getElementById('emailInscrition');
+    if (emailInscritionInput) {
+      emailInscritionInput.addEventListener('blur', (event) => {
+        const value = (event.target as HTMLInputElement).value;
+        this.chageEmailInscrtion(value);
+      });
+    }
+    
     this.datasForm.get('startInscritiondate')?.valueChanges.subscribe(value => {
       // Atualize o valor mínimo do endInscritiondate
       this.changeStartInscritiondate(value);
@@ -142,9 +158,14 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   }
 
   setMinDate(): string {
-    const today = new Date();
-    return this.formatDate(today);
+    if (this.shouldApplyDateFilter()) {
+      const today = new Date();
+      return this.formatDate(today);
+    } else {
+      return '';
+    }
   }
+  
 
 
   formatDate(date: Date): string {
@@ -155,75 +176,97 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   }
 
   changeStartInscritiondate(startInscritionDate: string) {
-    const minDate = new Date(startInscritionDate);
-    minDate.setDate(minDate.getDate() + 2);
-    this.endInscritionMinDate = this.formatDate(minDate);
-    this.processoSeletivoMinDate = this.formatDate(minDate);
-    this.iniCurMinDate = this.formatDate(minDate);
-    this.fimCurMinDate = this.formatDate(minDate);
-
-    this.datasForm.patchValue({
-      endInscritiondate: null,
-      processoSeletivoDate: null,
-      iniCur: null,
-      fimCur: null,
-    });
-
-    this.datasForm.updateValueAndValidity();
-  }
-
-  changeEndInscritiondate(endInscritionDate: string) {
-    const minDate = new Date(endInscritionDate);
-    minDate.setDate(minDate.getDate() + 2);
-    this.processoSeletivoMinDate = this.formatDate(minDate);
-    this.iniCurMinDate = this.formatDate(minDate);
-    this.fimCurMinDate = this.formatDate(minDate);
-
-    this.datasForm.patchValue({
-      processoSeletivoDate: null,
-      iniCur: null,
-      fimCur: null,
-    });
-    // Atualize o valor mínimo do controle endInscritiondate no formulário
-    this.datasForm.updateValueAndValidity();
-
-  }
-
-  changeProcessoSeletivo(processoSeletivoDate: string) {
-    const minDate = new Date(processoSeletivoDate);
-    minDate.setDate(minDate.getDate() + 2);
-    this.iniCurMinDate = this.formatDate(minDate);
-    this.fimCurMinDate = this.formatDate(minDate);
-    this.datasForm.patchValue({
-      iniCur: null,
-      fimCur: null,
-    });
-    // Atualize o valor mínimo do controle endInscritiondate no formulário
-    this.datasForm.updateValueAndValidity();
-
-  }
-
-  changeIniCur(iniCurDate: string) {
-    const minDate = new Date(iniCurDate);
-    if(this.cursoEscolhido){
-      const days = (Number(this.cursoEscolhido.haCurso)/8)-1;
-      minDate.setDate(minDate.getDate() + days);
-    }else{
-      const minDate = new Date(iniCurDate);
-      minDate.setDate(minDate.getDate() + 2);
+    if (this.shouldApplyDateFilter()) {
+      const minDate = new Date(startInscritionDate);
+      minDate.setDate(minDate.getDate() + 1);
+      this.endInscritionMinDate = this.formatDate(minDate);
+      this.processoSeletivoMinDate = this.formatDate(minDate);
+      this.iniCurMinDate = this.formatDate(minDate);
+      this.fimCurMinDate = this.formatDate(minDate);
+  
+      this.datasForm.patchValue({
+        endInscritiondate: '',
+        processoSeletivoDate: '',
+        iniCur: '',
+        fimCur: '',
+      });
+  
+      this.datasForm.updateValueAndValidity();
     }
-    this.datasForm.patchValue({
-      fimCur: null,
-    });
+  }
+  
+  changeEndInscritiondate(endInscritionDate: string) {
+    if (this.shouldApplyDateFilter()) {
+      const minDate = new Date(endInscritionDate);
+      minDate.setDate(minDate.getDate() + 1);
+      this.processoSeletivoMinDate = this.formatDate(minDate);
+      this.iniCurMinDate = this.formatDate(minDate);
+      this.fimCurMinDate = this.formatDate(minDate);
+  
+      this.datasForm.patchValue({
+        processoSeletivoDate: '',
+        iniCur: '',
+        fimCur: '',
+      });
+  
+      this.datasForm.updateValueAndValidity();
+    }
+  }
+  
+  changeProcessoSeletivo(processoSeletivoDate: string) {
+    if (this.shouldApplyDateFilter()) {
+      const minDate = new Date(processoSeletivoDate);
+      minDate.setDate(minDate.getDate() + 1);
+      this.iniCurMinDate = this.formatDate(minDate);
+      this.fimCurMinDate = this.formatDate(minDate);
+  
+      this.datasForm.patchValue({
+        iniCur: '',
+        fimCur: '',
+      });
+  
+      this.datasForm.updateValueAndValidity();
+    }
+  }
+  
+  changeIniCur(iniCurDate: string) {
+    if (this.shouldApplyDateFilter()) {
+      const minDate = new Date(iniCurDate);
+      minDate.setDate(minDate.getDate() + 1);
+      this.fimCurMinDate = this.formatDate(minDate);
+  
+      this.datasForm.patchValue({
+        fimCur: '',
+      });
+  
+      this.datasForm.updateValueAndValidity();
+    }
+  }
+  
+  shouldApplyDateFilter(): boolean {
+    console.log(this.user)
+    if(!this.user?.dateFilter){
+      console.log("true")
+      return true
+    }else{
+      console.log("false")
+      return false
+    }
+  }
 
-    this.fimCurMinDate = this.formatDate(minDate);
-
-    // Atualize o valor mínimo do controle fimCur no formulário
+  chageEmailInscrtion(email: string) {
+    const validDomain = "@cbm.sc.gov.br";
+    if (!email.endsWith(validDomain) && email!=="") {
+      this.toastr.error("Insira um e-mail válido @cbm.sc.gov.br");
+  
+      this.datasForm.patchValue({
+        emailInscrition: undefined,
+      });
+    }
+  
     this.datasForm.updateValueAndValidity();
   }
-  clearInputs(){
-
-  }
+  
 }
 
 
