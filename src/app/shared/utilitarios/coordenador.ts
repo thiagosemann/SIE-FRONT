@@ -6,6 +6,7 @@ export interface Coordenador {
     telefoneFunc:string;
     telefoneOBM:string;
     ldap?:string;
+    graduacao?:string;
   }
 
 

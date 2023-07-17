@@ -40,7 +40,7 @@ export class PdfService {
         if(capitulo.tipo === 'preambulo'){
             positionY = this.addPreamble(doc,positionY,lineHeight,capitulo.data);
         }else if(capitulo.tipo === 'intro'){
-            positionY = this.addIntro(doc,positionY,lineHeight,capitulo.data);
+            positionY = this.addIntro(doc,positionY,lineHeight,capitulo.texto);
         } else if (capitulo.tipo === 'capitulo') {
             positionY = this.createChapter(doc, capitulo.texto, capitulo.numero, positionY, lineHeight);
     

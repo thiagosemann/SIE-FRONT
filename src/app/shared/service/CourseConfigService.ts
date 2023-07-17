@@ -33,6 +33,7 @@ export class CourseConfigService {
     { component: LogisticaComponent, name: 'Logística',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false },
+    { component: PreviewDocComponent, name: 'Preview',validity: false },
 
     
   ];

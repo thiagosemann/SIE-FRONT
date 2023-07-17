@@ -11,19 +11,18 @@ import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 })
 export class PreviewDocComponent implements OnInit {
   pdfUrl: SafeResourceUrl | undefined;
-
+  curso: Curso | undefined;
   constructor(private pdfService: PdfService, private sanitizer: DomSanitizer,private cursoService: CursoService) { }
 
   ngOnInit(): void {
+    this.curso = this.cursoService.getCursoEscolhido();
+    console.log(this.curso)
     this.generatePdf();
   }
 
   async generatePdf(): Promise<void> {
-   
-  const curso: Curso = {id:1};
-  //const cursoTest : Curso = {id:1};
-  if (curso) {
-    const pdfBlob = await this.pdfService.createDocument(curso,'plano','Capacitacao');
+  if (this.curso) {
+    const pdfBlob = await this.pdfService.createDocument(this.curso,'edital','Capacitacao');
     const pdfUrl = URL.createObjectURL(pdfBlob);
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
     console.log( this.pdfUrl)

@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { ContentComponent } from '../../content.component';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
+import { User } from 'src/app/shared/utilitarios/user';
 
 @Component({
   selector: 'app-coordenador',
@@ -17,8 +18,7 @@ export class CoordenadorComponent implements OnInit {
   efetivo: any[] = [];
   email: string = '';
   logoUrl: string = ''; // URL da imagem
-  id?:number ;
-  ldap?:string;
+  user: User | undefined;
   coordenadorForm: FormGroup;
 
   constructor(
@@ -68,18 +68,18 @@ export class CoordenadorComponent implements OnInit {
 
   enviarDados(nomeCompleto?: string) {
     const coordenador: Coordenador = {
-      id: this.id,
+      id: this.user?.id,
       mtcl: this.coordenadorForm.get('mtcl')?.value,
       nomeCompleto: nomeCompleto || this.coordenadorForm.get('nomeCompleto')?.value,
       email: this.coordenadorForm.get('email')?.value,
       telefoneFunc: this.coordenadorForm.get('telefoneFunc')?.value,
       telefoneOBM: this.coordenadorForm.get('telefoneOBM')?.value,
-      ldap: this.ldap
+      ldap: this.user?.ldap,
+      graduacao: this.user?.graduacao
     };
     const properties: Partial<Curso> = {
       coordenador: coordenador
     };
-    console.log(coordenador)
     this.cursoService.setCoordenadorOnCursosByCursoEscolhidoID(properties);
     this.isFormValid();
   }
@@ -115,11 +115,9 @@ export class CoordenadorComponent implements OnInit {
         .subscribe(user => {
           if (user) {
             this.logoUrl = "http://satcontrol.cbm.sc.gov.br/lob/fotos_bombeiros/" + user.ldap;
-            console.log(user)
             // Atualizar o valor do campo nomeCompleto e ldap no formulário
             this.coordenadorForm.patchValue({ nomeCompleto: user.name });
-            this.id = user.id;
-            this.ldap = user.ldap;
+            this.user = user;
             this.enviarDados();
           }
           
@@ -128,8 +126,7 @@ export class CoordenadorComponent implements OnInit {
         });
     }else{
       this.logoUrl = "";
-      this.id = undefined;
-      this.ldap = "";
+      this.user = undefined;
       this.coordenadorForm.patchValue({ nomeCompleto: "" });
     }
   

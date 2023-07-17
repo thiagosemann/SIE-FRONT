@@ -12,6 +12,9 @@ export interface Capitulo {
   tipo:string;
   numero:string;
   editando?: boolean;
+  content?:string;
+  dados?:string[][];
+  hasHeader?:boolean;
 
 }
 
@@ -21,6 +24,9 @@ export interface Item {
   numero:string;
   subitens: Subitem[];
   editando?: boolean;
+  content?:string;
+  dados?:string[][];
+  hasHeader?:boolean;
 
 }
 
@@ -30,6 +36,9 @@ export interface Subitem {
   letra:string;
   subsubitens: Subsubitem[];
   editando?: boolean;
+  content?:string;
+  dados?:string[][];
+  hasHeader?:boolean;
 
 }
 
@@ -38,6 +47,10 @@ export interface Subsubitem {
   texto: string;
   letra:string;
   editando?: boolean;
+  content?:string;
+  dados?:string[][];
+  hasHeader?:boolean;
+  tipoTabela?:string;
 }
 
 export interface Tabela {

@@ -95,7 +95,7 @@
                       <br>
                       <label>Subitens:</label>
                       <accordion [closeOthers]="true" id="subitemAccordion{{capituloIndex}}_{{itemIndex}}">
-                        <accordion-group *ngFor="let subitem of item.subitens; let subitemIndex = index" [heading]="subitem.tipo + '-' + (subitem.letra || '')">
+                        <accordion-group *ngFor="let subitem of item.subitens; let subitemIndex = index" [heading]="subitem.tipo + '-' + (subitem.letra || '')" >
                           <div class="card">
                             <div class="card-body">
                               <div class="form-group d-flex justify-content-between">

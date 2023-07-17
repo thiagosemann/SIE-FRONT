@@ -21,7 +21,7 @@ export interface Curso {
   iniCur?: string;
   fimCur?: string;
   apresentacaoHorario?: string;
-  processoSeletivoDate?: Date;
+  processoSeletivoDate?: string;
   processoSeletivoHorario?: string;
   localAtiBairro?: string;
   localAtiRua?: string;
@@ -30,6 +30,8 @@ export interface Curso {
   localAtiMunicipio?: string;
   type?: string;
   coordenador?: Coordenador;
+  coordenadorDescricao?:string;
+  coordenadorContato?:string;
   selectedProfessors?: User[]; // Propriedade adicionada
   requisitoComplementar?: Requisito[];
   prescricaoComplementar?: Prescricao[];
@@ -40,4 +42,8 @@ export interface Curso {
   periodoInscricao?:string;
   periodoAtividade?:string;
   localApresentacao?:string;
+
+  
+  [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
+
 }

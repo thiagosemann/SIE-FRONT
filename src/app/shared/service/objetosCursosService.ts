@@ -56,9 +56,12 @@ export class CursoService {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
       cursoEscolhido.coordenador = properties.coordenador;
+      cursoEscolhido.coordenadorContato = `Telefones: ${properties.coordenador?.telefoneFunc ?? ''},  ${properties.coordenador?.telefoneOBM ?? ''} ${properties.coordenador?.email ?? ''}`;
+      cursoEscolhido.coordenadorDescricao = `${this.formatarGraduacao(properties.coordenador?.graduacao ?? '',"Abreviar") } BM MTCL ${properties.coordenador?.mtcl ?? ''} ${properties.coordenador?.nomeCompleto ?? ''}`;
     }
-    console.log(this.getCursos())
+    console.log(this.getCursos());
   }
+  
   setSelectedProfessorsByCursoEscolhidoID(selectedProfessors: User[]): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
@@ -126,12 +129,12 @@ export class CursoService {
 
   formatDateExtenso(dataIni:string, dataFim:string) {
     const mes = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
-    let dIni = dataIni[8] + dataIni[9];
-    let mIni = dataIni[5] + dataIni[6];
-    let aIni = dataIni[0] + dataIni[1] + dataIni[2] + dataIni[3];
-    let dFim = dataFim[8] + dataFim[9];
-    let mFim = dataFim[5] + dataFim[6];
-    let aFim = dataFim[0] + dataFim[1] + dataFim[2] + dataFim[3];
+    let dIni = dataIni[0] + dataIni[1];
+    let mIni = dataIni[3] + dataIni[4];
+    let aIni = dataIni[6] + dataIni[7] + dataIni[8] + dataIni[9];
+    let dFim = dataFim[0] + dataFim[1];
+    let mFim = dataFim[3] + dataFim[4];
+    let aFim = dataFim[6] + dataFim[7] + dataFim[8] + dataFim[9];
  
     if(dIni == dFim && mIni == mFim){
       return  dIni + " de " + mes[parseInt(mIni)-1] + " de " + aIni;
@@ -144,5 +147,24 @@ export class CursoService {
     }
     return ""
   } 
+
+  formatarGraduacao(posto:string,formato:string){
+    const postoName = ["SOLDADO 3ª CLASSE NQ","SOLDADO 3ª CLASSE","SOLDADO 2ª CLASSE","SOLDADO 1ª CLASSE","CABO","ALUNO SARGENTO","3º SARGENTO ALUNO","2º SARGENTO ALUNO","3º SARGENTO","2º SARGENTO","1º SARGENTO","SUBTENENTE","2º TENENTE","1º TENENTE","CAPITAO","MAJOR","TENENTE CORONEL","CORONEL","CHEFE DO ESTADO-MAIOR GERAL DO CORPO DE BOMBEIROS MILITAR","COMANDANTE-GERAL DO CBMSC","SUBCOMANDANTE-GERAL DOCORPO DE BOMBEIROS MILITAR"];
+    const postoAbbreviations = ["SD","SD","SD","SD","CB","ALSGT","ALSGT","ALSGT","SGT","SGT","SGT","ST","TEN","TEN","CAP","MAJ","TC","CEL","CHEFE DO EM","CMD GERAL","SUB CMD GERAL"];
+    const postoAbbreviationsTableDoc = ["SD 3ºC","SD 3ºC","SD 2ºC","SD 1ºC","CB","AL SGT","3º SGT AL","2º SGT AL","3º SGT","2º SGT","1º SGT","ST","2º TEN","1º TEN","CAP","MAJ","TC","CEL","CHEFE DO EM","CMD GERAL","SUB CMD GERAL"];
+    const postoToLowerCase = ["Soldado","Soldado","Soldado","Soldado","Cabo","Aluno Sargento","3º Sargento Aluno","2º Sargento Aluno","3º Sargento","2º Sargento","1º Sargento","Subtenente","2º Tenente","1º Tenente","Capitão","Major","Tenente Coronel","Coronel","Chefe do Estado Maior","Comandante Geral","Sub Comandante Geral"];
+   
+    let postoComFormatacao;
+    if (formato === "Abreviar") {
+      postoComFormatacao = postoAbbreviations;
+    } else if (formato === "AbreviarTableDocentes") {
+      postoComFormatacao = postoAbbreviationsTableDoc;
+    } else if (formato === "AbreviarLowerCase") {
+      postoComFormatacao = postoToLowerCase;
+    }
+    const index = postoName.indexOf(posto);
+    return index === -1 || !postoComFormatacao ? "" : postoComFormatacao[index];
+
+  }
 
 }

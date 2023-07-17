@@ -6,14 +6,14 @@
 
 <div class="container-fluid">
     <form [formGroup]="datasForm">
-      <div class="row">
+        <div class="row">
             <div class="col-sm-4">
                 <h3 class="text-center pb-2 pt-5">Inscrição</h3>
                 <p>As inscrições devem ser realizadas com no mínimo 15 dias de antecedência.</p>
                 <div class="row">
                     <div class="col-6">
                         <label for="startInscritiondate" class="form-label">Data de início:</label>
-                        <input type="date" class="form-control" formControlName="startInscritiondate" id="startInscritiondate" required onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="startInscritiondate" id="startInscritiondate" required onkeydown="return false" [min]="startInscritionMinDate" />
                     </div>
                     <div class="col-6">
                         <label for="startInscritionHorario" class="form-label">Horário de início:</label>
@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="endInscritiondate" class="form-label">Data de término:</label>
-                        <input type="date" class="form-control" formControlName="endInscritiondate" id="endInscritiondate" required onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="endInscritiondate" id="endInscritiondate" required onkeydown="return false" [min]="endInscritionMinDate" />
                     </div>
                     <div class="col-6">
                         <label for="endInscritionHorario" class="form-label">Horário de término:</label>
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="data1_1" class="form-label">Insira a data 1.1:</label>
-                        <input type="date" class="form-control" formControlName="processoSeletivoDate" id="processoSeletivoDate" required onkeydown="return false" />
+                        <input type="date" class="form-control" formControlName="processoSeletivoDate" id="processoSeletivoDate" required onkeydown="return false" [min]="processoSeletivoMinDate" />
                     </div>
                     <div class="col-6">
                         <label for="data1_2" class="form-label">Insira a data 1.2:</label>
@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="iniCur" class="form-label">Data de início:</label>
-                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" onkeydown="return false" required />
+                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" onkeydown="return false" required [min]="iniCurMinDate" />
                     </div>
                     <div class="col-6">
                         <label for="apresentacaoHorario" class="form-label">Horário de início:</label>
@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="fimCur" class="form-label">Data de término:</label>
-                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" onkeydown="return false" required/>
+                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" onkeydown="return false" required [min]="fimCurMinDate" />
                     </div>
                 </div>
             </div>
