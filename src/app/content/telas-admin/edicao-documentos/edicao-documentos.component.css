@@ -1,0 +1,4 @@
+.scrollable-column {
+  max-height: 75vh; /* Defina a altura desejada para a coluna com scroll */
+  overflow-y: auto;
+}

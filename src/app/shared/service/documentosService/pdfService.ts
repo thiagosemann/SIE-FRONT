@@ -9,27 +9,27 @@ import { DocumentJsonService } from './documentJsonService';
 export class PdfService {
   constructor(private documentJsonService: DocumentJsonService) {}
 
-  async generateEditalPdf(curso: Curso): Promise<Blob> {
+  async createDocument(curso: Curso,type:string,curseName:string): Promise<Blob> {
     const doc = new jsPDF();
-    const editalCapacitacao = await this.documentJsonService.getEdital(curso,'Capacitacao').toPromise();
-    await this.generateEdital(doc, editalCapacitacao);
-    return new Promise<Blob>((resolve, reject) => {
-      const pdfBlob = doc.output('blob');
-      resolve(pdfBlob);
-    });
-  }
-  async generatePlanoPdf(curso: Curso): Promise<Blob> {
-    const doc = new jsPDF();
-    const planoCapacitacao = await this.documentJsonService.getPlanoDeEnsino(curso,'Capacitacao').toPromise();
-    await this.generateEdital(doc, planoCapacitacao);
+    const planoCapacitacao = await this.documentJsonService.getDocument(curso,type,curseName).toPromise();
+    await this.generateDocumento(doc, planoCapacitacao.dados);
     return new Promise<Blob>((resolve, reject) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
   }
   
+  async edicaoDocument(data: any): Promise<Blob> {
+    const doc = new jsPDF();
+    console.log(data)
+    await this.generateDocumento(doc, data);
+    return new Promise<Blob>((resolve, reject) => {
+      const pdfBlob = doc.output('blob');
+      resolve(pdfBlob);
+    });
+  }
 
-  private async generateEdital(doc: jsPDF, editalCapacitacao: any) {
+  private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
     const capituloTitleFontSize = 11;
     const lineHeight = 6;
     let positionY = 7;
@@ -218,12 +218,18 @@ export class PdfService {
     const borderColor = 'black';
     const headerFontStyle = 'bold';
     const cellPaddingTop = 2; // Espaçamento superior da célula
-  
+    const pageHeight = doc.internal.pageSize.getHeight();
+
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
   
     let lastRowY = startY; // Posição vertical da última linha
-  
+    if(startY + rowHeight > pageHeight ){
+      // Excede a altura da página, adiciona uma nova página
+      doc.addPage();
+      lastRowY = 20; // Reinicia a posição vertical na nova página
+    }
+
     for (let i = 0; i < tableData.length; i++) {
       const rowData = tableData[i];
       const rowY = lastRowY; // Mantém a posição vertical da linha anterior
@@ -275,8 +281,7 @@ export class PdfService {
       }
   
       // Verifica se a próxima linha excede a altura da página
-      const pageHeight = doc.internal.pageSize.getHeight();
-      if (lastRowY + borderWidth + 10 > pageHeight) {
+      if (lastRowY + borderWidth +20 > pageHeight) {
         // Excede a altura da página, adiciona uma nova página
         doc.addPage();
         lastRowY = 20; // Reinicia a posição vertical na nova página

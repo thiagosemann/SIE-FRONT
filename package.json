@@ -26,6 +26,7 @@
     "html2pdf.js": "^0.10.1",
     "jquery": "^3.7.0",
     "jspdf": "^2.5.1",
+    "ngx-bootstrap": "^10.2.0",
     "ngx-extended-pdf-viewer": "^17.4.1",
     "ngx-mask": "^13.1.13",
     "ngx-pagination": "^6.0.3",

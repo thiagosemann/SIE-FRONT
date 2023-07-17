@@ -1,0 +1,213 @@
+<div class="row">
+  <div class="col-md-5 scrollable-column">
+    <div style="margin-left: 20px;">
+      <h3>Documentos</h3>
+      <div class="form-group">
+        <label for="seletor">Selecione:</label>
+        <select id="seletor" class="form-control" (change)="selecionarDocumento($event)">
+          <option *ngFor="let documento of documentos" [value]="documento.nome">{{ documento.nome }}</option>
+        </select>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="nomeCapitulo">Nome do Capítulo:</label>
+        <div class="input-group">
+          <input id="nomeCapitulo" type="text" [(ngModel)]="novoCapituloNome" class="form-control" placeholder="Digite o nome do capítulo">
+          <div class="input-group-append">
+            <button class="btn btn-primary" (click)="adicionarCapitulo()">
+              <i class="fas fa-plus"></i> Adicionar
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <accordion [closeOthers]="true" id="editorAccordion">
+        <accordion-group *ngFor="let capitulo of capitulos; let capituloIndex = index" [heading]="capitulo.tipo + '-' + (capitulo.numero || '')">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group d-flex justify-content-between">
+                <label>Número do Capítulo:</label>
+                <input type="text" [(ngModel)]="capitulo.numero" class="form-control" style="width: 30%">
+              </div>
+              <br>
+              <div class="form-group d-flex justify-content-between">
+                <label>Texto do Capítulo:</label>
+                <button class="btn btn-danger" (click)="removerCapitulo(capituloIndex)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <br>
+              <div class="input-group">
+                <input type="text" [(ngModel)]="capitulo.texto" class="form-control" placeholder="Digite o conteúdo do capítulo" [disabled]="!capitulo.editando">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="toggleEdicaoCapitulo(capitulo)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </div>
+              </div>
+              <br>
+              <label>Adicionar item:</label>
+              <div class="input-group">
+                <input type="text" [(ngModel)]="novoItemNome" class="form-control" placeholder="Digite o nome do item">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="adicionarItem(capituloIndex)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <br>
+              <label>Itens:</label>
+              <accordion [closeOthers]="true" id="itemAccordion{{capituloIndex}}">
+                <accordion-group *ngFor="let item of capitulo.itens; let itemIndex = index" [heading]="item.tipo + '-' + (item.numero || '')">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="form-group d-flex justify-content-between">
+                        <label>Número do Item:</label>
+                        <input type="text" [(ngModel)]="item.numero" class="form-control" style="width: 30%">
+                      </div>
+                      <br>
+                      <div class="form-group d-flex justify-content-between">
+                        <label>Texto do Item:</label>
+                        <button class="btn btn-danger" (click)="removerItem(capituloIndex, itemIndex)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <br>
+                      <div class="input-group">
+                        <input type="text" [(ngModel)]="item.texto" class="form-control" placeholder="Digite o conteúdo do item" [disabled]="!item.editando">
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" (click)="toggleEdicaoItem(item)">
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <label>Adicionar subitem:</label>
+                      <div class="input-group">
+                        <input type="text" [(ngModel)]="novoSubitemNome" class="form-control" placeholder="Digite o nome do subitem">
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" (click)="adicionarSubitem(capituloIndex, itemIndex)">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <label>Subitens:</label>
+                    <accordion [closeOthers]="true" id="subitemAccordion{{capituloIndex}}_{{itemIndex}}">
+                      <accordion-group *ngFor="let subitem of item.subitens; let subitemIndex = index" [heading]="subitem.tipo + '-' + (subitem.letra || '')">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="form-group d-flex justify-content-between">
+                              <label>Letra do Subitem:</label>
+                              <input type="text" [(ngModel)]="subitem.letra" class="form-control" style="width: 30%">
+                            </div>
+                            <br>
+                            <div class="form-group d-flex justify-content-between">
+                              <label>Texto do Subitem:</label>
+                              <button class="btn btn-danger" (click)="removerSubitem(capituloIndex, itemIndex, subitemIndex)">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                              <input type="text" [(ngModel)]="subitem.texto" class="form-control" placeholder="Digite o conteúdo do subitem" [disabled]="!subitem.editando">
+                              <div class="input-group-append">
+                                <button class="btn btn-primary" (click)="toggleEdicaoSubitem(subitem)">
+                                  <i class="fas fa-edit"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                              <input type="text" [(ngModel)]="novoSubsubitemNome" class="form-control" placeholder="Digite o nome do subsubitem">
+                              <div class="input-group-append">
+                                <button class="btn btn-primary" (click)="adicionarSubsubitem(capituloIndex, itemIndex, subitemIndex)">
+                                  <i class="fas fa-plus"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <label>Subsubitens:</label>
+                          <accordion [closeOthers]="true" id="subsubitemAccordion{{capituloIndex}}_{{itemIndex}}">
+                            <accordion-group *ngFor="let subsubitem of subitem.subsubitens; let subsubitemIndex = index" [heading]="'Subsubitem ' + (subsubitemIndex + 1)">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="form-group d-flex justify-content-between">
+                                    <label>Texto do Subsubitem:</label>
+                                    <button class="btn btn-danger" (click)="removerSubsubitem(capituloIndex, itemIndex, subitemIndex, subsubitemIndex)">
+                                      <i class="fas fa-times"></i>
+                                    </button>
+                                  </div>
+                                  <br>
+                                  <div class="input-group">
+                                    <input type="text" [(ngModel)]="subsubitem.texto" class="form-control" placeholder="Digite o conteúdo do subsubitem" [disabled]="!subsubitem.editando">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-primary" (click)="toggleEdicaoSubsubitem(subsubitem)">
+                                        <i class="fas fa-edit"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <div class="input-group">
+                                    <input type="text" [(ngModel)]="novaTabelaNome" class="form-control" placeholder="Digite o nome da tabela">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-primary" (click)="adicionarTabela(capituloIndex, itemIndex, subitemIndex, subsubitemIndex)">
+                                        <i class="fas fa-plus"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br>
+                                <div *ngFor="let tabela of subsubitem.tabelas; let tabelaIndex = index" class="card">
+                                  <div class="card-header">
+                                    <h6 class="mb-0">
+                                      <button class="btn btn-link" accordionLink>
+                                        Tabela {{ tabelaIndex + 1 }} - {{ tabela.titulo || 'Sem título' }}
+                                      </button>
+                                    </h6>
+                                  </div>
+                                  <div class="card-body">
+                                    <!-- Adicione aqui os campos necessários para a tabela -->
+                                    <button class="btn btn-danger" (click)="removerTabela(capituloIndex, itemIndex, subitemIndex, subsubitemIndex, tabelaIndex)">
+                                      <i class="fas fa-trash"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </accordion-group>
+                          </accordion>
+                        </div>
+                      </accordion-group>
+                    </accordion>
+                  </div>
+                </accordion-group>
+              </accordion>
+            </div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <object *ngIf="pdfUrl" [data]="pdfUrl" width="100%" height="650" type="application/pdf" id="pdf_content"></object>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-12 text-right">
+          <button class="btn btn-primary" (click)="salvarNoBancoDeDados()">Salvar no Banco de Dados</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

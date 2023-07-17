@@ -6,6 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,9 @@ import { PrescricoesComplementaresComponent } from './content/telasCompartilhada
 import { GoogleScriptService } from './shared/service/googleScriptService';
 import { PreviewDocComponent } from './content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
+import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-documentos/edicao-documentos.component';
+
+
 
 @NgModule({
   declarations: [
@@ -40,6 +44,7 @@ import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-do
     PrescricoesComplementaresComponent,
     PreviewDocComponent,
     GerarDocumentosComponent,
+    EdicaoDocumentosComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,9 @@ import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-do
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
+    AccordionModule.forRoot(),
+    
+
   ],
   
   providers: [GoogleScriptService],

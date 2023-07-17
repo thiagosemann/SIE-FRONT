@@ -11,6 +11,7 @@ import { LogisticaComponent } from '../../content/telasCompartilhadas/logistica/
 import { PrescricoesComplementaresComponent } from '../../content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
 import { PreviewDocComponent } from 'src/app/content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
+import { EdicaoDocumentosComponent } from 'src/app/content/telas-admin/edicao-documentos/edicao-documentos.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -51,7 +52,9 @@ export class CourseConfigService {
   ];
 
   private admin: ComponentItem[] = [
-    { component: PreviewDocComponent, name: 'Preview',validity: false },
+   // { component: PreviewDocComponent, name: 'Preview',validity: false },
+    { component: EdicaoDocumentosComponent, name: 'Edicao',validity: false },
+  
   ];
 
   getComponents(courseType: string): ComponentItem[] {

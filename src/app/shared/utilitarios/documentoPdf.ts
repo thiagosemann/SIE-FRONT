@@ -1,61 +1,48 @@
 export interface Documento {
-    id?: number;
-    tipo: string;
-  }
+  id: number;
+  nome: string;
+  dados: {
+    documento: any[]; // Altere o tipo do array conforme necessário
+  };
+}
 
-  export interface DataDocumento {
-    id?: number;
-    documento_id: number;
-    texto: string;
-  }
-  
-  export interface Capitulo {
-    id?: number;
-    documento_id: number;
-    numero: string;
-    texto: string;
-  }
-  export interface Item {
-    id?: number;
-    capitulo_id: number;
-    numero: string;
-    texto: string;
-  }
-  export interface Subitem {
-    id?: number;
-    item_id: number;
-    letra: string;
-    texto: string;
-  }
-  export interface Subsubitem {
-    id?: number;
-    subitem_id: number;
-    letra: string;
-    texto: string;
-  }
-  export interface TabelaDados {
-    id?: number;
-    item_id: number;
-    content: string;
-    hasHeader: boolean;
-  }
-  export interface Dados {
-    id?: number;
-    tabela_dados_id: number;
-    linha: number;
-    coluna: number;
-    valor: string;
-  }
-  export interface Vagas {
-    id?: number;
-    item_id: number;
-    bbm: string;
-    quantidade: number;
-  }
-  export interface Custos {
-    id?: number;
-    item_id: number;
-    descricao: string;
-    valor: number;
-  }
-  
+export interface Capitulo {
+  texto: string;
+  itens: Item[];
+  tipo:string;
+  numero:string;
+  editando?: boolean;
+
+}
+
+export interface Item {
+  tipo:string;
+  texto: string;
+  numero:string;
+  subitens: Subitem[];
+  editando?: boolean;
+
+}
+
+export interface Subitem {
+  tipo:string;
+  texto: string;
+  letra:string;
+  subsubitens: Subsubitem[];
+  editando?: boolean;
+
+}
+
+export interface Subsubitem {
+  tipo:string;
+  texto: string;
+  letra:string;
+  tabelas: Tabela[];
+  editando?: boolean;
+
+}
+
+export interface Tabela {
+  titulo: string;
+  // Adicione aqui as propriedades necessárias para a tabela
+}

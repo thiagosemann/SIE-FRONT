@@ -25,10 +25,10 @@ export class GerarDocumentosComponent implements OnInit {
     try {
       const curso = this.cursoService.getCursoEscolhido();
       if (curso) {
-        const editalPdf = await this.pdfService.generateEditalPdf(curso);
+        const editalPdf = await this.pdfService.createDocument(curso,'edital','Capacitacao');
         this.downloadFile(editalPdf as Blob, 'edital.pdf');
        
-        const planoPdf = await this.pdfService.generatePlanoPdf(curso);
+        const planoPdf = await this.pdfService.createDocument(curso,'plano','Capacitacao');
         this.downloadFile(planoPdf as Blob, 'plano.pdf');
         
       } else {
