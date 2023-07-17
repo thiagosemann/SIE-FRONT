@@ -38,21 +38,32 @@ export class EdicaoDocumentosComponent implements OnInit {
     this.getDocuments();
   }
 
+  inicializarDocumentoVazio() {
+    this.documento = {
+      id: 0,
+      nome: '',
+      dados: {
+        documento: []
+      }
+    };
+    this.capitulos = [];
+  }
+
   getDocuments() {
+    this.inicializarDocumentoVazio();
+
     this.documentsService.getDocumentos().subscribe(
       (documentos: Documento[]) => {
         if (documentos && documentos.length > 0) {
-          this.documentos = documentos; // Atribui os documentos retornados à propriedade 'documentos'
-          this.documento = { ...documentos[0] }; // Assumindo que você deseja atribuir o primeiro documento retornado
-          // Verifica se a propriedade 'dados.documento' contém a estrutura esperada
+          this.documentos = documentos;
+          this.documento = { ...documentos[0] };
           if (this.documento.dados && Array.isArray(this.documento.dados.documento)) {
-            // Filtra os documentos pelo tipo "capitulo"
             this.capitulos = this.documento.dados.documento.filter((doc: any) => doc.tipo === 'capitulo');
           }
-          console.log(this.documentos)
-          this.previewDocumento(); // Chama a função previewDocumento() após carregar os documentos
+          console.log(this.documentos);
+          this.previewDocumento();
         } else {
-          this.documentos = undefined; // Se não houver documentos encontrados
+          this.documentos = undefined;
         }
       },
       (error) => {
@@ -67,22 +78,18 @@ export class EdicaoDocumentosComponent implements OnInit {
     const novoDocumento = this.documentos?.find(documento => documento.nome === novoDocumentoNome);
 
     if (novoDocumento) {
-      this.documento.id = novoDocumento.id; // Assign the id property directly
+      this.documento.id = novoDocumento.id;
       this.documento.nome = novoDocumento.nome;
       this.documento.dados = { ...novoDocumento.dados };
     }
 
     if (novoDocumento && novoDocumento.dados && Array.isArray(novoDocumento.dados.documento)) {
       this.capitulos = [];
-      console.log(this.capitulos)
-      // Filtra os documentos pelo tipo "capitulo"
       this.capitulos = novoDocumento.dados.documento.filter((doc: any) => doc.tipo === 'capitulo');
     }
 
     this.previewDocumento();
   }
-
-
 
   adicionarCapitulo() {
     const capitulo: Capitulo = {
@@ -92,8 +99,8 @@ export class EdicaoDocumentosComponent implements OnInit {
       itens: []
     };
     this.capitulos.push(capitulo);
-    this.novoCapituloNome = ''; // Limpa o campo do nome do capítulo após a adição
-    this.novoCapituloNumero = ''; // Limpa o campo do número do capítulo após a adição
+    this.novoCapituloNome = '';
+    this.novoCapituloNumero = '';
     this.previewDocumento();
   }
 
@@ -110,8 +117,8 @@ export class EdicaoDocumentosComponent implements OnInit {
       subitens: []
     };
     this.capitulos[capituloIndex].itens.push(item);
-    this.novoItemNome = ''; // Limpa o campo do nome do item após a adição
-    this.novoItemNumero = ''; // Limpa o campo do número do item após a adição
+    this.novoItemNome = '';
+    this.novoItemNumero = '';
     this.previewDocumento();
   }
 
@@ -132,8 +139,8 @@ export class EdicaoDocumentosComponent implements OnInit {
       subsubitens: []
     };
     item.subitens.push(subitem);
-    this.novoSubitemNome = ''; // Limpa o campo do nome do subitem após a adição
-    this.novoSubitemNumero = ''; // Limpa o campo do número do subitem após a adição
+    this.novoSubitemNome = '';
+    this.novoSubitemNumero = '';
     this.previewDocumento();
   }
 
@@ -144,33 +151,21 @@ export class EdicaoDocumentosComponent implements OnInit {
 
   adicionarSubsubitem(capituloIndex: number, itemIndex: number, subitemIndex: number) {
     const subsubitem: Subsubitem = {
-      tipo: 'subtipo',
+      tipo: 'subsubitem',
       letra: this.novoSubsubitemLetra,
       texto: this.novoSubsubitemNome,
-      tabelas: []
     };
+    if (!this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens) {
+      this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens = [];
+    }
     this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens.push(subsubitem);
-    this.novoSubsubitemNome = ''; // Limpa o campo do nome do subsubitem após a adição
+
+    this.novoSubsubitemNome = '';
     this.previewDocumento();
   }
 
   removerSubsubitem(capituloIndex: number, itemIndex: number, subitemIndex: number, subsubitemIndex: number) {
     this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens.splice(subsubitemIndex, 1);
-    this.previewDocumento();
-  }
-
-  adicionarTabela(capituloIndex: number, itemIndex: number, subitemIndex: number, subsubitemIndex: number) {
-    const tabela: Tabela = {
-      titulo: this.novaTabelaNome
-      // Adicione aqui as propriedades necessárias para a tabela
-    };
-    this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens[subsubitemIndex].tabelas.push(tabela);
-    this.novaTabelaNome = ''; // Limpa o campo do nome da tabela após a adição
-    this.previewDocumento();
-  }
-
-  removerTabela(capituloIndex: number, itemIndex: number, subitemIndex: number, subsubitemIndex: number, tabelaIndex: number) {
-    this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens[subsubitemIndex].tabelas.splice(tabelaIndex, 1);
     this.previewDocumento();
   }
 
@@ -180,6 +175,7 @@ export class EdicaoDocumentosComponent implements OnInit {
       this.previewDocumento();
     }
   }
+
   toggleEdicaoItem(item: Item) {
     item.editando = !item.editando;
     if (!item.editando) {
@@ -202,14 +198,14 @@ export class EdicaoDocumentosComponent implements OnInit {
   }
 
   previewDocumento() {
-    this.documento.dados.documento = this.capitulos; // Atribui diretamente o array de capitulos à propriedade 'dados.documento'
+    this.documento.dados.documento = this.capitulos;
     this.generatePdf();
   }
 
   async generatePdf(): Promise<void> {
     const selectElement = document.getElementById("seletor") as HTMLSelectElement;
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const selectedText = selectedOption ? selectedOption.text : ''; // Verifica se selectedOption existe
+    const selectedText = selectedOption ? selectedOption.text : '';
     let type = "plano";
     let nomeCurso = "Capacitacao";
     if (selectedText.includes("edital")) {

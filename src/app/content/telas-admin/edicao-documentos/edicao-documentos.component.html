@@ -27,7 +27,7 @@
             <div class="card-body">
               <div class="form-group d-flex justify-content-between">
                 <label>Número do Capítulo:</label>
-                <input type="text" [(ngModel)]="capitulo.numero" class="form-control" style="width: 30%">
+                <input type="text" [(ngModel)]="capitulo.numero" class="form-control" style="width: 30%" pattern="[0-9]+" [disabled]="!capitulo.editando">
               </div>
               <br>
               <div class="form-group d-flex justify-content-between">
@@ -64,7 +64,7 @@
                     <div class="card-body">
                       <div class="form-group d-flex justify-content-between">
                         <label>Número do Item:</label>
-                        <input type="text" [(ngModel)]="item.numero" class="form-control" style="width: 30%">
+                        <input type="text" [(ngModel)]="item.numero" class="form-control" style="width: 30%" pattern="[0-9]+" [disabled]="!item.editando">
                       </div>
                       <br>
                       <div class="form-group d-flex justify-content-between">
@@ -92,96 +92,78 @@
                           </button>
                         </div>
                       </div>
-                    </div>
-                    <br>
-                    <label>Subitens:</label>
-                    <accordion [closeOthers]="true" id="subitemAccordion{{capituloIndex}}_{{itemIndex}}">
-                      <accordion-group *ngFor="let subitem of item.subitens; let subitemIndex = index" [heading]="subitem.tipo + '-' + (subitem.letra || '')">
-                        <div class="card">
-                          <div class="card-body">
-                            <div class="form-group d-flex justify-content-between">
-                              <label>Letra do Subitem:</label>
-                              <input type="text" [(ngModel)]="subitem.letra" class="form-control" style="width: 30%">
-                            </div>
-                            <br>
-                            <div class="form-group d-flex justify-content-between">
-                              <label>Texto do Subitem:</label>
-                              <button class="btn btn-danger" (click)="removerSubitem(capituloIndex, itemIndex, subitemIndex)">
-                                <i class="fas fa-times"></i>
-                              </button>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                              <input type="text" [(ngModel)]="subitem.texto" class="form-control" placeholder="Digite o conteúdo do subitem" [disabled]="!subitem.editando">
-                              <div class="input-group-append">
-                                <button class="btn btn-primary" (click)="toggleEdicaoSubitem(subitem)">
-                                  <i class="fas fa-edit"></i>
+                      <br>
+                      <label>Subitens:</label>
+                      <accordion [closeOthers]="true" id="subitemAccordion{{capituloIndex}}_{{itemIndex}}">
+                        <accordion-group *ngFor="let subitem of item.subitens; let subitemIndex = index" [heading]="subitem.tipo + '-' + (subitem.letra || '')">
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="form-group d-flex justify-content-between">
+                                <label>Letra do Subitem:</label>
+                                <input type="text" [(ngModel)]="subitem.letra" class="form-control" style="width: 30%" pattern="[a-zA-Z]+" [disabled]="!subitem.editando">
+                              </div>
+                              <br>
+                              <div class="form-group d-flex justify-content-between">
+                                <label>Texto do Subitem:</label>
+                                <button class="btn btn-danger" (click)="removerSubitem(capituloIndex, itemIndex, subitemIndex)">
+                                  <i class="fas fa-times"></i>
                                 </button>
                               </div>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                              <input type="text" [(ngModel)]="novoSubsubitemNome" class="form-control" placeholder="Digite o nome do subsubitem">
-                              <div class="input-group-append">
-                                <button class="btn btn-primary" (click)="adicionarSubsubitem(capituloIndex, itemIndex, subitemIndex)">
-                                  <i class="fas fa-plus"></i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <br>
-                          <label>Subsubitens:</label>
-                          <accordion [closeOthers]="true" id="subsubitemAccordion{{capituloIndex}}_{{itemIndex}}">
-                            <accordion-group *ngFor="let subsubitem of subitem.subsubitens; let subsubitemIndex = index" [heading]="'Subsubitem ' + (subsubitemIndex + 1)">
-                              <div class="card">
-                                <div class="card-body">
-                                  <div class="form-group d-flex justify-content-between">
-                                    <label>Texto do Subsubitem:</label>
-                                    <button class="btn btn-danger" (click)="removerSubsubitem(capituloIndex, itemIndex, subitemIndex, subsubitemIndex)">
-                                      <i class="fas fa-times"></i>
-                                    </button>
-                                  </div>
-                                  <br>
-                                  <div class="input-group">
-                                    <input type="text" [(ngModel)]="subsubitem.texto" class="form-control" placeholder="Digite o conteúdo do subsubitem" [disabled]="!subsubitem.editando">
-                                    <div class="input-group-append">
-                                      <button class="btn btn-primary" (click)="toggleEdicaoSubsubitem(subsubitem)">
-                                        <i class="fas fa-edit"></i>
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <br>
-                                  <div class="input-group">
-                                    <input type="text" [(ngModel)]="novaTabelaNome" class="form-control" placeholder="Digite o nome da tabela">
-                                    <div class="input-group-append">
-                                      <button class="btn btn-primary" (click)="adicionarTabela(capituloIndex, itemIndex, subitemIndex, subsubitemIndex)">
-                                        <i class="fas fa-plus"></i>
-                                      </button>
-                                    </div>
-                                  </div>
+                              <br>
+                              <div class="input-group">
+                                <input type="text" [(ngModel)]="subitem.texto" class="form-control" placeholder="Digite o conteúdo do subitem" [disabled]="!subitem.editando">
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" (click)="toggleEdicaoSubitem(subitem)">
+                                    <i class="fas fa-edit"></i>
+                                  </button>
                                 </div>
-                                <br>
-                                <div *ngFor="let tabela of subsubitem.tabelas; let tabelaIndex = index" class="card">
-                                  <div class="card-header">
-                                    <h6 class="mb-0">
-                                      <button class="btn btn-link" accordionLink>
-                                        Tabela {{ tabelaIndex + 1 }} - {{ tabela.titulo || 'Sem título' }}
-                                      </button>
-                                    </h6>
-                                  </div>
+                              </div>
+                              <br>
+                              <label>Adicionar subsubitem:</label>
+                              <div class="input-group">
+                                <input type="text" [(ngModel)]="novoSubsubitemNome" class="form-control" placeholder="Digite o nome do subsubitem">
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" (click)="adicionarSubsubitem(capituloIndex, itemIndex, subitemIndex)">
+                                    <i class="fas fa-plus"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <br>
+                            <label>Subsubitens:</label>
+                            <accordion [closeOthers]="true" id="subsubitemAccordion{{capituloIndex}}_{{itemIndex}}">
+                              <accordion-group *ngFor="let subsubitem of subitem.subsubitens; let subsubitemIndex = index" [heading]="'Subsubitem ' + (subsubitemIndex + 1)">
+                                <div class="card">
                                   <div class="card-body">
-                                    <!-- Adicione aqui os campos necessários para a tabela -->
-                                    <button class="btn btn-danger" (click)="removerTabela(capituloIndex, itemIndex, subitemIndex, subsubitemIndex, tabelaIndex)">
-                                      <i class="fas fa-trash"></i>
-                                    </button>
+                                    <div class="form-group d-flex justify-content-between">
+                                      <label>Letra do Subsubitem:</label>
+                                      <input type="text" [(ngModel)]="subsubitem.letra" class="form-control" style="width: 30%" pattern="[a-zA-Z]+" [disabled]="!subsubitem.editando">
+                                    </div>
+                                    <br>
+                                    <div class="form-group d-flex justify-content-between">
+                                      <label>Texto do Subsubitem:</label>
+                                      <button class="btn btn-danger" (click)="removerSubsubitem(capituloIndex, itemIndex, subitemIndex, subsubitemIndex)">
+                                        <i class="fas fa-times"></i>
+                                      </button>
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                      <input type="text" [(ngModel)]="subsubitem.texto" class="form-control" placeholder="Digite o conteúdo do subsubitem" [disabled]="!subsubitem.editando">
+                                      <div class="input-group-append">
+                                        <button class="btn btn-primary" (click)="toggleEdicaoSubsubitem(subsubitem)">
+                                          <i class="fas fa-edit"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <br>
                                   </div>
                                 </div>
-                              </div>
-                            </accordion-group>
-                          </accordion>
-                        </div>
-                      </accordion-group>
-                    </accordion>
+                              </accordion-group>
+                            </accordion>
+                          </div>
+                        </accordion-group>
+                      </accordion>
+                    </div>
                   </div>
                 </accordion-group>
               </accordion>

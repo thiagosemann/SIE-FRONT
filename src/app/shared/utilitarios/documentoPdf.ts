@@ -37,12 +37,13 @@ export interface Subsubitem {
   tipo:string;
   texto: string;
   letra:string;
-  tabelas: Tabela[];
   editando?: boolean;
-
 }
 
 export interface Tabela {
   titulo: string;
-  // Adicione aqui as propriedades necessárias para a tabela
+  content:string;
+  dados:string[][];
+  hasHeader:boolean;
+  tipo:string;
 }
