@@ -1,4 +1,5 @@
 import { Alimento } from "./alimento";
+import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
 import { Material } from "./material";
 import { Prescricao } from "./prescricao";
@@ -45,6 +46,7 @@ export interface Curso {
   periodoAtividade?:string;
   localApresentacao?:string;
   anoAtual?:string;
+  atividadeHomologada?:AtividadeHomologada;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

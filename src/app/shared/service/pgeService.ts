@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { Pge } from '../utilitarios/pge';
 import { AuthenticationService } from './authentication';
 @Injectable({
@@ -9,7 +8,6 @@ import { AuthenticationService } from './authentication';
 })
 export class PgeService {
   private url = 'http://localhost:3333/pge'; // URL específica para o serviço PGE
-  private pgeListSubject: Subject<Pge[]> = new Subject<Pge[]>();
 
   constructor(private http: HttpClient, private authService: AuthenticationService) {}
 

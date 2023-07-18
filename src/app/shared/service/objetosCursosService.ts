@@ -6,6 +6,8 @@ import { Prescricao } from '../utilitarios/prescricao';
 import { Alimento } from '../utilitarios/alimento';
 import { Uniforme } from '../utilitarios/uniforme';
 import { Material } from '../utilitarios/material';
+import { AtividadeHomologadaService } from './atividadeHomologadaService';
+import { AtividadeHomologada } from '../utilitarios/atividadeHomologada';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,7 @@ import { Material } from '../utilitarios/material';
 export class CursoService {
   private cursos: Curso[] = [];
   private cursoEscolhidoId: number = 0;
-
-  constructor() { }
+  constructor(private atividadeHomologadaService:AtividadeHomologadaService) { }
 
   // Método para adicionar um novo curso à lista
   adicionarCurso(curso: Curso): void {
@@ -36,9 +37,39 @@ export class CursoService {
   }
   
   // Método para encontrar um curso pelo ID e definir como curso escolhido
-  setIdCursoEscolhido(id: number): void {
+  async setIdCursoEscolhido(id: number): Promise<void> {
     this.cursoEscolhidoId = id;
+    const curso = this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
+    if (curso && curso.sigla) {
+      try {
+        const atividade = await this.getAtividade(curso.sigla);
+        if (atividade && Object.keys(atividade).length > 0) {
+          curso.atividadeHomologada = atividade;
+        }
+        console.log(curso);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
+
+  // Função para buscar a atividade de ensino homologada
+  getAtividade(sigla: string): Promise<AtividadeHomologada | undefined> {
+    return new Promise<AtividadeHomologada | undefined>((resolve, reject) => {
+      this.atividadeHomologadaService.getAtividadeBySigla(sigla).subscribe(
+        (atividade: AtividadeHomologada | undefined) => {
+          resolve(atividade);
+        },
+        (error) => {
+          console.error(error);
+          reject(error);
+        }
+      );
+    });
+  }
+
+
+
 
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {
