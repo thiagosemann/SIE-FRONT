@@ -45,6 +45,12 @@ export class CursoService {
         const atividade = await this.getAtividade(curso.sigla);
         if (atividade && Object.keys(atividade).length > 0) {
           curso.atividadeHomologada = atividade;
+          curso.sgpe = atividade.sgpe;
+          curso.finalidade = atividade.finalidade;
+          curso.atividadesPreliminares = atividade.atividadesPreliminares;
+          curso.processoSeletivo = atividade.processoSeletivo;
+          curso.reqEspecifico = atividade.reqEspecifico;
+          
         }
         console.log(curso);
       } catch (error) {

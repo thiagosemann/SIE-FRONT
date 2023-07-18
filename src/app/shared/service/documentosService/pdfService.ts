@@ -57,13 +57,17 @@ export class PdfService {
       if (capitulo.tipo === "capitulo") {
         for (const item of capitulo.itens) {
           if (item.texto === "Requisitos específicos") {
-            item.isVisible = reqEspecificoBool.toString();
+            if(reqEspecificoBool){
+              item.isVisible = reqEspecificoBool.toString();
+            }
           }
           if (item.texto === "Requisitos complementares") {
             if(condition==1){
               item.numero = "3.2"
             }
-            item.isVisible = reqComplementarBool.toString();
+            if(reqComplementarBool){
+              item.isVisible = reqComplementarBool.toString();
+            }
           }
         }
       }

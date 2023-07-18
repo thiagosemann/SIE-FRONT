@@ -37,6 +37,7 @@ export interface Curso {
   requisitoComplementar?: Requisito[];
   reqEspecificoBool?:boolean;
   reqComplementarBool?:boolean;
+  reqEspecifico?:string;
   prescricaoComplementar?: Prescricao[];
   alimentos?: Alimento[];
   uniformes?:Uniforme[];
@@ -47,6 +48,10 @@ export interface Curso {
   localApresentacao?:string;
   anoAtual?:string;
   atividadeHomologada?:AtividadeHomologada;
+  finalidade?:string;
+  sgpe?:string;
+  atividadesPreliminares?:string;
+  processoSeletivo?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }
