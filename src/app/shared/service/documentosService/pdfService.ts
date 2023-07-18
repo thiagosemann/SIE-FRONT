@@ -1,23 +1,30 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { Curso } from '../../utilitarios/objetoCurso';
-import { DocumentJsonService } from './documentJsonService';
+import { DocumentosService } from './documento.service';
+import { Documento } from '../../utilitarios/documentoPdf';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
-  constructor(private documentJsonService: DocumentJsonService) {}
+  constructor(private documentoService: DocumentosService) {}
 
-  async createDocument(curso: Curso,type:string,curseName:string): Promise<Blob> {
+  async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
-    const planoCapacitacao = await this.documentJsonService.getDocument(curso,type,curseName).toPromise();
+    const planoCapacitacao = await this.getDocument(type, curseName).toPromise();
+    this.replaceProperties(planoCapacitacao.dados.documento, curso); // Chama a função para substituir as propriedades
+    this.changeIsVisibleInJSON(planoCapacitacao.dados.documento, curso); // Chama a função para alterar as propriedades do isVisible de acordo.
     await this.generateDocumento(doc, planoCapacitacao.dados);
-    return new Promise<Blob>((resolve, reject) => {
+    return new Promise<Blob>((resolve) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
   }
+  
   
   async edicaoDocument(data: any): Promise<Blob> {
     const doc = new jsPDF();
@@ -29,63 +36,164 @@ export class PdfService {
     });
   }
 
-  private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
-    const capituloTitleFontSize = 11;
-    const lineHeight = 6;
-    let positionY = 7;
+  getDocument(type: string,curseName:string): Observable<any> {
+    return this.documentoService.getDocumentoByNome(type+curseName).pipe(
+      map((plano: Documento) => {
+        return plano; // Retorna o JSON
+      })
+    );
+  } 
+  private changeIsVisibleInJSON(objeto: any,curso: Curso){
+    console.log(curso)
+  }
 
-    positionY = await this.addHeader(doc,positionY,lineHeight);
-
-    for (const capitulo of editalCapacitacao.documento) {
-        if(capitulo.tipo === 'preambulo'){
-            positionY = this.addPreamble(doc,positionY,lineHeight,capitulo.data);
-        }else if(capitulo.tipo === 'intro'){
-            positionY = this.addIntro(doc,positionY,lineHeight,capitulo.texto);
-        } else if (capitulo.tipo === 'capitulo') {
-            positionY = this.createChapter(doc, capitulo.texto, capitulo.numero, positionY, lineHeight);
-    
-            if (capitulo.itens && capitulo.itens.length > 0) {
-            for (const item of capitulo.itens) {
-                if (item.tipo === 'tabela') {
-                positionY = this.createTable(doc, positionY, item.dados, item.hasHeader, item.content,lineHeight);
-                } else {
-                positionY = this.createText(doc, item.texto, item.numero, positionY, lineHeight, 170, 25);
-    
-                if (item.subitens && item.subitens.length > 0) {
-                    for (const subitem of item.subitens) {
-                    if (subitem.tipo === 'tabela') {
-                        positionY = this.createTable(doc, positionY, subitem.dados, subitem.hasHeader, subitem.content,lineHeight);
-                    } else {
-                        positionY = this.createText(doc, subitem.texto, subitem.letra, positionY, lineHeight, 170, 25);
-    
-                        if (subitem.subsubitens && subitem.subsubitens.length > 0) {
-                        for (const subsubitem of subitem.subsubitens) {
-                            if (subsubitem.tipo === 'tabela') {
-                            positionY = this.createTable(doc, positionY, subsubitem.dados, subsubitem.hasHeader, subsubitem.content,lineHeight);
-                            } else {
-                            positionY = this.createText(doc, subsubitem.texto, subsubitem.letra, positionY, lineHeight, 170, 30);
-    
-                            if (subsubitem.subsubsubitens && subsubitem.subsubsubitens.length > 0) {
-                                for (const subsubsubitem of subsubitem.subsubsubitens) {
-                                if (subsubsubitem.tipo === 'tabela') {
-                                    positionY = this.createTable(doc, positionY, subsubsubitem.dados, subsubsubitem.hasHeader, subsubsubitem.content,lineHeight);
-                                } else {
-                                    positionY = this.createText(doc, subsubsubitem.texto, subsubsubitem.letra, positionY, lineHeight, 155, 45);
-                                }
-                                }
-                            }
-                            }
-                        }
-                        }
-                    }
-                    }
-                }
-                }
+  private replaceProperties(objeto: any, curso: Curso) {
+    const percorrerElementos = (elementos: any[]) => {
+      for (let i = 0; i < elementos.length; i++) {
+        const elemento = elementos[i];
+  
+        if (elemento.texto) {
+          elemento.texto = this.replacePropertiesInString(elemento.texto, curso);
+        } else if (elemento.data) {
+          for (const index in elemento.data) {
+            elemento.data[index] = this.replacePropertiesInString(elemento.data[index], curso);
+          }
+        } else if (elemento.dados) {
+          const dados = elemento.dados;
+          for (let i = 0; i < dados.length; i++) {
+            for (let j = 0; j < dados[i].length; j++) {
+              dados[i][j] = this.replacePropertiesInString(dados[i][j], curso);
             }
-            }
+          }
         }
+  
+        if (elemento.itens) {
+          percorrerElementos(elemento.itens);
+        }
+  
+        if (elemento.subitens) {
+          percorrerElementos(elemento.subitens);
+        }
+  
+        if (elemento.subsubitens) {
+          percorrerElementos(elemento.subsubitens);
+        }
+  
+        if (elemento.subsubsubitens) {
+          percorrerElementos(elemento.subsubsubitens);
+        }
+      }
+    };
+  
+    percorrerElementos(objeto);
+  }
+  
+  private replacePropertiesInString(str: string, curso: Curso): string {
+    for (const prop in curso) {
+      const placeholder = `{${prop}}`;
+      if (str.includes(placeholder)) {
+        str = str.replace(placeholder, curso[prop]);
+      }
+    }
+    return str;
+  }
+  
+
+
+private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
+  const capituloTitleFontSize = 11;
+  const lineHeight = 6;
+  let positionY = 7;
+
+  positionY = await this.addHeader(doc, positionY, lineHeight);
+
+  for (const capitulo of editalCapacitacao.documento) {
+    if (capitulo.isVisible && capitulo.isVisible === "true") {
+      switch (capitulo.tipo) {
+        case "preambulo":
+          positionY = this.addPreamble(doc, positionY, lineHeight, capitulo.data);
+          break;
+        case "intro":
+          positionY = this.addIntro(doc, positionY, lineHeight, capitulo.texto);
+          break;
+        case "capitulo":
+          positionY = this.createChapter(doc,capitulo.texto,capitulo.numero,positionY,lineHeight);
+          if (capitulo.itens && capitulo.itens.length > 0) {
+            positionY = await this.processItens(doc, capitulo.itens, positionY, lineHeight);
+          }
+          break;
+      }
     }
   }
+}
+
+private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeight: number) {
+  for (const item of itens) {
+    if (item.isVisible && item.isVisible === "true") {
+      if (item.tipo === "tabela") {
+        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight
+        );
+      } else {
+        positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,170,25);
+
+        if (item.subitens && item.subitens.length > 0) {
+          positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight);
+        }
+      }
+    }
+  }
+
+  return positionY;
+}
+
+private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, lineHeight: number) {
+  for (const subitem of subitens) {
+    if (subitem.isVisible && subitem.isVisible === "true") {
+      if (subitem.tipo === "tabela") {
+        positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
+      } else {
+        positionY = this.createText(doc,subitem.texto,subitem.letra,positionY,lineHeight,170,25);
+        if (subitem.subsubitens && subitem.subsubitens.length > 0) {
+          positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight);
+        }
+      }
+    }
+  }
+
+  return positionY;
+}
+
+private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: number, lineHeight: number) {
+  for (const subsubitem of subsubitens) {
+    if (subsubitem.isVisible && subsubitem.isVisible === "true") {
+      if (subsubitem.tipo === "tabela") {
+        positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
+      } else {
+        positionY = this.createText(doc,subsubitem.texto,subsubitem.letra,positionY,lineHeight,170,30);
+
+        if (subsubitem.subsubsubitens && subsubitem.subsubsubitens.length > 0) {
+          positionY = await this.processSubSubSubItens(doc, subsubitem.subsubsubitens, positionY, lineHeight);
+        }
+      }
+    }
+  }
+
+  return positionY;
+}
+
+private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY: number, lineHeight: number) {
+  for (const subsubsubitem of subsubsubitens) {
+    if (subsubsubitem.isVisible && subsubsubitem.isVisible === "true") {
+      if (subsubsubitem.tipo === "tabela") {
+        positionY = this.createTable(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
+      } else {
+        positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,155,45);
+      }
+    }
+  }
+
+  return positionY;
+}
   
   // Adiciona o cabeçalho com imagem no PDF
   private async addHeader(doc: jsPDF, positionY: number, lineHeight: number): Promise<number> {

@@ -16,7 +16,6 @@ export class PreviewDocComponent implements OnInit {
 
   ngOnInit(): void {
     this.curso = this.cursoService.getCursoEscolhido();
-    console.log(this.curso)
     this.generatePdf();
   }
 

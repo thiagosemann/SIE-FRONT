@@ -136,10 +136,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       if (formControls.hasOwnProperty(controlName) && controlName !== 'anoAtual') {
         const control = formControls[controlName];
         if (control.invalid || control.value === null) {
-          console.log('Control Name:', controlName);
-          console.log('Control Value:', control.value);
-          console.log('Control:', control);
-  
+
           this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, false);
           return;
         }
