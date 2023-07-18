@@ -42,7 +42,7 @@ export interface Curso {
   periodoInscricao?:string;
   periodoAtividade?:string;
   localApresentacao?:string;
-
+  anoAtual?:string;
   
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 

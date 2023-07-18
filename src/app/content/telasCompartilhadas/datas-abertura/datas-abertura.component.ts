@@ -41,7 +41,8 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       apresentacaoHorario: null,
       iniCur: null,
       fimCur: null,
-      processoSeletivoDate: null
+      processoSeletivoDate: null,
+      anoAtual: null
     });
     this.startInscritionMinDate = this.setMinDate();
     this.endInscritionMinDate = this.setMinDate();
@@ -53,6 +54,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   ngOnInit() {
      this.cursoEscolhido = this.cursoService.getCursoEscolhido();
      this.user = this.authenticationService.getUser()!;
+     
     if (this.cursoEscolhido) {
       const propertiesGroup = {
         startInscritiondate: this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
@@ -64,7 +66,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
         apresentacaoHorario: this.cursoEscolhido.apresentacaoHorario,
         iniCur: this.formatDateForSelect(this.cursoEscolhido.iniCur??''),
         fimCur: this.formatDateForSelect(this.cursoEscolhido.fimCur??''),
-        processoSeletivoDate: this.formatDateForSelect(this.cursoEscolhido.processoSeletivoDate??'')
+        processoSeletivoDate: this.formatDateForSelect(this.cursoEscolhido.processoSeletivoDate??''),
       };
       this.datasForm.patchValue(propertiesGroup);
     }
@@ -109,6 +111,8 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   }
 
   enviarDados() {
+    const today = new Date();
+
      const propertiesGroup = {
       startInscritiondate: this.formatDateForPtBR(this.datasForm.get('startInscritiondate')?.value),
       endInscritiondate: this.formatDateForPtBR(this.datasForm.get('endInscritiondate')?.value),
@@ -119,8 +123,8 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       apresentacaoHorario: this.datasForm.get('apresentacaoHorario')?.value,
       iniCur: this.formatDateForPtBR(this.datasForm.get('iniCur')?.value),
       fimCur: this.formatDateForPtBR(this.datasForm.get('fimCur')?.value),
-      processoSeletivoDate: this.formatDateForPtBR(this.datasForm.get('processoSeletivoDate')?.value)
-      
+      processoSeletivoDate: this.formatDateForPtBR(this.datasForm.get('processoSeletivoDate')?.value),
+      anoAtual: today.getFullYear().toString()
     };
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
     this.cursoService.setDatasAbertura()
@@ -129,9 +133,13 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   isFormValid(): void {
     const formControls = this.datasForm.controls;
     for (const controlName in formControls) {
-      if (formControls.hasOwnProperty(controlName)) {
+      if (formControls.hasOwnProperty(controlName) && controlName !== 'anoAtual') {
         const control = formControls[controlName];
         if (control.invalid || control.value === null) {
+          console.log('Control Name:', controlName);
+          console.log('Control Value:', control.value);
+          console.log('Control:', control);
+  
           this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, false);
           return;
         }
@@ -139,6 +147,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
     }
     this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, true);
   }
+  
 
   formatDateForPtBR(date: string): string {
     if (date) {
