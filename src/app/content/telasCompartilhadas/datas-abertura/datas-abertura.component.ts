@@ -53,7 +53,6 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   ngOnInit() {
      this.cursoEscolhido = this.cursoService.getCursoEscolhido();
      this.user = this.authenticationService.getUser()!;
-    console.log(this.user)
     if (this.cursoEscolhido) {
       const propertiesGroup = {
         startInscritiondate: this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
@@ -178,7 +177,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   changeStartInscritiondate(startInscritionDate: string) {
     if (this.shouldApplyDateFilter()) {
       const minDate = new Date(startInscritionDate);
-      minDate.setDate(minDate.getDate() + 1);
+      minDate.setDate(minDate.getDate() + 2);
       this.endInscritionMinDate = this.formatDate(minDate);
       this.processoSeletivoMinDate = this.formatDate(minDate);
       this.iniCurMinDate = this.formatDate(minDate);
@@ -198,7 +197,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   changeEndInscritiondate(endInscritionDate: string) {
     if (this.shouldApplyDateFilter()) {
       const minDate = new Date(endInscritionDate);
-      minDate.setDate(minDate.getDate() + 1);
+      minDate.setDate(minDate.getDate() + 2);
       this.processoSeletivoMinDate = this.formatDate(minDate);
       this.iniCurMinDate = this.formatDate(minDate);
       this.fimCurMinDate = this.formatDate(minDate);
@@ -216,7 +215,7 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   changeProcessoSeletivo(processoSeletivoDate: string) {
     if (this.shouldApplyDateFilter()) {
       const minDate = new Date(processoSeletivoDate);
-      minDate.setDate(minDate.getDate() + 1);
+      minDate.setDate(minDate.getDate() + 2);
       this.iniCurMinDate = this.formatDate(minDate);
       this.fimCurMinDate = this.formatDate(minDate);
   
@@ -231,8 +230,9 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   
   changeIniCur(iniCurDate: string) {
     if (this.shouldApplyDateFilter()) {
+      const days = Number(this.cursoEscolhido?.haCurso)/8 +1;
       const minDate = new Date(iniCurDate);
-      minDate.setDate(minDate.getDate() + 1);
+      minDate.setDate(minDate.getDate() + days);
       this.fimCurMinDate = this.formatDate(minDate);
   
       this.datasForm.patchValue({
@@ -244,12 +244,9 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
   }
   
   shouldApplyDateFilter(): boolean {
-    console.log(this.user)
     if(!this.user?.dateFilter){
-      console.log("true")
       return true
     }else{
-      console.log("false")
       return false
     }
   }
