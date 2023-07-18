@@ -44,7 +44,30 @@ export class PdfService {
     );
   } 
   private changeIsVisibleInJSON(objeto: any,curso: Curso){
-    console.log(curso)
+    this.manageRequisitos(objeto,curso.reqEspecificoBool!,curso.reqComplementarBool!);
+  }
+
+  private manageRequisitos(objeto: any[], reqEspecificoBool: boolean, reqComplementarBool: boolean) {
+    const documento = objeto;
+    let condition = 0;
+    if(!reqEspecificoBool && reqComplementarBool){
+      condition=1
+    }
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo") {
+        for (const item of capitulo.itens) {
+          if (item.texto === "Requisitos específicos") {
+            item.isVisible = reqEspecificoBool.toString();
+          }
+          if (item.texto === "Requisitos complementares") {
+            if(condition==1){
+              item.numero = "3.2"
+            }
+            item.isVisible = reqComplementarBool.toString();
+          }
+        }
+      }
+    }
   }
 
   private replaceProperties(objeto: any, curso: Curso) {

@@ -34,6 +34,8 @@ export interface Curso {
   coordenadorContato?:string;
   selectedProfessors?: User[]; // Propriedade adicionada
   requisitoComplementar?: Requisito[];
+  reqEspecificoBool?:boolean;
+  reqComplementarBool?:boolean;
   prescricaoComplementar?: Prescricao[];
   alimentos?: Alimento[];
   uniformes?:Uniforme[];
@@ -43,7 +45,6 @@ export interface Curso {
   periodoAtividade?:string;
   localApresentacao?:string;
   anoAtual?:string;
-  
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

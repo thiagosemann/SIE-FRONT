@@ -76,6 +76,16 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
+
+  setRequisitosBool(reqEspecificoBool:boolean,reqComplementarBool:boolean): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido.reqEspecificoBool = reqEspecificoBool;
+      cursoEscolhido.reqComplementarBool = reqComplementarBool;
+    }
+    console.log(this.getCursos());
+  }
+
   setPrescricaoComplementarEscolhidoID(prescricaoComplementar: Prescricao[]): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {

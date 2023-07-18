@@ -22,6 +22,7 @@ export class RequisitosComplementaresComponent {
         this.requisitos = cursoEscolhido.requisitoComplementar
       }
     }
+    this.cursoService.setRequisitosBool(false,true);
   }
 
   ngAfterViewInit() {
