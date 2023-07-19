@@ -1,9 +1,9 @@
 import { Alimento } from "./alimento";
 import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
+import { Subitem } from "./documentoPdf";
 import { Material } from "./material";
 import { Prescricao } from "./prescricao";
-import { Requisito } from "./requisito";
 import { Uniforme } from "./uniforme";
 import { User } from "./user";
 
@@ -34,10 +34,10 @@ export interface Curso {
   coordenadorDescricao?:string;
   coordenadorContato?:string;
   selectedProfessors?: User[]; // Propriedade adicionada
-  requisitoComplementar?: Requisito[];
+  requisitoComplementar?: Subitem[];
+  requisitoEspecifico?:Subitem[];
   reqEspecificoBool?:boolean;
   reqComplementarBool?:boolean;
-  reqEspecifico?:string;
   prescricaoComplementar?: Prescricao[];
   alimentos?: Alimento[];
   uniformes?:Uniforme[];

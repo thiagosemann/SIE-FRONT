@@ -154,6 +154,7 @@ export class EdicaoDocumentosComponent implements OnInit {
       tipo: 'subsubitem',
       letra: this.novoSubsubitemLetra,
       texto: this.novoSubsubitemNome,
+      subsubsubitens:[]
     };
     if (!this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens) {
       this.capitulos[capituloIndex].itens[itemIndex].subitens[subitemIndex].subsubitens = [];

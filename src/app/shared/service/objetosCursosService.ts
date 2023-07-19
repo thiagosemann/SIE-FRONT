@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
 import { User } from '../utilitarios/user';
-import { Requisito } from '../utilitarios/requisito';
 import { Prescricao } from '../utilitarios/prescricao';
 import { Alimento } from '../utilitarios/alimento';
 import { Uniforme } from '../utilitarios/uniforme';
 import { Material } from '../utilitarios/material';
 import { AtividadeHomologadaService } from './atividadeHomologadaService';
 import { AtividadeHomologada } from '../utilitarios/atividadeHomologada';
+import { Subitem } from '../utilitarios/documentoPdf';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,8 @@ export class CursoService {
           curso.finalidade = atividade.finalidade;
           curso.atividadesPreliminares = atividade.atividadesPreliminares;
           curso.processoSeletivo = atividade.processoSeletivo;
-          curso.reqEspecifico = atividade.reqEspecifico;
+          console.log(atividade.reqEspecifico)
+          curso.requisitoEspecifico = this.construirArrayFromString(atividade.reqEspecifico);
           
         }
         console.log(curso);
@@ -75,7 +76,28 @@ export class CursoService {
   }
 
 
-
+  // Função provisória para textos do google scripts
+  private construirArrayFromString(string: string): any[] {
+    const linhas = string.split('\n');
+    const arrayObjetos = [];
+  
+    for (const linha of linhas) {
+      const letra = linha.charAt(0);
+      const texto = linha.substring(2).trim();
+  
+      const objeto = {
+        tipo: 'subitem',
+        letra: letra + ")",
+        texto: texto,
+        isVisible: 'true',
+        subsubitens: []
+      };
+  
+      arrayObjetos.push(objeto);
+    }
+  
+    return arrayObjetos;
+  }
 
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {
@@ -106,7 +128,7 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
-  setRequisitoComplementarEscolhidoID(requisitoComplementar: Requisito[]): void {
+  setRequisitoComplementarEscolhidoID(requisitoComplementar: Subitem[]): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
       cursoEscolhido.requisitoComplementar = requisitoComplementar;
@@ -114,11 +136,10 @@ export class CursoService {
     console.log(this.getCursos());
   }
 
-  setRequisitosBool(reqEspecificoBool:boolean,reqComplementarBool:boolean): void {
+  setRequisitoEspecificoEscolhidoID(requisitoEspecifico: Subitem[]): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
-      cursoEscolhido.reqEspecificoBool = reqEspecificoBool;
-      cursoEscolhido.reqComplementarBool = reqComplementarBool;
+      cursoEscolhido.requisitoEspecifico = requisitoEspecifico;
     }
     console.log(this.getCursos());
   }

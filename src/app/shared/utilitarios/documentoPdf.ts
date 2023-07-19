@@ -27,7 +27,6 @@ export interface Item {
   content?:string;
   dados?:string[][];
   hasHeader?:boolean;
-
 }
 
 export interface Subitem {
@@ -39,10 +38,23 @@ export interface Subitem {
   content?:string;
   dados?:string[][];
   hasHeader?:boolean;
+  isVisible?:string;
 
 }
 
 export interface Subsubitem {
+  tipo:string;
+  texto: string;
+  letra:string;
+  editando?: boolean;
+  content?:string;
+  dados?:string[][];
+  hasHeader?:boolean;
+  tipoTabela?:string;
+  subsubsubitens: Subsubsubitem[];
+
+}
+export interface Subsubsubitem {
   tipo:string;
   texto: string;
   letra:string;

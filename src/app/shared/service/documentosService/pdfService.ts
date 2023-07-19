@@ -15,10 +15,11 @@ export class PdfService {
 
   async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
-    const planoCapacitacao = await this.getDocument(type, curseName).toPromise();
-    this.replaceProperties(planoCapacitacao.dados.documento, curso); // Chama a função para substituir as propriedades
-    this.changeIsVisibleInJSON(planoCapacitacao.dados.documento, curso); // Chama a função para alterar as propriedades do isVisible de acordo.
-    await this.generateDocumento(doc, planoCapacitacao.dados);
+    const responseDoc = await this.getDocument(type, curseName).toPromise();
+    this.replaceProperties(responseDoc.dados.documento, curso); // Chama a função para substituir as propriedades
+    this.manageRequisitos(responseDoc.dados.documento, curso)
+    
+    await this.generateDocumento(doc, responseDoc.dados);
     return new Promise<Blob>((resolve) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
@@ -43,31 +44,33 @@ export class PdfService {
       })
     );
   } 
-  private changeIsVisibleInJSON(objeto: any,curso: Curso){
-    this.manageRequisitos(objeto,curso.reqEspecificoBool!,curso.reqComplementarBool!);
+
+  private includeRequisitosComplementares(){
+
   }
 
-  private manageRequisitos(objeto: any[], reqEspecificoBool: boolean, reqComplementarBool: boolean) {
+  private manageRequisitos(objeto: any,curso: Curso) {
     const documento = objeto;
-    let condition = 0;
-    if(!reqEspecificoBool && reqComplementarBool){
-      condition=1
-    }
+
     for (const capitulo of documento) {
       if (capitulo.tipo === "capitulo") {
         for (const item of capitulo.itens) {
           if (item.texto === "Requisitos específicos") {
-            if(reqEspecificoBool){
-              item.isVisible = reqEspecificoBool.toString();
+            if(!curso.requisitoEspecifico){
+              item.subitens = [{
+                tipo:"subitem",
+                letra: "",
+                texto: "Não possui requisitos específicos",
+                isVisible:"true",
+                subsubitens: []
+              }];
+            }else{
+              console.log()
+              item.subitens = curso.requisitoEspecifico;
             }
           }
           if (item.texto === "Requisitos complementares") {
-            if(condition==1){
-              item.numero = "3.2"
-            }
-            if(reqComplementarBool){
-              item.isVisible = reqComplementarBool.toString();
-            }
+            item.subitens = curso.requisitoComplementar;
           }
         }
       }

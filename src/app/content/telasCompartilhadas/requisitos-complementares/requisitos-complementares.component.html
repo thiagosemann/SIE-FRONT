@@ -4,15 +4,15 @@
   </div>
 </div>
 
-<div class="container mt-4" style="max-width: 1700px;">
+<div class="requisitos-container mt-4">
   <div class="row">
     <div class="col-md-6">
       <div class="requisitos-column">
-        <div>
+        <div class="requisitos-basicos">
           <label class="font-weight-bold labelRequisitos">Requisitos Básicos:</label>
-          <div class="requisitos-basicos">
+          <div>
             <p>
-              A) São requisitos básicos para concorrer às vagas internas ao CBMSC:
+              a) São requisitos básicos para concorrer às vagas internas ao CBMSC:
             </p>
             <ol>
               <li>Ser bombeiro militar da ativa.</li>
@@ -24,7 +24,7 @@
               <li>Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.</li>
             </ol>
             <p>
-              B) São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):
+              b) São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):
             </p>
             <ol>
               <li>Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.</li>
@@ -37,16 +37,21 @@
             </ol>
           </div>
         </div>
-        <div>
-          <label class="font-weight-bold labelRequisitos">Requisitos Específicos:</label>
-          <div class="requisitos-especificos">
-              <p class="alert-message" >Esta atividade de ensino não possui requisitos específicas.</p>
-          </div>
-        </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 scrollable-column">
       <div class="requisitos-column">
+        <div class="mb-3" id="requisitosDivAnswer" *ngIf="requisitosEspecificos.length > 0">
+          <label class="font-weight-bold labelRequisitos">Requisitos Específicos:</label>
+          <div class="requisitos-especificos">
+            <ul>
+              <li *ngFor="let subitem of requisitosEspecificos; let j = index">
+                {{ subitem.letra }} {{ subitem.texto }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="mb-3" id="requisitosDivAnswer">
           <label class="font-weight-bold labelRequisitos">Requisitos Complementares:</label>
           <div class="input-group mb-3">
@@ -61,39 +66,33 @@
             <thead>
               <tr>
                 <th>Requisito</th>
-                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let requisito of requisitos; let i = index">
                 <td>
-                  {{ requisito.letra }}) {{ requisito.item }}
-                  <ul class="requisitos-list">
-                    <li *ngFor="let subitem of requisito.subitens; let j = index">
-                      {{ subitem }}
-                      <i class="fa-solid fa-square-xmark fa-sm" (click)="removerSubItem(i, j)"></i>
+                  {{ requisito.letra }} {{ requisito.texto }}
+                  <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerRequisito(i)"></i>
+
+                  <ul>
+                    <li *ngFor="let subsubitem of requisito.subsubitens; let j = index">
+                      {{ subsubitem.letra }} {{ subsubitem.texto }}
+                      <i class="fa-solid fa-square-xmark fa-sm delete-Sub_item" (click)="removerSubsubItem(i, j)"></i>
                     </li>
                   </ul>
                   <div class="input-group mt-2">
-                    <input type="text" class="form-control" [(ngModel)]="subitensTemp[i]" placeholder="Adicionar subitem">
+                    <input type="text" class="form-control" [(ngModel)]="subsubitensTemp[i]" placeholder="Adicionar subitem">
                     <div class="input-group-append">
-                      <button class="btn btn-primary add-subitem" (click)="adicionarSubItem(i, subitensTemp[i])">
+                      <button class="btn btn-primary add-subitem" (click)="adicionarSubsubItem(i, subsubitensTemp[i])">
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
                   </div>
                 </td>
-                <td>
-                  <button class="btn btn-danger btn-sm" (click)="removerRequisito(i)">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        
-        
       </div>
     </div>
   </div>

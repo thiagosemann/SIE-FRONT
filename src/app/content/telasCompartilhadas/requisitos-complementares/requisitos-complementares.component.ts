@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Requisito } from 'src/app/shared/utilitarios/requisito';
+import { Subitem } from 'src/app/shared/utilitarios/documentoPdf';
 import { ContentComponent } from '../../content.component';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 
@@ -9,9 +9,9 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
   styleUrls: ['./requisitos-complementares.component.css']
 })
 export class RequisitosComplementaresComponent {
-  requisitos: Requisito[] = [];
-  subitensTemp: string[] = [];
-
+  requisitos: Subitem[] = [];
+  subsubitensTemp: string[] = [];
+  requisitosEspecificos : Subitem[] = [];
   constructor(private contentComponent : ContentComponent, private cursoService: CursoService) {}
 
   ngOnInit(): void {
@@ -21,8 +21,12 @@ export class RequisitosComplementaresComponent {
       if (cursoEscolhido.requisitoComplementar) {
         this.requisitos = cursoEscolhido.requisitoComplementar
       }
+      if (cursoEscolhido.requisitoEspecifico) {
+        this.requisitosEspecificos = cursoEscolhido.requisitoEspecifico
+      }
+      console.log( this.requisitosEspecificos)
     }
-    this.cursoService.setRequisitosBool(false,true);
+   
   }
 
   ngAfterViewInit() {
@@ -37,35 +41,67 @@ export class RequisitosComplementaresComponent {
     }
   
   }
+  transformarRequisitoEspecificoEmItem(requisitoEsp:string){
+    const linhas = requisitoEsp.split('\n');
+    const arrayObjetos = [];
+  
+    for (const linha of linhas) {
+      const letra = linha.charAt(0);
+      const texto = linha.substring(2).trim();
+  
+      const objeto = {
+        tipo: 'subitem',
+        letra: letra + ")",
+        texto: texto,
+        isVisible: 'true',
+        subsubitens: []
+      };
+  
+      arrayObjetos.push(objeto);
+    }
+  
+    return arrayObjetos;
+  }
+
   adicionarRequisito(novoRequisito: string) {
     if (novoRequisito) {
-      const requisito = {
-        letra: String.fromCharCode(65 + this.requisitos.length),
-        item: novoRequisito,
-        subitens: []
+      const subItem = {
+        tipo:"subitem",
+        letra: String.fromCharCode(65 + this.requisitos.length).toLocaleLowerCase() + ")",
+        texto: novoRequisito,
+        isVisible:"true",
+        subsubitens: []
       };
-      this.requisitos.push(requisito);
-      this.subitensTemp.push('');
+      this.requisitos.push(subItem);
+      this.subsubitensTemp.push('');
     }
     this.cursoService.setRequisitoComplementarEscolhidoID(this.requisitos);
     this.isFormValid();
   }
 
-  adicionarSubItem(indexRequisito: number, subitem: string) {
-    if (subitem) {
-      this.requisitos[indexRequisito].subitens.push(subitem);
-      this.subitensTemp[indexRequisito] = '';
+  adicionarSubsubItem(indexRequisito: number, subsubitemString: string) {
+    if (subsubitemString) {
+      const subsubItem = {
+        tipo:"subitem",
+        letra: "("+(this.requisitos[indexRequisito].subsubitens.length+1).toString()+ ")",
+        texto: subsubitemString,
+        isVisible:"true",
+        subsubsubitens: []
+
+      };
+      this.requisitos[indexRequisito].subsubitens.push(subsubItem);
+      this.subsubitensTemp[indexRequisito] = '';
     }
   }
 
   removerRequisito(indexRequisito: number) {
     this.requisitos.splice(indexRequisito, 1);
-    this.subitensTemp.splice(indexRequisito, 1);
+    this.subsubitensTemp.splice(indexRequisito, 1);
     this.cursoService.setRequisitoComplementarEscolhidoID(this.requisitos);
     this.isFormValid();
   }
 
-  removerSubItem(indexRequisito: number, indexSubItem: number) {
-    this.requisitos[indexRequisito].subitens.splice(indexSubItem, 1);
+  removerSubsubItem(indexRequisito: number, indexSubsubItem: number) {
+    this.requisitos[indexRequisito].subsubitens.splice(indexSubsubItem, 1);
   }
 }
