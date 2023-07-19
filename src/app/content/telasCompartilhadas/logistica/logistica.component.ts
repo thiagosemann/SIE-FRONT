@@ -30,12 +30,6 @@ export class LogisticaComponent {
   ngOnInit(): void {
     const cursoEscolhido = this.cursoService.getCursoEscolhido();
     if (cursoEscolhido) {
-      if (cursoEscolhido.alimentos) {
-        this.alimentos = cursoEscolhido.alimentos;
-      }
-      if (cursoEscolhido.uniformes) {
-        this.uniformes = cursoEscolhido.uniformes;
-      }
       if (cursoEscolhido.materialIndividual) {
         this.materiaisIndividuais = cursoEscolhido.materialIndividual;
       }
@@ -58,24 +52,6 @@ export class LogisticaComponent {
   }
 
   
-  // Função para adicionar um item à tabela de Alimentos
-  adicionarAlimento(descricao: string, unidade: string) {
-    if(descricao){
-      this.alimentos.push({ descricao, unidade});
-      this.cursoService.setAlimentosEscolhidoID( this.alimentos);
-      this.limparCamposAlimento();
-    }
-  }
-
-  // Função para adicionar um item à tabela de Uniformes
-  adicionarUniforme(descricao: string) {
-    if(descricao){
-      this.uniformes.push({ descricao });
-      this.cursoService.setUniformesEscolhidoID( this.uniformes);
-      this.limparCamposUniforme();
-    }
-  }
-
   adicionarMaterialIndividual(descricao: string) {
     if(descricao){
       this.materiaisIndividuais.push({ descricao });
@@ -94,13 +70,7 @@ export class LogisticaComponent {
 
   // Função para remover um item de uma tabela pelo índice
   removerItem(tabela: string, index: number) {
-    if (tabela === 'alimentos') {
-      this.alimentos.splice(index, 1);
-      this.cursoService.setAlimentosEscolhidoID( this.alimentos);
-    } else if (tabela === 'uniformes') {
-      this.uniformes.splice(index, 1);
-      this.cursoService.setUniformesEscolhidoID( this.uniformes);
-    } else if (tabela === 'materiaisIndividuais') {
+    if (tabela === 'materiaisIndividuais') {
       this.materiaisIndividuais.splice(index, 1);
       this.cursoService.setMaterialEscolhidoID(this.materiaisIndividuais,"Individual");
     } else if (tabela === 'materiaisColetivos') {
@@ -109,13 +79,7 @@ export class LogisticaComponent {
     }
   }
   editarItem(tabela: string, index: number) {
-    if (tabela === 'alimentos') {
-      this.editandoIndexAlimento = index;
-      this.cursoService.setAlimentosEscolhidoID( this.alimentos);
-    } else if (tabela === 'uniformes') {
-      this.editandoIndexUniforme = index;
-      this.cursoService.setUniformesEscolhidoID( this.uniformes);
-    } else if (tabela === 'materiaisIndividuais') {
+   if (tabela === 'materiaisIndividuais') {
       this.editandoIndexMatInd = index;
       this.cursoService.setMaterialEscolhidoID(this.materiaisIndividuais,"Individual");
     } else if (tabela === 'materiaisColetivos') {

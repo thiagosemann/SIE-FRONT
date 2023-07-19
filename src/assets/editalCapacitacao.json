@@ -66,33 +66,6 @@
       "tipo": "capitulo",
       "itens": [
         {
-          "tipo": "tabela",
-          "dados": [
-            [
-              "BBM",
-              "Quantidade"
-            ],
-            [
-              "Martelo",
-              "2"
-            ],
-            [
-              "Alicate",
-              "4"
-            ],
-            [
-              "Teste",
-              "6"
-            ],
-            [
-              "Teste",
-              "8"
-            ]
-          ],
-          "content": "center",
-          "hasHeader": true
-        },
-        {
           "tipo": "item",
           "texto": "A distribuição das vagas não limita a quantidade de inscritos.",
           "numero": "2.1"
@@ -286,36 +259,7 @@
               "tipo": "subitem",
               "letra": "b)",
               "texto": "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:",
-              
-              "subsubitens": [
-                {
-                  "tipo": "tabela",
-                  "dados": [
-                    [
-                      "Material",
-                      "Quantidade"
-                    ],
-                    [
-                      "Martelo",
-                      "2"
-                    ],
-                    [
-                      "Alicate",
-                      "4"
-                    ],
-                    [
-                      "Teste",
-                      "6"
-                    ],
-                    [
-                      "Teste",
-                      "8"
-                    ]
-                  ],
-                  "content": "center",
-                  "hasHeader": true
-                }
-              ]
+              "subsubitens": []
             }
           ]
         },
@@ -387,36 +331,7 @@
               "tipo": "subitem",
               "letra": "a)",
               "texto": "Materiais individuais",
-              
-              "subsubitens": [
-                {
-                  "tipo": "tabela",
-                  "dados": [
-                    [
-                      "Material",
-                      "Quantidade"
-                    ],
-                    [
-                      "Martelo",
-                      "2"
-                    ],
-                    [
-                      "Alicate",
-                      "4"
-                    ],
-                    [
-                      "Teste",
-                      "6"
-                    ],
-                    [
-                      "Teste",
-                      "8"
-                    ]
-                  ],
-                  "content": "center",
-                  "hasHeader": true
-                }
-              ]
+              "subsubitens": []
             },
             {
               "tipo": "subitem",

@@ -25,6 +25,7 @@ import { GoogleScriptService } from './shared/service/googleScriptService';
 import { PreviewDocComponent } from './content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-documentos/edicao-documentos.component';
+import { Logistica1Component } from './content/telasCompartilhadas/logistica1/logistica1.component';
 
 
 
@@ -45,6 +46,7 @@ import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-document
     PreviewDocComponent,
     GerarDocumentosComponent,
     EdicaoDocumentosComponent,
+    Logistica1Component,
   ],
   imports: [
     BrowserModule,

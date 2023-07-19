@@ -12,6 +12,7 @@ import { PrescricoesComplementaresComponent } from '../../content/telasCompartil
 import { PreviewDocComponent } from 'src/app/content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 import { EdicaoDocumentosComponent } from 'src/app/content/telas-admin/edicao-documentos/edicao-documentos.component';
+import { Logistica1Component } from 'src/app/content/telasCompartilhadas/logistica1/logistica1.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -30,7 +31,8 @@ export class CourseConfigService {
     { component: CoordenadorComponent, name: 'Coordenador',validity: false  },
     { component: DocentesComponent, name: 'Docentes',validity: false  },
     { component: RequisitosComplementaresComponent, name: 'Requisitos',validity: false  },
-    { component: LogisticaComponent, name: 'Logística',validity: false  },
+    { component: Logistica1Component, name: 'Logística1',validity: false  },
+    { component: LogisticaComponent, name: 'Logística2',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false },
     { component: PreviewDocComponent, name: 'Preview',validity: false },

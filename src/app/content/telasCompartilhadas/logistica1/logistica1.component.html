@@ -1,0 +1,78 @@
+<div class="requisitos-header text-center">
+  <div class="container">
+    <h2 class="mb-0">Logística</h2>
+  </div>
+</div>
+
+<div class="requisitos-container mt-4">
+  <div class="row">
+    <div class="col-md-3 scrollable-column">
+      <div class="requisitos-column">
+        <div class="requisitos-basicos">
+          <div class="mb-3" id="requisitosDivAnswer">
+              <label class="font-weight-bold labelRequisitos">Alimentos</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" #novoAlimentoInput placeholder="Adicionar alimento">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="adicionarAlimento(novoAlimentoInput.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Alimentos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let alimento of alimentos; let i = index">
+                  <td>
+                      {{ alimento.letra }} {{ alimento.texto }}
+                   
+                    <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerAlimento(i)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 scrollable-column">
+      <div class="requisitos-column">
+        <div class="requisitos-basicos">
+          <div class="mb-3" id="requisitosDivAnswer">
+            <label class="font-weight-bold labelRequisitos">8.6 Uniforme:</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" #novoUniformeInput placeholder="Adicionar uniforme">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="adicionarUniforme(novoUniformeInput.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Uniformes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let uniforme of uniformes; let i = index">
+                  <td>
+                    <span class="info-icon" data-info="Informações sobre uniformes">
+                      {{ uniforme.letra }} {{ uniforme.texto }}
+                      <i class="fas fa-info-circle"></i>
+                    </span>
+                    <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerUniforme(i)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>

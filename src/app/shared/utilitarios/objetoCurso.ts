@@ -1,7 +1,7 @@
 import { Alimento } from "./alimento";
 import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
-import { Subitem,Item } from "./documentoPdf";
+import { Subitem,Item, Subsubitem } from "./documentoPdf";
 import { Material } from "./material";
 import { Prescricao } from "./prescricao";
 import { Uniforme } from "./uniforme";
@@ -39,8 +39,8 @@ export interface Curso {
   reqEspecificoBool?:boolean;
   reqComplementarBool?:boolean;
   prescricaoComplementar?: Prescricao[];
-  alimentos?: Alimento[];
-  uniformes?:Uniforme[];
+  alimentos?: Subsubitem[];
+  uniformes?:Subitem[];
   materialIndividual?: Material[];
   materialColetivo?: Material[];
   periodoInscricao?:string;

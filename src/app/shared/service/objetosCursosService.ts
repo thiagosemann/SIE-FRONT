@@ -197,20 +197,7 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
-  setAlimentosEscolhidoID(alimentos: Alimento[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.alimentos = alimentos;
-    }
-    console.log(this.getCursos());
-  }
-  setUniformesEscolhidoID(uniformes: Uniforme[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.uniformes = uniformes;
-    }
-    console.log(this.getCursos());
-  }  
+
   setMaterialEscolhidoID(material: Material[], type: string): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
