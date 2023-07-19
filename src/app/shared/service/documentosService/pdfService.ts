@@ -17,7 +17,8 @@ export class PdfService {
     const doc = new jsPDF();
     const responseDoc = await this.getDocument(type, curseName).toPromise();
     this.replaceProperties(responseDoc.dados.documento, curso); // Chama a função para substituir as propriedades
-    this.manageRequisitos(responseDoc.dados.documento, curso)
+    this.manageProcessoSeletivo(responseDoc.dados.documento, curso) // Adiciona o processo seletivo
+    this.manageRequisitos(responseDoc.dados.documento, curso)   // Adiciona os requisitos
     
     await this.generateDocumento(doc, responseDoc.dados);
     return new Promise<Blob>((resolve) => {
@@ -44,9 +45,16 @@ export class PdfService {
       })
     );
   } 
+  private manageProcessoSeletivo(objeto: any,curso: Curso){
+    const documento = objeto;
 
-  private includeRequisitosComplementares(){
-
+    for (const capitulo of documento) {
+      if (capitulo.texto === "PROCESSO SELETIVO") {
+        if(curso.processoSeletivo){
+          capitulo.itens = curso.processoSeletivo
+        }
+      }
+    }
   }
 
   private manageRequisitos(objeto: any,curso: Curso) {
@@ -56,17 +64,16 @@ export class PdfService {
       if (capitulo.tipo === "capitulo") {
         for (const item of capitulo.itens) {
           if (item.texto === "Requisitos específicos") {
-            if(!curso.requisitoEspecifico){
+            console.log(curso.requisitoEspecifico)
+            if(curso.requisitoEspecifico && curso.requisitoEspecifico.length>0){
+              item.subitens = curso.requisitoEspecifico;
+            }else{
               item.subitens = [{
                 tipo:"subitem",
                 letra: "",
                 texto: "Não possui requisitos específicos",
-                isVisible:"true",
                 subsubitens: []
               }];
-            }else{
-              console.log()
-              item.subitens = curso.requisitoEspecifico;
             }
           }
           if (item.texto === "Requisitos complementares") {
@@ -138,7 +145,6 @@ private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
   positionY = await this.addHeader(doc, positionY, lineHeight);
 
   for (const capitulo of editalCapacitacao.documento) {
-    if (capitulo.isVisible && capitulo.isVisible === "true") {
       switch (capitulo.tipo) {
         case "preambulo":
           positionY = this.addPreamble(doc, positionY, lineHeight, capitulo.data);
@@ -153,13 +159,11 @@ private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
           }
           break;
       }
-    }
   }
 }
 
 private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeight: number) {
   for (const item of itens) {
-    if (item.isVisible && item.isVisible === "true") {
       if (item.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight
         );
@@ -170,7 +174,6 @@ private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeig
           positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight);
         }
       }
-    }
   }
 
   return positionY;
@@ -178,7 +181,6 @@ private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeig
 
 private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, lineHeight: number) {
   for (const subitem of subitens) {
-    if (subitem.isVisible && subitem.isVisible === "true") {
       if (subitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
       } else {
@@ -187,7 +189,6 @@ private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, li
           positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight);
         }
       }
-    }
   }
 
   return positionY;
@@ -195,7 +196,6 @@ private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, li
 
 private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: number, lineHeight: number) {
   for (const subsubitem of subsubitens) {
-    if (subsubitem.isVisible && subsubitem.isVisible === "true") {
       if (subsubitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
       } else {
@@ -205,7 +205,6 @@ private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: numb
           positionY = await this.processSubSubSubItens(doc, subsubitem.subsubsubitens, positionY, lineHeight);
         }
       }
-    }
   }
 
   return positionY;
@@ -213,13 +212,11 @@ private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: numb
 
 private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY: number, lineHeight: number) {
   for (const subsubsubitem of subsubsubitens) {
-    if (subsubsubitem.isVisible && subsubsubitem.isVisible === "true") {
       if (subsubsubitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
       } else {
         positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,155,45);
       }
-    }
   }
 
   return positionY;

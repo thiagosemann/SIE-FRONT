@@ -7,7 +7,8 @@ import { Uniforme } from '../utilitarios/uniforme';
 import { Material } from '../utilitarios/material';
 import { AtividadeHomologadaService } from './atividadeHomologadaService';
 import { AtividadeHomologada } from '../utilitarios/atividadeHomologada';
-import { Subitem } from '../utilitarios/documentoPdf';
+import { Subitem, Subsubitem } from '../utilitarios/documentoPdf';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ import { Subitem } from '../utilitarios/documentoPdf';
 export class CursoService {
   private cursos: Curso[] = [];
   private cursoEscolhidoId: number = 0;
-  constructor(private atividadeHomologadaService:AtividadeHomologadaService) { }
+  constructor(private atividadeHomologadaService:AtividadeHomologadaService, private toasterService: ToastrService) { }
 
   // Método para adicionar um novo curso à lista
   adicionarCurso(curso: Curso): void {
@@ -37,28 +38,37 @@ export class CursoService {
   }
   
   // Método para encontrar um curso pelo ID e definir como curso escolhido
-  async setIdCursoEscolhido(id: number): Promise<void> {
-    this.cursoEscolhidoId = id;
-    const curso = this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
+  async setIdCursoEscolhido(id: number): Promise<boolean> {
+
+    const curso = this.cursos.find(curso => curso.id === id);
+
     if (curso && curso.sigla) {
       try {
         const atividade = await this.getAtividade(curso.sigla);
         if (atividade && Object.keys(atividade).length > 0) {
+          this.cursoEscolhidoId = id;
           curso.atividadeHomologada = atividade;
           curso.sgpe = atividade.sgpe;
           curso.finalidade = atividade.finalidade;
           curso.atividadesPreliminares = atividade.atividadesPreliminares;
-          curso.processoSeletivo = atividade.processoSeletivo;
-          console.log(atividade.reqEspecifico)
+          curso.processoSeletivo = this.createItemProcessoSeletivo(atividade.processoSeletivo);
           curso.requisitoEspecifico = this.construirArrayFromString(atividade.reqEspecifico);
           
+          return true; // Curso homologado
+        } else {
+          console.log("Curso não homologado")
+          this.toasterService.error("Curso não homologado");
+          return false; // Curso não homologado
         }
-        console.log(curso);
       } catch (error) {
         console.error(error);
+        return false; // Curso não homologado (erro ao obter a atividade)
       }
     }
+    
+    return false; // Curso não encontrado
   }
+  
 
   // Função para buscar a atividade de ensino homologada
   getAtividade(sigla: string): Promise<AtividadeHomologada | undefined> {
@@ -74,7 +84,27 @@ export class CursoService {
       );
     });
   }
+  private createItemProcessoSeletivo(string: string): any[] {
+    if(string){
+      const objeto = {
+        tipo: 'item',
+        numero: '',
+        texto: "As vagas previstas neste edital serão preenchidas de acordo com os seguintes critérios de seleção:",
+        subitens: [] as Subitem[]
+      };
+      objeto.subitens = this.construirArrayFromString(string)
+      return [objeto]
+    }else{
+      const objeto = {
+        tipo: 'item',
+        numero: '',
+        texto: "As vagas previstas neste edital, observados os requisitos, serão preenchidas de acordo com a ordem de prioridade referida no item anterior.",
+        subitens: [] as Subitem[]
+      };
+      return [objeto]
+    }
 
+  }
 
   // Função provisória para textos do google scripts
   private construirArrayFromString(string: string): any[] {
@@ -82,22 +112,38 @@ export class CursoService {
     const arrayObjetos = [];
   
     for (const linha of linhas) {
-      const letra = linha.charAt(0);
+      const primeiroCaractere = linha.charAt(0);
+      const segundoCaractere = linha.charAt(1);
+      
       const texto = linha.substring(2).trim();
-  
-      const objeto = {
-        tipo: 'subitem',
-        letra: letra + ")",
-        texto: texto,
-        isVisible: 'true',
-        subsubitens: []
-      };
-  
-      arrayObjetos.push(objeto);
+      if (primeiroCaractere.match(/[a-z]/i)) { // SubItem
+        const objeto = {
+          tipo: 'subitem',
+          letra: primeiroCaractere.toUpperCase() + ')',
+          texto: texto,
+          subsubitens: [] as Subsubitem[]
+        };
+        arrayObjetos.push(objeto);
+      } else if (segundoCaractere.match(/[0-9]/)) { // Subsubitem
+        const index = arrayObjetos.length-1;
+        const objeto = {
+          tipo: 'subsubitem',
+          letra: '('+segundoCaractere.toUpperCase() + ')',
+          texto: texto.substring(1),
+          subsubsubitens: []
+        };
+        arrayObjetos[index].subsubitens.push(objeto);
+      } else {
+        continue; // Ignorar linhas que não correspondem aos padrões de subitens ou subsubitens
+      }
     }
   
     return arrayObjetos;
   }
+  
+
+
+  
 
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {

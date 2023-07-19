@@ -38,8 +38,6 @@ export interface Subitem {
   content?:string;
   dados?:string[][];
   hasHeader?:boolean;
-  isVisible?:string;
-
 }
 
 export interface Subsubitem {

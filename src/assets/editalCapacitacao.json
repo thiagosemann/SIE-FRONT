@@ -6,13 +6,11 @@
         "Código de autenticação para uso da DIE: {auth}",
         "{nomeCurso} ({sigla})"
       ],
-      "tipo": "preambulo",
-      "isVisible": "true"
+      "tipo": "preambulo"
     },
     {
       "tipo": "intro",
-      "texto": "O Tenente-Coronel BM Túlio Tartari Zanin, respondendo pela Diretoria de Instrução e Ensino do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), de acordo com o Plano Geral de Ensino, torna público que no período de {periodoInscricao}, encontram-se abertas as inscrições da seleção para o {nomeCurso} ({sigla}), a ser realizado no(a) {bbm} - {localAtiMunicipio}",
-      "isVisible": "true"
+      "texto": "O Tenente-Coronel BM Túlio Tartari Zanin, respondendo pela Diretoria de Instrução e Ensino do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), de acordo com o Plano Geral de Ensino, torna público que no período de {periodoInscricao}, encontram-se abertas as inscrições da seleção para o {nomeCurso} ({sigla}), a ser realizado no(a) {bbm} - {localAtiMunicipio}"
     },
     {
       "tipo": "capitulo",
@@ -58,13 +56,11 @@
             ]
           ],
           "content": "left",
-          "hasHeader": false,
-          "isVisible": "true"
+          "hasHeader": false
         }
       ],
       "texto": "SÍNTESE",
-      "numero": "1",
-      "isVisible": "true"
+      "numero": "1"
     },
     {
       "tipo": "capitulo",
@@ -94,31 +90,26 @@
             ]
           ],
           "content": "center",
-          "hasHeader": true,
-          "isVisible": "true"
+          "hasHeader": true
         },
         {
           "tipo": "item",
           "texto": "A distribuição das vagas não limita a quantidade de inscritos.",
-          "numero": "2.1",
-          "isVisible": "true"
+          "numero": "2.1"
         },
         {
           "tipo": "item",
           "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.",
-          "numero": "2.2",
-          "isVisible": "true"
+          "numero": "2.2"
         },
         {
           "tipo": "item",
           "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.",
-          "numero": "2.3",
-          "isVisible": "true"
+          "numero": "2.3"
         }
       ],
       "texto": "VAGAS",
-      "numero": "2",
-      "isVisible": "true"
+      "numero": "2"
     },
     {
       "tipo": "capitulo",
@@ -132,19 +123,16 @@
               "tipo": "subitem",
               "letra": "a)",
               "texto": "São requisitos básicos para concorrer às vagas internas ao CBMSC:",
-              "isVisible": "true",
               "subsubitens": [
                 {
                   "tipo": "subsubitem",
                   "letra": "(1)",
-                  "texto": "{requisitosCSM}",
-                  "isVisible": "true"
+                  "texto": "{requisitosCSM}"
                 },
                 {
                   "tipo": "subsubitem",
                   "letra": "(2)",
-                  "texto": "Ser voluntário ou ter sido convocado.",
-                  "isVisible": "true"
+                  "texto": "Ser voluntário ou ter sido convocado."
                 }
               ]
             },
@@ -152,37 +140,31 @@
               "tipo": "subitem",
               "letra": "b)",
               "texto": "São requisitos básicos para concorrer às vagas externas ao CBMSC (se houver):",
-              "isVisible": "true",
               "subsubitens": [
                 {
                   "tipo": "subsubitem",
                   "letra": "(1)",
-                  "texto": "Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização.",
-                  "isVisible": "true"
+                  "texto": "Apresentar documentação que comprove que esteja autorizado por seu respectivo Comando Geral ou chefia militar ou civil equivalente e competente para o ato de autorização."
                 },
                 {
                   "tipo": "subsubitem",
                   "letra": "(2)",
                   "texto": "Se militar:",
-                  "isVisible": "true",
                   "subsubsubitens": [
                     {
                       "tipo": "subsubsubitem",
                       "letra": "(a)",
-                      "texto": "Ser da ativa.",
-                      "isVisible": "true"
+                      "texto": "Ser da ativa."
                     },
                     {
                       "tipo": "subsubsubitem",
                       "letra": "(b)",
-                      "texto": "Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar.",
-                      "isVisible": "true"
+                      "texto": "Não estar condenado a pena de suspensão do exercício do posto, graduação, cargo ou função, prevista no Código Penal Militar."
                     },
                     {
                       "tipo": "subsubsubitem",
                       "letra": "(c)",
-                      "texto": "Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade.",
-                      "isVisible": "true"
+                      "texto": "Não estar em cumprimento de sentença condenatória transitada em julgado, com pena privativa de liberdade."
                     }
                   ]
                 }
@@ -192,76 +174,59 @@
               "tipo": "subitem",
               "letra": "",
               "texto": "*Vagas externas: Entende-se por vagas externas aquelas que venham a ser preenchidas por militares de outras corporações  ou por civis de entidades públicas diversas.",
-              "isVisible": "true",
+              
               "subsubitens": []
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
           "texto": "Requisitos específicos",
           "numero": "3.2",
-          "subitens": [],
-          "isVisible": "true"
+          "subitens": []
         },
         {
           "tipo": "item",
           "texto": "Requisitos complementares",
           "numero": "3.3",
-          "subitens": [],
-          "isVisible": "true"
+          "subitens": []
         }
       ],
       "texto": "REQUISITOS",
-      "numero": "3",
-      "isVisible": "true"
+      "numero": "3"
     },
     {
       "tipo": "capitulo",
       "itens": [
         {
           "tipo": "item",
-          "texto": "As inscrições deverão ser realizadas das {insHoraInicio}h de {insDataIni} às {insHoraFim}h de {insDataFim}",
-          "numero": "4.1",
-          "isVisible": "true"
+          "texto": "As inscrições deverão ser realizadas das {startInscritionHorario}h de {startInscritiondate} às {endInscritionHorario}h de {endInscritiondate}",
+          "numero": "4.1"
         },
         {
           "tipo": "item",
-          "texto": "Pelas respectivas seções de instrução e ensino (B3) dos Batalhões Bombeiro Militar ou similares das Diretorias, Regiões Bombeiro Militar, Estado Maior Geral, Subcomando Geral e Comando Geral, relativo aos respectivos efetivos subordinados, por meio de nota eletrônica destinada a {insEmail}, indicando a ordem de prioridade",
-          "numero": "4.2",
-          "isVisible": "true"
+          "texto": "Pelas respectivas seções de instrução e ensino (B3) dos Batalhões Bombeiro Militar ou similares das Diretorias, Regiões Bombeiro Militar, Estado Maior Geral, Subcomando Geral e Comando Geral, relativo aos respectivos efetivos subordinados, por meio de nota eletrônica destinada a {emailInscrition}, indicando a ordem de prioridade",
+          "numero": "4.2"
         },
         {
           "tipo": "item",
           "texto": "Os pedidos de inscrições recebidos pelas autoridades acima citadas poderão ser indeferidos na origem, a seus respectivos e justificados critérios ou conveniência.",
-          "numero": "4.3",
-          "isVisible": "true"
+          "numero": "4.3"
         },
         {
           "tipo": "item",
           "texto": "A coordenadoria da atividade de ensino em questão, ao receber as notas eletrônicas dos pedidos de inscrição oriundas das autoridades constantes no item 4.2, poderá, a seus respectivos e justificados critérios ou conveniência, indeferir determinadas inscrições",
-          "numero": "4.4",
-          "isVisible": "true"
+          "numero": "4.4"
         }
       ],
       "texto": "INSCRIÇÕES",
-      "numero": "4",
-      "isVisible": "true"
+      "numero": "4"
     },
     {
       "tipo": "capitulo",
-      "itens": [
-        {
-          "tipo": "item",
-          "texto": "A divulgação do resultado do processo seletivo é de responsabilidade do coordenador da atividade de ensino e será realizado por nota eletrônica para a rede interna do CBMSC (cbmsc@cbm.sc.gov.br).",
-          "numero": "5.1",
-          "isVisible": "true"
-        }
-      ],
       "texto": "PROCESSO SELETIVO",
       "numero": "5",
-      "isVisible": "true"
+      "itens": []
     },
     {
       "tipo": "capitulo",
@@ -269,19 +234,16 @@
         {
           "tipo": "item",
           "texto": "A divulgação do resultado do processo seletivo é de responsabilidade do coordenador da atividade de ensino e será realizado por nota eletrônica para a rede interna do CBMSC (cbmsc@cbm.sc.gov.br).",
-          "numero": "6.1",
-          "isVisible": "true"
+          "numero": "6.1"
         },
         {
           "tipo": "item",
           "texto": "O resultado do processo seletivo será divulgado até às {procSelHora}h do dia {procSelDate}",
-          "numero": "6.2",
-          "isVisible": "true"
+          "numero": "6.2"
         }
       ],
       "texto": "DIVULGAÇÃO DO RESULTADO",
-      "numero": "6",
-      "isVisible": "true"
+      "numero": "6"
     },
     {
       "tipo": "capitulo",
@@ -289,13 +251,11 @@
         {
           "tipo": "item",
           "texto": "Sem atividades",
-          "numero": "",
-          "isVisible": "true"
+          "numero": ""
         }
       ],
       "texto": "ATIVIDADES PRELIMINARES",
-      "numero": "7",
-      "isVisible": "true"
+      "numero": "7"
     },
     {
       "tipo": "capitulo",
@@ -308,11 +268,9 @@
             {
               "tipo": "subitem",
               "letra": "",
-              "texto": "Não serão pagas diárias militares aos alunos e instrutores.",
-              "isVisible": "true"
+              "texto": "Não serão pagas diárias militares aos alunos e instrutores."
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -322,14 +280,13 @@
             {
               "tipo": "subitem",
               "letra": "a)",
-              "texto": "Será fornecido alimentação (café, almoço e janta) pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.",
-              "isVisible": "true"
+              "texto": "Será fornecido alimentação (café, almoço e janta) pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário."
             },
             {
               "tipo": "subitem",
               "letra": "b)",
               "texto": "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:",
-              "isVisible": "true",
+              
               "subsubitens": [
                 {
                   "tipo": "tabela",
@@ -356,13 +313,11 @@
                     ]
                   ],
                   "content": "center",
-                  "hasHeader": true,
-                  "isVisible": "true"
+                  "hasHeader": true
                 }
               ]
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -372,11 +327,10 @@
             {
               "tipo": "subitem",
               "letra": "",
-              "texto": "Será fornecido hospedagem pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.",
-              "isVisible": "true"
+              "texto": "Será fornecido hospedagem pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário."
+              
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -386,23 +340,19 @@
             {
               "tipo": "subitem",
               "letra": "a)",
-              "texto": "Serão pagas diárias de curso aos alunos que não fizerem jus à diárias militares.",
-              "isVisible": "true"
+              "texto": "Serão pagas diárias de curso aos alunos que não fizerem jus à diárias militares."
             },
             {
               "tipo": "subitem",
               "letra": "b)",
-              "texto": "Não serão pagas diárias de curso aos alunos que fizerem jus à diárias militares, visto que o pagamento cumulativo é vedado pela legislação vigente.",
-              "isVisible": "true"
+              "texto": "Não serão pagas diárias de curso aos alunos que fizerem jus à diárias militares, visto que o pagamento cumulativo é vedado pela legislação vigente." 
             },
             {
               "tipo": "subitem",
               "letra": "c)",
-              "texto": "Não serão pagas diárias de curso para civis, visto não haver previsão legal.",
-              "isVisible": "true"
+              "texto": "Não serão pagas diárias de curso para civis, visto não haver previsão legal."
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -412,11 +362,9 @@
             {
               "tipo": "subitem",
               "letra": "",
-              "texto": "Será disponibilizado aos alunos e instrutores transporte para os deslocamentos decorrentes da atividade de ensino.",
-              "isVisible": "true"
+              "texto": "Será disponibilizado aos alunos e instrutores transporte para os deslocamentos decorrentes da atividade de ensino."
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -426,11 +374,9 @@
             {
               "tipo": "subitem",
               "letra": "",
-              "texto": "5A operacional",
-              "isVisible": "true"
+              "texto": "5A operacional"
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
@@ -441,7 +387,7 @@
               "tipo": "subitem",
               "letra": "a)",
               "texto": "Materiais individuais",
-              "isVisible": "true",
+              
               "subsubitens": [
                 {
                   "tipo": "tabela",
@@ -468,30 +414,25 @@
                     ]
                   ],
                   "content": "center",
-                  "hasHeader": true,
-                  "isVisible": "true"
+                  "hasHeader": true
                 }
               ]
             },
             {
               "tipo": "subitem",
               "letra": "b)",
-              "texto": "Materiais coletivos",
-              "isVisible": "true"
+              "texto": "Materiais coletivos"
             }
-          ],
-          "isVisible": "true"
+          ]
         },
         {
           "tipo": "item",
           "texto": "As despesas de alimentação, hospedagem, transporte e diárias referente às vagas externas (se houver), correrão por conta do órgão ou entidade do aluno ou conforme definição dos mesmos.",
-          "numero": "8.8",
-          "isVisible": "true"
+          "numero": "8.8"
         }
       ],
       "texto": "LOGÍSTICA",
-      "numero": "8",
-      "isVisible": "true"
+      "numero": "8"
     }
   ]
 }

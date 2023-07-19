@@ -53,7 +53,6 @@ export class RequisitosComplementaresComponent {
         tipo: 'subitem',
         letra: letra + ")",
         texto: texto,
-        isVisible: 'true',
         subsubitens: []
       };
   
@@ -69,7 +68,6 @@ export class RequisitosComplementaresComponent {
         tipo:"subitem",
         letra: String.fromCharCode(65 + this.requisitos.length).toLocaleLowerCase() + ")",
         texto: novoRequisito,
-        isVisible:"true",
         subsubitens: []
       };
       this.requisitos.push(subItem);
@@ -85,9 +83,7 @@ export class RequisitosComplementaresComponent {
         tipo:"subitem",
         letra: "("+(this.requisitos[indexRequisito].subsubitens.length+1).toString()+ ")",
         texto: subsubitemString,
-        isVisible:"true",
         subsubsubitens: []
-
       };
       this.requisitos[indexRequisito].subsubitens.push(subsubItem);
       this.subsubitensTemp[indexRequisito] = '';

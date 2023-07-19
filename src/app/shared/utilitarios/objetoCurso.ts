@@ -1,7 +1,7 @@
 import { Alimento } from "./alimento";
 import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
-import { Subitem } from "./documentoPdf";
+import { Subitem,Item } from "./documentoPdf";
 import { Material } from "./material";
 import { Prescricao } from "./prescricao";
 import { Uniforme } from "./uniforme";
@@ -51,7 +51,7 @@ export interface Curso {
   finalidade?:string;
   sgpe?:string;
   atividadesPreliminares?:string;
-  processoSeletivo?:string;
+  processoSeletivo?:Item[];
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }
