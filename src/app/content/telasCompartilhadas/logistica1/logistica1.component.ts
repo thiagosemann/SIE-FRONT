@@ -29,11 +29,27 @@ export class Logistica1Component {
     this.uniformesSelect = ["5A operacional","TFM"];
     const cursoEscolhido = this.cursoService.getCursoEscolhido();
     if (cursoEscolhido) {
-
+      if (cursoEscolhido.alimentos) {
+        this.alimentos = cursoEscolhido.alimentos
+      }
+      if (cursoEscolhido.uniformes) {
+        this.uniformes = cursoEscolhido.uniformes
+      }
+      if (cursoEscolhido.materiaisColetivos) {
+        this.materiaisColetivos = cursoEscolhido.materiaisColetivos
+      }
+      if (cursoEscolhido.materiaisIndividuais) {
+        this.materiaisIndividuais = cursoEscolhido.materiaisIndividuais
+      }
     }
   }
   isFormValid(): void {
-
+    if(this.alimentos.length >0 && this.uniformes.length >0 &&  this.materiaisIndividuais.length >0 &&  this.materiaisColetivos.length >0  ){
+      this.contentComponent.changeValidityByComponentName(Logistica1Component, true);
+    }else{
+      this.contentComponent.changeValidityByComponentName(Logistica1Component, false);
+    }
+  
   }
 
   // ---------------------------------------------------------------Alimentos---------------------------------------------------------------------------//
