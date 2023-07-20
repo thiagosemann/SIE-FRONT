@@ -41,8 +41,8 @@ export interface Curso {
   prescricaoComplementar?: Prescricao[];
   alimentos?: Subsubitem[];
   uniformes?:Subitem[];
-  materialIndividual?: Material[];
-  materialColetivo?: Material[];
+  materiaisIndividuais?: Subsubitem[];
+  materiaisColetivos?: Subsubitem[];
   periodoInscricao?:string;
   periodoAtividade?:string;
   localApresentacao?:string;

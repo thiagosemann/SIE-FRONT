@@ -45,7 +45,7 @@ export class PrescricoesComplementaresComponent {
       this.prescricoes.push(prescricao);
       this.subitensTemp.push('');
     }
-    this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
+    //this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
     this.isFormValid();
   }
 
@@ -59,7 +59,7 @@ export class PrescricoesComplementaresComponent {
   removerPrescricao(indexPrescricao: number) {
     this.prescricoes.splice(indexPrescricao, 1);
     this.subitensTemp.splice(indexPrescricao, 1);
-    this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
+  //  this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
     this.isFormValid();
   }
 

@@ -232,6 +232,8 @@
     },
     {
       "tipo": "capitulo",
+      "texto": "LOGÍSTICA",
+      "numero": "8",
       "itens": [
         {
           "tipo": "item",
@@ -345,9 +347,7 @@
           "texto": "As despesas de alimentação, hospedagem, transporte e diárias referente às vagas externas (se houver), correrão por conta do órgão ou entidade do aluno ou conforme definição dos mesmos.",
           "numero": "8.8"
         }
-      ],
-      "texto": "LOGÍSTICA",
-      "numero": "8"
+      ]
     }
   ]
 }

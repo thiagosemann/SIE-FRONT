@@ -82,7 +82,29 @@
   .requisitos-container {
     padding: 0 15px; /* Adicione o padding desejado aqui */
   }
-
+  .colapsable-wrapper {
+    position: relative;
+  }
+  
+  .colapsable-wrapper:before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+  }
+  
+  .expand-icon {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .explicacao {
+    margin-top: 10px;
+  }
   
   
   

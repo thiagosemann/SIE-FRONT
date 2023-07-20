@@ -3,15 +3,25 @@
     <h2 class="mb-0">Logística</h2>
   </div>
 </div>
-
 <div class="requisitos-container mt-4">
   <div class="row">
     <div class="col-md-3 scrollable-column">
       <div class="requisitos-column">
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
+            <div class="mb-3 colapsable-wrapper">
               <label class="font-weight-bold labelRequisitos">Alimentos</label>
-            <div class="input-group mb-3">
+              <div class="expand-icon" (click)="toggleExplicacaoAlimentos()">
+                <i class="fas" [ngClass]="mostrarExplicacaoAlimentos ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+            </div>
+            <div class="explicacao" *ngIf="mostrarExplicacaoAlimentos">
+              <p>8.2 Alimentação:</p>
+              <p>a) Será fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.</p>
+              <p>b) O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:</p>
+              <!-- Coloque aqui o conteúdo explicativo que desejar -->
+            </div>          
+          <div class="input-group mb-3">
               <input type="text" class="form-control" #novoAlimentoInput placeholder="Adicionar alimento">
               <div class="input-group-append">
                 <button class="btn btn-primary" (click)="adicionarAlimento(novoAlimentoInput.value)">
@@ -43,11 +53,23 @@
       <div class="requisitos-column">
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
-            <label class="font-weight-bold labelRequisitos">8.6 Uniforme:</label>
+            <div class="mb-3 colapsable-wrapper">
+              <label class="font-weight-bold labelRequisitos">Uniformes</label>
+              <div class="expand-icon" (click)="toggleExplicacaoUniformes()">
+                <i class="fas" [ngClass]="mostrarExplicacaoUniformes ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+            </div>
+            <div class="explicacao" *ngIf="mostrarExplicacaoUniformes">
+              <p>Selecione o(s) fardamento(s) a serem utilizado(s) na atividade de ensino.</p>
+              <!-- Coloque aqui o conteúdo explicativo que desejar -->
+            </div>          
             <div class="input-group mb-3">
-              <input type="text" class="form-control" #novoUniformeInput placeholder="Adicionar uniforme">
+              <select class="form-control" #novoUniformeSelect>
+                <option value="" disabled selected>Selecione um uniforme</option>
+                <option *ngFor="let uniforme of uniformesSelect; let i = index">{{uniforme}}</option>
+              </select>
               <div class="input-group-append">
-                <button class="btn btn-primary" (click)="adicionarUniforme(novoUniformeInput.value)">
+                <button class="btn btn-primary" (click)="adicionarUniforme(novoUniformeSelect.value)">
                   <i class="fas fa-plus"></i>
                 </button>
               </div>
@@ -61,10 +83,7 @@
               <tbody>
                 <tr *ngFor="let uniforme of uniformes; let i = index">
                   <td>
-                    <span class="info-icon" data-info="Informações sobre uniformes">
-                      {{ uniforme.letra }} {{ uniforme.texto }}
-                      <i class="fas fa-info-circle"></i>
-                    </span>
+                    {{ uniforme.letra }} {{ uniforme.texto }}
                     <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerUniforme(i)"></i>
                   </td>
                 </tr>
@@ -73,6 +92,86 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
+    <div class="col-md-3 scrollable-column">
+      <div class="requisitos-column">
+        <div class="requisitos-basicos">
+          <div class="mb-3" id="requisitosDivAnswer">
+            <div class="mb-3 colapsable-wrapper">
+              <label class="font-weight-bold labelRequisitos">Materiais Individuais</label>
+              <div class="expand-icon" (click)="toggleExplicacaoMateriaisIndividuais()">
+                <i class="fas" [ngClass]="mostrarExplicacaoMateriaisIndividuais ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+            </div>
+            <div class="explicacao" *ngIf="mostrarExplicacaoMateriaisIndividuais">
+              <p>Descreva todos os equipamentos, materiais e suprimentos necessários para a atividade de ensino, que serão utilizados de forma individual:</p>
+            </div>          
+          <div class="input-group mb-3">
+              <input type="text" class="form-control" #novoMaterialIndividualInput placeholder="Adicionar material">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="adicionarMaterialIndividual(novoMaterialIndividualInput.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Materiais Individuais</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let material of materiaisIndividuais; let i = index">
+                  <td>
+                      {{ material.letra }} {{ material.texto }}
+                    <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerMaterialIndividual(i)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 scrollable-column">
+      <div class="requisitos-column">
+        <div class="requisitos-basicos">
+          <div class="mb-3" id="requisitosDivAnswer">
+            <div class="mb-3 colapsable-wrapper">
+              <label class="font-weight-bold labelRequisitos">Materiais Coletivos</label>
+              <div class="expand-icon" (click)="toggleExplicacaoMateriaisColetivos()">
+                <i class="fas" [ngClass]="mostrarExplicacaoMateriaisColetivos ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+            </div>
+            <div class="explicacao" *ngIf="mostrarExplicacaoMateriaisColetivos">
+              <p>Descreva todos os equipamentos, materiais e suprimentos necessários para a atividade de ensino, que serão utilizados de forma coletiva:</p>
+            </div>          
+          <div class="input-group mb-3">
+              <input type="text" class="form-control" #novoMaterialColetivoInput placeholder="Adicionar material">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="adicionarMaterialColetivo(novoMaterialColetivoInput.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Materiais Coletivos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let material of materiaisColetivos; let i = index">
+                  <td>
+                      {{ material.letra }} {{ material.texto }}
+                    <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerMaterialColetivo(i)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
 import { User } from '../utilitarios/user';
 import { Prescricao } from '../utilitarios/prescricao';
-import { Alimento } from '../utilitarios/alimento';
-import { Uniforme } from '../utilitarios/uniforme';
 import { Material } from '../utilitarios/material';
 import { AtividadeHomologadaService } from './atividadeHomologadaService';
 import { AtividadeHomologada } from '../utilitarios/atividadeHomologada';
@@ -58,7 +56,9 @@ export class CursoService {
         } else {
           console.log("Curso não homologado")
           this.toasterService.error("Curso não homologado");
-          return false; // Curso não homologado
+         // return false; // Curso não homologado
+           return true; // Curso homologado
+
         }
       } catch (error) {
         console.error(error);
@@ -70,77 +70,6 @@ export class CursoService {
   }
   
 
-  // Função para buscar a atividade de ensino homologada
-  getAtividade(sigla: string): Promise<AtividadeHomologada | undefined> {
-    return new Promise<AtividadeHomologada | undefined>((resolve, reject) => {
-      this.atividadeHomologadaService.getAtividadeBySigla(sigla).subscribe(
-        (atividade: AtividadeHomologada | undefined) => {
-          resolve(atividade);
-        },
-        (error) => {
-          console.error(error);
-          reject(error);
-        }
-      );
-    });
-  }
-  private createItemProcessoSeletivo(string: string): any[] {
-    if(string){
-      const objeto = {
-        tipo: 'item',
-        numero: '',
-        texto: "As vagas previstas neste edital serão preenchidas de acordo com os seguintes critérios de seleção:",
-        subitens: [] as Subitem[]
-      };
-      objeto.subitens = this.construirArrayFromString(string)
-      return [objeto]
-    }else{
-      const objeto = {
-        tipo: 'item',
-        numero: '',
-        texto: "As vagas previstas neste edital, observados os requisitos, serão preenchidas de acordo com a ordem de prioridade referida no item anterior.",
-        subitens: [] as Subitem[]
-      };
-      return [objeto]
-    }
-
-  }
-
-  // Função provisória para textos do google scripts
-  private construirArrayFromString(string: string): any[] {
-    const linhas = string.split('\n');
-    const arrayObjetos = [];
-  
-    for (const linha of linhas) {
-      const primeiroCaractere = linha.charAt(0);
-      const segundoCaractere = linha.charAt(1);
-      
-      const texto = linha.substring(2).trim();
-      if (primeiroCaractere.match(/[a-z]/i)) { // SubItem
-        const objeto = {
-          tipo: 'subitem',
-          letra: primeiroCaractere.toUpperCase() + ')',
-          texto: texto,
-          subsubitens: [] as Subsubitem[]
-        };
-        arrayObjetos.push(objeto);
-      } else if (segundoCaractere.match(/[0-9]/)) { // Subsubitem
-        const index = arrayObjetos.length-1;
-        const objeto = {
-          tipo: 'subsubitem',
-          letra: '('+segundoCaractere.toUpperCase() + ')',
-          texto: texto.substring(1),
-          subsubsubitens: []
-        };
-        arrayObjetos[index].subsubitens.push(objeto);
-      } else {
-        continue; // Ignorar linhas que não correspondem aos padrões de subitens ou subsubitens
-      }
-    }
-  
-    return arrayObjetos;
-  }
-  
 
 
   
@@ -148,14 +77,6 @@ export class CursoService {
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {
     return this.cursos.find(curso => curso.id === id);
-  }
-
-  setPropertyOnCursosByCursoEscolhidoID(properties: Partial<Curso>): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      Object.assign(cursoEscolhido, properties);
-    }
-    console.log(this.getCursos())
   }
   setCoordenadorOnCursosByCursoEscolhidoID(properties: Partial<Curso>): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
@@ -166,50 +87,16 @@ export class CursoService {
     }
     console.log(this.getCursos());
   }
+
+  
+  setAtributoByCursoEscolhidoID(atributo: string, valor: any[]): void {
+    this.setAttributeInCursoEscolhido(atributo, valor);
+  }
   
   setSelectedProfessorsByCursoEscolhidoID(selectedProfessors: User[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.selectedProfessors = selectedProfessors;
-    }
-    console.log(this.getCursos());
+    this.setAttributeInCursoEscolhido('selectedProfessors', selectedProfessors);
   }
-  setRequisitoComplementarEscolhidoID(requisitoComplementar: Subitem[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.requisitoComplementar = requisitoComplementar;
-    }
-    console.log(this.getCursos());
-  }
-
-  setRequisitoEspecificoEscolhidoID(requisitoEspecifico: Subitem[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.requisitoEspecifico = requisitoEspecifico;
-    }
-    console.log(this.getCursos());
-  }
-
-  setPrescricaoComplementarEscolhidoID(prescricaoComplementar: Prescricao[]): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      cursoEscolhido.prescricaoComplementar = prescricaoComplementar;
-    }
-    console.log(this.getCursos());
-  }
-
-  setMaterialEscolhidoID(material: Material[], type: string): void {
-    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    if (cursoEscolhido) {
-      if(type === "Coletivo"){
-        cursoEscolhido.materialColetivo = material;
-      }else{
-        cursoEscolhido.materialIndividual = material;
-      }
-    }
-    console.log(this.getCursos());
-  } 
-
+  
   setDatasAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
@@ -226,6 +113,100 @@ export class CursoService {
     if(curso){
       curso.localApresentacao = curso.localAtiRua +", "+ curso.localAtiNumeral +", "+ curso.localAtiBairro +", "+ curso.localAtiMunicipio +" - "+ curso.localAtiNome;
     }
+  }
+
+// ----------------------------------------------------------------Utilitários---------------------------------------------------------------------------//
+ 
+private setAttributeInCursoEscolhido(atributo: string, valor: any): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      cursoEscolhido[atributo] = valor;
+    }
+    console.log(this.getCursos());
+  }
+
+
+// Função para buscar a atividade de ensino homologada
+    getAtividade(sigla: string): Promise<AtividadeHomologada | undefined> {
+      return new Promise<AtividadeHomologada | undefined>((resolve, reject) => {
+        this.atividadeHomologadaService.getAtividadeBySigla(sigla).subscribe(
+          (atividade: AtividadeHomologada | undefined) => {
+            resolve(atividade);
+          },
+          (error) => {
+            console.error(error);
+            reject(error);
+          }
+        );
+      });
+    }
+    private createItemProcessoSeletivo(string: string): any[] {
+      if(string){
+        const objeto = {
+          tipo: 'item',
+          numero: '',
+          texto: "As vagas previstas neste edital serão preenchidas de acordo com os seguintes critérios de seleção:",
+          subitens: [] as Subitem[]
+        };
+        objeto.subitens = this.construirArrayFromString(string)
+        return [objeto]
+      }else{
+        const objeto = {
+          tipo: 'item',
+          numero: '',
+          texto: "As vagas previstas neste edital, observados os requisitos, serão preenchidas de acordo com a ordem de prioridade referida no item anterior.",
+          subitens: [] as Subitem[]
+        };
+        return [objeto]
+      }
+  
+    }
+  
+    // Função provisória para textos do google scripts
+    private construirArrayFromString(string: string): any[] {
+      const linhas = string.split('\n');
+      const arrayObjetos = [];
+    
+      for (const linha of linhas) {
+        const primeiroCaractere = linha.charAt(0);
+        const segundoCaractere = linha.charAt(1);
+        
+        const texto = linha.substring(2).trim();
+        if (primeiroCaractere.match(/[a-z]/i)) { // SubItem
+          const objeto = {
+            tipo: 'subitem',
+            letra: primeiroCaractere.toUpperCase() + ')',
+            texto: texto,
+            subsubitens: [] as Subsubitem[]
+          };
+          arrayObjetos.push(objeto);
+        } else if (segundoCaractere.match(/[0-9]/)) { // Subsubitem
+          const index = arrayObjetos.length-1;
+          const objeto = {
+            tipo: 'subsubitem',
+            letra: '('+segundoCaractere.toUpperCase() + ')',
+            texto: texto.substring(1),
+            subsubsubitens: []
+          };
+          arrayObjetos[index].subsubitens.push(objeto);
+        } else {
+          continue; // Ignorar linhas que não correspondem aos padrões de subitens ou subsubitens
+        }
+      }
+    
+      return arrayObjetos;
+    }
+    
+  
+
+
+  setPropertyOnCursosByCursoEscolhidoID(properties: Partial<Curso>): void {
+    const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    if (cursoEscolhido) {
+      Object.assign(cursoEscolhido, properties);
+      cursoEscolhido.localApresentacao = cursoEscolhido.localAtiRua +", "+ cursoEscolhido.localAtiNumeral +", "+ cursoEscolhido.localAtiBairro +", "+ cursoEscolhido.localAtiMunicipio +" - "+ cursoEscolhido.localAtiNome;
+    }
+    console.log(this.getCursos())
   }
 
   formatDateExtenso(dataIni:string, dataFim:string) {

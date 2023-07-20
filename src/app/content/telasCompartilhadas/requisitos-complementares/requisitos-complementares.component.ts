@@ -73,7 +73,7 @@ export class RequisitosComplementaresComponent {
       this.requisitos.push(subItem);
       this.subsubitensTemp.push('');
     }
-    this.cursoService.setRequisitoComplementarEscolhidoID(this.requisitos);
+    this.cursoService.setAtributoByCursoEscolhidoID('requisitoComplementar',this.requisitos)
     this.isFormValid();
   }
 
@@ -93,11 +93,34 @@ export class RequisitosComplementaresComponent {
   removerRequisito(indexRequisito: number) {
     this.requisitos.splice(indexRequisito, 1);
     this.subsubitensTemp.splice(indexRequisito, 1);
-    this.cursoService.setRequisitoComplementarEscolhidoID(this.requisitos);
+    this.reorganizarLetras(this.requisitos)
+
+    this.cursoService.setAtributoByCursoEscolhidoID('requisitoComplementar',this.requisitos)
     this.isFormValid();
   }
 
   removerSubsubItem(indexRequisito: number, indexSubsubItem: number) {
     this.requisitos[indexRequisito].subsubitens.splice(indexSubsubItem, 1);
+    this.reorganizarNumeracao(this.requisitos[indexRequisito].subsubitens)
+  }
+
+  private reorganizarNumeracao(objetos: any[]) {
+    for (let i = 0; i < objetos.length; i++) {
+      objetos[i].letra = `(${i + 1})`;
+    }
+  }
+  private reorganizarLetras(objetos: any[]) {
+    for (let i = 0; i < objetos.length; i++) {
+      objetos[i].letra = `${this.getLetraFromIndex(i)})`;
+    }
+  }
+  private getLetraFromIndex(index: number): string {
+    const baseCharCode = "a".charCodeAt(0);
+    const numLetters = 26; // Número de letras no alfabeto
+  
+    const letterIndex = index % numLetters;
+    const letter = String.fromCharCode(baseCharCode + letterIndex);
+  
+    return letter;
   }
 }

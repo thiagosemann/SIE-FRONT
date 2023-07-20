@@ -17,6 +17,7 @@ export class PdfService {
     const doc = new jsPDF();
     const responseDoc = await this.getDocument(type, curseName).toPromise();
     this.replaceProperties(responseDoc.dados.documento, curso); // Chama a função para substituir as propriedades
+    this.manageLogistica(responseDoc.dados.documento, curso);//
     this.manageProcessoSeletivo(responseDoc.dados.documento, curso) // Adiciona o processo seletivo
     this.manageRequisitos(responseDoc.dados.documento, curso)   // Adiciona os requisitos
     
@@ -45,6 +46,36 @@ export class PdfService {
       })
     );
   } 
+  private manageLogistica(objeto: any,curso: Curso){
+    const documento = objeto;
+    for (const capitulo of documento) {
+      if (capitulo.texto === "LOGÍSTICA") {
+        for (const item of capitulo.itens) {
+          if (item.texto === "Alimentação") {
+            for (const subItem of item.subitens) {
+              if (subItem.texto === "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:") {
+                subItem.subsubitens = curso.alimentos;
+              }
+            }
+          }
+          if (item.texto === "Materiais e quantitativos necessários") {
+            for (const subItem of item.subitens) {
+              if (subItem.texto === "Materiais individuais") {
+                subItem.subsubitens = curso.materiaisIndividuais;
+              }
+              if (subItem.texto === "Materiais coletivos") {
+                subItem.subsubitens = curso.materiaisColetivos;
+              }
+            }
+          }
+          if (item.texto === "Uniforme") {
+            item.subitens = curso.uniformes;
+          }
+        }
+      }
+    }
+  }
+
   private manageProcessoSeletivo(objeto: any,curso: Curso){
     const documento = objeto;
 
@@ -134,8 +165,9 @@ export class PdfService {
     }
     return str;
   }
-  
 
+//--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO-----------------------------------------------------------------------------------//
+//--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO--------------------------------------------------------------------------------//
 
 private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
   const capituloTitleFontSize = 11;

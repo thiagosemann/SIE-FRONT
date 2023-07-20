@@ -7,7 +7,6 @@ import { CoordenadorComponent } from '../../content/telasCompartilhadas/coordena
 import { DocentesComponent } from '../../content/telasCompartilhadas/docentes/docentes.component';
 import { PgeComponent } from '../../content/telasCompartilhadas/pge/pge.component';
 import { RequisitosComplementaresComponent } from '../../content/telasCompartilhadas/requisitos-complementares/requisitos-complementares.component';
-import { LogisticaComponent } from '../../content/telasCompartilhadas/logistica/logistica.component';
 import { PrescricoesComplementaresComponent } from '../../content/telasCompartilhadas/prescricoes-complementares/prescricoes-complementares.component';
 import { PreviewDocComponent } from 'src/app/content/telas-admin/preview-doc/preview-doc.component';
 import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
@@ -31,8 +30,7 @@ export class CourseConfigService {
     { component: CoordenadorComponent, name: 'Coordenador',validity: false  },
     { component: DocentesComponent, name: 'Docentes',validity: false  },
     { component: RequisitosComplementaresComponent, name: 'Requisitos',validity: false  },
-    { component: Logistica1Component, name: 'Logística1',validity: false  },
-    { component: LogisticaComponent, name: 'Logística2',validity: false  },
+    { component: Logistica1Component, name: 'Logística',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false },
     { component: PreviewDocComponent, name: 'Preview',validity: false },
@@ -44,7 +42,6 @@ export class CourseConfigService {
     { component: PgeComponent, name: 'Cursos BBM',validity: false  },
     { component: DatasAberturaComponent, name: 'Datas',validity: false  },
     { component: LocalApresentacaoComponent, name: 'Local',validity: false  },
-    { component: LogisticaComponent, name: 'Logística',validity: false  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false },
   ];
 
