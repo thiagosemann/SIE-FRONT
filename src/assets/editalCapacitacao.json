@@ -64,25 +64,34 @@
     },
     {
       "tipo": "capitulo",
+      "texto": "VAGAS",
+      "numero": "2",
       "itens": [
         {
           "tipo": "item",
+          "texto": "A atividade de ensino tem previsto um total de {totalVagas} vagas, as quais estão distriuídas da seguinte forma:",
+          "numero": "2.1",
+          "subitens":[]
+        },
+        {
+          "tipo": "item",
           "texto": "A distribuição das vagas não limita a quantidade de inscritos.",
-          "numero": "2.1"
+          "numero": "2.2",
+          "subitens":[]
         },
         {
           "tipo": "item",
           "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.",
-          "numero": "2.2"
+          "numero": "2.3",
+          "subitens":[]
         },
         {
           "tipo": "item",
           "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.",
-          "numero": "2.3"
+          "numero": "2.4",
+          "subitens":[]
         }
-      ],
-      "texto": "VAGAS",
-      "numero": "2"
+      ]
     },
     {
       "tipo": "capitulo",

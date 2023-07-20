@@ -39,4 +39,6 @@ export interface Pge {
     valorPrevAlimentacao: string;
     excluido: string;
     apostilamento: string;
+    [key: string]: any;
+
   }

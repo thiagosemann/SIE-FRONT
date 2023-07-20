@@ -78,17 +78,26 @@
             {
               "tipo": "item",
               "letra": "a)",
-              "texto": "A distribuição das vagas não limita a quantidade de inscritos."
+              "texto": "A atividade de ensino tem previsto um total de {totalVagas} vagas, as quais estão distriuídas da seguinte forma:",
+              "subsubitens":[]
             },
             {
               "tipo": "item",
               "letra": "b)",
-              "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes."
+              "texto": "A distribuição das vagas não limita a quantidade de inscritos.",
+              "subsubitens":[]
             },
             {
               "tipo": "item",
               "letra": "c)",
-              "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino."
+              "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.",
+              "subsubitens":[]
+            },
+            {
+              "tipo": "item",
+              "letra": "d)",
+              "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.",
+              "subsubitens":[]
             }
           ]
         },

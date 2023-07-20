@@ -22,6 +22,7 @@ export class PdfService {
   
       if (type === 'edital') {
         this.replaceProperties(responseDoc.dados.documento, curso);
+        this.manageVagasEdital(responseDoc.dados.documento, curso)
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
         this.manageRequisitos(responseDoc.dados.documento, curso);
@@ -47,7 +48,6 @@ export class PdfService {
   
   async edicaoDocument(data: any): Promise<Blob> {
     const doc = new jsPDF();
-    console.log(data)
     await this.generateDocumento(doc, data);
     return new Promise<Blob>((resolve, reject) => {
       const pdfBlob = doc.output('blob');
@@ -67,6 +67,69 @@ export class PdfService {
 
   }
 
+  private manageVagasEdital(objeto: any, curso: Curso) {
+    const documento = objeto;
+    let somaVagas = 0;
+    for (const capitulo of documento) {
+      if (capitulo.texto === "VAGAS") {
+        for (const item of capitulo.itens) {
+          if (item.numero === "2.1") {
+            if(curso.pge){
+              for (let i = 1; i <= 15; i++) {
+                const vagasBBMProperty = `vagasBBM${i}`;
+                const vagasBBMValue = curso.pge[vagasBBMProperty];
+                if (vagasBBMValue && Number(vagasBBMValue) > 0) {
+                  somaVagas += Number(vagasBBMValue);
+                  const subItem = {
+                    tipo: "subitem",
+                    letra: `${item.subitens.length+1})`,
+                    texto: `${vagasBBMValue} vagas para o ${i}ºBBM`,
+                  };
+                  item.subitens.push(subItem);
+                }
+              }
+    
+              const vagasBBMBOA = curso.pge.vagasBBMBOA;
+              if (vagasBBMBOA && Number(vagasBBMBOA) > 0) {
+                somaVagas += Number(vagasBBMBOA);
+                const subItemBOA = {
+                  tipo: "subitem",
+                  letra: `${item.subitens.length+1})`,
+                  texto: `${vagasBBMBOA} vagas para o BOA`,
+                };
+                item.subitens.push(subItemBOA);
+              }
+    
+              const vagasBBMCapital = curso.pge.vagasBBMCapital;
+              if (vagasBBMCapital && Number(vagasBBMCapital) > 0) {
+                somaVagas += Number(vagasBBMCapital);
+                const subItemCapital = {
+                  tipo: "subitem",
+                  letra: `${item.subitens.length+1})`,
+                  texto: `${vagasBBMCapital} vagas para o efetivo lotado na Capital`,
+                };
+                item.subitens.push(subItemCapital);
+              }
+    
+              const vagasBBMExternas = curso.pge.vagasBBMExternas;
+              if (vagasBBMExternas && Number(vagasBBMExternas) > 0) {
+                somaVagas += Number(vagasBBMExternas);
+                const subItemExternas = {
+                  tipo: "subitem",
+                  letra: `${item.subitens.length+1})`,
+                  texto: `${vagasBBMExternas} vagas externas`,
+                };
+                item.subitens.push(subItemExternas);
+              }
+            }
+            item.texto=`A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distriuídas da  seguinte forma:`;
+          }
+        }
+      }
+    }
+  }
+  
+  
   private manageLogistica(objeto: any, curso: Curso) {
     const documento = objeto;
     for (const capitulo of documento) {
@@ -200,7 +263,6 @@ export class PdfService {
       if (capitulo.tipo === "capitulo") {
         for (const item of capitulo.itens) {
           if (item.texto === "Requisitos específicos") {
-            console.log(curso.requisitoEspecifico)
             if(curso.requisitoEspecifico && curso.requisitoEspecifico.length>0){
               item.subitens = curso.requisitoEspecifico;
             }else{
