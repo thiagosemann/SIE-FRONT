@@ -105,7 +105,8 @@ export class PgeComponent implements OnInit {
       sigla: item.sigla,
       nomeCurso: item.nome,
       haCurso:item.ha,
-      numeroProcesso:item.procNum
+      numeroProcesso:item.procNum,
+      pge:item
     };
 
     if (item.situacao === 'PREVISTO') {

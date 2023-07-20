@@ -10,7 +10,7 @@
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
             <div class="mb-3 colapsable-wrapper">
-              <label class="font-weight-bold labelRequisitos">Alimentos</label>
+              <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoAlimentos()">Alimentos</label>
               <div class="expand-icon" (click)="toggleExplicacaoAlimentos()">
                 <i class="fas" [ngClass]="mostrarExplicacaoAlimentos ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
               </div>
@@ -54,7 +54,7 @@
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
             <div class="mb-3 colapsable-wrapper">
-              <label class="font-weight-bold labelRequisitos">Uniformes</label>
+              <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoUniformes()" >Uniformes</label>
               <div class="expand-icon" (click)="toggleExplicacaoUniformes()">
                 <i class="fas" [ngClass]="mostrarExplicacaoUniformes ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
               </div>
@@ -98,7 +98,7 @@
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
             <div class="mb-3 colapsable-wrapper">
-              <label class="font-weight-bold labelRequisitos">Materiais Individuais</label>
+              <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoMateriaisIndividuais()">Materiais Individuais</label>
               <div class="expand-icon" (click)="toggleExplicacaoMateriaisIndividuais()">
                 <i class="fas" [ngClass]="mostrarExplicacaoMateriaisIndividuais ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
               </div>
@@ -138,7 +138,7 @@
         <div class="requisitos-basicos">
           <div class="mb-3" id="requisitosDivAnswer">
             <div class="mb-3 colapsable-wrapper">
-              <label class="font-weight-bold labelRequisitos">Materiais Coletivos</label>
+              <label class="font-weight-bold labelRequisitos expand-icon"  (click)="toggleExplicacaoMateriaisColetivos()">Materiais Coletivos</label>
               <div class="expand-icon" (click)="toggleExplicacaoMateriaisColetivos()">
                 <i class="fas" [ngClass]="mostrarExplicacaoMateriaisColetivos ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
               </div>

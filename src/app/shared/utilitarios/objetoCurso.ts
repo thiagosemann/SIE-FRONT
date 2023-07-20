@@ -1,10 +1,8 @@
-import { Alimento } from "./alimento";
 import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
 import { Subitem,Item, Subsubitem } from "./documentoPdf";
-import { Material } from "./material";
+import { Pge } from "./pge";
 import { Prescricao } from "./prescricao";
-import { Uniforme } from "./uniforme";
 import { User } from "./user";
 
 export interface Curso {
@@ -34,7 +32,8 @@ export interface Curso {
   coordenadorDescricao?:string;
   coordenadorContato?:string;
   globalProfessors?:User[];
-  selectedProfessors?: User[]; // Propriedade adicionada
+  selectedProfessors?: User[]; 
+  professoresSelecionados?:Subitem[]
   requisitoComplementar?: Subitem[];
   requisitoEspecifico?:Subitem[];
   reqEspecificoBool?:boolean;
@@ -53,6 +52,7 @@ export interface Curso {
   sgpe?:string;
   atividadesPreliminares?:string;
   processoSeletivo?:Item[];
+  pge?:Pge;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

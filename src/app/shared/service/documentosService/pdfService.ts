@@ -13,20 +13,36 @@ import { map } from 'rxjs/operators';
 export class PdfService {
   constructor(private documentoService: DocumentosService) {}
 
+
   async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
-    const responseDoc = await this.getDocument(type, curseName).toPromise();
-    this.replaceProperties(responseDoc.dados.documento, curso); // Chama a função para substituir as propriedades
-    this.manageLogistica(responseDoc.dados.documento, curso);//
-    this.manageProcessoSeletivo(responseDoc.dados.documento, curso) // Adiciona o processo seletivo
-    this.manageRequisitos(responseDoc.dados.documento, curso)   // Adiciona os requisitos
-    
-    await this.generateDocumento(doc, responseDoc.dados);
-    return new Promise<Blob>((resolve) => {
-      const pdfBlob = doc.output('blob');
-      resolve(pdfBlob);
-    });
+  
+    if (type === 'edital' || type === 'plano') {
+      const responseDoc = await this.getDocument(type, curseName).toPromise();
+  
+      if (type === 'edital') {
+        this.replaceProperties(responseDoc.dados.documento, curso);
+        this.manageLogistica(responseDoc.dados.documento, curso);
+        this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
+        this.manageRequisitos(responseDoc.dados.documento, curso);
+      }
+      if(type === 'plano'){
+        this.replaceProperties(responseDoc.dados.documento, curso);
+        this.manageLogistica(responseDoc.dados.documento, curso);
+        this.manageDocentes(responseDoc.dados.documento, curso);
+      }
+  
+      await this.generateDocumento(doc, responseDoc.dados);
+  
+      return new Promise<Blob>((resolve) => {
+        const pdfBlob = doc.output('blob');
+        resolve(pdfBlob);
+      });
+    } else {
+      throw new Error('Invalid document type. Only "edital" and "plano" are supported.');
+    }
   }
+  
   
   
   async edicaoDocument(data: any): Promise<Blob> {
@@ -46,35 +62,124 @@ export class PdfService {
       })
     );
   } 
-  private manageLogistica(objeto: any,curso: Curso){
+
+  private manageDocentes (objeto: any,curso: Curso){
+
+  }
+
+  private manageLogistica(objeto: any, curso: Curso) {
     const documento = objeto;
     for (const capitulo of documento) {
       if (capitulo.texto === "LOGÍSTICA") {
+        // Gerenciamento do item "Alimentação"
         for (const item of capitulo.itens) {
-          if (item.texto === "Alimentação") {
-            for (const subItem of item.subitens) {
-              if (subItem.texto === "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:") {
-                subItem.subsubitens = curso.alimentos;
+          if(curso.pge?.valorPrevDiaMilitar != ""){
+            // Com diária militar
+            if (item.texto === "Diárias Militares") {
+              item.subitens = [];
+            
+              let subItemA = {
+                tipo: "subitem",
+                letra: "a)",
+                texto: "Serão pagas diárias militares aos alunos e instrutores que fizerem jus, conforme legislação vigente, cujo processo deve ser solicitado de forma ordinária pela OBM de origem do bombeiro militar."
+              };
+              item.subitens.push(subItemA);
+            
+              let subItemB = {
+                tipo: "subitem",
+                letra: "b)",
+                texto: "Em cursos com duração maior que uma semana, é possível que os alunos e instrutores lotados em municípios distantes, permaneçam durante o final de semana no município da sede do curso, recebendo as diárias militares correspondentes. Estabelece-se como parâmetro para definir “municípios distantes” uma quilometragem superior a 300 km."
+              };
+              item.subitens.push(subItemB);
+            
+              let subItemC = {
+                tipo: "subitem",
+                letra: "c)",
+                texto: "Tal permanência necessitará ser justificada pelo beneficiário e concedida pelo responsável pela autorização do deslocamento, conforme portaria de subdelegações de competências do CBMSC."
+              };
+              item.subitens.push(subItemC);
+            
+              let subItemD = {
+                tipo: "subitem",
+                letra: "d)",
+                texto: "A permanência dos alunos e instrutores na sede do curso durante o final de semana, com o recebimento de diárias militares, deverá ser fielmente observada, sendo que o seu descumprimento ensejará em medidas penais e administrativas."
+              };
+              item.subitens.push(subItemD);
+            }
+            
+            if (item.texto === "Alimentação") {
+              for (const subItem of item.subitens) {       
+                if (subItem.texto === "Será fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.") {
+                  subItem.texto = "Será fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino, se necessário, aos alunos e instrutores que não fizerem jus à diárias militares, conforme legislação vigente.";
+                }
+                if (subItem.texto === "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:") {
+                  subItem.texto = "Poderá ser fornecido alimentação (café, almoço e janta)  pela OBM receptora da atividade de ensino, se disponível, aos alunos e instrutores que fizerem jus a diárias militares, desde que não haja o oferecimento concomitante de hospedagem.";
+                }
               }
             }
-          }
-          if (item.texto === "Materiais e quantitativos necessários") {
-            for (const subItem of item.subitens) {
-              if (subItem.texto === "Materiais individuais") {
-                subItem.subsubitens = curso.materiaisIndividuais;
-              }
-              if (subItem.texto === "Materiais coletivos") {
-                subItem.subsubitens = curso.materiaisColetivos;
+
+          }else{
+            // Sem diária miltiar
+
+            if (item.texto === "Alimentação") {
+              for (const subItem of item.subitens) {       
+                  if (curso.alimentos && curso.alimentos.length > 0) {
+                    // Se houver alimentos definidos para o curso, substitua o conteúdo do subitem com esses alimentos
+                    if (subItem.texto === "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:") {
+                      subItem.subsubitens = curso.alimentos;
+                    }
+                  } else {
+                    // Caso não haja alimentos definidos para o curso, exclua o subitem
+                    if (subItem.texto === "Será fornecido alimentação (café, almoço e janta) pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário.") {
+                      subItem.letra = "";
+                    }
+                    if(subItem.texto === "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:") {
+                      const index = item.subitens.indexOf(subItem);
+                      if (index !== -1) {
+                        item.subitens.splice(index, 1);
+                      }
+                    }
+                  }
+                
               }
             }
-          }
-          if (item.texto === "Uniforme") {
-            item.subitens = curso.uniformes;
+            // Gerenciamento do item "Transporte"
+            if (item.texto === "Transporte") {
+              // Verifica se o curso tem a sigla "CBTR" ou "CIAD"
+              if (curso.sigla === "CBTR" || curso.sigla === "CIAD") {
+                // Se for uma dessas siglas, atualiza o texto do primeiro subitem
+                item.subitens[0].texto = "Será fornecido hospedagem pela OBM receptora da atividade de ensino, se necessário, aos alunos e instrutores que não fizerem jus à diárias militares, conforme legislação vigente.";
+              } else {
+                // Caso contrário, atualiza o texto do primeiro subitem com um conteúdo adicional
+                item.subitens[0].texto = "Será fornecido hospedagem pela OBM receptora da atividade de ensino, se necessário, aos alunos e instrutores que não fizerem jus à diárias militares, conforme legislação vigente.\nb) Poderá ser fornecido hospedagem pela OBM receptora da atividade de ensino, se disponível, aos alunos e instrutores que fizerem jus a diárias militares, desde que não haja o oferecimento concomitante de alimentação.";
+              }
+            }
+    
+            // Gerenciamento do item "Materiais e quantitativos necessários"
+            if (item.texto === "Materiais e quantitativos necessários") {
+              for (const subItem of item.subitens) {
+                if (subItem.texto === "Materiais individuais") {
+                  // Substitui os materiais individuais do subitem pelos materiais definidos no curso
+                  subItem.subsubitens = curso.materiaisIndividuais;
+                }
+                if (subItem.texto === "Materiais coletivos") {
+                  // Substitui os materiais coletivos do subitem pelos materiais definidos no curso
+                  subItem.subsubitens = curso.materiaisColetivos;
+                }
+              }
+            }
+    
+            // Gerenciamento do item "Uniforme"
+            if (item.texto === "Uniforme") {
+              // Substitui os uniformes do item pelos uniformes definidos no curso
+              item.subitens = curso.uniformes;
+            }
           }
         }
       }
     }
   }
+  
 
   private manageProcessoSeletivo(objeto: any,curso: Curso){
     const documento = objeto;

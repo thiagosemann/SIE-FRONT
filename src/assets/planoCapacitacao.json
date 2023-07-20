@@ -1,0 +1,406 @@
+{
+  "documento": [
+    {
+      "data": [
+        "PLANO DE ENSINO {numeroProcesso}/{anoAtual}/DIE/CBMSC",
+        "Código de autenticação para uso da DIE: {auth}",
+        "{nomeCurso} ({sigla})"
+      ],
+      "tipo": "preambulo"
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Regular o funcionamento do {nomeCurso} ({sigla}), de acordo com o previsto no Plano Geral de Ensino (PGE), a ser realizado no(a) {bbm} - {municipio}, subsidiando a análise prévia da Diretoria de Instrução e Ensino com o objetivo de aprovar a sua realização.",
+          "numero": ""
+        }
+      ],
+      "texto": "FINALIDADE",
+      "numero": "1",
+      "editando": false
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Síntese",
+          "numero": "2.1",
+          "subitens": [
+            {
+              "tipo": "tabela",
+              "dados": [
+                [
+                  "Nome da atividade de ensino",
+                  "{nomeCurso}"
+                ],
+                [
+                  "Período de inscrição",
+                  "{periodoInscricao}"
+                ],
+                [
+                  "Período da atividade de ensino",
+                  "{periodoAtividade}"
+                ],
+                [
+                  "Local de apresentação dos alunos",
+                  "{localApresentacao}"
+                ],
+                [
+                  "Data e hora de apresentação dos alunos",
+                  "{iniCur} {apresentacaoHorario}h"
+                ],
+                [
+                  "Carga horária total",
+                  "{haCurso}"
+                ],
+                [
+                  "Carga horária indenizável",
+                  "{haCurso}"
+                ],
+                [
+                  "Finalidade",
+                  "{finalidade}"
+                ]
+              ],
+              "content": "left",
+              "hasHeader": false
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Das Vagas:",
+          "numero": "2.2",
+          "subitens": [
+            {
+              "tipo": "item",
+              "letra": "a)",
+              "texto": "A distribuição das vagas não limita a quantidade de inscritos."
+            },
+            {
+              "tipo": "item",
+              "letra": "b)",
+              "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes."
+            },
+            {
+              "tipo": "item",
+              "letra": "c)",
+              "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino."
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Previsão dos custos de indenização de ensino:",
+          "numero": "2.3",
+          "subitens": [
+            {
+              "tipo": "tabela",
+              "dados": [
+                [
+                  "Custos",
+                  "PGE "
+                ],
+                [
+                  "Hora-aula",
+                  "{valorPrevistoHA}"
+                ],
+                [
+                  "Diárias de Curso",
+                  "{valorPrevistoDiariasCurso}"
+                ],
+                [
+                  "Diária Militar",
+                  "{valorPrevistoDiariasMilitar}"
+                ],
+                [
+                  "Alimentação",
+                  "{valorPrevistoPGE}"
+                ]
+              ],
+              "content": "center",
+              "hasHeader": true
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Calendário das atividades de ensino:",
+          "numero": "2.4",
+          "subitens": [
+            {
+              "tipo": "item",
+              "letra": "a)",
+              "texto": "A atividade de ensino ocorrerá dentro do período {dataAtiviExtenso} e observará o currículo e o programa de matérias/plano de unidades didáticas (PROMAPUD), mais atuais, constante do processo de homologação, conforme SGPe CBMSC {sgpeAtividade}."
+            },
+            {
+              "tipo": "item",
+              "letra": "b)",
+              "texto": "É responsabilidade do coordenador distribuir a execução do conteúdo dentro do período previsto para a realização da atividade de ensino. "
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Desenvolvimento da atividade de ensino:",
+          "numero": "2.5",
+          "subitens": [
+            {
+              "tipo": "item",
+              "letra": "a)",
+              "texto": "A atividade de ensino será desenvolvida conforme Quadro de Trabalho (QT), observando fidedignamente as atividades e quantidades previstas no Plano de Ensino e no PROMAPUD respectivo."
+            },
+            {
+              "tipo": "item",
+              "letra": "b)",
+              "texto": "O Quadro de Trabalho (QT), devidamente assinado, deverá ser anexado ao processo no SGPe quando da apresentação do Relatório Final de Curso/Treinamento."
+            },
+            {
+              "tipo": "item",
+              "letra": "c)",
+              "texto": "É de responsabilidade da coordenação da atividade de ensino, bem como, solidariamente da B-3, a conferência dos dados lançados no QTS."
+            },
+            {
+              "tipo": "item",
+              "letra": "d)",
+              "texto": "A DIE, por meio da DiCAE, efetuará a conferência dos referidos documentos, por amostragem, a seu critério."
+            }
+          ]
+        }
+      ],
+      "texto": "PLANEJAMENTO",
+      "numero": "2"
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Coordenador",
+          "numero": "3.1",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "a)",
+              "texto": "{coordPG} BM MTCL {coordMtcl} {coordNome}"
+            },
+            {
+              "tipo": "subitem",
+              "letra": "b)",
+              "texto": "Contato: {coordContato}"
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Corpo docente",
+          "numero": "3.2",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "a)",
+              "texto": "O corpo docente será cadastrado pela coordenação, conforme as indicações apresentadas pela respectiva coordenadoria ou diretoria responsável pela atividade de ensino",
+              "subsubitens":[
+                {
+                  "tipo": "subsubitem",
+                  "letra": "(1)",
+                  "texto": "Cursos/Treinamento de capacitação:",
+                  "subsubsubitens":[
+                    {
+                      "tipo": "subitem",
+                      "letra": "(a)",
+                      "texto": "Possuir o Curso de Técnicas de Ensino (CTE) ou realizá-lo na primeira oportunidade."
+                    },
+                    {
+                      "tipo": "subitem",
+                      "letra": "(b)",
+                      "texto": "Possuir o curso de instrutor ou no mínimo o curso de capacitação da presente atividade de ensino."
+                    }
+                  ]
+                },
+                {
+                  "tipo": "subsubitem",
+                  "letra": "(2)",
+                  "texto": "Cursos de instrutor:",
+                  "subsubsubitens":[
+                    {
+                      "tipo": "subitem",
+                      "letra": "(a)",
+                      "texto": "Possuir o Curso de Técnicas de Ensino (CTE)."
+                    },
+                    {
+                      "tipo": "subitem",
+                      "letra": "(b)",
+                      "texto": "Possuir o curso de instrutor da presente atividade de ensino, caso o curso esteja homologado e existam instrutores formados. Não havendo instrutores formados, o indicado deve contar ao menos com o curso de capacitação. "
+                    }
+                  ]
+                },
+                {
+                  "tipo": "subsubitem",
+                  "letra": "(3)",
+                  "texto": "A coordenadoria ou diretoria responsável pela atividade de ensino poderá, excepcional e justificadamente, indicar instrutores que não preencham os requisitos elencados, desde que os mesmos possuam notório conhecimento e experiência acerca dos assuntos a serem ministrados.",
+                  "subsubsubitens":[]
+                }
+              ]
+            },
+            {
+              "tipo": "subitem",
+              "letra": "b)",
+              "texto": "Corpo docente previsto:",
+              "subsubitens":[]
+            },
+            {
+              "tipo": "subitem",
+              "letra": "c)",
+              "texto": "É responsabilidade do instrutor o controle de suas horas aulas ministradas, no sentido de observar os limites máximos mensais (80 h/a) e anuais (500 h/a), sendo que em caso de descumprimento, as horas excedentes não serão indenizadas, ficando o instrutor sujeito ainda à responsabilização disciplinar.",
+              "subsubitens":[]
+            },
+            {
+              "tipo": "subitem",
+              "letra": "d)",
+              "texto": "Em caso de necessidade de extrapolar os limites mensais e/ou anuais, deve o instrutor apresentar justificativa prévia ao Diretor de Instrução e Ensino, para avaliação e autorização, se for o caso.",
+              "subsubitens":[]
+            }
+          ]
+        }
+      ],
+      "texto": "ADMINISTRAÇÃO",
+      "numero": "3"
+    },
+    {
+      "tipo": "capitulo",
+      "texto": "LOGÍSTICA",
+      "numero": "4",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Diárias Militares",
+          "numero": "4.1",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "",
+              "texto": "Não serão pagas diárias militares aos alunos e instrutores."
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Alimentação",
+          "numero": "4.2",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "a)",
+              "texto": "Será fornecido alimentação (café, almoço e janta) pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário."
+            },
+            {
+              "tipo": "subitem",
+              "letra": "b)",
+              "texto": "O aluno deverá levar para a atividade de ensino os seguintes gêneros alimentícios, os quais deverão ser fornecidos por sua OBM de origem:",
+              "subsubitens": []
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Hospedagem",
+          "numero": "4.3",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "",
+              "texto": "Será fornecido hospedagem pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário."
+              
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Diárias de Curso",
+          "numero": "4.4",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "a)",
+              "texto": "Serão pagas diárias de curso aos alunos que não fizerem jus à diárias militares."
+            },
+            {
+              "tipo": "subitem",
+              "letra": "b)",
+              "texto": "Não serão pagas diárias de curso aos alunos que fizerem jus à diárias militares, visto que o pagamento cumulativo é vedado pela legislação vigente." 
+            },
+            {
+              "tipo": "subitem",
+              "letra": "c)",
+              "texto": "Não serão pagas diárias de curso para civis, visto não haver previsão legal."
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Transporte",
+          "numero": "4.5",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "",
+              "texto": "Será disponibilizado aos alunos e instrutores transporte para os deslocamentos decorrentes da atividade de ensino."
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Uniforme",
+          "numero": "4.6",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "",
+              "texto": "5A operacional"
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "Materiais e quantitativos necessários",
+          "numero": "4.7",
+          "subitens": [
+            {
+              "tipo": "subitem",
+              "letra": "a)",
+              "texto": "Materiais individuais",
+              "subsubitens": []
+            },
+            {
+              "tipo": "subitem",
+              "letra": "b)",
+              "texto": "Materiais coletivos"
+            }
+          ]
+        },
+        {
+          "tipo": "item",
+          "texto": "As despesas de alimentação, hospedagem, transporte e diárias referente às vagas externas (se houver), correrão por conta do órgão ou entidade do aluno ou conforme definição dos mesmos.",
+          "numero": "4.8"
+        }
+      ]
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Os esclarecimentos e dúvidas relativos à operacionalização e execução da presente atividade de ensino, serão de responsabilidade do coordenador da atividade de ensino.",
+          "numero": ""
+        }
+      ],
+      "texto": "PRESCRIÇÕES DIVERSAS",
+      "numero": "5",
+      "editando": false
+    }
+  ]
+}
