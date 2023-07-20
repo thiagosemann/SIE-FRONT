@@ -33,6 +33,7 @@ export interface Curso {
   coordenador?: Coordenador;
   coordenadorDescricao?:string;
   coordenadorContato?:string;
+  globalProfessors?:User[];
   selectedProfessors?: User[]; // Propriedade adicionada
   requisitoComplementar?: Subitem[];
   requisitoEspecifico?:Subitem[];

@@ -56,8 +56,8 @@ export class CursoService {
         } else {
           console.log("Curso não homologado")
           this.toasterService.error("Curso não homologado");
-         // return false; // Curso não homologado
-           return true; // Curso homologado
+          return false; // Curso não homologado
+           //return true; // Curso homologado
 
         }
       } catch (error) {
@@ -96,7 +96,9 @@ export class CursoService {
   setSelectedProfessorsByCursoEscolhidoID(selectedProfessors: User[]): void {
     this.setAttributeInCursoEscolhido('selectedProfessors', selectedProfessors);
   }
-  
+  setGlobalProfessorsByCursoEscolhidoID(globalProfessors: User[]): void {
+    this.setAttributeInCursoEscolhido('globalProfessors', globalProfessors);
+  }
   setDatasAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
@@ -119,6 +121,7 @@ export class CursoService {
  
 private setAttributeInCursoEscolhido(atributo: string, valor: any): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
+    console.log(cursoEscolhido)
     if (cursoEscolhido) {
       cursoEscolhido[atributo] = valor;
     }

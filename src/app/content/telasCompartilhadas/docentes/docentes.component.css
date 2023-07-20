@@ -94,8 +94,8 @@
     border-color: #c82333;
   }
   .table-wrapper {
-    height: 420px; /* Define a altura fixa da tabela */
-    overflow: hidden; /* Adiciona uma barra de rolagem vertical */
+    height: 600px; /* Define a altura fixa da tabela */
+    overflow: auto; /* Adiciona uma barra de rolagem vertical */
   }
   .alert-message {
     background-color: #f8d7da;

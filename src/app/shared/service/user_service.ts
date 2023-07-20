@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../utilitarios/user';
 
 @Injectable({
@@ -8,8 +8,6 @@ import { User } from '../utilitarios/user';
 })
 export class UserService {
   private url = 'http://localhost:3333/users';
-  private users: User[] = [];
-  private userListSubject: Subject<User[]> = new Subject<User[]>();
 
   constructor(private http: HttpClient) {}
 
