@@ -22,13 +22,14 @@ export class PdfService {
   
       if (type === 'edital') {
         this.replaceProperties(responseDoc.dados.documento, curso);
-        this.manageVagasEdital(responseDoc.dados.documento, curso)
+        this.manageVagas(responseDoc.dados.documento, curso,'VAGAS');
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
         this.manageRequisitos(responseDoc.dados.documento, curso);
       }
       if(type === 'plano'){
         this.replaceProperties(responseDoc.dados.documento, curso);
+        this.manageVagas(responseDoc.dados.documento, curso,'PLANEJAMENTO');
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageDocentes(responseDoc.dados.documento, curso);
       }
@@ -67,69 +68,113 @@ export class PdfService {
 
   }
 
-  private manageVagasEdital(objeto: any, curso: Curso) {
+  private manageVagas(objeto: any, curso: Curso, tipoCapitulo: "VAGAS" | "PLANEJAMENTO") {
     const documento = objeto;
     let somaVagas = 0;
+    const capituloAlvo = tipoCapitulo === "VAGAS" ? "VAGAS" : "PLANEJAMENTO";
+    const numeroAlvo = tipoCapitulo === "VAGAS" ? "2.1" : "2.2";
+  
     for (const capitulo of documento) {
-      if (capitulo.texto === "VAGAS") {
+      if (capitulo.texto === capituloAlvo) {
         for (const item of capitulo.itens) {
-          if (item.numero === "2.1") {
-            if(curso.pge){
+          if (item.numero === numeroAlvo) {
+            if (curso.pge) {
               for (let i = 1; i <= 15; i++) {
                 const vagasBBMProperty = `vagasBBM${i}`;
                 const vagasBBMValue = curso.pge[vagasBBMProperty];
                 if (vagasBBMValue && Number(vagasBBMValue) > 0) {
                   somaVagas += Number(vagasBBMValue);
                   const subItem = {
-                    tipo: "subitem",
-                    letra: `${item.subitens.length+1})`,
+                    tipo: tipoCapitulo === "VAGAS" ? "subitem" : "subsubitem",
+                    letra: `${this.getLetraFromIndex(
+                      tipoCapitulo === "VAGAS" ? item.subitens.length : item.subsubitens.length
+                    )})`,
                     texto: `${vagasBBMValue} vagas para o ${i}ºBBM`,
                   };
-                  item.subitens.push(subItem);
+  
+                  if (tipoCapitulo === "VAGAS") {
+                    item.subitens.push(subItem);
+                  } else {
+                    item.subsubitens.push(subItem);
+                  }
                 }
               }
-    
+  
               const vagasBBMBOA = curso.pge.vagasBBMBOA;
               if (vagasBBMBOA && Number(vagasBBMBOA) > 0) {
                 somaVagas += Number(vagasBBMBOA);
                 const subItemBOA = {
-                  tipo: "subitem",
-                  letra: `${item.subitens.length+1})`,
+                  tipo: tipoCapitulo === "VAGAS" ? "subitem" : "subsubitem",
+                  letra: `${this.getLetraFromIndex(
+                    tipoCapitulo === "VAGAS" ? item.subitens.length : item.subsubitens.length
+                  )})`,
                   texto: `${vagasBBMBOA} vagas para o BOA`,
                 };
-                item.subitens.push(subItemBOA);
+  
+                if (tipoCapitulo === "VAGAS") {
+                  item.subitens.push(subItemBOA);
+                } else {
+                  item.subsubitens.push(subItemBOA);
+                }
               }
-    
+  
               const vagasBBMCapital = curso.pge.vagasBBMCapital;
               if (vagasBBMCapital && Number(vagasBBMCapital) > 0) {
                 somaVagas += Number(vagasBBMCapital);
                 const subItemCapital = {
-                  tipo: "subitem",
-                  letra: `${item.subitens.length+1})`,
+                  tipo: tipoCapitulo === "VAGAS" ? "subitem" : "subsubitem",
+                  letra: `${this.getLetraFromIndex(
+                    tipoCapitulo === "VAGAS" ? item.subitens.length : item.subsubitens.length
+                  )})`,
                   texto: `${vagasBBMCapital} vagas para o efetivo lotado na Capital`,
                 };
-                item.subitens.push(subItemCapital);
+  
+                if (tipoCapitulo === "VAGAS") {
+                  item.subitens.push(subItemCapital);
+                } else {
+                  item.subsubitens.push(subItemCapital);
+                }
               }
-    
+  
               const vagasBBMExternas = curso.pge.vagasBBMExternas;
               if (vagasBBMExternas && Number(vagasBBMExternas) > 0) {
                 somaVagas += Number(vagasBBMExternas);
                 const subItemExternas = {
-                  tipo: "subitem",
-                  letra: `${item.subitens.length+1})`,
+                  tipo: tipoCapitulo === "VAGAS" ? "subitem" : "subsubitem",
+                  letra: `${this.getLetraFromIndex(
+                    tipoCapitulo === "VAGAS" ? item.subitens.length : item.subsubitens.length
+                  )})`,
                   texto: `${vagasBBMExternas} vagas externas`,
                 };
-                item.subitens.push(subItemExternas);
+  
+                if (tipoCapitulo === "VAGAS") {
+                  item.subitens.push(subItemExternas);
+                } else {
+                  item.subsubitens.push(subItemExternas);
+                }
+              }
+  
+              if (tipoCapitulo === "VAGAS") {
+                item.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
+              } else {
+                item.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
               }
             }
-            item.texto=`A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distriuídas da  seguinte forma:`;
           }
         }
       }
     }
   }
   
+  private getLetraFromIndex(index: number): string {
+    const baseCharCode = "a".charCodeAt(0);
+    const numLetters = 26; // Número de letras no alfabeto
   
+    const letterIndex = index % numLetters;
+    const letter = String.fromCharCode(baseCharCode + letterIndex);
+  
+    return letter;
+  }
   private manageLogistica(objeto: any, curso: Curso) {
     const documento = objeto;
     for (const capitulo of documento) {
