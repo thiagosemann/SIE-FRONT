@@ -71,46 +71,48 @@ export class PdfService {
     );
   } 
 
-  private manageCustos (objeto: any,curso: Curso){
+  private manageCustos(objeto: any, curso: Curso) {
     const documento = objeto;
+    const formatCurrency = (value: number) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  
     for (const capitulo of documento) {
-      if (capitulo.tipo === "capitulo" && capitulo.texto === "PLANEJAMENTO" ) {
+      if (capitulo.tipo === "capitulo" && capitulo.texto === "PLANEJAMENTO") {
         for (const item of capitulo.itens) {
-          if (item.numero === "2.3" && item.texto === "Previsão dos custos de indenização de ensino:" ) {
+          if (item.numero === "2.3" && item.texto === "Previsão dos custos de indenização de ensino:") {
             const subitemA: Subitem = {
               tipo: "subsubitem",
-              texto: `Hora-aula: ${curso.pge?.valorPrevHA} ` ,
+              texto: curso.pge?.valorPrevHA ? `Hora-aula: ${formatCurrency(Number(curso.pge.valorPrevHA))}` : 'Hora-aula: R$ 0,00',
               letra: 'a)',
               subsubitens: []
             };
             const subitemB: Subitem = {
               tipo: "subsubitem",
-              texto: `Diárias de Curso: ${curso.pge?.valorPrevDiaCurso} ` ,
+              texto: curso.pge?.valorPrevDiaCurso ? `Diárias de Curso: ${formatCurrency(Number(curso.pge.valorPrevDiaCurso))}` : 'Diárias de Curso: R$ 0,00',
               letra: 'b)',
               subsubitens: []
             };
             const subitemC: Subitem = {
               tipo: "subsubitem",
-              texto: `Diária Militar: ${curso.pge?.valorPrevDiaMilitar} ` ,
+              texto: curso.pge?.valorPrevDiaMilitar ? `Diária Militar: ${formatCurrency(Number(curso.pge.valorPrevDiaMilitar))}` : 'Diária Militar: R$ 0,00',
               letra: 'c)',
               subsubitens: []
             };
             const subitemD: Subitem = {
               tipo: "subsubitem",
-              texto: `Alimentação: ${curso.pge?.valorPrevAlimentacao} ` ,
+              texto: curso.pge?.valorPrevAlimentacao ? `Alimentação: ${formatCurrency(Number(curso.pge.valorPrevAlimentacao))}` : 'Alimentação: R$ 0,00',
               letra: 'd)',
               subsubitens: []
             };
-            item.subitens.push(subitemA)
-            item.subitens.push(subitemB)
-            item.subitens.push(subitemC)
-            item.subitens.push(subitemD)
-
+            item.subitens.push(subitemA);
+            item.subitens.push(subitemB);
+            item.subitens.push(subitemC);
+            item.subitens.push(subitemD);
           }
         }
       }
     }
   }
+  
 
   private manageDocentes (objeto: any,curso: Curso){
     const documento = objeto;
@@ -290,80 +292,7 @@ export class PdfService {
     }
   }
 
-  private manageVagas(objeto: any, curso: Curso, tipoCapitulo: "Edital" | "Plano") {
-    const documento = objeto;
-    let somaVagas = 0;
-    const capituloAlvo = tipoCapitulo === "Edital" ? "VAGAS" : "PLANEJAMENTO";
-    const numeroAlvo = tipoCapitulo === "Edital" ? "2.1" : "2.2";
 
-    for (const capitulo of documento) {
-      if (capitulo.texto === capituloAlvo) {
-        for (const item of capitulo.itens) {
-          if (item.numero === numeroAlvo) {
-            if (curso.pge) {
-              for (let i = 1; i <= 15; i++) {
-                const vagasBBMProperty = `vagasBBM${i}`;
-                const vagasBBMValue = curso.pge[vagasBBMProperty];
-                if (vagasBBMValue && Number(vagasBBMValue) > 0) {
-                  somaVagas += Number(vagasBBMValue);
-                  const subItem = {
-                    tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                    letra: `${this.getLetraFromIndex(item.subitens.length)})`,
-                    texto: `${vagasBBMValue} ${Number(vagasBBMValue) === 1 ? 'vaga' : 'vagas'} para o ${i}ºBBM`,
-                  };
-                  item.subitens.push(subItem);
-                }
-              }
-  
-              const vagasBBMBOA = curso.pge.vagasBBMBOA;
-              if (vagasBBMBOA && Number(vagasBBMBOA) > 0) {
-                somaVagas += Number(vagasBBMBOA);
-                const subItemBOA = {
-                  tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
-                  texto: `${vagasBBMBOA} ${Number(vagasBBMBOA) === 1 ? 'vaga' : 'vagas'} para o BOA`,
-
-                };
-                item.subitens.push(subItemBOA);
-              }
-  
-              const vagasBBMCapital = curso.pge.vagasBBMCapital;
-              if (vagasBBMCapital && Number(vagasBBMCapital) > 0) {
-                somaVagas += Number(vagasBBMCapital);
-                const subItemCapital = {
-                  tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
-                  texto: `${vagasBBMCapital} ${Number(vagasBBMCapital) === 1 ? 'vaga' : 'vagas'} para a Capital`,
-
-                };
-                item.subitens.push(subItemCapital);
-              }
-  
-              const vagasBBMExternas = curso.pge.vagasBBMExternas;
-              if (vagasBBMExternas && Number(vagasBBMExternas) > 0) {
-                somaVagas += Number(vagasBBMExternas);
-                const subItemExternas = {
-                  tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(item.subitens.length )})`,
-                  texto: `${vagasBBMExternas} ${Number(vagasBBMExternas) === 1 ? 'vaga externa' : 'vagas externas'}`,
-
-                };
-                item.subitens.push(subItemExternas);
-
-              }
-  
-              if (tipoCapitulo === "Edital") {
-                item.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
-              } else {
-                item.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  
   private getLetraFromIndex(index: number): string {
     const baseCharCode = "a".charCodeAt(0);
     const numLetters = 26; // Número de letras no alfabeto

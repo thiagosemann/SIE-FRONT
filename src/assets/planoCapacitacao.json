@@ -115,7 +115,7 @@
             {
               "tipo": "item",
               "letra": "a)",
-              "texto": "A atividade de ensino ocorrerá dentro do período {dataAtiviExtenso} e observará o currículo e o programa de matérias/plano de unidades didáticas (PROMAPUD), mais atuais, constante do processo de homologação, conforme SGPe CBMSC {sgpeAtividade}."
+              "texto": "A atividade de ensino ocorrerá dentro do período {dataAtiviExtenso} e observará o currículo e o programa de matérias/plano de unidades didáticas (PROMAPUD), mais atuais, constante do processo de homologação, conforme SGPe {sgpe}."
             },
             {
               "tipo": "item",
