@@ -70,6 +70,8 @@ export class PdfService {
   private manageDocentes (objeto: any,curso: Curso){
 
   }
+
+
   private managePrescricoes(objeto: any,curso: Curso,type:string) {
     const documento = objeto;
     for (const capitulo of documento) {
@@ -396,15 +398,30 @@ export class PdfService {
   }
   
   private replacePropertiesInString(str: string, curso: Curso): string {
+    // Replace {requisitosCSM} with a specific text based on the course's sigla
+    const siglaPlaceholder = "{requisitosCSM}";
+    if (str.includes(siglaPlaceholder)) {
+      // Replace {requisitosCSM} with a specific text based on the course's sigla
+      let specificText = "";
+      if(curso.sigla == "CSM"){
+        specificText = "Ser bombeiro militar da ativa, guarda vida civil voluntário ou guarda vida civil voluntário de rio, ambos com certificação válida."
+      }else{
+        specificText = "Ser bombeiro militar da ativa, bombeiro comunitário (BC) ou bombeiro civil profissional (BCP) do Estado de Santa Catarina devidamente ativos e vinculados ao CBMSC."
+      }
+      
+      str = str.replace(siglaPlaceholder, specificText);
+    }
+  
+    // Replace other placeholders based on the course object properties
     for (const prop in curso) {
       const placeholder = `{${prop}}`;
       if (str.includes(placeholder)) {
         str = str.replace(placeholder, curso[prop]);
       }
     }
+  
     return str;
   }
-
 //--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO-----------------------------------------------------------------------------------//
 //--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO--------------------------------------------------------------------------------//
 
