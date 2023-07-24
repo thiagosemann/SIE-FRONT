@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Prescricao } from 'src/app/shared/utilitarios/prescricao';
+import { Item,Subitem, Subsubitem } from 'src/app/shared/utilitarios/documentoPdf';
 import { ContentComponent } from '../../content.component';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 
@@ -9,8 +9,8 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
   styleUrls: ['./prescricoes-complementares.component.css']
 })
 export class PrescricoesComplementaresComponent {
-  prescricoes: Prescricao[] = [];
-  subitensTemp: string[] = [];
+  prescricoes: Item[] = [];
+  subsubitensTemp: string[] = [];
 
   constructor(private contentComponent: ContentComponent, private cursoService: CursoService) {}
 
@@ -35,35 +35,58 @@ export class PrescricoesComplementaresComponent {
     }
   }
 
-  adicionarPrescricao(novaPrescricao: string) {
-    if (novaPrescricao) {
-      const prescricao = {
-        letra: String.fromCharCode(65 + this.prescricoes.length),
-        item: novaPrescricao,
+  adicionarItem(novoItem: string) {
+    if (novoItem) {
+      const item: Item = {
+        tipo: "item",
+        texto: novoItem,
+        numero: (this.prescricoes.length + 1).toString(),
         subitens: []
       };
-      this.prescricoes.push(prescricao);
-      this.subitensTemp.push('');
+      this.prescricoes.push(item);
+      this.subsubitensTemp.push('');
     }
-    //this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
+    this.cursoService.setAtributoByCursoEscolhidoID('prescricaoComplementar', this.prescricoes);
     this.isFormValid();
   }
 
-  adicionarSubItem(indexPrescricao: number, subitem: string) {
-    if (subitem) {
-      this.prescricoes[indexPrescricao].subitens.push(subitem);
-      this.subitensTemp[indexPrescricao] = '';
+  adicionarSubitem(indexItem: number, novoSubitem: string) {
+    if (novoSubitem) {
+      const subitem: Subitem = {
+        tipo: "subitem",
+        texto: novoSubitem,
+        letra: String.fromCharCode(97 + this.prescricoes[indexItem].subitens.length)+')',
+        subsubitens: []
+      };
+      this.prescricoes[indexItem].subitens.push(subitem);
     }
   }
 
-  removerPrescricao(indexPrescricao: number) {
-    this.prescricoes.splice(indexPrescricao, 1);
-    this.subitensTemp.splice(indexPrescricao, 1);
-  //  this.cursoService.setPrescricaoComplementarEscolhidoID(this.prescricoes);
+
+  removerItem(indexItem: number) {
+    this.prescricoes.splice(indexItem, 1);
+    this.subsubitensTemp.splice(indexItem, 1);
+    this.reorganizarNumeracao(this.prescricoes);
+    this.cursoService.setAtributoByCursoEscolhidoID('prescricaoComplementar', this.prescricoes);
     this.isFormValid();
   }
 
-  removerSubItem(indexPrescricao: number, indexSubItem: number) {
-    this.prescricoes[indexPrescricao].subitens.splice(indexSubItem, 1);
+  removerSubitem(indexItem: number, indexSubitem: number) {
+    this.prescricoes[indexItem].subitens.splice(indexSubitem, 1);
+    this.reorganizarNumeracao(this.prescricoes[indexItem].subitens);
+  }
+
+
+  private reorganizarNumeracao(objetos: any[]) {
+    for (let i = 0; i < objetos.length; i++) {
+      if (objetos[i].tipo === "item") {
+        objetos[i].numero = (i + 1).toString();
+      }
+      if (objetos[i].subitens) {
+        for (let j = 0; j < objetos[i].subitens.length; j++) {
+          objetos[i].subitens[j].letra = String.fromCharCode(97 + j);
+        }
+      }
+    }
   }
 }

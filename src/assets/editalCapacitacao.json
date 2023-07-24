@@ -357,6 +357,37 @@
           "numero": "8.8"
         }
       ]
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [
+        {
+          "tipo": "item",
+          "texto": "Ao final da atividade de ensino os alunos aprovados receberão certificado emitido pela Diretoria de Instrução e Ensino.",
+          "numero": "9.1",
+          "subitens": []
+        },
+        {
+          "tipo": "item",
+          "texto": "Os esclarecimentos e dúvidas relativos à operacionalização e execução da presente atividade de ensino, deverão ser direcionados ao coordenador da atividade de ensino, conforme contato previsto no item 1 deste edital.",
+          "numero": "9.2",
+          "subitens": []
+        },
+        {
+          "tipo": "item",
+          "texto": "As situações que porventura não estiverem previstas neste edital serão resolvidas pela Diretoria de Instrução e Ensino. ",
+          "numero": "9.3",
+          "subitens": []
+        }
+      ],
+      "texto": "PRESCRIÇÕES DIVERSAS",
+      "numero": "9"
+    },
+    {
+      "tipo": "capitulo",
+      "itens": [],
+      "texto": "PRESCRIÇÕES COMPLEMENTARES",
+      "numero": "10"
     }
   ]
 }

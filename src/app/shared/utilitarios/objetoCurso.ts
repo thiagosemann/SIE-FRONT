@@ -2,7 +2,6 @@ import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
 import { Subitem,Item, Subsubitem } from "./documentoPdf";
 import { Pge } from "./pge";
-import { Prescricao } from "./prescricao";
 import { User } from "./user";
 
 export interface Curso {
@@ -38,7 +37,7 @@ export interface Curso {
   requisitoEspecifico?:Subitem[];
   reqEspecificoBool?:boolean;
   reqComplementarBool?:boolean;
-  prescricaoComplementar?: Prescricao[];
+  prescricaoComplementar?: Item[];
   alimentos?: Subsubitem[];
   uniformes?:Subitem[];
   materiaisIndividuais?: Subsubitem[];

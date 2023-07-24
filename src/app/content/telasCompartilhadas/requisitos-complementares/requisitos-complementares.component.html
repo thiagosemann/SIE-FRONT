@@ -8,8 +8,9 @@
   <div class="row">
     <div class="col-md-6">
       <div class="requisitos-column">
+        <label class="font-weight-bold labelRequisitos" style="font-size: 25px;">Requisitos Básicos:</label>
+
         <div class="requisitos-basicos">
-          <label class="font-weight-bold labelRequisitos">Requisitos Básicos:</label>
           <div>
             <p>
               a) São requisitos básicos para concorrer às vagas internas ao CBMSC:
@@ -42,7 +43,7 @@
     <div class="col-md-6 scrollable-column">
       <div class="requisitos-column">
         <div class="mb-3" id="requisitosDivAnswer" *ngIf="requisitosEspecificos.length > 0">
-          <label class="font-weight-bold labelRequisitos">Requisitos Específicos:</label>
+          <label class="font-weight-bold labelRequisitos" style="font-size: 25px;">Requisitos Específicos:</label>
           <div class="requisitos-especificos">
             <ul>
               <li *ngFor="let subitem of requisitosEspecificos; let j = index">
@@ -53,7 +54,7 @@
         </div>
         
         <div class="mb-3" id="requisitosDivAnswer">
-          <label class="font-weight-bold labelRequisitos">Requisitos Complementares:</label>
+          <label class="font-weight-bold labelRequisitos" style="font-size: 25px;">Requisitos Complementares:</label>
           <div class="input-group mb-3">
             <input type="text" class="form-control" #novoRequisitoInput placeholder="Adicionar requisito">
             <div class="input-group-append">
