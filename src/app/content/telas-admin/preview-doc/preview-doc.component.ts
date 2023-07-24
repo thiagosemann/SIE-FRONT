@@ -21,7 +21,7 @@ export class PreviewDocComponent implements OnInit {
 
   async generatePdf(): Promise<void> {
   if (this.curso) {
-    const pdfBlob = await this.pdfService.createDocument(this.curso,'edital','Capacitacao');
+    const pdfBlob = await this.pdfService.createDocument(this.curso,'plano','capacitacao');
     const pdfUrl = URL.createObjectURL(pdfBlob);
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
     console.log( this.pdfUrl)

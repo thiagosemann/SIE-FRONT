@@ -32,7 +32,7 @@ export interface Curso {
   coordenadorContato?:string;
   globalProfessors?:User[];
   selectedProfessors?: User[]; 
-  professoresSelecionados?:Subitem[]
+  professoresSelecionados?:Subsubitem[]
   requisitoComplementar?: Subitem[];
   requisitoEspecifico?:Subitem[];
   reqEspecificoBool?:boolean;

@@ -16,10 +16,12 @@ export class PdfService {
 
   async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
-  
+    console.log("Type",type)
+    console.log("curseName",curseName)
+    
     if (type === 'edital' || type === 'plano') {
       const responseDoc = await this.getDocument(type, curseName).toPromise();
-  
+
       if (type === 'edital') {
         this.replaceProperties(responseDoc.dados.documento, curso);
         this.manageVagas(responseDoc.dados.documento, curso,'Edital');
@@ -60,6 +62,7 @@ export class PdfService {
   }
 
   getDocument(type: string,curseName:string): Observable<any> {
+    console.log(type+curseName)
     return this.documentoService.getDocumentoByNome(type+curseName).pipe(
       map((plano: Documento) => {
         return plano; // Retorna o JSON
@@ -68,7 +71,21 @@ export class PdfService {
   } 
 
   private manageDocentes (objeto: any,curso: Curso){
-
+    const documento = objeto;
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo" && capitulo.texto === "ADMINISTRAÇÃO" ) {
+        for (const item of capitulo.itens) {
+          if (item.numero === "3.2" && item.texto === "Corpo docente" ) {
+            for (const subitem of item.subitens) {
+              if (subitem.letra === "b)" && subitem.texto === "Corpo docente previsto:" ) {
+                console.log(subitem)
+                subitem.subsubitens = curso.professoresSelecionados;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
 
@@ -98,7 +115,7 @@ export class PdfService {
     let somaVagas = 0;
     const capituloAlvo = tipoCapitulo === "Edital" ? "VAGAS" : "PLANEJAMENTO";
     const numeroAlvo = tipoCapitulo === "Edital" ? "2.1" : "2.2";
-  
+
     for (const capitulo of documento) {
       if (capitulo.texto === capituloAlvo) {
         for (const item of capitulo.itens) {
@@ -111,17 +128,10 @@ export class PdfService {
                   somaVagas += Number(vagasBBMValue);
                   const subItem = {
                     tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                    letra: `${this.getLetraFromIndex(
-                      tipoCapitulo === "Edital" ? item.subitens.length : item.subsubitens.length
-                    )})`,
+                    letra: `${this.getLetraFromIndex(item.subitens.length)})`,
                     texto: `${vagasBBMValue} ${Number(vagasBBMValue) === 1 ? 'vaga' : 'vagas'} para o ${i}ºBBM`,
                   };
-  
-                  if (tipoCapitulo === "Edital") {
-                    item.subitens.push(subItem);
-                  } else {
-                    item.subsubitens.push(subItem);
-                  }
+                  item.subitens.push(subItem);
                 }
               }
   
@@ -130,18 +140,11 @@ export class PdfService {
                 somaVagas += Number(vagasBBMBOA);
                 const subItemBOA = {
                   tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(
-                    tipoCapitulo === "Edital" ? item.subitens.length : item.subsubitens.length
-                  )})`,
+                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
                   texto: `${vagasBBMBOA} ${Number(vagasBBMBOA) === 1 ? 'vaga' : 'vagas'} para o BOA`,
 
                 };
-  
-                if (tipoCapitulo === "Edital") {
-                  item.subitens.push(subItemBOA);
-                } else {
-                  item.subsubitens.push(subItemBOA);
-                }
+                item.subitens.push(subItemBOA);
               }
   
               const vagasBBMCapital = curso.pge.vagasBBMCapital;
@@ -149,18 +152,11 @@ export class PdfService {
                 somaVagas += Number(vagasBBMCapital);
                 const subItemCapital = {
                   tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(
-                    tipoCapitulo === "Edital" ? item.subitens.length : item.subsubitens.length
-                  )})`,
+                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
                   texto: `${vagasBBMCapital} ${Number(vagasBBMCapital) === 1 ? 'vaga' : 'vagas'} para a Capital`,
 
                 };
-  
-                if (tipoCapitulo === "Edital") {
-                  item.subitens.push(subItemCapital);
-                } else {
-                  item.subsubitens.push(subItemCapital);
-                }
+                item.subitens.push(subItemCapital);
               }
   
               const vagasBBMExternas = curso.pge.vagasBBMExternas;
@@ -168,18 +164,12 @@ export class PdfService {
                 somaVagas += Number(vagasBBMExternas);
                 const subItemExternas = {
                   tipo: tipoCapitulo === "Edital" ? "subitem" : "subsubitem",
-                  letra: `${this.getLetraFromIndex(
-                    tipoCapitulo === "Edital" ? item.subitens.length : item.subsubitens.length
-                  )})`,
+                  letra: `${this.getLetraFromIndex(item.subitens.length )})`,
                   texto: `${vagasBBMExternas} ${Number(vagasBBMExternas) === 1 ? 'vaga externa' : 'vagas externas'}`,
 
                 };
-  
-                if (tipoCapitulo === "Edital") {
-                  item.subitens.push(subItemExternas);
-                } else {
-                  item.subsubitens.push(subItemExternas);
-                }
+                item.subitens.push(subItemExternas);
+
               }
   
               if (tipoCapitulo === "Edital") {

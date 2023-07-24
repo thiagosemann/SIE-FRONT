@@ -38,8 +38,8 @@
     </div>
     <div class="col-md-6">
       <h2>Professores Selecionados</h2>
-      <p class="alert-message" *ngIf="professoresSelecionados.length === 0">Selecione um professor.</p>
-      <div *ngIf="professoresSelecionados.length !== 0">
+      <p class="alert-message" *ngIf="selectedProfessors.length === 0">Selecione um professor.</p>
+      <div *ngIf="selectedProfessors.length !== 0">
         <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputProfessores" (input)="searchProfessoresSelecionados()">
         <div class="table-wrapper">
           <table class="table table-striped">

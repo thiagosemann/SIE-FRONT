@@ -3,6 +3,7 @@ import { UserService } from 'src/app/shared/service/user_service';
 import { User } from 'src/app/shared/utilitarios/user';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { ContentComponent } from '../../content.component';
+import { Subsubitem } from 'src/app/shared/utilitarios/documentoPdf';
 
 @Component({
   selector: 'app-docentes',
@@ -11,13 +12,13 @@ import { ContentComponent } from '../../content.component';
 })
 export class DocentesComponent implements OnInit {
   users: User[] = [];
-  professoresSelecionados: User[] = [];
+  selectedProfessors: User[] = [];
+  professoresSelecionados:Subsubitem[] = [];
   paginatedUsers: User[] = [];
   paginatedProfessoresSelecionados: User[] = [];
   itemsPerPage = 70; // Define o número de itens exibidos por página
   searchInputUsers = ''; // Variável de pesquisa para a tabela de usuários
   searchInputProfessores = ''; // Variável de pesquisa para a tabela de professores selecionados
-
   loadingUsers = false; // Variável para controlar o carregamento de mais dados
   currentPageUsers = 1; // Variável para controlar a página atual dos usuários exibidos
 
@@ -28,7 +29,7 @@ export class DocentesComponent implements OnInit {
     const cursoEscolhido = this.cursoService.getCursoEscolhido();
     if (cursoEscolhido) {
       if (cursoEscolhido.selectedProfessors) {
-        this.professoresSelecionados = cursoEscolhido.selectedProfessors;
+        this.selectedProfessors = cursoEscolhido.selectedProfessors;
         this.searchProfessoresSelecionados();
       }
       if (cursoEscolhido.globalProfessors && cursoEscolhido.globalProfessors.length > 0) {
@@ -45,7 +46,7 @@ export class DocentesComponent implements OnInit {
   }
 
   isFormValid(): void {
-    if (this.professoresSelecionados.length > 0) {
+    if (this.selectedProfessors.length > 0) {
       this.contentComponent.changeValidityByComponentName(DocentesComponent, true);
     } else {
       this.contentComponent.changeValidityByComponentName(DocentesComponent, false);
@@ -73,7 +74,7 @@ export class DocentesComponent implements OnInit {
 
   searchProfessoresSelecionados(): void {
     this.searchInputProfessores = this.searchInputProfessores.trim();
-    const filteredProfessores = this.professoresSelecionados.filter(professor =>
+    const filteredProfessores = this.selectedProfessors.filter(professor =>
       professor.name.toLowerCase().includes(this.searchInputProfessores.toLowerCase())
     );
     this.paginatedProfessoresSelecionados = filteredProfessores;
@@ -109,7 +110,7 @@ export class DocentesComponent implements OnInit {
   }
 
   addProfessor(professor: User): void {
-    this.professoresSelecionados.push(professor);
+    this.selectedProfessors.push(professor);
     const index = this.users.indexOf(professor);
     if (index !== -1) {
       this.users.splice(index, 1);
@@ -118,15 +119,14 @@ export class DocentesComponent implements OnInit {
     }
     this.searchInputUsers = '';
     this.searchUsers();
-    this.cursoService.setSelectedProfessorsByCursoEscolhidoID(this.professoresSelecionados);
-    this.cursoService.setGlobalProfessorsByCursoEscolhidoID(this.users);
+    this.enviarDadosCursoEscolhido();
     this.isFormValid();
   }
 
   removeProfessor(professor: User): void {
-    const index = this.professoresSelecionados.indexOf(professor);
+    const index = this.selectedProfessors.indexOf(professor);
     if (index !== -1) {
-      this.professoresSelecionados.splice(index, 1);
+      this.selectedProfessors.splice(index, 1);
       this.users.push(professor);
       this.users.sort((a, b) => a.name.localeCompare(b.name));
       this.searchUsers();
@@ -134,9 +134,7 @@ export class DocentesComponent implements OnInit {
     }
     this.searchInputProfessores = '';
     this.searchProfessoresSelecionados();
-    this.cursoService.setSelectedProfessorsByCursoEscolhidoID(this.professoresSelecionados);
-    this.cursoService.setGlobalProfessorsByCursoEscolhidoID(this.users);
-
+    this.enviarDadosCursoEscolhido();
     this.isFormValid();
   }
 
@@ -146,5 +144,22 @@ export class DocentesComponent implements OnInit {
 
   isSearchInputProfessorsEmpty(): boolean {
     return this.searchInputProfessores.trim() === '';
+  }
+
+  enviarDadosCursoEscolhido(){
+    this.professoresSelecionados = [];
+    for(const professor of this.selectedProfessors){
+      const subitem: Subsubitem = {
+        tipo: "subsubitem",
+        texto: `SD BM MTCL ${professor.mtcl} ${professor.name}` ,
+        letra: '('+(this.professoresSelecionados.length+1)+')',
+        subsubsubitens: []
+      };
+      this.professoresSelecionados.push(subitem)
+    }
+    this.cursoService.setAtributoByCursoEscolhidoID('selectedProfessors',this.selectedProfessors)
+    this.cursoService.setAtributoByCursoEscolhidoID('globalProfessors',this.users);
+    this.cursoService.setAtributoByCursoEscolhidoID('professoresSelecionados',this.professoresSelecionados)
+
   }
 }

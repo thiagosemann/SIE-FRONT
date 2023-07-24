@@ -93,12 +93,7 @@ export class CursoService {
     this.setAttributeInCursoEscolhido(atributo, valor);
   }
   
-  setSelectedProfessorsByCursoEscolhidoID(selectedProfessors: User[]): void {
-    this.setAttributeInCursoEscolhido('selectedProfessors', selectedProfessors);
-  }
-  setGlobalProfessorsByCursoEscolhidoID(globalProfessors: User[]): void {
-    this.setAttributeInCursoEscolhido('globalProfessors', globalProfessors);
-  }
+  
   setDatasAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
