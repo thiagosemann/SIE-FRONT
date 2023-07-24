@@ -79,25 +79,25 @@
               "tipo": "item",
               "letra": "a)",
               "texto": "A atividade de ensino tem previsto um total de {totalVagas} vagas, as quais estão distriuídas da seguinte forma:",
-              "subsubitens":[]
+              "subsubitens": []
             },
             {
               "tipo": "item",
               "letra": "b)",
               "texto": "A distribuição das vagas não limita a quantidade de inscritos.",
-              "subsubitens":[]
+              "subsubitens": []
             },
             {
               "tipo": "item",
               "letra": "c)",
               "texto": "É permitida a inscrição de candidatos de locais não listados no quadro de vagas e candidatos externos, sendo que estes concorrerão às vagas remanescentes.",
-              "subsubitens":[]
+              "subsubitens": []
             },
             {
               "tipo": "item",
               "letra": "d)",
               "texto": "Caso não sejam preenchidas as vagas, estas serão redistribuídas a critério da coordenação da atividade de ensino.",
-              "subsubitens":[]
+              "subsubitens": []
             }
           ]
         },
@@ -105,35 +105,7 @@
           "tipo": "item",
           "texto": "Previsão dos custos de indenização de ensino:",
           "numero": "2.3",
-          "subitens": [
-            {
-              "tipo": "tabela",
-              "dados": [
-                [
-                  "Custos",
-                  "PGE "
-                ],
-                [
-                  "Hora-aula",
-                  "{valorPrevistoHA}"
-                ],
-                [
-                  "Diárias de Curso",
-                  "{valorPrevistoDiariasCurso}"
-                ],
-                [
-                  "Diária Militar",
-                  "{valorPrevistoDiariasMilitar}"
-                ],
-                [
-                  "Alimentação",
-                  "{valorPrevistoPGE}"
-                ]
-              ],
-              "content": "center",
-              "hasHeader": true
-            }
-          ]
+          "subitens": [ ]
         },
         {
           "tipo": "item",
@@ -212,12 +184,12 @@
               "tipo": "subitem",
               "letra": "a)",
               "texto": "O corpo docente será cadastrado pela coordenação, conforme as indicações apresentadas pela respectiva coordenadoria ou diretoria responsável pela atividade de ensino",
-              "subsubitens":[
+              "subsubitens": [
                 {
                   "tipo": "subsubitem",
                   "letra": "(1)",
                   "texto": "Cursos/Treinamento de capacitação:",
-                  "subsubsubitens":[
+                  "subsubsubitens": [
                     {
                       "tipo": "subitem",
                       "letra": "(a)",
@@ -234,7 +206,7 @@
                   "tipo": "subsubitem",
                   "letra": "(2)",
                   "texto": "Cursos de instrutor:",
-                  "subsubsubitens":[
+                  "subsubsubitens": [
                     {
                       "tipo": "subitem",
                       "letra": "(a)",
@@ -251,7 +223,7 @@
                   "tipo": "subsubitem",
                   "letra": "(3)",
                   "texto": "A coordenadoria ou diretoria responsável pela atividade de ensino poderá, excepcional e justificadamente, indicar instrutores que não preencham os requisitos elencados, desde que os mesmos possuam notório conhecimento e experiência acerca dos assuntos a serem ministrados.",
-                  "subsubsubitens":[]
+                  "subsubsubitens": []
                 }
               ]
             },
@@ -259,19 +231,19 @@
               "tipo": "subitem",
               "letra": "b)",
               "texto": "Corpo docente previsto:",
-              "subsubitens":[]
+              "subsubitens": []
             },
             {
               "tipo": "subitem",
               "letra": "c)",
               "texto": "É responsabilidade do instrutor o controle de suas horas aulas ministradas, no sentido de observar os limites máximos mensais (80 h/a) e anuais (500 h/a), sendo que em caso de descumprimento, as horas excedentes não serão indenizadas, ficando o instrutor sujeito ainda à responsabilização disciplinar.",
-              "subsubitens":[]
+              "subsubitens": []
             },
             {
               "tipo": "subitem",
               "letra": "d)",
               "texto": "Em caso de necessidade de extrapolar os limites mensais e/ou anuais, deve o instrutor apresentar justificativa prévia ao Diretor de Instrução e Ensino, para avaliação e autorização, se for o caso.",
-              "subsubitens":[]
+              "subsubitens": []
             }
           ]
         }
@@ -281,8 +253,6 @@
     },
     {
       "tipo": "capitulo",
-      "texto": "LOGÍSTICA",
-      "numero": "4",
       "itens": [
         {
           "tipo": "item",
@@ -323,7 +293,6 @@
               "tipo": "subitem",
               "letra": "",
               "texto": "Será fornecido hospedagem pela OBM receptora da atividade de ensino aos alunos e instrutores, se necessário."
-              
             }
           ]
         },
@@ -340,7 +309,7 @@
             {
               "tipo": "subitem",
               "letra": "b)",
-              "texto": "Não serão pagas diárias de curso aos alunos que fizerem jus à diárias militares, visto que o pagamento cumulativo é vedado pela legislação vigente." 
+              "texto": "Não serão pagas diárias de curso aos alunos que fizerem jus à diárias militares, visto que o pagamento cumulativo é vedado pela legislação vigente."
             },
             {
               "tipo": "subitem",
@@ -396,7 +365,9 @@
           "texto": "As despesas de alimentação, hospedagem, transporte e diárias referente às vagas externas (se houver), correrão por conta do órgão ou entidade do aluno ou conforme definição dos mesmos.",
           "numero": "4.8"
         }
-      ]
+      ],
+      "texto": "LOGÍSTICA",
+      "numero": "4"
     },
     {
       "tipo": "capitulo",

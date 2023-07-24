@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { Curso } from '../../utilitarios/objetoCurso';
 import { DocumentosService } from './documento.service';
-import { Documento } from '../../utilitarios/documentoPdf';
+import { Documento, Subitem } from '../../utilitarios/documentoPdf';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ export class PdfService {
 
       if (type === 'edital') {
         this.replaceProperties(responseDoc.dados.documento, curso);
-        this.manageVagas(responseDoc.dados.documento, curso,'Edital');
+        this.manageVagasEdital(responseDoc.dados.documento, curso);
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
         this.manageRequisitos(responseDoc.dados.documento, curso);
@@ -32,7 +32,8 @@ export class PdfService {
       }
       if(type === 'plano'){
         this.replaceProperties(responseDoc.dados.documento, curso);
-        this.manageVagas(responseDoc.dados.documento, curso,'Plano');
+        this.manageCustos(responseDoc.dados.documento, curso);
+        this.manageVagasPlano(responseDoc.dados.documento, curso);
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageDocentes(responseDoc.dados.documento, curso);
         this.managePrescricoes(responseDoc.dados.documento, curso,'Plano')
@@ -70,6 +71,47 @@ export class PdfService {
     );
   } 
 
+  private manageCustos (objeto: any,curso: Curso){
+    const documento = objeto;
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo" && capitulo.texto === "PLANEJAMENTO" ) {
+        for (const item of capitulo.itens) {
+          if (item.numero === "2.3" && item.texto === "Previsão dos custos de indenização de ensino:" ) {
+            const subitemA: Subitem = {
+              tipo: "subsubitem",
+              texto: `Hora-aula: ${curso.pge?.valorPrevHA} ` ,
+              letra: 'a)',
+              subsubitens: []
+            };
+            const subitemB: Subitem = {
+              tipo: "subsubitem",
+              texto: `Diárias de Curso: ${curso.pge?.valorPrevDiaCurso} ` ,
+              letra: 'b)',
+              subsubitens: []
+            };
+            const subitemC: Subitem = {
+              tipo: "subsubitem",
+              texto: `Diária Militar: ${curso.pge?.valorPrevDiaMilitar} ` ,
+              letra: 'c)',
+              subsubitens: []
+            };
+            const subitemD: Subitem = {
+              tipo: "subsubitem",
+              texto: `Alimentação: ${curso.pge?.valorPrevAlimentacao} ` ,
+              letra: 'd)',
+              subsubitens: []
+            };
+            item.subitens.push(subitemA)
+            item.subitens.push(subitemB)
+            item.subitens.push(subitemC)
+            item.subitens.push(subitemD)
+
+          }
+        }
+      }
+    }
+  }
+
   private manageDocentes (objeto: any,curso: Curso){
     const documento = objeto;
     for (const capitulo of documento) {
@@ -106,6 +148,144 @@ export class PdfService {
           }
         }
         capitulo.itens = curso.prescricaoComplementar
+      }
+    }
+  }
+  private manageVagasEdital(objeto: any, curso: Curso){
+    const documento = objeto;
+    let somaVagas = 0;
+
+    for (const capitulo of documento) {
+      if (capitulo.texto === 'VAGAS') {
+        for (const item of capitulo.itens) {
+          if (item.numero === '2.1') {
+            if (curso.pge) {
+              for (let i = 1; i <= 15; i++) {
+                const vagasBBMProperty = `vagasBBM${i}`;
+                const vagasBBMValue = curso.pge[vagasBBMProperty];
+                if (vagasBBMValue && Number(vagasBBMValue) > 0) {
+                  somaVagas += Number(vagasBBMValue);
+                  const subItem = {
+                    tipo:"subitem",
+                    letra: `${this.getLetraFromIndex(item.subitens.length)})`,
+                    texto: `${vagasBBMValue} ${Number(vagasBBMValue) === 1 ? 'vaga' : 'vagas'} para o ${i}ºBBM`,
+                  };
+                  item.subitens.push(subItem);
+                }
+              }
+  
+              const vagasBBMBOA = curso.pge.vagasBBMBOA;
+              if (vagasBBMBOA && Number(vagasBBMBOA) > 0) {
+                somaVagas += Number(vagasBBMBOA);
+                const subItemBOA = {
+                  tipo: "subitem",
+                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
+                  texto: `${vagasBBMBOA} ${Number(vagasBBMBOA) === 1 ? 'vaga' : 'vagas'} para o BOA`,
+
+                };
+                item.subitens.push(subItemBOA);
+              }
+  
+              const vagasBBMCapital = curso.pge.vagasBBMCapital;
+              if (vagasBBMCapital && Number(vagasBBMCapital) > 0) {
+                somaVagas += Number(vagasBBMCapital);
+                const subItemCapital = {
+                  tipo: "subitem",
+                  letra: `${this.getLetraFromIndex(item.subitens.length)})`,
+                  texto: `${vagasBBMCapital} ${Number(vagasBBMCapital) === 1 ? 'vaga' : 'vagas'} para a Capital`,
+
+                };
+                item.subitens.push(subItemCapital);
+              }
+  
+              const vagasBBMExternas = curso.pge.vagasBBMExternas;
+              if (vagasBBMExternas && Number(vagasBBMExternas) > 0) {
+                somaVagas += Number(vagasBBMExternas);
+                const subItemExternas = {
+                  tipo: "subitem",
+                  letra: `${this.getLetraFromIndex(item.subitens.length )})`,
+                  texto: `${vagasBBMExternas} ${Number(vagasBBMExternas) === 1 ? 'vaga externa' : 'vagas externas'}`,
+
+                };
+                item.subitens.push(subItemExternas);
+
+              }
+              item.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  private manageVagasPlano(objeto: any, curso: Curso){
+    const documento = objeto;
+    let somaVagas = 0;
+
+    for (const capitulo of documento) {
+      if (capitulo.texto === 'PLANEJAMENTO') {
+        for (const item of capitulo.itens) {
+          if (item.numero === '2.2') {
+            for (const subitem of item.subitens) {
+              if (subitem.letra === 'a)') {
+                if (curso.pge) {
+                  for (let i = 1; i <= 15; i++) {
+                    const vagasBBMProperty = `vagasBBM${i}`;
+                    const vagasBBMValue = curso.pge[vagasBBMProperty];
+                    if (vagasBBMValue && Number(vagasBBMValue) > 0) {
+                      somaVagas += Number(vagasBBMValue);
+                      const subItem = {
+                        tipo:"subsubitem",
+                        letra: `(${subitem.subsubitens.length+1})`,
+                        texto: `${vagasBBMValue} ${Number(vagasBBMValue) === 1 ? 'vaga' : 'vagas'} para o ${i}ºBBM`,
+                      };
+                      subitem.subsubitens.push(subItem);
+                    }
+                  }
+      
+                  const vagasBBMBOA = curso.pge.vagasBBMBOA;
+                  if (vagasBBMBOA && Number(vagasBBMBOA) > 0) {
+                    somaVagas += Number(vagasBBMBOA);
+                    const subItemBOA = {
+                      tipo: "subsubitem",
+                      letra: `(${subitem.subsubitens.length+1})`,
+                      texto: `${vagasBBMBOA} ${Number(vagasBBMBOA) === 1 ? 'vaga' : 'vagas'} para o BOA`,
+    
+                    };
+                    subitem.subsubitens.push(subItemBOA);
+                  }
+      
+                  const vagasBBMCapital = curso.pge.vagasBBMCapital;
+                  if (vagasBBMCapital && Number(vagasBBMCapital) > 0) {
+                    somaVagas += Number(vagasBBMCapital);
+                    const subItemCapital = {
+                      tipo: "subsubitem",
+                      letra: `(${subitem.subsubitens.length+1})`,
+                      texto: `${vagasBBMCapital} ${Number(vagasBBMCapital) === 1 ? 'vaga' : 'vagas'} para a Capital`,
+    
+                    };
+                    subitem.subsubitens.push(subItemCapital);
+                  }
+      
+                  const vagasBBMExternas = curso.pge.vagasBBMExternas;
+                  if (vagasBBMExternas && Number(vagasBBMExternas) > 0) {
+                    somaVagas += Number(vagasBBMExternas);
+                    const subItemExternas = {
+                      tipo: "subsubitem",
+                      letra: `(${subitem.subsubitens.length+1})`,
+                      texto: `${vagasBBMExternas} ${Number(vagasBBMExternas) === 1 ? 'vaga externa' : 'vagas externas'}`,
+    
+                    };
+                    subitem.subsubitens.push(subItemExternas);
+    
+                  }
+                  subitem.texto = `A atividade de ensino tem previsto um total de ${somaVagas} vagas, as quais estão distribuídas da seguinte forma:`;
+                }
+              
+              }
+            }
+          }
+        }
       }
     }
   }
