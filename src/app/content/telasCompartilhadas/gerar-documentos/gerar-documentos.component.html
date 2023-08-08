@@ -11,16 +11,19 @@
             <h4 class="mb-4">Pendências para gerar o documento</h4>
             <div class="overflow-auto" style="max-height: 580px;">
               <ul class="list-group">
-                <li class="list-group-item" *ngFor="let error of cursoErrors">{{ error }}</li>
+                <li class="list-group-item error-item" *ngFor="let error of cursoErrors">{{ error }}</li>
               </ul>
             </div>
           </div>
           <ng-template #noPendingDocuments>
-            <p>Não há pendências.</p>
+            <p class="no-pending-text">Não há pendências.</p>
           </ng-template>
 
           <div *ngIf="!hasPendingDocuments" class="mt-4">
-            <button class="btn btn-primary" (click)="downloadDocumentos()">Gerar Documentos</button>
+            <button class="btn btn-primary generate-btn" (click)="downloadDocumentos()">
+              Gerar Documentos
+              <span class="checkmark">&#10003;</span>
+            </button>
           </div>
         </div>
       </div>
