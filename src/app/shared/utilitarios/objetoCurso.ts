@@ -6,6 +6,7 @@ import { User } from "./user";
 
 export interface Curso {
   id: number;
+  auth?:string;
   bbm?:string;
   sigla?: string,
   nomeCurso?: string,
@@ -30,7 +31,6 @@ export interface Curso {
   coordenador?: Coordenador;
   coordenadorDescricao?:string;
   coordenadorContato?:string;
-  globalProfessors?:User[];
   selectedProfessors?: User[]; 
   professoresSelecionados?:Subsubitem[]
   requisitoComplementar?: Subitem[];

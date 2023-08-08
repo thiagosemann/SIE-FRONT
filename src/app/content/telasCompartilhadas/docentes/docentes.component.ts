@@ -25,20 +25,15 @@ export class DocentesComponent implements OnInit {
   constructor(private userService: UserService, private cursoService: CursoService, private contentComponent: ContentComponent) {}
 
   ngOnInit(): void {
-    this.searchProfessoresSelecionados();
     const cursoEscolhido = this.cursoService.getCursoEscolhido();
+  
     if (cursoEscolhido) {
-      if (cursoEscolhido.selectedProfessors) {
-        this.selectedProfessors = cursoEscolhido.selectedProfessors;
-        this.searchProfessoresSelecionados();
-      }
-      if (cursoEscolhido.globalProfessors && cursoEscolhido.globalProfessors.length > 0) {
-        this.users = cursoEscolhido.globalProfessors;
-      } else {
-        this.getUsers();
-      }
-    }
-    this.searchUsers(); // Movido aqui
+      this.selectedProfessors = cursoEscolhido.selectedProfessors || [];
+
+    } 
+    this.getUsers();
+    this.searchProfessoresSelecionados();
+    this.searchUsers();
   }
 
   ngAfterViewInit() {
@@ -57,6 +52,9 @@ export class DocentesComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (users: User[]) => {
         this.users = users.sort((a, b) => a.name.localeCompare(b.name));
+        this.users = this.users.filter(globalProf =>
+          this.selectedProfessors.findIndex(selectedProf => selectedProf.id === globalProf.id) === -1
+        );
         this.searchUsers();
       },
       (error) => {

@@ -1,0 +1,29 @@
+/* Adicione este CSS em seu arquivo de estilo */
+.card {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list-group-item {
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  .docentesHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato'
+  }

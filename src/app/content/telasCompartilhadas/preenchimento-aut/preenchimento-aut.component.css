@@ -1,0 +1,31 @@
+.preenchimentoAutHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato'
+  }
+
+
+  .container {
+    margin-top: 50px;
+  }
+
+  .custom-input {
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-input:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .custom-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }

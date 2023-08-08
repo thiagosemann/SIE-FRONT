@@ -1,23 +1,25 @@
+<div class="text-white p-3 docentesHeader text-center">
+  <h2 class="mb-0">Gerar documentos</h2>
+</div>
+<br>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
       <div class="card">
         <div class="card-body">
           <div *ngIf="hasPendingDocuments; else noPendingDocuments">
-            <h4>Pendências do usuário:</h4>
-            <!-- Exiba as pendências do usuário aqui -->
-            <ul>
-              <li>Pendência 1</li>
-              <li>Pendência 2</li>
-              <li>Pendência 3</li>
-            </ul>
+            <h4 class="mb-4">Pendências para gerar o documento</h4>
+            <div class="overflow-auto" style="max-height: 580px;">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let error of cursoErrors">{{ error }}</li>
+              </ul>
+            </div>
           </div>
-
           <ng-template #noPendingDocuments>
             <p>Não há pendências.</p>
           </ng-template>
 
-          <div *ngIf="!hasPendingDocuments">
+          <div *ngIf="!hasPendingDocuments" class="mt-4">
             <button class="btn btn-primary" (click)="downloadDocumentos()">Gerar Documentos</button>
           </div>
         </div>

@@ -25,6 +25,7 @@ import { PreviewDocComponent } from './content/telas-admin/preview-doc/preview-d
 import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from './content/telasCompartilhadas/logistica1/logistica1.component';
+import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
 
 
 
@@ -45,6 +46,7 @@ import { Logistica1Component } from './content/telasCompartilhadas/logistica1/lo
     GerarDocumentosComponent,
     EdicaoDocumentosComponent,
     Logistica1Component,
+    PreenchimentoAutComponent,
   ],
   imports: [
     BrowserModule,

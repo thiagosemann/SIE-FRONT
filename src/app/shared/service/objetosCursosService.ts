@@ -34,6 +34,17 @@ export class CursoService {
   getCursoEscolhido(){
     return this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
   }
+
+  setCursoPreenchimentoAutomatico(curso: Curso): void {
+    const cursoEscolhido = this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
+  
+    if (cursoEscolhido) {
+      Object.assign(cursoEscolhido, curso);
+      console.log('Curso escolhido atualizado:', cursoEscolhido);
+    } else {
+      console.log('Curso escolhido não encontrado com o ID fornecido:', this.cursoEscolhidoId);
+    }
+  }
   
   // Método para encontrar um curso pelo ID e definir como curso escolhido
   async setIdCursoEscolhido(id: number): Promise<boolean> {
@@ -85,7 +96,6 @@ export class CursoService {
       cursoEscolhido.coordenadorContato = `Telefones: ${properties.coordenador?.telefoneFunc ?? ''},  ${properties.coordenador?.telefoneOBM ?? ''} ${properties.coordenador?.email ?? ''}`;
       cursoEscolhido.coordenadorDescricao = `${this.formatarGraduacao(properties.coordenador?.graduacao ?? '',"Abreviar") } BM MTCL ${properties.coordenador?.mtcl ?? ''} ${properties.coordenador?.nomeCompleto ?? ''}`;
     }
-    console.log(this.getCursos());
   }
 
   
@@ -116,11 +126,9 @@ export class CursoService {
  
 private setAttributeInCursoEscolhido(atributo: string, valor: any): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
-    console.log(cursoEscolhido)
     if (cursoEscolhido) {
       cursoEscolhido[atributo] = valor;
     }
-    console.log(this.getCursos());
   }
 
 
@@ -204,7 +212,6 @@ private setAttributeInCursoEscolhido(atributo: string, valor: any): void {
       Object.assign(cursoEscolhido, properties);
       cursoEscolhido.localApresentacao = cursoEscolhido.localAtiRua +", "+ cursoEscolhido.localAtiNumeral +", "+ cursoEscolhido.localAtiBairro +", "+ cursoEscolhido.localAtiMunicipio +" - "+ cursoEscolhido.localAtiNome;
     }
-    console.log(this.getCursos())
   }
 
   formatDateExtenso(dataIni:string, dataFim:string) {

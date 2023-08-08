@@ -12,6 +12,7 @@ import { PreviewDocComponent } from 'src/app/content/telas-admin/preview-doc/pre
 import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/gerar-documentos/gerar-documentos.component';
 import { EdicaoDocumentosComponent } from 'src/app/content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from 'src/app/content/telasCompartilhadas/logistica1/logistica1.component';
+import { PreenchimentoAutComponent } from 'src/app/content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -25,6 +26,7 @@ export interface ComponentItem {
 export class CourseConfigService {
   private aberturaCursoMilitar: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM' ,validity: false },
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false },
     { component: DatasAberturaComponent, name: 'Datas',validity: false  },
     { component: LocalApresentacaoComponent, name: 'Local',validity: false  },
     { component: CoordenadorComponent, name: 'Coordenador',validity: false  },

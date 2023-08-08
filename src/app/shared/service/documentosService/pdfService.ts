@@ -495,6 +495,11 @@ export class PdfService {
   
     percorrerElementos(objeto);
   }
+  private replaceCoordenadorPE(str: string, curso: Curso): string {
+  
+   
+    return str;
+  }
   
   private replacePropertiesInString(str: string, curso: Curso): string {
     // Replace {requisitosCSM} with a specific text based on the course's sigla
@@ -518,7 +523,10 @@ export class PdfService {
         str = str.replace(placeholder, curso[prop]);
       }
     }
-  
+    str = str.replace('{coordPG}', curso.coordenador?.graduacao!);
+    str = str.replace("{coordMtcl}", curso.coordenador?.mtcl!);
+    str = str.replace("{coordNome}", curso.coordenador?.nomeCompleto!);
+
     return str;
   }
 //--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO-----------------------------------------------------------------------------------//
