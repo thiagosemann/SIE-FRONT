@@ -79,4 +79,6 @@ export class ContentComponent implements OnInit {
       component.validity = false;
     });
   }
+  
+
 }

@@ -4,6 +4,9 @@ import { PgeService } from 'src/app/shared/service/pgeService';
 import { ContentComponent } from '../../content.component';
 import { CursoService } from '../../../shared/service/objetosCursosService'; // Importe o CursoService aqui
 import { Curso } from '../../../shared/utilitarios/objetoCurso';
+import { ToastrService } from 'ngx-toastr';
+import { Pge } from 'src/app/shared/utilitarios/pge';
+import { AtividadeHomologada } from 'src/app/shared/utilitarios/atividadeHomologada';
 
 
 @Component({
@@ -20,7 +23,8 @@ export class PgeComponent implements OnInit {
   constructor(private googleService: GoogleScriptService, 
               private contentComponent: ContentComponent, 
               private cursoService: CursoService,
-              private pgeService: PgeService) {}
+              private pgeService: PgeService,
+              private toasterService: ToastrService) {}
 
   ngOnInit() {
     this.pgeService.getPge().subscribe(data => {
@@ -58,7 +62,7 @@ export class PgeComponent implements OnInit {
     const firstThreeDigits = item.procNum.substr(0, 3);
   
     if (firstThreeDigits === '1.9') {
-      this.handleTreinamentoMilitar();
+      this.handleCurso(item,"TreinamentoMilitar");
     } else if (
       firstThreeDigits === '1.1' ||
       firstThreeDigits === '1.2' ||
@@ -69,35 +73,46 @@ export class PgeComponent implements OnInit {
       firstThreeDigits === '1.7' ||
       firstThreeDigits === '1.8'
     ) {
-      this.handleCursoMilitar(item);
+      this.handleCurso(item,"CursoMilitar");
     } else {
       this.courseType = '';
     }
   }
+
+async handleCurso(item: any, name: string){
+  const cursoExistente = this.getExistingCurso(item.id);
+  if(cursoExistente && cursoExistente.type){
+    this.cursoService.setIdCursoEscolhido(item.id); // Se o curso existir somente seta novamente o ID do curso escolhido.
+    this.contentComponent.alterarCourseType(cursoExistente.type);
+  }else{
+    const novoCurso: Curso = this.createNewCursoObj(item);
+    this.setNovoCursoType(novoCurso, item.situacao, name);
+    const isHomologadoOrNotCapacitacao = await this.cursoService.isHomologado(item.sigla,name)
+    if(isHomologadoOrNotCapacitacao){
+      this.cursoService.adicionarCurso(novoCurso);
+      this.cursoService.setIdCursoEscolhido(item.id);
+      this.cursoService.inserirPropriedadesHomologadoCursoEscolhido()
+      if(novoCurso.type){
+        this.contentComponent.alterarCourseType(novoCurso.type);
+      }
+    }
+  }
+}
   
-  handleTreinamentoMilitar() {
-    this.contentComponent.alterarCourseType('aberturaTreinamentoMilitar');
+  private getExistingCurso(id: number): Curso | undefined {
+    const cursos = this.cursoService.getCursos();
+    return cursos.find(curso => curso.id === id);
   }
   
-  async handleCursoMilitar(item: any) {
-    const cursos = this.cursoService.getCursos();
-    const cursoExistente = cursos.find(curso => curso.id === item.id);
-    if (cursoExistente) {    
-      const isHomologado = await this.cursoService.setIdCursoEscolhido(item.id);
-      console.log(isHomologado);
-      if (isHomologado) {
-        if (item.situacao === 'PREVISTO') {
-          this.contentComponent.alterarCourseType('aberturaCursoMilitar');
-        } else if (item.situacao === 'ANDAMENTO') {
-          this.contentComponent.alterarCourseType('encerramentoCursoMilitar');
-        }
-      }
-      return;
+  private setNovoCursoType(novoCurso: Curso, situacao: string, name: string) {
+    if (situacao === 'PREVISTO') {
+      novoCurso.type = `abertura${name}`;
+    } else if (situacao === 'ANDAMENTO') {
+      novoCurso.type = `encerramento${name}`;
     }
+  }
   
-    let type: string;
-
-    console.log(item)
+  createNewCursoObj(item: any): Curso{
     const novoCurso: Curso = {
       id: item.id,
       type: '',
@@ -108,25 +123,7 @@ export class PgeComponent implements OnInit {
       numeroProcesso:item.procNum,
       pge:item
     };
-
-    if (item.situacao === 'PREVISTO') {
-      novoCurso.type = 'abertura';
-      this.cursoService.adicionarCurso(novoCurso);
-      const isHomologado = await this.cursoService.setIdCursoEscolhido(item.id);
-      if(isHomologado){
-        this.contentComponent.alterarCourseType('aberturaCursoMilitar');
-      }
-    } else if (item.situacao === 'ANDAMENTO') {
-      novoCurso.type = 'encerramento';
-      this.cursoService.adicionarCurso(novoCurso);
-      const isHomologado = await this.cursoService.setIdCursoEscolhido(item.id);
-      if(isHomologado){
-        this.contentComponent.alterarCourseType('encerramentoCursoMilitar');
-      }
-    } else {
-      return;
-    }
-
+    return novoCurso
   }
   
 

@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Curso } from '../utilitarios/objetoCurso';
-import { User } from '../utilitarios/user';
-import { Prescricao } from '../utilitarios/prescricao';
-import { Material } from '../utilitarios/material';
 import { AtividadeHomologadaService } from './atividadeHomologadaService';
 import { AtividadeHomologada } from '../utilitarios/atividadeHomologada';
 import { Subitem, Subsubitem } from '../utilitarios/documentoPdf';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +10,13 @@ import { ToastrService } from 'ngx-toastr';
 export class CursoService {
   private cursos: Curso[] = [];
   private cursoEscolhidoId: number = 0;
-  constructor(private atividadeHomologadaService:AtividadeHomologadaService, private toasterService: ToastrService) { }
+  constructor(private atividadeHomologadaService:AtividadeHomologadaService) { }
 
   // Método para adicionar um novo curso à lista
   adicionarCurso(curso: Curso): void {
     // Atribui um novo ID ao curso
     this.cursos.push(curso);
+    console.log(this.cursos)
   }
 
   // Método para obter todos os cursos
@@ -45,45 +42,37 @@ export class CursoService {
       console.log('Curso escolhido não encontrado com o ID fornecido:', this.cursoEscolhidoId);
     }
   }
-  
-  // Método para encontrar um curso pelo ID e definir como curso escolhido
-  async setIdCursoEscolhido(id: number): Promise<boolean> {
 
+  setIdCursoEscolhido(id: number) {
     const curso = this.cursos.find(curso => curso.id === id);
+    this.cursoEscolhidoId = id;
+  }
 
+  async isHomologado(sigla:string,name:string): Promise<boolean>{
+    const atividade = await this.getAtividade(sigla);
+    if (atividade && Object.keys(atividade).length > 0) {
+      return true; // Curso homologado
+    }else if(name !="CursoMilitar"){
+      return true; // Curso homologado
+    }
+    return false
+  }
+
+ async inserirPropriedadesHomologadoCursoEscolhido(){
+  const curso = this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
     if (curso && curso.sigla) {
-      try {
         const atividade = await this.getAtividade(curso.sigla);
         if (atividade && Object.keys(atividade).length > 0) {
-          this.cursoEscolhidoId = id;
           curso.atividadeHomologada = atividade;
           curso.sgpe = atividade.sgpe;
           curso.finalidade = atividade.finalidade;
           curso.atividadesPreliminares = atividade.atividadesPreliminares;
           curso.processoSeletivo = this.createItemProcessoSeletivo(atividade.processoSeletivo);
           curso.requisitoEspecifico = this.construirArrayFromString(atividade.reqEspecifico);
-          
-          return true; // Curso homologado
-        } else {
-          console.log("Curso não homologado")
-          this.toasterService.error("Curso não homologado");
-          return false; // Curso não homologado
-           //return true; // Curso homologado
 
-        }
-      } catch (error) {
-        console.error(error);
-        return false; // Curso não homologado (erro ao obter a atividade)
-      }
+        }   
     }
-    
-    return false; // Curso não encontrado
   }
-  
-
-
-
-  
 
   // Método para obter um curso pelo ID
   getCursoById(id: number): Curso | undefined {

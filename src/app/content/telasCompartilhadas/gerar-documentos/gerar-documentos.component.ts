@@ -3,6 +3,14 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
 import { GenerateCursosService } from 'src/app/shared/service/genereteCurosService';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
+import { CourseConfigService, ComponentItem } from '../../../shared/service/CourseConfigService';
+
+interface ComponentError {
+  component: string;
+  propertyName: string;
+  errorMessage: string;
+  notEmpty:boolean;
+}
 
 @Component({
   selector: 'app-gerar-documentos',
@@ -12,16 +20,20 @@ import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 export class GerarDocumentosComponent implements OnInit {
   hasPendingDocuments: boolean = false;
   cursoErrors: string[] = [];
+  public components: ComponentItem[] = [];
 
   constructor(
     private pdfService: PdfService,
     private cursoService: CursoService,
-    private generateCursosService : GenerateCursosService
+    private generateCursosService : GenerateCursosService,
+    private courseConfigService: CourseConfigService
+
   ) {}
 
   ngOnInit(): void {
     // Lógica para verificar as pendências do usuário
     this.hasPendingDocuments = this.checkPendingDocuments();
+
   }
 
   async downloadDocumentos(): Promise<void> {
@@ -80,125 +92,94 @@ export class GerarDocumentosComponent implements OnInit {
 
   checkPendingDocuments(): boolean {
     const curso = this.cursoService.getCursoEscolhido();
+    console.log(curso)
     const errors = this.getCursoErrors(curso!);
     this.cursoErrors = errors
     if (errors.length > 0) {
-      console.log("Erros encontrados:", errors);
       return true; // Indica que há pendências
     } else {
       return false; // Não há pendências
     }
   }
-
-   getCursoErrors(curso: Curso): string[] {
+  getCursoErrors(curso: Curso): string[] {
     const errors: string[] = [];
 
-    if (!curso.startInscritiondate) {
-      errors.push("A data de início das inscrições não está definida.");
-    }
-  
-    if (!curso.startInscritionHorario) {
-      errors.push("O horário de início das inscrições não está definido.");
-    }
-  
-    if (!curso.endInscritiondate) {
-      errors.push("A data de término das inscrições não está definida.");
-    }
-  
-    if (!curso.endInscritionHorario) {
-      errors.push("O horário de término das inscrições não está definido.");
-    }
-  
-    if (!curso.emailInscrition) {
-      errors.push("O email de inscrição não está definido.");
-    }
-  
-    if (!curso.iniCur) {
-      errors.push("O início do curso não está definido.");
-    }
-  
-    if (!curso.fimCur) {
-      errors.push("O fim do curso não está definido.");
-    }
-  
-    if (!curso.apresentacaoHorario) {
-      errors.push("O horário de apresentação não está definido.");
-    }
-  
-    if (!curso.processoSeletivoDate) {
-      errors.push("A data do processo seletivo não está definida.");
-    }
-  
-    if (!curso.processoSeletivoHorario) {
-      errors.push("O horário do processo seletivo não está definido.");
-    }
-  
-    if (!curso.localAtiBairro) {
-      errors.push("O bairro do local de atividades não está definido.");
-    }
-  
-    if (!curso.localAtiRua) {
-      errors.push("A rua do local de atividades não está definida.");
-    }
-  
-    if (!curso.localAtiNumeral) {
-      errors.push("O numeral do local de atividades não está definido.");
-    }
-  
-    if (!curso.localAtiNome) {
-      errors.push("O nome do local de atividades não está definido.");
-    }
-  
-    if (!curso.localAtiMunicipio) {
-      errors.push("O município do local de atividades não está definido.");
-    }
-  
-    if (!curso.coordenador) {
-      errors.push("O coordenador não está definido.");
-    }
-  
-    if (!curso.coordenadorDescricao) {
-      errors.push("A descrição do coordenador não está definida.");
-    }
-  
-    if (!curso.coordenadorContato) {
-      errors.push("O contato do coordenador não está definido.");
-    }
-  
-    if (!curso.selectedProfessors || curso.selectedProfessors.length === 0) {
-      errors.push("Nenhum professor selecionado.");
-    }
-  
-    if (!curso.requisitoComplementar || curso.requisitoComplementar.length === 0) {
-      errors.push("Requisitos complementares não definidos ou vazios.");
-    }
-     
-    if (!curso.prescricaoComplementar || curso.prescricaoComplementar.length === 0) {
-      errors.push("Prescrições complementares não definidas ou vazias.");
-    }
-  
-    if (!curso.alimentos || curso.alimentos.length === 0) {
-      errors.push("Alimentos não definidos ou vazios.");
-    }
-  
-    if (!curso.uniformes || curso.uniformes.length === 0) {
-      errors.push("Uniformes não definidos ou vazios.");
-    }
-  
-    if (!curso.materiaisIndividuais || curso.materiaisIndividuais.length === 0) {
-      errors.push("Materiais individuais não definidos ou vazios.");
-    }
-  
-    if (!curso.materiaisColetivos || curso.materiaisColetivos.length === 0) {
-      errors.push("Materiais coletivos não definidos ou vazios.");
+
+
+    if (curso && curso.type) {
+      this.components = this.courseConfigService.getComponents(curso.type);
+      console.log(this.components);
+      const componentErrorsMap: ComponentError[] = [];
+      this.components.forEach(component => {
+        const componentErrors = this.getComponentErrorsByComponentName(component.componentName);
+        componentErrors.forEach(error => {
+          componentErrorsMap.push(error);
+        });
+      });
+          
+      componentErrorsMap.forEach(({ component, propertyName, errorMessage, notEmpty }) => {
+        if (notEmpty) {
+          if (!curso[propertyName] || curso[propertyName].length === 0) {
+            errors.push(`[${component}] ${errorMessage}`);
+          }
+        } else if (!curso[propertyName]) {
+          errors.push(`[${component}] ${errorMessage}`);
+        }
+      });
+
     }
 
-    if (!curso.localApresentacao) {
-      errors.push("O local de apresentação não está definido.");
-    }    
     return errors;
   }
+
+  getComponentErrorsByComponentName(componentName: string): ComponentError[] {
+    // Define os erros de cada componente de acordo com o nome do componente
+    const componentErrors: { [key: string]: ComponentError[] } = {
+       DatasAberturaComponent : [
+        { component: "DatasAberturaComponent", propertyName: "startInscritiondate", errorMessage: "A data de início das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "startInscritionHorario", errorMessage: "O horário de início das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "endInscritiondate", errorMessage: "A data de término das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "endInscritionHorario", errorMessage: "O horário de término das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "emailInscrition", errorMessage: "O email de inscrição não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "iniCur", errorMessage: "O início do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "fimCur", errorMessage: "O fim do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "apresentacaoHorario", errorMessage: "O horário de apresentação não está definido.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "processoSeletivoDate", errorMessage: "A data do processo seletivo não está definida.",notEmpty:false },
+        { component: "DatasAberturaComponent", propertyName: "processoSeletivoHorario", errorMessage: "O horário do processo seletivo não está definido.",notEmpty:false }
+      ],
+      LocalApresentacaoComponent: [
+        { component: "LocalApresentacaoComponent", propertyName: "localAtiBairro", errorMessage: "O bairro do local de atividades não está definido.",notEmpty:false },
+        { component: "LocalApresentacaoComponent", propertyName: "localAtiRua", errorMessage: "A rua do local de atividades não está definida.",notEmpty:false },
+        { component: "LocalApresentacaoComponent", propertyName: "localAtiNumeral", errorMessage: "O numeral do local de atividades não está definido.",notEmpty:false },
+        { component: "LocalApresentacaoComponent", propertyName: "localAtiNome", errorMessage: "O nome do local de atividades não está definido.",notEmpty:false },
+        { component: "LocalApresentacaoComponent", propertyName: "localAtiMunicipio", errorMessage: "O município do local de atividades não está definido.",notEmpty:false },
+        { component: "LocalApresentacaoComponent", propertyName: "localApresentacao", errorMessage: "O local de apresentação não está definido.",notEmpty:false }
   
+      ],
+      CoordenadorComponent : [
+        { component: "CoordenadorComponent", propertyName: "coordenador", errorMessage: "O coordenador não está definido.",notEmpty:false },
+        { component: "CoordenadorComponent", propertyName: "coordenadorDescricao", errorMessage: "A descrição do coordenador não está definida.",notEmpty:false },
+        { component: "CoordenadorComponent", propertyName: "coordenadorContato", errorMessage: "O contato do coordenador não está definido.",notEmpty:false }
+      ],
+      DocentesComponent : [
+        { component: "DocentesComponent", propertyName: "selectedProfessors", errorMessage: "Nenhum professor selecionado.",notEmpty:true },
+      ],
+       RequisitosComplementaresComponent :  [
+        { component: "RequisitosComplementaresComponent", propertyName: "requisitoComplementar", errorMessage: "Requisitos complementares não definidos ou vazios.",notEmpty:true },
+      ],
+       PrescricoesComplementaresComponent :  [
+        { component: "PrescricoesComplementaresComponent", propertyName: "prescricaoComplementar", errorMessage: "Prescrições complementares não definidas ou vazias.",notEmpty:true },
+      ],
+       Logistica1Component : [
+        { component: "Logistica1Component", propertyName: "alimentos", errorMessage: "Alimentos não definidos ou vazios.",notEmpty:true },
+        { component: "Logistica1Component", propertyName: "uniformes", errorMessage: "Uniformes não definidos ou vazios.",notEmpty:true },
+        { component: "Logistica1Component", propertyName: "materiaisIndividuais", errorMessage: "Materiais individuais não definidos ou vazios.",notEmpty:true },
+        { component: "Logistica1Component", propertyName: "materiaisColetivos", errorMessage: "Materiais coletivos não definidos ou vazios.",notEmpty:true }
+      ]
+      // ... defina outros componentes e erros conforme necessário ...
+    };
+    return componentErrors[componentName] || [];
+  }
 
 
 
