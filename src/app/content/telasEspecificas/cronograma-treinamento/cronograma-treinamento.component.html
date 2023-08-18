@@ -20,13 +20,13 @@
                 <!-- Coloque aqui o conteúdo explicativo que desejar -->
               </div>
               <div class="input-group mb-3">
-                <select class="form-control" [(ngModel)]="cursoSelecionado" (change)="atualizarLicoes()">
+                <select class="form-control" [(ngModel)]="cursoSelecionado" (change)="atualizarLicoes(cursoSelecionado)">
                   <option value="" disabled selected>Selecione um curso</option>
-                  <option *ngFor="let curso of cursos">{{ curso.sigla }}</option>
+                  <option *ngFor="let curso of cursos" [value]="curso.sigla">{{ curso.sigla }}</option>
                 </select>
                 <select class="form-control" [(ngModel)]="licaoSelecionada">
                   <option value="" disabled selected>Selecione uma unidade didática</option>
-                  <option *ngFor="let licao of licoes">{{ licao }}</option>
+                  <option *ngFor="let licao of licoesAux">{{ licao.nome }}</option>
                 </select>
                 <div class="input-group-append">
                   <button class="btn btn-primary" (click)="adicionarLicao()">
@@ -37,16 +37,20 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>Curso</th>
                     <th>Lições</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of licoesSelecionadas; let i = index">
-                    <td>{{ item.curso }}</td>
+                  <tr *ngFor="let licao of licoes; let i = index">
                     <td>
-                      {{ item.licao }}
+                      {{ licao.letra }} {{ licao.texto }}
                       <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerLicao(i)"></i>
+                      <ul>
+                        <li *ngFor="let subsubsubitem of licao.subsubsubitens; let j = index">
+                          {{ subsubsubitem.letra }} {{ subsubsubitem.texto }}
+                          <i class="fa-solid fa-square-xmark fa-sm delete-Sub_item" (click)="removerSubsubsubItem(i, j)" ></i>
+                        </li>
+                      </ul>
                     </td>
                   </tr>
                 </tbody>

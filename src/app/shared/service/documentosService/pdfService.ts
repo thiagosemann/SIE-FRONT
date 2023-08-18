@@ -36,7 +36,6 @@ export class PdfService {
         this.manageLogistica(responseDoc.dados.documento, curso);
         this.manageDocentes(responseDoc.dados.documento, curso);
         this.managePrescricoes(responseDoc.dados.documento, curso,'Plano')
-
       }
   
       await this.generateDocumento(doc, responseDoc.dados);

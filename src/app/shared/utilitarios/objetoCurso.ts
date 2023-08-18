@@ -52,6 +52,7 @@ export interface Curso {
   atividadesPreliminares?:string;
   processoSeletivo?:Item[];
   pge?:Pge;
+  licoes?:Subsubitem[];
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

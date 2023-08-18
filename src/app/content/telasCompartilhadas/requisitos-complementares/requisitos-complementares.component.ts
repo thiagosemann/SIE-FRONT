@@ -12,6 +12,7 @@ export class RequisitosComplementaresComponent {
   requisitos: Subitem[] = [];
   subsubitensTemp: string[] = [];
   requisitosEspecificos : Subitem[] = [];
+  
   constructor(private contentComponent : ContentComponent, private cursoService: CursoService) {}
 
   ngOnInit(): void {
