@@ -26,6 +26,7 @@ import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-do
 import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from './content/telasCompartilhadas/logistica1/logistica1.component';
 import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
+import { CronogramaTreinamentoComponent } from './content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
 
 
 
@@ -47,6 +48,7 @@ import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preench
     EdicaoDocumentosComponent,
     Logistica1Component,
     PreenchimentoAutComponent,
+    CronogramaTreinamentoComponent,
   ],
   imports: [
     BrowserModule,

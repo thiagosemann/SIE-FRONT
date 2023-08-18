@@ -1,0 +1,112 @@
+.requisitos-header {
+    background-color: #4B6199;
+    padding: 15px;
+    border-radius: 0px 10px 0 0;
+    text-align: center;
+  }
+  
+  .requisitos-header h2 {
+    margin: 0;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .custom-checkbox .form-check-input {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid #4B6199;
+    border-radius: 4px;
+  }
+  
+  .custom-checkbox .form-check-input:checked {
+    background-color: #4B6199;
+    border-color: #4B6199;
+  }
+  
+  .custom-checkbox .form-check-input:focus {
+    box-shadow: none;
+  }
+  
+  .custom-checkbox .form-check-input:disabled {
+    opacity: 0.5;
+  }
+  
+  .requisitos-basicos,
+  .requisitos-especificos {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #333;
+  }
+  
+  .labelRequisitos {
+    font-size: 20px;
+    font-weight: bolder;
+  }
+  
+  #inputRequisitosComplementares {
+    display: inline-block;
+    width: 80%;
+  }
+  
+  #addRequisitoComplementar {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  
+  .requisitos-list {
+    list-style-type: decimal;
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  .delete-Sub_item {
+    cursor: pointer;
+    background-color: #f8d7da;
+    color: red;
+  }
+  
+  .alert-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .scrollable-column {
+    max-height: 65vh; /* Defina a altura desejada para a coluna com scroll */
+    overflow-y: auto;
+  }
+  .requisitos-container {
+    padding: 0 15px; /* Adicione o padding desejado aqui */
+  }
+  .colapsable-wrapper {
+    position: relative;
+  }
+  
+  .colapsable-wrapper:before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+  }
+  
+  .expand-icon {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .explicacao {
+    margin-top: 10px;
+  }
+  
+  
+  
+  
+  

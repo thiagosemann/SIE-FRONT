@@ -39,19 +39,16 @@ export class GerarDocumentosComponent implements OnInit {
     try {
       const curso = this.cursoService.getCursoEscolhido();
       if (curso) {
-        // Gerar o número randômico de 15 caracteres
         const auth = this.generateRandomHash(15);
         curso.auth = auth
-        // Remover a propriedade "pge" e "atividadeHomologada" do curso antes de enviar
         const { pge, atividadeHomologada,globalProfessors, ...cursoEco } = curso;
         const type = curso.type;
         let objeto = {
           auth: "",
           dados: {},
-          tipo: "abertura",
+          tipo: type,
           id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
         }
-        console.log(type)
         if(type){
           if(type.includes("abertura")){
             const editalPdf = await this.pdfService.createDocument(cursoEco, 'edital', type);
@@ -59,7 +56,7 @@ export class GerarDocumentosComponent implements OnInit {
             objeto = {
               auth: auth,
               dados: cursoEco,
-              tipo: "abertura",
+              tipo: type,
               id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
             }
             this.generateCursosService.createCurso(objeto).subscribe(
@@ -77,7 +74,7 @@ export class GerarDocumentosComponent implements OnInit {
             objeto = {
               auth: auth,
               dados: cursoEco,
-              tipo: "encerramento",
+              tipo: type,
               id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
             }
             this.generateCursosService.createCurso(objeto).subscribe(

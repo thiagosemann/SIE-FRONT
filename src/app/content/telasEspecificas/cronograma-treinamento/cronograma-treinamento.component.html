@@ -1,0 +1,60 @@
+<div class="requisitos-header text-center">
+    <div class="container">
+      <h2 class="mb-0">Cronograma do Treinamento</h2>
+    </div>
+</div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="requisitos-column">
+          <div class="requisitos-basicos">
+            <div class="mb-3" id="requisitosDivAnswer">
+              <div class="mb-3 colapsable-wrapper">
+                <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoLicoes()">Unidades didáticas a serem ministradas no Treinamento Militar</label>
+                <div class="expand-icon" (click)="toggleExplicacaoLicoes()">
+                  <i class="fas" [ngClass]="mostrarExplicacaoLicoes ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+              </div>
+              <div class="explicacao" *ngIf="mostrarExplicacaoLicoes">
+                <p>Para o treinamento operacional, todas as unidades didáticas podem ser escolhidas. Caso queira realizar um treinamento especifico contendo somente um curso base, esse treinamento operacional se tornará o treinamento do curso escolhido. Exemplo: Se escolher somente unidades didáticas de APH, o Treinamento Operacional, se tornará Treianemtno em APH. </p>
+                <!-- Coloque aqui o conteúdo explicativo que desejar -->
+              </div>
+              <div class="input-group mb-3">
+                <select class="form-control" [(ngModel)]="cursoSelecionado" (change)="atualizarLicoes()">
+                  <option value="" disabled selected>Selecione um curso</option>
+                  <option *ngFor="let curso of cursos">{{ curso.sigla }}</option>
+                </select>
+                <select class="form-control" [(ngModel)]="licaoSelecionada">
+                  <option value="" disabled selected>Selecione uma unidade didática</option>
+                  <option *ngFor="let licao of licoes">{{ licao }}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="adicionarLicao()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Curso</th>
+                    <th>Lições</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of licoesSelecionadas; let i = index">
+                    <td>{{ item.curso }}</td>
+                    <td>
+                      {{ item.licao }}
+                      <i class="fa-solid fa-square-xmark fa-lg delete-Sub_item" (click)="removerLicao(i)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

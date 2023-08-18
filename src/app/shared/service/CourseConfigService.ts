@@ -13,6 +13,8 @@ import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/ge
 import { EdicaoDocumentosComponent } from 'src/app/content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from 'src/app/content/telasCompartilhadas/logistica1/logistica1.component';
 import { PreenchimentoAutComponent } from 'src/app/content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
+import { CronogramaTreinamentoComponent } from 'src/app/content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
+
 
 export interface ComponentItem {
     component: Type<any>,
@@ -47,6 +49,7 @@ export class CourseConfigService {
     { component: LocalApresentacaoComponent, name: 'Local',validity: false, componentName:"LocalApresentacaoComponent"  },
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
     { component: DocentesComponent, name: 'Docentes',validity: false, componentName:"DocentesComponent"  },
+    { component: CronogramaTreinamentoComponent, name: 'Cronograma',validity: false, componentName:"CronogramaTreinamentoComponent"  },
     { component: Logistica1Component, name: 'Logística',validity: false, componentName:"Logistica1Component"  },
     { component: PrescricoesComplementaresComponent, name: 'Prescrições',validity: false, componentName:"PrescricoesComplementaresComponent" },
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },

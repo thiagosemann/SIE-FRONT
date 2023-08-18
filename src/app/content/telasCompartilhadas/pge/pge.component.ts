@@ -5,8 +5,6 @@ import { ContentComponent } from '../../content.component';
 import { CursoService } from '../../../shared/service/objetosCursosService'; // Importe o CursoService aqui
 import { Curso } from '../../../shared/utilitarios/objetoCurso';
 import { ToastrService } from 'ngx-toastr';
-import { Pge } from 'src/app/shared/utilitarios/pge';
-import { AtividadeHomologada } from 'src/app/shared/utilitarios/atividadeHomologada';
 
 
 @Component({
@@ -20,11 +18,10 @@ export class PgeComponent implements OnInit {
   courseType = 'aberturaCursoMilitar';
   skeletonItems: any[] = Array(12).fill({}); // Adjust the number of skeleton rows as needed
 
-  constructor(private googleService: GoogleScriptService, 
-              private contentComponent: ContentComponent, 
+  constructor(private contentComponent: ContentComponent, 
               private cursoService: CursoService,
-              private pgeService: PgeService,
-              private toasterService: ToastrService) {}
+              private pgeService: PgeService
+              ) {}
 
   ngOnInit() {
     this.pgeService.getPge().subscribe(data => {
