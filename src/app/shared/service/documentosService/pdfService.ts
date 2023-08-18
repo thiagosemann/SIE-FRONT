@@ -16,8 +16,7 @@ export class PdfService {
 
   async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
-    console.log("Type",type)
-    console.log("curseName",curseName)
+
     
     if (type === 'edital' || type === 'plano') {
       const responseDoc = await this.getDocument(type, curseName).toPromise();
@@ -63,7 +62,6 @@ export class PdfService {
   }
 
   getDocument(type: string,curseName:string): Observable<any> {
-    console.log(type+curseName)
     return this.documentoService.getDocumentoByNome(type+curseName).pipe(
       map((plano: Documento) => {
         return plano; // Retorna o JSON
@@ -122,7 +120,6 @@ export class PdfService {
           if (item.numero === "3.2" && item.texto === "Corpo docente" ) {
             for (const subitem of item.subitens) {
               if (subitem.letra === "b)" && subitem.texto === "Corpo docente previsto:" ) {
-                console.log(subitem)
                 subitem.subsubitens = curso.professoresSelecionados;
               }
             }

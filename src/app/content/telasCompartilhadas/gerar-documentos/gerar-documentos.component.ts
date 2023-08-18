@@ -21,7 +21,6 @@ export class GerarDocumentosComponent implements OnInit {
   hasPendingDocuments: boolean = false;
   cursoErrors: string[] = [];
   public components: ComponentItem[] = [];
-
   constructor(
     private pdfService: PdfService,
     private cursoService: CursoService,
@@ -45,30 +44,53 @@ export class GerarDocumentosComponent implements OnInit {
         curso.auth = auth
         // Remover a propriedade "pge" e "atividadeHomologada" do curso antes de enviar
         const { pge, atividadeHomologada,globalProfessors, ...cursoEco } = curso;
-   
-        
-        const editalPdf = await this.pdfService.createDocument(cursoEco, 'edital', 'Capacitacao');
-        this.downloadFile(editalPdf as Blob, 'edital.pdf');
-        const planoPdf = await this.pdfService.createDocument(cursoEco, 'plano', 'Capacitacao');
-        this.downloadFile(planoPdf as Blob, 'plano.pdf');
-  
-
-        // Enviar apenas o id da propriedade "pge" em "id_pge"
-        const objeto = {
-          auth: auth,
-          dados: cursoEco,
+        const type = curso.type;
+        let objeto = {
+          auth: "",
+          dados: {},
           tipo: "abertura",
           id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
         }
-  
-        this.generateCursosService.createCurso(objeto).subscribe(
-          (response) => {
-            console.log('Curso criado com sucesso:', response);
-          },
-          (error) => {
-            console.error('Erro ao criar curso:', error);
+        console.log(type)
+        if(type){
+          if(type.includes("abertura")){
+            const editalPdf = await this.pdfService.createDocument(cursoEco, 'edital', type);
+            const planoPdf = await this.pdfService.createDocument(cursoEco, 'plano', type);
+            objeto = {
+              auth: auth,
+              dados: cursoEco,
+              tipo: "abertura",
+              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+            }
+            this.generateCursosService.createCurso(objeto).subscribe(
+              (response) => {
+                console.log('Curso criado com sucesso:', response);
+                this.downloadFile(editalPdf as Blob, 'edital.pdf');
+                this.downloadFile(planoPdf as Blob, 'plano.pdf');
+              },
+              (error) => {
+                console.error('Erro ao criar curso:', error);
+              }
+            );
+          }else if(type.includes("encerramento")){
+            const relatorioFinalPdf = await this.pdfService.createDocument(cursoEco, 'relatorioFinal', type);
+            objeto = {
+              auth: auth,
+              dados: cursoEco,
+              tipo: "encerramento",
+              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+            }
+            this.generateCursosService.createCurso(objeto).subscribe(
+              (response) => {
+                console.log('Curso criado com sucesso:', response);
+                this.downloadFile(relatorioFinalPdf as Blob, 'relatorioFinalPdf.pdf');
+              },
+              (error) => {
+                console.error('Erro ao criar curso:', error);
+              }
+            );
           }
-        );
+        }
       } else {
         console.error('Curso não selecionado.');
       }
@@ -76,7 +98,6 @@ export class GerarDocumentosComponent implements OnInit {
       console.error('Error generating PDF:', error);
     }
   }
-  
   
 
 
@@ -103,9 +124,6 @@ export class GerarDocumentosComponent implements OnInit {
   }
   getCursoErrors(curso: Curso): string[] {
     const errors: string[] = [];
-
-
-
     if (curso && curso.type) {
       this.components = this.courseConfigService.getComponents(curso.type);
       console.log(this.components);
@@ -176,7 +194,6 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "Logistica1Component", propertyName: "materiaisIndividuais", errorMessage: "Materiais individuais não definidos ou vazios.",notEmpty:true },
         { component: "Logistica1Component", propertyName: "materiaisColetivos", errorMessage: "Materiais coletivos não definidos ou vazios.",notEmpty:true }
       ]
-      // ... defina outros componentes e erros conforme necessário ...
     };
     return componentErrors[componentName] || [];
   }
