@@ -16,39 +16,30 @@ export class PdfService {
 
   async createDocument(curso: Curso, type: string, curseName: string): Promise<Blob> {
     const doc = new jsPDF();
+    const responseDoc = await this.getDocument(type, curseName).toPromise();
 
-    
-    if (type === 'edital' || type === 'plano') {
-      const responseDoc = await this.getDocument(type, curseName).toPromise();
-
-      if (type === 'edital') {
-        this.replaceProperties(responseDoc.dados.documento, curso);
-        this.manageVagasEdital(responseDoc.dados.documento, curso);
-        this.manageLogistica(responseDoc.dados.documento, curso);
-        this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
-        this.manageRequisitos(responseDoc.dados.documento, curso);
-        this.managePrescricoes(responseDoc.dados.documento, curso,'Edital')
-      }
-      if(type === 'plano'){
-        this.replaceProperties(responseDoc.dados.documento, curso);
-        this.manageCustos(responseDoc.dados.documento, curso);
-        this.manageVagasPlano(responseDoc.dados.documento, curso);
-        this.manageLogistica(responseDoc.dados.documento, curso);
-        this.manageDocentes(responseDoc.dados.documento, curso);
-        this.managePrescricoes(responseDoc.dados.documento, curso,'Plano')
-      }
-  
-      await this.generateDocumento(doc, responseDoc.dados);
-  
-      return new Promise<Blob>((resolve) => {
-        const pdfBlob = doc.output('blob');
-        resolve(pdfBlob);
-      });
-    } else {
-      throw new Error('Invalid document type. Only "edital" and "plano" are supported.');
+    if(type === 'editalaberturaCursoMilitar'){
+      this.replaceProperties(responseDoc.dados.documento, curso);
+      this.manageVagasEdital(responseDoc.dados.documento, curso);
+      this.manageLogistica(responseDoc.dados.documento, curso);
+      this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
+      this.manageRequisitos(responseDoc.dados.documento, curso);
+      this.managePrescricoes(responseDoc.dados.documento, curso,'Edital')
     }
+    if(type === 'planoaberturaCursoMilitar'){
+      this.replaceProperties(responseDoc.dados.documento, curso);
+      this.manageCustos(responseDoc.dados.documento, curso);
+      this.manageVagasPlano(responseDoc.dados.documento, curso);
+      this.manageLogistica(responseDoc.dados.documento, curso);
+      this.manageDocentes(responseDoc.dados.documento, curso);
+      this.managePrescricoes(responseDoc.dados.documento, curso,'Plano')
+    }
+    await this.generateDocumento(doc, responseDoc.dados);
+    return new Promise<Blob>((resolve) => {
+      const pdfBlob = doc.output('blob');
+      resolve(pdfBlob);
+    });
   }
-  
   
   
   async edicaoDocument(data: any): Promise<Blob> {

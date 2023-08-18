@@ -185,11 +185,14 @@ export class GerarDocumentosComponent implements OnInit {
        PrescricoesComplementaresComponent :  [
         { component: "PrescricoesComplementaresComponent", propertyName: "prescricaoComplementar", errorMessage: "Prescrições complementares não definidas ou vazias.",notEmpty:true },
       ],
-       Logistica1Component : [
+      Logistica1Component : [
         { component: "Logistica1Component", propertyName: "alimentos", errorMessage: "Alimentos não definidos ou vazios.",notEmpty:true },
         { component: "Logistica1Component", propertyName: "uniformes", errorMessage: "Uniformes não definidos ou vazios.",notEmpty:true },
         { component: "Logistica1Component", propertyName: "materiaisIndividuais", errorMessage: "Materiais individuais não definidos ou vazios.",notEmpty:true },
         { component: "Logistica1Component", propertyName: "materiaisColetivos", errorMessage: "Materiais coletivos não definidos ou vazios.",notEmpty:true }
+      ],
+      CronogramaTreinamentoComponent : [
+        { component: "CronogramaTreinamentoComponent", propertyName: "licoes", errorMessage: "Sem lições definidas.",notEmpty:true },
       ]
     };
     return componentErrors[componentName] || [];
