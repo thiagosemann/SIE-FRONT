@@ -41,7 +41,7 @@ export class GerarDocumentosComponent implements OnInit {
       if (curso) {
         const auth = this.generateRandomHash(15);
         curso.auth = auth
-        const { pge, atividadeHomologada,globalProfessors, ...cursoEco } = curso;
+        const {  atividadeHomologada,globalProfessors, ...cursoEco } = curso;
         const type = curso.type;
         let objeto = {
           auth: "",
@@ -51,14 +51,16 @@ export class GerarDocumentosComponent implements OnInit {
         }
         if(type){
           if(type.includes("abertura")){
-            const editalPdf = await this.pdfService.createDocument(cursoEco, 'edital', type);
-            const planoPdf = await this.pdfService.createDocument(cursoEco, 'plano', type);
+            const editalPdf = await this.pdfService.createDocumentEdital(cursoEco, type);
+            const planoPdf = await this.pdfService.createDocumentPlano(cursoEco, type);
             objeto = {
               auth: auth,
               dados: cursoEco,
               tipo: type,
               id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
             }
+            const {pge} = curso;
+
             this.generateCursosService.createCurso(objeto).subscribe(
               (response) => {
                 console.log('Curso criado com sucesso:', response);
@@ -70,22 +72,7 @@ export class GerarDocumentosComponent implements OnInit {
               }
             );
           }else if(type.includes("encerramento")){
-            const relatorioFinalPdf = await this.pdfService.createDocument(cursoEco, 'relatorioFinal', type);
-            objeto = {
-              auth: auth,
-              dados: cursoEco,
-              tipo: type,
-              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
-            }
-            this.generateCursosService.createCurso(objeto).subscribe(
-              (response) => {
-                console.log('Curso criado com sucesso:', response);
-                this.downloadFile(relatorioFinalPdf as Blob, 'relatorioFinalPdf.pdf');
-              },
-              (error) => {
-                console.error('Erro ao criar curso:', error);
-              }
-            );
+  
           }
         }
       } else {
