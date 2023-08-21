@@ -113,7 +113,7 @@ export class CursoService {
 
 // ----------------------------------------------------------------Utilitários---------------------------------------------------------------------------//
  
-private setAttributeInCursoEscolhido(atributo: string, valor: any): void {
+  setAttributeInCursoEscolhido(atributo: string, valor: any): void {
     const cursoEscolhido = this.getCursoById(this.cursoEscolhidoId);
     if (cursoEscolhido) {
       cursoEscolhido[atributo] = valor;

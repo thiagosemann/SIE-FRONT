@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
-import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
+import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { GenerateCursosService } from 'src/app/shared/service/genereteCurosService';
 

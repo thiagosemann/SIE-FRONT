@@ -21,7 +21,7 @@ export class CronogramaTreinamentoComponent implements OnInit {
   licaoSelecionada: string = '';
   licoesSelecionadas: { curso: string, licao: string }[] = [];
   licoes: Subsubitem[] = [];
-
+  cursosSelecionados : any[] = [];
 
   constructor(private atividadeHomologadaService: AtividadeHomologadaService,
              private licoesService: LicoesService,
@@ -61,22 +61,23 @@ export class CronogramaTreinamentoComponent implements OnInit {
   
   }
 
-    getAtividade(sigla: string) {
-      return new Promise<Licao[]>((resolve, reject) => {
-        this.licoesService.getLicoesBySigla(sigla).subscribe(
-          (atividade: Licao[]) => {
-            console.log(atividade);
-            this.licoesAux = atividade;
-            resolve(atividade);
-          },
-          (error) => {
-            console.error(error);
-            reject(error);
-          }
-        );
-      });
-    }
-    
+  getAtividade(sigla: string) {
+    return new Promise<Licao[]>((resolve, reject) => {
+      this.licoesService.getLicoesBySigla(sigla).subscribe(
+        (atividade: Licao[]) => {
+          console.log(atividade);
+          this.licoesAux = atividade;
+          resolve(atividade);
+        },
+        (error) => {
+          console.error(error);
+          reject(error);
+        }
+      );
+    });
+  }
+
+
 
   toggleExplicacaoLicoes() {
     this.mostrarExplicacaoLicoes = !this.mostrarExplicacaoLicoes;
@@ -153,9 +154,29 @@ export class CronogramaTreinamentoComponent implements OnInit {
           subsubsubitens: []
         };
         this.licoes.push(subsubItem);
+        this.createFinalidade();
       } 
     }
     console.log(this.licoes)
+  }
+  createFinalidade(){
+    // Suponha que this.cursosSelecionados seja um array contendo os cursos selecionados
+    this.cursosSelecionados.push(this.cursoSelecionado);
+    let finalidade = "Atualizar os bombeiros no que tange às atividades de ";
+    if (this.cursosSelecionados.length === 1) {
+        finalidade += `${this.cursosSelecionados[0]}`;
+    } else if (this.cursosSelecionados.length === 2) {
+        finalidade += `${this.cursosSelecionados[0]} e ${this.cursosSelecionados[1]}`;
+    } else {
+        for (let i = 0; i < this.cursosSelecionados.length - 1; i++) {
+            finalidade += `${this.cursosSelecionados[i]}, `;
+        }
+        finalidade = finalidade.slice(0, -2); // Remover a última vírgula e espaço
+        finalidade += ` e ${this.cursosSelecionados[this.cursosSelecionados.length - 1]}`;
+    }
+    finalidade += ", a fim do aprimoramento dos conhecimentos e melhor desempenho de suas atividades.";
+    this.cursoService.setAttributeInCursoEscolhido('finalidade',finalidade)
+
   }
 
   adicionarLicaoAoCurso(){

@@ -21,7 +21,6 @@ export class PdfService {
     const doc = new jsPDF();
     const responseDoc = await this.getDocument("edital"+ type).toPromise();
     if(curso && curso.type){
-
       this.components = this.courseConfigService.getComponents(curso.type);  
       this.replaceProperties(responseDoc.dados.documento, curso);
       this.manageVagasEdital(responseDoc.dados.documento, curso);
@@ -551,11 +550,6 @@ export class PdfService {
   
     percorrerElementos(objeto);
   }
-  private replaceCoordenadorPE(str: string, curso: Curso): string {
-  
-   
-    return str;
-  }
   
   private replacePropertiesInString(str: string, curso: Curso): string {
     // Replace {requisitosCSM} with a specific text based on the course's sigla
@@ -616,8 +610,7 @@ private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
 private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeight: number) {
   for (const item of itens) {
       if (item.tipo === "tabela") {
-        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight
-        );
+        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight);
       } else {
         positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,170,25);
 
@@ -798,7 +791,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
   private createTable(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number): number {
     const startX = 25;
     const startY = positionY;
-    const columnWidth = 80;
+    const columnWidth = 81;
     const rowHeight = 9; // Altura inicial da linha
     const borderWidth = 0.2;
     const borderColor = 'black';
@@ -840,15 +833,12 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
         const textStyle = isHeader ? headerFontStyle : 'normal';
   
         // Divide o texto em linhas
-        const lines = doc.splitTextToSize(cellText, cellWidth - 2 * borderWidth);
+        const lines = doc.splitTextToSize(cellText, cellWidth - 2 * borderWidth -4);
   
-        // Calcula a altura necessária para a célula
-        const requiredCellHeight = lineHeight * lines.length;
-  
-        // Desenha as bordas da célula
+           // Desenha as bordas da célula
         doc.setDrawColor(borderColor);
         doc.setLineWidth(borderWidth);
-        doc.rect(columnX, rowY, cellWidth, cellHeight * numRows);
+        doc.rect(columnX, rowY, cellWidth, cellHeight * numRows); 
   
         // Adicionar texto da célula
         doc.setFont('helvetica', textStyle);
@@ -863,6 +853,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
           const textX = columnX + cellWidth / 2;
           const textY = rowY + (cellHeight + 3) / 2;
           doc.text(lines, textX, textY, { align: 'center', maxWidth: cellWidth - borderWidth * 2 });
+          
         }
       }
   
