@@ -23,7 +23,7 @@ export class PreviewDocComponent implements OnInit {
   async generatePdf(): Promise<void> {
     if (this.curso) {
       console.log(JSON.stringify(this.curso)); // Mostra o JSON do curso no console
-      const pdfBlob = await this.pdfService.createDocumentPlano(this.curso, this.curso.type!);
+      const pdfBlob = await this.pdfService.createDocument(this.curso, this.curso.type!,'plano');
       const pdfUrl = URL.createObjectURL(pdfBlob);
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       console.log(this.pdfUrl);

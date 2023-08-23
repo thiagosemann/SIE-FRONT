@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavBarComponent } from './content/nav-bar/nav-bar.component';
 import { ContentComponent } from './content/content.component';
-import { DatasAberturaComponent } from './content/telasCompartilhadas/datas-abertura/datas-abertura.component';
+import { DatasAberturaMilitarComponent } from './content/telasCompartilhadas/datas/datas-abertura-militar/datas-abertura.component';
 import { LocalApresentacaoComponent } from './content/telasCompartilhadas/local-apresentacao/local-apresentacao.component';
 import { CoordenadorComponent } from './content/telasCompartilhadas/coordenador/coordenador.component';
 import { DocentesComponent } from './content/telasCompartilhadas/docentes/docentes.component';
@@ -27,6 +27,8 @@ import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-document
 import { Logistica1Component } from './content/telasCompartilhadas/logistica1/logistica1.component';
 import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
 import { CronogramaTreinamentoComponent } from './content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
+import { DatasAberturaCivilComponent } from './content/telasCompartilhadas/datas/datas-abertura-civil/datas-abertura-civil.component';
+import { VagasCivilComponent } from './content/telasCompartilhadas/vagas-civil/vagas-civil.component';
 
 
 
@@ -36,7 +38,7 @@ import { CronogramaTreinamentoComponent } from './content/telasEspecificas/crono
     LoginComponent,
     NavBarComponent,
     ContentComponent,
-    DatasAberturaComponent,
+    DatasAberturaMilitarComponent,
     LocalApresentacaoComponent,
     CoordenadorComponent,
     DocentesComponent,
@@ -49,6 +51,8 @@ import { CronogramaTreinamentoComponent } from './content/telasEspecificas/crono
     Logistica1Component,
     PreenchimentoAutComponent,
     CronogramaTreinamentoComponent,
+    DatasAberturaCivilComponent,
+    VagasCivilComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,16 +17,17 @@ export class PdfService {
     ) {}
   public components: ComponentItem[] = [];
 
-  async createDocumentEdital(curso: Curso, type: string): Promise<Blob> {
+  async createDocument(curso: Curso, type: string, model:string): Promise<Blob> {
     const doc = new jsPDF();
-    const responseDoc = await this.getDocument("edital"+ type).toPromise();
+    const responseDoc = await this.getDocument(model+ type).toPromise();
     if(curso && curso.type){
-      this.components = this.courseConfigService.getComponents(curso.type);  
       this.replaceProperties(responseDoc.dados.documento, curso);
-      this.manageVagasEdital(responseDoc.dados.documento, curso);
-      this.manageProcessoSeletivo(responseDoc.dados.documento, curso);
-      for (const component of this.components) {
-        this.getFunctionsByComponentEdital(component.componentName, responseDoc.dados.documento, curso);
+      if(curso.type==="aberturaCursoMilitar"){
+        this.executeAberturaCursoMilitar(responseDoc.dados.documento, curso,model);
+      }else if(curso.type==="aberturaTreinamentoMilitar" ){
+        this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
+      }else if(curso.type==="aberturaTBAE" ){
+        this.executeAberturaTBAE(responseDoc.dados.documento, curso,model)
       }
       await this.generateDocumento(doc, responseDoc.dados);
     }
@@ -36,61 +37,37 @@ export class PdfService {
     });
   }
 
-  async createDocumentPlano(curso: Curso, type: string): Promise<Blob> {
-    const doc = new jsPDF();
-    const responseDoc = await this.getDocument("plano"+ type).toPromise();
-    if(curso && curso.type){
-      this.components = this.courseConfigService.getComponents(curso.type);
-      this.replaceProperties(responseDoc.dados.documento, curso);
-      this.manageCustos(responseDoc.dados.documento, curso);
-      this.manageVagasPlano(responseDoc.dados.documento, curso);
-      for (const component of this.components) {
-        this.getFunctionsByComponentPlano(component.componentName, responseDoc.dados.documento, curso);
-      }
+  executeAberturaTBAE(responeDoc:any , curso:Curso,model:string){
+    this.replaceProperties(responeDoc, curso);
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)")
+  }
 
-      await this.generateDocumento(doc, responseDoc.dados);
+  executeAberturaCursoMilitar(responeDoc:any , curso:Curso,model:string){
+    this.replaceProperties(responeDoc, curso);
+    this.manageProcessoSeletivo(responeDoc, curso);
+    this.manageRequisitos(responeDoc, curso);
+    this.manageLogistica(responeDoc, curso);
+    this.managePrescricoes(responeDoc, curso, model)
+    if(model == 'plano'){
+      this.manageCustos(responeDoc, curso);
+      this.manageVagasPlanoCapacitacao(responeDoc, curso);
+      this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+    }else{
+      this.manageVagasEditalCapacitacao(responeDoc, curso);
     }
-    return new Promise<Blob>((resolve) => {
-      const pdfBlob = doc.output('blob');
-      resolve(pdfBlob);
-    });
   }
-  getFunctionsByComponentEdital(componentName: string , responseDoc : any, curso:Curso) {
-    const componentErrorFunctions: { [key: string]: Function } = {
-      RequisitosComplementaresComponent: () => {
-        this.manageRequisitos(responseDoc, curso);
-      },
-      Logistica1Component: () => {
-        this.manageLogistica(responseDoc, curso);
-      },
-      PrescricoesComplementaresComponent: () => {
-        this.managePrescricoes(responseDoc, curso,'Edital')
-      }
-    };
-
-    const componentFunction = componentErrorFunctions[componentName];
-    if (componentFunction) {
-      componentFunction();
-    }  
-  }
-  getFunctionsByComponentPlano(componentName: string , responseDoc : any, curso:Curso) {
-    const componentErrorFunctions: { [key: string]: () => void } = {
-      Logistica1Component: () => {
-        this.manageLogistica(responseDoc, curso);
-      },
-      PrescricoesComplementaresComponent: () => {
-        this.managePrescricoes(responseDoc, curso, 'Plano');
-      },
-      DocentesComponent: () => {
-        this.manageDocentes(responseDoc, curso);
-      },
-      CronogramaTreinamentoComponent: () => {
-        this.manageCronograma(responseDoc, curso);
-      }
-    };
-    const componentFunction = componentErrorFunctions[componentName];
-    if (componentFunction) {
-      componentFunction();
+  executeAberturaTreinamentoMilitar(responeDoc:any , curso:Curso,model:string){
+    this.replaceProperties(responeDoc, curso);
+    this.manageProcessoSeletivo(responeDoc, curso);
+    this.manageLogistica(responeDoc, curso);
+    this.managePrescricoes(responeDoc, curso, model)
+    if(model == 'plano'){
+      this.manageCustos(responeDoc, curso);
+      this.manageVagasPlanoCapacitacao(responeDoc, curso);
+      this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+      this.managesubsubitens(responeDoc, curso,"PLANEJAMENTO","2.4","Calendário das atividades de ensino:","a)") // CRONOGRAMA
+    }else{
+      this.manageVagasEditalCapacitacao(responeDoc, curso);
     }
   }
   async edicaoDocument(data: any): Promise<Blob> {
@@ -152,15 +129,14 @@ export class PdfService {
     }
   }
   
-
-  private manageDocentes (objeto: any,curso: Curso){
+  private managesubsubitens(objeto: any,curso: Curso, textoCapitulo:string,itemNumero:string,itemTexto:string,subItemLetra:string){
     const documento = objeto;
     for (const capitulo of documento) {
-      if (capitulo.tipo === "capitulo" && capitulo.texto === "ADMINISTRAÇÃO" ) {
+      if (capitulo.tipo === "capitulo" && capitulo.texto === textoCapitulo ) {
         for (const item of capitulo.itens) {
-          if (item.numero === "3.2" && item.texto === "Corpo docente" ) {
+          if (item.numero === itemNumero && item.texto === itemTexto ) {
             for (const subitem of item.subitens) {
-              if (subitem.letra === "b)" && subitem.texto === "Corpo docente previsto:" ) {
+              if (subitem.letra === subItemLetra ) {
                 subitem.subsubitens = curso.professoresSelecionados;
               }
             }
@@ -170,35 +146,17 @@ export class PdfService {
     }
   }
 
-  private manageCronograma (objeto: any,curso: Curso){
-    const documento = objeto;
-    for (const capitulo of documento) {
-      if (capitulo.tipo === "capitulo" && capitulo.texto === "PLANEJAMENTO" ) {
-        for (const item of capitulo.itens) {
-          if (item.numero === "2.4" && item.texto === "Calendário das atividades de ensino:" ) {
-            for (const subitem of item.subitens) {
-              if (subitem.letra === "a)" ) {
-                subitem.subsubitens = curso.licoes;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-
   private managePrescricoes(objeto: any,curso: Curso,type:string) {
     const documento = objeto;
     for (const capitulo of documento) {
       if (capitulo.tipo === "capitulo" && capitulo.texto === "PRESCRIÇÕES COMPLEMENTARES" ) {
         if(curso.prescricaoComplementar){
-          if(type=="Edital"){
+          if(type=="edital"){
             for (const item of curso.prescricaoComplementar) {
               item.numero = "10." + item.numero
             }
           }
-          if(type=="Plano"){
+          if(type=="plano"){
             for (const item of curso.prescricaoComplementar) {
               item.numero = "9." + item.numero
             }
@@ -208,7 +166,7 @@ export class PdfService {
       }
     }
   }
-  private manageVagasEdital(objeto: any, curso: Curso){
+  private manageVagasEditalCapacitacao(objeto: any, curso: Curso){
     const documento = objeto;
     let somaVagas = 0;
 
@@ -275,7 +233,7 @@ export class PdfService {
     }
   }
   
-  private manageVagasPlano(objeto: any, curso: Curso){
+  private manageVagasPlanoCapacitacao(objeto: any, curso: Curso){
     const documento = objeto;
     let somaVagas = 0;
 

@@ -1,8 +1,8 @@
 import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { CursoService } from '../../../shared/service/objetosCursosService';
+import { CursoService } from '../../../../shared/service/objetosCursosService';
 import { debounceTime } from 'rxjs/operators';
-import { ContentComponent } from '../../content.component';
+import { ContentComponent } from '../../../content.component';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { User } from 'src/app/shared/utilitarios/user';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
@@ -10,11 +10,11 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-inscricao',
-  templateUrl: './datas-abertura.component.html',
-  styleUrls: ['./datas-abertura.component.css']
+  selector: 'app-datas-abertura-civil',
+  templateUrl: './datas-abertura-civil.component.html',
+  styleUrls: ['./datas-abertura-civil.component.css']
 })
-export class DatasAberturaComponent implements OnInit,AfterViewInit {
+export class DatasAberturaCivilComponent {
   datasForm: FormGroup;
   startInscritionMinDate: string;
   endInscritionMinDate: string;
@@ -34,11 +34,13 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
     this.datasForm = this.formBuilder.group({
       startInscritiondate: null,
       endInscritiondate: null,
-      emailInscrition: null,
+      linkInscrition: null,
       processoSeletivoHorario: null,
       startInscritionHorario: null,
       endInscritionHorario: null,
       apresentacaoHorario: null,
+      divulgacaoInscritiondate: null,
+      divulgacaoInscritiondateHorario: null,
       iniCur: null,
       fimCur: null,
       processoSeletivoDate: null,
@@ -59,7 +61,9 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
       const propertiesGroup = {
         startInscritiondate: this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
         endInscritiondate: this.formatDateForSelect(this.cursoEscolhido.endInscritiondate??''),
-        emailInscrition: this.cursoEscolhido.emailInscrition,
+        linkInscrition: this.cursoEscolhido.linkInscrition,
+        divulgacaoInscritiondate: this.cursoEscolhido.divulgacaoInscritiondate,
+        divulgacaoInscritiondateHorario: this.cursoEscolhido.divulgacaoInscritiondateHorario,
         processoSeletivoHorario: this.cursoEscolhido.processoSeletivoHorario,
         startInscritionHorario: this.cursoEscolhido.startInscritionHorario,
         endInscritionHorario: this.cursoEscolhido.endInscritionHorario,
@@ -78,11 +82,11 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
 
 
     // Adicione os observadores aos controles relevantes
-    const emailInscritionInput = document.getElementById('emailInscrition');
+    const emailInscritionInput = document.getElementById('linkInscrition');
     if (emailInscritionInput) {
       emailInscritionInput.addEventListener('blur', (event) => {
         const value = (event.target as HTMLInputElement).value;
-        this.chageEmailInscrtion(value);
+        
       });
     }
     
@@ -116,11 +120,13 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
      const propertiesGroup = {
       startInscritiondate: this.formatDateForPtBR(this.datasForm.get('startInscritiondate')?.value),
       endInscritiondate: this.formatDateForPtBR(this.datasForm.get('endInscritiondate')?.value),
-      emailInscrition: this.datasForm.get('emailInscrition')?.value,
+      linkInscrition: this.datasForm.get('linkInscrition')?.value,
       processoSeletivoHorario: this.datasForm.get('processoSeletivoHorario')?.value,
       startInscritionHorario: this.datasForm.get('startInscritionHorario')?.value,
       endInscritionHorario: this.datasForm.get('endInscritionHorario')?.value,
       apresentacaoHorario: this.datasForm.get('apresentacaoHorario')?.value,
+      divulgacaoInscritiondate: this.datasForm.get('divulgacaoInscritiondate')?.value,
+      divulgacaoInscritiondateHorario: this.datasForm.get('divulgacaoInscritiondateHorario')?.value,
       iniCur: this.formatDateForPtBR(this.datasForm.get('iniCur')?.value),
       fimCur: this.formatDateForPtBR(this.datasForm.get('fimCur')?.value),
       processoSeletivoDate: this.formatDateForPtBR(this.datasForm.get('processoSeletivoDate')?.value),
@@ -137,12 +143,12 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
         const control = formControls[controlName];
         if (control.invalid || control.value === null) {
 
-          this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, false);
+          this.contentComponent.changeValidityByComponentName(DatasAberturaCivilComponent, false);
           return;
         }
       }
     }
-    this.contentComponent.changeValidityByComponentName(DatasAberturaComponent, true);
+    this.contentComponent.changeValidityByComponentName(DatasAberturaCivilComponent, true);
   }
   
 
@@ -257,25 +263,5 @@ export class DatasAberturaComponent implements OnInit,AfterViewInit {
     }
   }
 
-  chageEmailInscrtion(email: string) {
-    const validDomain = "@cbm.sc.gov.br";
-    if (!email.endsWith(validDomain) && email!=="") {
-      this.toastr.error("Insira um e-mail válido @cbm.sc.gov.br");
-  
-      this.datasForm.patchValue({
-        emailInscrition: undefined,
-      });
-    }
-  
-    this.datasForm.updateValueAndValidity();
-  }
-  
+
 }
-
-
-  
-  
-  
-
-  
-

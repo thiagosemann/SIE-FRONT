@@ -51,8 +51,8 @@ export class GerarDocumentosComponent implements OnInit {
         }
         if(type){
           if(type.includes("abertura")){
-            const editalPdf = await this.pdfService.createDocumentEdital(cursoEco, type);
-            const planoPdf = await this.pdfService.createDocumentPlano(cursoEco, type);
+            const editalPdf = await this.pdfService.createDocument(cursoEco, type,'edital');
+            const planoPdf = await this.pdfService.createDocument(cursoEco, type,'plano');
             objeto = {
               auth: auth,
               dados: cursoEco,
@@ -137,17 +137,31 @@ export class GerarDocumentosComponent implements OnInit {
   getComponentErrorsByComponentName(componentName: string): ComponentError[] {
     // Define os erros de cada componente de acordo com o nome do componente
     const componentErrors: { [key: string]: ComponentError[] } = {
-       DatasAberturaComponent : [
-        { component: "DatasAberturaComponent", propertyName: "startInscritiondate", errorMessage: "A data de início das inscrições não está definida.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "startInscritionHorario", errorMessage: "O horário de início das inscrições não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "endInscritiondate", errorMessage: "A data de término das inscrições não está definida.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "endInscritionHorario", errorMessage: "O horário de término das inscrições não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "emailInscrition", errorMessage: "O email de inscrição não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "iniCur", errorMessage: "O início do curso não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "fimCur", errorMessage: "O fim do curso não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "apresentacaoHorario", errorMessage: "O horário de apresentação não está definido.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "processoSeletivoDate", errorMessage: "A data do processo seletivo não está definida.",notEmpty:false },
-        { component: "DatasAberturaComponent", propertyName: "processoSeletivoHorario", errorMessage: "O horário do processo seletivo não está definido.",notEmpty:false }
+       DatasAberturaMilitarComponent : [
+        { component: "DatasAberturaMilitarComponent", propertyName: "startInscritiondate", errorMessage: "A data de início das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "startInscritionHorario", errorMessage: "O horário de início das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "endInscritiondate", errorMessage: "A data de término das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "endInscritionHorario", errorMessage: "O horário de término das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "emailInscrition", errorMessage: "O email de inscrição não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "iniCur", errorMessage: "O início do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "fimCur", errorMessage: "O fim do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "apresentacaoHorario", errorMessage: "O horário de apresentação não está definido.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "processoSeletivoDate", errorMessage: "A data do processo seletivo não está definida.",notEmpty:false },
+        { component: "DatasAberturaMilitarComponent", propertyName: "processoSeletivoHorario", errorMessage: "O horário do processo seletivo não está definido.",notEmpty:false }
+      ],
+      DatasAberturaCivilComponent : [
+        { component: "DatasAberturaCivilComponent", propertyName: "startInscritiondate", errorMessage: "A data de início das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "startInscritionHorario", errorMessage: "O horário de início das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "endInscritiondate", errorMessage: "A data de término das inscrições não está definida.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "endInscritionHorario", errorMessage: "O horário de término das inscrições não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "linkInscrition", errorMessage: "O link de inscrição não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "divulgacaoInscritiondate", errorMessage: "A data de divulgação da inscrição não está definida.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "divulgacaoInscritiondateHorario", errorMessage: "O horário de divulgação da inscrição não está definida.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "iniCur", errorMessage: "O início do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "fimCur", errorMessage: "O fim do curso não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "apresentacaoHorario", errorMessage: "O horário de apresentação não está definido.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "processoSeletivoDate", errorMessage: "A data do processo seletivo não está definida.",notEmpty:false },
+        { component: "DatasAberturaCivilComponent", propertyName: "processoSeletivoHorario", errorMessage: "O horário do processo seletivo não está definido.",notEmpty:false }
       ],
       LocalApresentacaoComponent: [
         { component: "LocalApresentacaoComponent", propertyName: "localAtiBairro", errorMessage: "O bairro do local de atividades não está definido.",notEmpty:false },
@@ -162,6 +176,11 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "CoordenadorComponent", propertyName: "coordenador", errorMessage: "O coordenador não está definido.",notEmpty:false },
         { component: "CoordenadorComponent", propertyName: "coordenadorDescricao", errorMessage: "A descrição do coordenador não está definida.",notEmpty:false },
         { component: "CoordenadorComponent", propertyName: "coordenadorContato", errorMessage: "O contato do coordenador não está definido.",notEmpty:false }
+      ],
+      VagasCivilComponent : [
+        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio1", errorMessage: "O municipio 1 não está definido.",notEmpty:false },
+        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio2", errorMessage: "O municipio 2 não está definido.",notEmpty:false },
+        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio3", errorMessage: "O municipio 3 não está definido.",notEmpty:false }
       ],
       DocentesComponent : [
         { component: "DocentesComponent", propertyName: "selectedProfessors", errorMessage: "Nenhum professor selecionado.",notEmpty:true },

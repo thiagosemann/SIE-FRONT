@@ -17,6 +17,9 @@ export interface Curso {
   endInscritiondate?: string;
   endInscritionHorario?: string;
   emailInscrition?: string;
+  linkInscrition?:string;
+  divulgacaoInscritiondate?:string;
+  divulgacaoInscritiondateHorario?:string;
   iniCur?: string;
   fimCur?: string;
   apresentacaoHorario?: string;

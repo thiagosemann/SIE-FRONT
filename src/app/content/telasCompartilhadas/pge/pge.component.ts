@@ -57,7 +57,8 @@ export class PgeComponent implements OnInit {
 
   selectCourse(item: any) {
     const firstThreeDigits = item.procNum.substr(0, 3);
-  
+    const firstFiveDigits = item.procNum.substr(0, 5);
+    console.log(firstFiveDigits)
     if (firstThreeDigits === '1.9') {
       this.handleCurso(item,"TreinamentoMilitar");
     } else if (
@@ -71,7 +72,9 @@ export class PgeComponent implements OnInit {
       firstThreeDigits === '1.8'
     ) {
       this.handleCurso(item,"CursoMilitar");
-    } else {
+    } else if (firstFiveDigits === '2.2.1') {
+      this.handleCurso(item,"TBAE");
+    }else {
       this.courseType = '';
     }
   }
