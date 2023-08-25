@@ -17,6 +17,7 @@ import { CronogramaTreinamentoComponent } from 'src/app/content/telasEspecificas
 import { DatasAberturaCivilComponent } from 'src/app/content/telasCompartilhadas/datas/datas-abertura-civil/datas-abertura-civil.component';
 import { VagasCivilComponent } from 'src/app/content/telasCompartilhadas/vagas-civil/vagas-civil.component';
 import { PromotorAtividadeEnsinoComponent } from 'src/app/content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
+import { MeiosDivulgacaoComponent } from 'src/app/content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -65,6 +66,7 @@ export class CourseConfigService {
     { component: DatasAberturaCivilComponent, name: 'Datas' ,validity: false, componentName:"DatasAberturaCivilComponent" },
     { component: LocalApresentacaoComponent, name: 'Local',validity: false, componentName:"LocalApresentacaoComponent"  },
     { component: PromotorAtividadeEnsinoComponent, name: 'Prom.Ativ',validity: false, componentName:"PromotorAtividadeEnsinoComponent"  },
+    { component: MeiosDivulgacaoComponent, name: 'Divulgação',validity: false, componentName:"MeiosDivulgacaoComponent"  },
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
     { component: DocentesComponent, name: 'Docentes',validity: false, componentName:"DocentesComponent"  },
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },

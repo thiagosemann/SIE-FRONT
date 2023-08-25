@@ -13,22 +13,21 @@
         <label for="selectMunicipio1">Município 1:</label>
         <select class="form-control" id="selectMunicipio1Civil" formControlName="municipio1Civil" required>
           <option value="" disabled selected>Selecione um município</option>
-          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio">{{ municipio }}</option>
+          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio" [disabled]="municipio == vagasForm.get('municipio2Civil')?.value || municipio == vagasForm.get('municipio3Civil')?.value">{{ municipio }}</option>
         </select>
-        
         
         <label for="selectMunicipio2">Município 2:</label>
         <select class="form-control" id="selectMunicipio2Civil" formControlName="municipio2Civil" required>
           <option value="" disabled selected>Selecione um município</option>
-          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio">{{ municipio }}</option>
+          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio" [disabled]="municipio == vagasForm.get('municipio1Civil')?.value || municipio == vagasForm.get('municipio3Civil')?.value">{{ municipio }}</option>
         </select>
-        
         
         <label for="selectMunicipio3">Município 3:</label>
-        <select class="form-control" id="selectMunicipio3Civil" formControlName="municipio3Civil" required >
+        <select class="form-control" id="selectMunicipio3Civil" formControlName="municipio3Civil" required>
           <option value="" disabled selected>Selecione um município</option>
-          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio">{{ municipio }}</option>
+          <option *ngFor="let municipio of municipios; let i = index" [value]="municipio" [disabled]="municipio == vagasForm.get('municipio1Civil')?.value || municipio == vagasForm.get('municipio2Civil')?.value">{{ municipio }}</option>
         </select>
+        
         
         
         <textarea class="form-control mb-3" disabled>

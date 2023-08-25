@@ -4,6 +4,7 @@ import { ContentComponent } from '../../content.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { debounceTime } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vagas-civil',
@@ -20,6 +21,8 @@ export class VagasCivilComponent implements OnInit,AfterViewInit {
     private cursoService: CursoService,
     private contentComponent : ContentComponent,
     private formBuilder: FormBuilder,
+    private toastr: ToastrService
+
 
   ){
     this.vagasForm = this.formBuilder.group({
@@ -50,14 +53,27 @@ export class VagasCivilComponent implements OnInit,AfterViewInit {
     this.isFormValid()
   }
   enviarDados() {
+    const municipio1 = this.vagasForm.get('municipio1Civil')?.value;
+    const municipio2 = this.vagasForm.get('municipio2Civil')?.value;
+    const municipio3 = this.vagasForm.get('municipio3Civil')?.value;
+  
+    if (municipio1 === municipio2 || municipio1 === municipio3 || municipio2 === municipio3) {
+      // Exibir uma mensagem de erro ou tomar alguma ação, já que os municípios são iguais.
+      this.toastr.error("Selecione municípios diferentes!")
+      return;
+    }
+    //this.disableSelectedMunicipios();
+
     const propertiesGroup = {
-      municipio1Civil: this.vagasForm.get('municipio1Civil')?.value,
-      municipio2Civil: this.vagasForm.get('municipio2Civil')?.value,
-      municipio3Civil: this.vagasForm.get('municipio3Civil')?.value
+      municipio1Civil: municipio1,
+      municipio2Civil: municipio2,
+      municipio3Civil: municipio3
     };
+  
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
     this.isFormValid();
   }
+  
 
   isFormValid(): void {
     const formControls = this.vagasForm.controls;
@@ -74,6 +90,5 @@ export class VagasCivilComponent implements OnInit,AfterViewInit {
     this.contentComponent.changeValidityByComponentName(VagasCivilComponent, true);
   }
 
-
-  
+    
 }

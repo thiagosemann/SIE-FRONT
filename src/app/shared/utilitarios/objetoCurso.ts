@@ -31,7 +31,6 @@ export interface Curso {
   localAtiNome?: string;
   localAtiMunicipio?: string;
   localApresentacao?:string;
-
   promoAtiBairro?: string;
   promoAtiRua?: string;
   promoAtiNumeral?: string;
