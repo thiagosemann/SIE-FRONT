@@ -111,6 +111,13 @@ export class CursoService {
     }
   }
 
+  setpromoAtivAbertura(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      curso.promoApresentacao = curso.promoAtiRua +", "+ curso.promoAtiNumeral +", "+ curso.promoAtiBairro +", "+ curso.promoAtiMunicipio +" - "+ curso.promoAtiNome;
+    }
+  }
+
 // ----------------------------------------------------------------Utilitários---------------------------------------------------------------------------//
  
   setAttributeInCursoEscolhido(atributo: string, valor: any): void {

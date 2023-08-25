@@ -1,0 +1,59 @@
+.custom-form {
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.promoAtivHeader {
+    border-radius: 8px 8px 0 0;
+    background-color: #4b6199;
+    font-family: 'lato';
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group-append,
+.input-group-prepend {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+.input-group-text {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.fa-map-marker-alt,
+.fa-road,
+.fa-sort-numeric-up,
+.fa-map-marked-alt {
+    color: #495057;
+}
+
+.fa-map-marker-alt:before {
+    content: "\f3c5";
+}
+
+.fa-road:before {
+    content: "\f018";
+}
+
+.fa-sort-numeric-up:before {
+    content: "\f162";
+}
+
+.fa-map-marked-alt:before {
+    content: "\f5a0";
+}

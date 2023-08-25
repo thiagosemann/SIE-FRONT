@@ -8,7 +8,27 @@
         <div class="row">
             <div class="col-sm-4">
                 <h3 class="text-center pb-2 pt-5">Inscrição</h3>
-                <p>As inscrições devem ser realizadas com no mínimo 15 dias de antecedência.</p>
+                <div class="mb-3 colapsable-wrapper">
+                    <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoInscricao1()">Detalhes</label>
+                    <div class="expand-icon" (click)="toggleExplicacaoInscricao1()">
+                      <i class="fas" [ngClass]="mostrarExplicacaoInscricao1 ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                    </div>
+                  </div>
+                    <div class="explicacao" *ngIf="mostrarExplicacaoInscricao1">
+                        <p>Informações que devem ser solicitadas para a inscrição (somente): 
+                            - Nome completo (sem abreviaturas). 
+                            - Data de nascimento (formato dd/mm/aaaa). 
+                            - E-mail para contato e/ou telefone para contato, com código de área. 
+                            - Data de conclusão do CBAE, nota final no CBAE. 
+                            - Município em que reside e município em que exerce atividade profissional. 
+                            
+                            Ao menos uma das opções para contato (e-mail ou telefone) tem que ser fornecida.
+                            
+                            A data de conclusão e a nota do CBAE informadas pelo candidato, devem ser conferidas pela coordenação do presente TBAE. 
+                            
+                            ATENÇÃO: 
+                            As informações das inscrições não podem ser divulgadas, em razão da Lei Geral de Proteção de Dados (LGPD)</p>
+                    </div>    
                 <div class="row">
                     <div class="col-6">
                         <label for="startInscritiondate" class="form-label">Data de início:</label>
@@ -35,6 +55,20 @@
                         <input type="text" class="form-control" formControlName="linkInscrition" id="linkInscrition" required />
                     </div>
                 </div>
+                <div class="mb-3 colapsable-wrapper">
+                    <label class="font-weight-bold labelRequisitos expand-icon" (click)="toggleExplicacaoInscricao2()">Detalhes</label>
+                    <div class="expand-icon" (click)="toggleExplicacaoInscricao2()">
+                      <i class="fas" [ngClass]="mostrarExplicacaoInscricao2 ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                    </div>
+                  </div>
+                    <div class="explicacao" *ngIf="mostrarExplicacaoInscricao2">
+                        <p>Deve ser divulgado somente o nome completo do candidato cuja inscrição tenha sido deferida. 
+
+                            ATENÇÃO: Não divulgar os demais dados dos candidatos, em razão da LGPD
+                            
+                            No mesmo documento de divulgação das inscrições deferidas deve constar o local em que será realizada a primeira etapa do processo seletivo (prova de conhecimentos específicos), conforme Etapa 1 seguinte.</p>
+                    </div>    
+        
                 <div class="row">
                     <div class="col-6">
                         <label for="divulgacaoInscritiondate" class="form-label">Data de divulgação das inscrições:</label>
@@ -62,7 +96,7 @@
             </div>
             <div class="col-sm-4">
                 <h3 class="text-center pb-2 pt-5">Atividade de ensino</h3>
-                <p>As inscrições devem ser realizadas com no mínimo 15 dias de antecedência.</p>
+                <p>A carga horária diária preconizada é de 8 horas aula, podendo ser alterada para até 10 horas aula com a autorização do Diretor de Instrução e Ensino. O SIE está configurado com a quantidade mínima de dias para que a atividade de ensino seja executada em sua integralidade, prevendo 8 horas aula diárias. </p>
                 <div class="row">
                     <div class="col-6">
                         <label for="iniCur" class="form-label">Data de início:</label>

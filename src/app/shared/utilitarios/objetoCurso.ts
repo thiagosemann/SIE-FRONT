@@ -30,6 +30,15 @@ export interface Curso {
   localAtiNumeral?: string;
   localAtiNome?: string;
   localAtiMunicipio?: string;
+  localApresentacao?:string;
+
+  promoAtiBairro?: string;
+  promoAtiRua?: string;
+  promoAtiNumeral?: string;
+  promoAtiNome?: string;
+  promoAtiMunicipio?: string;
+  promoApresentacao?:string;
+  promoAtiDescricao?:string;
   type?: string;
   coordenador?: Coordenador;
   coordenadorDescricao?:string;
@@ -47,7 +56,6 @@ export interface Curso {
   materiaisColetivos?: Subsubitem[];
   periodoInscricao?:string;
   periodoAtividade?:string;
-  localApresentacao?:string;
   anoAtual?:string;
   atividadeHomologada?:AtividadeHomologada;
   finalidade?:string;
@@ -56,6 +64,9 @@ export interface Curso {
   processoSeletivo?:Item[];
   pge?:Pge;
   licoes?:Subsubitem[];
+  municipio1Civil?:string;
+  municipio2Civil?:string;
+  municipio3Civil?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

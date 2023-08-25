@@ -27,3 +27,18 @@ input[type="date"]:focus, input[type="time"]:focus {
 input[type="date"]:invalid, input[type="time"]:invalid {
     box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.5);
 }
+
+.labelRequisitos {
+    font-size: 15px;
+    font-weight: bolder;
+}
+.expand-icon {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .explicacao {
+    margin-top: 10px;
+  }
+  

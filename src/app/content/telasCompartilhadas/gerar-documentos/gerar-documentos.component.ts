@@ -170,7 +170,16 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "LocalApresentacaoComponent", propertyName: "localAtiNome", errorMessage: "O nome do local de atividades não está definido.",notEmpty:false },
         { component: "LocalApresentacaoComponent", propertyName: "localAtiMunicipio", errorMessage: "O município do local de atividades não está definido.",notEmpty:false },
         { component: "LocalApresentacaoComponent", propertyName: "localApresentacao", errorMessage: "O local de apresentação não está definido.",notEmpty:false }
-  
+      ],
+      PromotorAtividadeEnsinoComponent: [
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiBairro", errorMessage: "O bairro do promotor da atividade de ensino de atividades não está definido.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiRua", errorMessage: "A rua do promotor da atividade de ensino de atividades não está definida.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiNumeral", errorMessage: "O numeral do promotor da atividade de ensino de atividades não está definido.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiNome", errorMessage: "O nome do promotor da atividade de ensino de atividades não está definido.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiMunicipio", errorMessage: "O município do promotor da atividade de ensino de atividades não está definido.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoApresentacao", errorMessage: "O nome do promotor da atividade de ensino não está definido.",notEmpty:false },
+        { component: "PromotorAtividadeEnsinoComponent", propertyName: "promoAtiDescricao", errorMessage: "A descrição de dias e horários do promotor da atividade de ensino de apresentação não está definido.",notEmpty:false }
+
       ],
       CoordenadorComponent : [
         { component: "CoordenadorComponent", propertyName: "coordenador", errorMessage: "O coordenador não está definido.",notEmpty:false },

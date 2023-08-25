@@ -29,6 +29,7 @@ import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preench
 import { CronogramaTreinamentoComponent } from './content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
 import { DatasAberturaCivilComponent } from './content/telasCompartilhadas/datas/datas-abertura-civil/datas-abertura-civil.component';
 import { VagasCivilComponent } from './content/telasCompartilhadas/vagas-civil/vagas-civil.component';
+import { PromotorAtividadeEnsinoComponent } from './content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
 
 
 
@@ -53,6 +54,7 @@ import { VagasCivilComponent } from './content/telasCompartilhadas/vagas-civil/v
     CronogramaTreinamentoComponent,
     DatasAberturaCivilComponent,
     VagasCivilComponent,
+    PromotorAtividadeEnsinoComponent,
   ],
   imports: [
     BrowserModule,

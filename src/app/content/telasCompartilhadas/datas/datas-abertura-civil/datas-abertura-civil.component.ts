@@ -23,6 +23,8 @@ export class DatasAberturaCivilComponent {
   fimCurMinDate: string;
   cursoEscolhido : Curso | undefined;
   user : User | undefined;
+  mostrarExplicacaoInscricao1 = false;
+  mostrarExplicacaoInscricao2 = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -114,6 +116,12 @@ export class DatasAberturaCivilComponent {
     this.isFormValid()
   }
 
+  toggleExplicacaoInscricao1() {
+    this.mostrarExplicacaoInscricao1 = !this.mostrarExplicacaoInscricao1;
+  }
+  toggleExplicacaoInscricao2() {
+    this.mostrarExplicacaoInscricao2 = !this.mostrarExplicacaoInscricao2;
+  }
   enviarDados() {
     const today = new Date();
 
