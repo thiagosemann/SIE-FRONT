@@ -85,7 +85,7 @@ export class PromotorAtividadeEnsinoComponent {
         const propertiesGroup = {
           promoAtiBairro: response.bairro,
           promoAtiRua: response.logradouro,
-          promoAtiMunicipio: response.promoAtividade
+          promoAtiMunicipio: response.localidade
         };
         this.promoAtivForm.patchValue(propertiesGroup);
       });

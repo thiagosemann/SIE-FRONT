@@ -120,6 +120,7 @@ async handleCurso(item: any, name: string){
       sigla: item.sigla,
       nomeCurso: item.nome,
       haCurso:item.ha,
+      haiCurso:item.hai,
       numeroProcesso:item.procNum,
       pge:item
     };

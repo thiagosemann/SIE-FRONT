@@ -1,7 +1,6 @@
-<body>
     <div class="text-white p-3 datasHeader text-center">
         <div class="container">
-            <h2 class="mb-0">Datas</h2>
+            <h2 class="mb-0">Meios de Divulgação</h2>
         </div>
     </div>
     <div class="container text-center mt-5">
@@ -19,31 +18,33 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="divMeiosDivulgacao">
-                    <a class="fab fa-facebook"></a>
-                    <label>https://www.facebook.com/</label>
-                    <input id="divulgacaoFacebook" class="form-control inputMeiosDivulgacao" type="text"  />
+        <form [formGroup]="meiosDivulgacaoForm" class="custom-form">
+            <div class="row">
+                <div class="col">
+                    <div class="divMeiosDivulgacao">
+                        <a class="fab fa-facebook"></a>
+                        <label>https://www.facebook.com/</label>
+                        <input formControlName="facebook" class="form-control inputMeiosDivulgacao" type="text" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="divMeiosDivulgacao">
-                    <a class="fab fa-instagram"></a>
-                    <label>https://www.instagram.com/</label>
-                    <input id="divulgacaoInstagram" class="form-control inputMeiosDivulgacao" type="text" />
+            <div class="row">
+                <div class="col">
+                    <div class="divMeiosDivulgacao">
+                        <a class="fab fa-instagram"></a>
+                        <label>https://www.instagram.com/</label>
+                        <input formControlName="instagram" class="form-control inputMeiosDivulgacao" type="text" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="divMeiosDivulgacao">
-                    <a class="fas fa-link"></a>
-                    <label>Outros meios:</label>
-                    <input id="divulgacaoOutros" class="form-control inputMeiosDivulgacao" type="text"  />
+            <div class="row">
+                <div class="col">
+                    <div class="divMeiosDivulgacao">
+                        <a class="fas fa-link"></a>
+                        <label>Outros meios:</label>
+                        <input formControlName="outrosMeios" class="form-control inputMeiosDivulgacao" type="text" />
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>

@@ -71,6 +71,7 @@ export class VagasCivilComponent implements OnInit,AfterViewInit {
     };
   
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
+    this.cursoService.setVagasMunicipio();
     this.isFormValid();
   }
   

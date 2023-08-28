@@ -8,9 +8,10 @@ export interface Curso {
   id: number;
   auth?:string;
   bbm?:string;
-  sigla?: string,
-  nomeCurso?: string,
-  haCurso?:string,
+  sigla?: string;
+  nomeCurso?: string;
+  haCurso?:string;
+  haiCurso?:string;
   numeroProcesso?:string,
   startInscritiondate?: string;
   startInscritionHorario?: string;
@@ -66,6 +67,11 @@ export interface Curso {
   municipio1Civil?:string;
   municipio2Civil?:string;
   municipio3Civil?:string;
+  vagasMunicipio?:string;
+  facebook?:string;
+  instagram?:string;
+  outrosMeios?:string;
+  redesSociais?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

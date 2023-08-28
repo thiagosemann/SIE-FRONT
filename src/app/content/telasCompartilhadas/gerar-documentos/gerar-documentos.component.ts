@@ -187,9 +187,13 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "CoordenadorComponent", propertyName: "coordenadorContato", errorMessage: "O contato do coordenador não está definido.",notEmpty:false }
       ],
       VagasCivilComponent : [
-        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio1", errorMessage: "O municipio 1 não está definido.",notEmpty:false },
-        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio2", errorMessage: "O municipio 2 não está definido.",notEmpty:false },
-        { component: "VagasCivilComponent", propertyName: "vagasCivilMunicipio3", errorMessage: "O municipio 3 não está definido.",notEmpty:false }
+        { component: "VagasCivilComponent", propertyName: "municipio1Civil", errorMessage: "O municipio 1 não está definido.",notEmpty:false },
+        { component: "VagasCivilComponent", propertyName: "municipio2Civil", errorMessage: "O municipio 2 não está definido.",notEmpty:false },
+        { component: "VagasCivilComponent", propertyName: "municipio3Civil", errorMessage: "O municipio 3 não está definido.",notEmpty:false }
+      ],
+
+      MeiosDivulgacaoComponent : [
+        { component: "MeiosDivulgacaoComponent", propertyName: "redesSociais", errorMessage: "Insira pelo menos uma rede social.",notEmpty:false }
       ],
       DocentesComponent : [
         { component: "DocentesComponent", propertyName: "selectedProfessors", errorMessage: "Nenhum professor selecionado.",notEmpty:true },

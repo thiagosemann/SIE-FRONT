@@ -110,7 +110,33 @@ export class CursoService {
       curso.localApresentacao = curso.localAtiRua +", "+ curso.localAtiNumeral +", "+ curso.localAtiBairro +", "+ curso.localAtiMunicipio +" - "+ curso.localAtiNome;
     }
   }
+  setVagasMunicipio() {
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if (curso) {
+      curso.vagasMunicipio = curso.municipio1Civil + ", " + curso.municipio2Civil + " e " + curso.municipio3Civil;
+    }
+  }
 
+  setRedesSociais() {
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if (curso) {
+      if (curso.facebook && curso.instagram && curso.outrosMeios) {
+        curso.redesSociais = curso.facebook + ", " + curso.instagram + " e " + curso.outrosMeios;
+      } else if (curso.facebook && curso.instagram) {
+        curso.redesSociais = curso.facebook + " e " + curso.instagram;
+      } else if (curso.instagram && curso.outrosMeios) {
+        curso.redesSociais = curso.instagram + " e " + curso.outrosMeios;
+      } else if (curso.facebook) {
+        curso.redesSociais = curso.facebook;
+      } else if (curso.instagram) {
+        curso.redesSociais = curso.instagram;
+      } else if (curso.outrosMeios) {
+        curso.redesSociais = curso.outrosMeios;
+      }
+    }
+  }
+  
+  
   setpromoAtivAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
