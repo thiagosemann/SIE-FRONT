@@ -20,9 +20,9 @@ export class CoordenadorComponent implements OnInit {
   logoUrl: string = ''; // URL da imagem
   user: User | undefined;
   coordenadorForm: FormGroup;
+  cursoEscolhido: Curso | undefined;
 
   constructor(
-    private googleService: GoogleScriptService,
     private userService: UserService,
     private formBuilder: FormBuilder,
     private cursoService: CursoService,
@@ -39,18 +39,18 @@ export class CoordenadorComponent implements OnInit {
   }
 
   ngOnInit() {
-    const cursoEscolhido = this.cursoService.getCursoEscolhido();
-    if (cursoEscolhido) {
+    this.cursoEscolhido = this.cursoService.getCursoEscolhido();
+    if (this.cursoEscolhido) {
       const propertiesGroup = {
-        mtcl: cursoEscolhido.coordenador?.mtcl,
-        nomeCompleto: cursoEscolhido.coordenador?.nomeCompleto,
-        email: cursoEscolhido.coordenador?.email,
-        telefoneFunc: cursoEscolhido.coordenador?.telefoneFunc,
-        telefoneOBM: cursoEscolhido.coordenador?.telefoneOBM,
+        mtcl: this.cursoEscolhido.coordenador?.mtcl,
+        nomeCompleto: this.cursoEscolhido.coordenador?.nomeCompleto,
+        email: this.cursoEscolhido.coordenador?.email,
+        telefoneFunc: this.cursoEscolhido.coordenador?.telefoneFunc,
+        telefoneOBM: this.cursoEscolhido.coordenador?.telefoneOBM,
       };
       this.coordenadorForm.patchValue(propertiesGroup);
-      if (cursoEscolhido.coordenador?.ldap) {
-        this.logoUrl = "http://satcontrol.cbm.sc.gov.br/lob/fotos_bombeiros/" + cursoEscolhido.coordenador?.ldap;
+      if (this.cursoEscolhido.coordenador?.ldap) {
+        this.logoUrl = "http://satcontrol.cbm.sc.gov.br/lob/fotos_bombeiros/" + this.cursoEscolhido.coordenador?.ldap;
       } 
 
     }

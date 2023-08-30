@@ -1,8 +1,10 @@
 <div class="text-white p-3 coordenadorHeader text-center">
-  <div class="container">
-      <h2 class="mb-0">Coordenador</h2>
+    <div class="container">
+        <h2 class="mb-0">Coordenador <span style="float: right;" *ngIf="cursoEscolhido && cursoEscolhido.numeroProcesso && cursoEscolhido.sigla">{{cursoEscolhido.sigla }}: {{cursoEscolhido.numeroProcesso}}</span></h2>
+    </div>
   </div>
-</div>
+  
+  
 
 <div class="container-fluid" style="width: 60%; height: 60%;">
   <form form [formGroup]="coordenadorForm" class="custom-form">
