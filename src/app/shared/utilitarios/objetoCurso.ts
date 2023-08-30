@@ -72,6 +72,7 @@ export interface Curso {
   instagram?:string;
   outrosMeios?:string;
   redesSociais?:string;
+  totalVagas?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

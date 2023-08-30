@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { Curso } from '../../utilitarios/objetoCurso';
 import { DocumentosService } from './documento.service';
-import { Documento, Subitem } from '../../utilitarios/documentoPdf';
+import { Documento, Subitem, Subsubitem } from '../../utilitarios/documentoPdf';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentItem, CourseConfigService } from '../CourseConfigService';
@@ -28,6 +28,8 @@ export class PdfService {
         this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="aberturaTBAE" ){
         this.executeAberturaTBAE(responseDoc.dados.documento, curso,model)
+      }else if(curso.type==="aberturaTBC" ){
+        this.executeAberturaTBC(responseDoc.dados.documento, curso,model)
       }
       await this.generateDocumento(doc, responseDoc.dados);
     }
@@ -39,9 +41,16 @@ export class PdfService {
 
   executeAberturaTBAE(responeDoc:any , curso:Curso,model:string){
     this.replaceProperties(responeDoc, curso);
-    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)")
+    this.manageCustos(responeDoc, curso);
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
   }
-
+  executeAberturaTBC(responeDoc:any , curso:Curso,model:string){
+    this.createFinalidadeAndTotalVagasTBC(curso);
+    this.replaceProperties(responeDoc, curso);
+    this.manageCustos(responeDoc, curso);
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+    this.manageTBCItens(responeDoc,curso,model)
+  }
   executeAberturaCursoMilitar(responeDoc:any , curso:Curso,model:string){
     this.replaceProperties(responeDoc, curso);
     this.manageProcessoSeletivo(responeDoc, curso);
@@ -87,6 +96,251 @@ export class PdfService {
     );
   } 
 
+  private createFinalidadeAndTotalVagasTBC(curso: Curso){
+    if(curso.sigla == "TBC-I"){
+      curso.finalidade = "Proporcionar e atualizar o bombeiro comunitário em conhecimentos nas áreas de salvamento e de resgate veicular, bem como, habilitá-lo à promoção ao 5º Grau (BC Sênior Classe 3). "
+    }else if(curso.sigla == "TBC-I"){
+      curso.finalidade = "Proporcionar e atualizar o bombeiro comunitário em conhecimentos nas áreas de combate a incêndio, atividades técnicas, brigada de incêndio, gerenciamento de riscos, técnicas de ensino e segurança contra incêndio, bem como, habilitá-lo à promoção ao 10º Grau (BC Pleno Classe 1)."
+    }
+    curso.totalVagas = curso.pge?.vagasMax;
+  }
+  
+  private manageTBCItens(objeto: any,curso: Curso,type:string){
+    const documento = objeto;
+    console.log(objeto)
+    if(type=="edital"){
+      for (const capitulo of documento) {
+        if (capitulo.tipo === "capitulo" && capitulo.texto === "VAGAS" ) {
+          for (const item of capitulo.itens) {
+            if (item.numero === "2.2") {
+              const subitemA: Subitem = {
+                tipo: "subsubitem",
+                texto: "5º Grau ou superior - BC Sênior Classe 3 ou superior (até e inclusive o 9º Grau – BC Pleno Classe 2), relativo a BC que tenha sido promovido ao 5º Grau ou a graus superiores e que não tenha realizado o TBC-I por falta de oferta do treinamento em tempo hábil à sua promoção;",
+                letra: 'a)',
+                subsubitens: []
+              };
+              const subitemB: Subitem = {
+                tipo: "subsubitem",
+                texto: "4º Grau - BC Júnior Classe 1;",
+                letra: 'b)',
+                subsubitens: []
+              };
+              const subitemC: Subitem = {
+                tipo: "subsubitem",
+                texto: "3º Grau - BC Júnior Classe 2;",
+                letra: 'c)',
+                subsubitens: []
+              };
+              const subitemD: Subitem = {
+                tipo: "subsubitem",
+                texto: "2º Grau - BC Júnior Classe 3;",
+                letra: 'd)',
+                subsubitens: []
+              };
+              const subitemE: Subitem = {
+                tipo: "subsubitem",
+                texto: "1º Grau - BC",
+                letra: 'e)',
+                subsubitens: []
+              };
+              item.subitens.push(subitemA);
+              item.subitens.push(subitemB);
+              item.subitens.push(subitemC);
+              item.subitens.push(subitemD);
+              item.subitens.push(subitemE);
+
+            }
+          }
+        }
+        if (capitulo.tipo === "capitulo" && capitulo.texto === "REQUISITOS" ) {
+          for (const item of capitulo.itens) {
+            if (item.numero === "3.2") {
+              if(curso.sigla == "TBC-I"){
+                item.texto = "Ser bombeiro comunitário ativo do 4º ao 1º grau, respeitada a ordem de prioridade para o preenchimento das vagas conforme previsto neste edital."; 
+              }else if(curso.sigla == "TBC-II"){
+                item.texto = "Ter concluído com aproveitamento o Treinamento de Bombeiro Comunitário - Nível I (TBC-I)."; 
+              }
+            }
+          }
+        }
+      }
+
+    }else if(type=="plano"){
+      for (const capitulo of documento) {
+        if (capitulo.tipo === "capitulo" && capitulo.texto === "PLANEJAMENTO" ) {
+          for (const item of capitulo.itens) {
+            if(item.numero ==="2.2"){
+              for (const subitem of item.subitens) {
+                if (subitem.letra === 'b)') {
+                  const subsubitemA: Subsubitem = {
+                    tipo: "subsubitem",
+                    texto: "5º Grau ou superior - BC Sênior Classe 3 ou superior (até e inclusive o 9º Grau – BC Pleno Classe 2), relativo a BC que tenha sido promovido ao 5º Grau ou a graus superiores e que não tenha realizado o TBC-I por falta de oferta do treinamento em tempo hábil à sua promoção;",
+                    letra: '(1)',
+                    subsubsubitens: []
+                  };
+                  const subsubitemB: Subsubitem = {
+                    tipo: "subsubitem",
+                    texto: "4º Grau - BC Júnior Classe 1;",
+                    letra: '(2)',
+                    subsubsubitens: []
+                  };
+                  const subsubitemC: Subsubitem = {
+                    tipo: "subsubitem",
+                    texto: "3º Grau - BC Júnior Classe 2;",
+                    letra: '(3)',
+                    subsubsubitens: []
+                  };
+                  const subsubitemD: Subsubitem = {
+                    tipo: "subsubitem",
+                    texto: "2º Grau - BC Júnior Classe 3;",
+                    letra: '(4)',
+                    subsubsubitens: []
+                  };
+                  const subsubitemE: Subsubitem = {
+                    tipo: "subsubitem",
+                    texto: "1º Grau - BC",
+                    letra: '(5)',
+                    subsubsubitens: []
+                  };
+                  subitem.subsubitens.push(subsubitemA);
+                  subitem.subsubitens.push(subsubitemB);
+                  subitem.subsubitens.push(subsubitemC);
+                  subitem.subsubitens.push(subsubitemD);
+                  subitem.subsubitens.push(subsubitemE);
+                }
+              }
+            }
+            if(item.numero ==="2.4"){
+              const subitemA: Subitem = {
+                tipo: "subitem",
+                texto: "A atividade de ensino ocorrerá dentro período previsto no item 2.1, sendo de responsabilidade do coordenador distribuir a execução do conteúdo dentro do período previsto para a realização da atividade de ensino.",
+                letra: 'a)',
+                subsubitens: []
+              };
+              const subitemB: Subitem = {
+                tipo: "subitem",
+                texto: "A atividade de ensino observará o PROMAPUD seguinte:",
+                letra: 'b)',
+                subsubitens: []
+              };
+              if(curso.sigla == "TBC-I"){
+                const subsubitemA: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Introdução às técnicas de salvamento, Cabos, nós, Guarnições e equipamentos: 4 horas aulas.",
+                  letra: '1)',
+                  subsubsubitens: []
+                };
+                const subsubitemB: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Salvamento Aquático e Subaquático: 4 horas aulas.",
+                  letra: '2)',
+                  subsubsubitens: []
+                };
+                const subsubitemC: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Resgate de vítimas presas em ferragens (veículos): 4 horas aulas.",
+                  letra: '3)',
+                  subsubsubitens: []
+                };
+                const subsubitemD: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Treinamentos Práticos e demonstrações: 6 horas aulas.",
+                  letra: '4)',
+                  subsubsubitens: []
+                };
+                const subsubitemE: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Verificação Final: 2 horas aulas.",
+                  letra: '5)',
+                  subsubsubitens: []
+                };
+                const subitemC: Subitem = {
+                  tipo: "subitem",
+                  texto: "Carga horária total: 62 horas aulas.",
+                  letra: 'c)',
+                  subsubitens: []
+                };
+                item.subitens.push(subitemA);
+                subitemB.subsubitens.push(subsubitemA); 
+                subitemB.subsubitens.push(subsubitemB); 
+                subitemB.subsubitens.push(subsubitemC); 
+                subitemB.subsubitens.push(subsubitemD); 
+                subitemB.subsubitens.push(subsubitemE); 
+                item.subitens.push(subitemB);
+                item.subitens.push(subitemC);
+              }else if(curso.sigla == "TBC-II"){
+                const subsubitemA: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Combate a incêndios: 16 horas aulas.",
+                  letra: '1)',
+                  subsubsubitens: []
+                };
+                const subsubitemB: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Atividades técnicas: 14 horas aulas.",
+                  letra: '2)',
+                  subsubsubitens: []
+                };
+                const subsubitemC: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Brigada de incêndio: 4 horas aulas.",
+                  letra: '3)',
+                  subsubsubitens: []
+                };
+                const subsubitemD: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Gerenciamento de riscos: 8 horas aulas.",
+                  letra: '4)',
+                  subsubsubitens: []
+                };
+                const subsubitemE: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Técnicas de ensino: 10 horas aulas.",
+                  letra: '5)',
+                  subsubsubitens: []
+                };
+                const subsubitemF: Subsubitem = {
+                  tipo: "subsubitem",
+                  texto: "Segurança contra incêndio: 10 horas aulas.",
+                  letra: '6)',
+                  subsubsubitens: []
+                };
+                 const subitemC: Subitem = {
+                  tipo: "subitem",
+                  texto: "Carga horária total: 62 horas aulas.",
+                  letra: 'c)',
+                  subsubitens: []
+                };
+                item.subitens.push(subitemA);
+                subitemB.subsubitens.push(subsubitemA); 
+                subitemB.subsubitens.push(subsubitemB); 
+                subitemB.subsubitens.push(subsubitemC); 
+                subitemB.subsubitens.push(subsubitemD); 
+                subitemB.subsubitens.push(subsubitemE); 
+                subitemB.subsubitens.push(subsubitemF); 
+                item.subitens.push(subitemB);
+                item.subitens.push(subitemC);
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo" && capitulo.texto === "PRESCRIÇÕES COMPLEMENTARES" ) {
+        if(curso.prescricaoComplementar){
+          for (const item of curso.prescricaoComplementar) {
+            item.numero = "10." + item.numero
+          }
+        }
+        capitulo.itens = curso.prescricaoComplementar
+      }
+    }
+
+  }
   private manageCustos(objeto: any, curso: Curso) {
     const documento = objeto;
     const formatCurrency = (value: number) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
