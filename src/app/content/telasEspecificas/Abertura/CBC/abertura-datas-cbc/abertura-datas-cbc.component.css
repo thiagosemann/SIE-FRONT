@@ -1,0 +1,44 @@
+.datasHeader{
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato';
+}
+.neumorphic {
+    background: #e0e5ec;
+    box-shadow: -10px 10px 40px -10px #c1c7d0, 
+                 10px 10px 40px -10px #ffffff;
+    border-radius: 15px;
+    height: 100vh;
+}
+input[type="date"], input[type="time"] {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #000000;
+    background: #f3f3f3;
+    outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+    text-align: center;
+}
+input[type="date"]:focus, input[type="time"]:focus {
+    box-shadow: 0px 0px 5px rgba(81, 203, 238, 1);
+}
+input[type="date"]:invalid, input[type="time"]:invalid {
+    box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.5);
+}
+
+.labelRequisitos {
+    font-size: 15px;
+    font-weight: bolder;
+}
+.expand-icon {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .explicacao {
+    margin-top: 10px;
+  }
+  

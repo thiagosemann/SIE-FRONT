@@ -76,6 +76,8 @@ export class PgeComponent implements OnInit {
       this.handleCurso(item,"TBAE");
     }else if (firstFiveDigits === '2.2.2' || firstFiveDigits === '2.2.3' ) {
       this.handleCurso(item,"TBC");
+    }else if (firstFiveDigits === '2.1.2' ) {
+      this.handleCurso(item,"CBC");
     }else {
       this.courseType = '';
     }

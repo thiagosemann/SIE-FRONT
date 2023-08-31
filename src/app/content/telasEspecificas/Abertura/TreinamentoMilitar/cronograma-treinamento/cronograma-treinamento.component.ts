@@ -5,7 +5,7 @@ import { LicoesService } from 'src/app/shared/service/licoesService';
 import { AtividadeHomologada } from 'src/app/shared/utilitarios/atividadeHomologada';
 import { Subsubitem, Subsubsubitem } from 'src/app/shared/utilitarios/documentoPdf';
 import { Licao } from 'src/app/shared/utilitarios/licao';
-import { ContentComponent } from '../../content.component';
+import { ContentComponent } from '../../../../content.component';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 
 @Component({

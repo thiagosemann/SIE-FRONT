@@ -1,0 +1,128 @@
+<div class="text-white p-3 datasHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Processo Seletivo</h2>
+    </div>
+</div>
+<div class="container-fluid">
+    <form  [formGroup]="datasForm" >
+        <div class="row">
+            <div class="col-sm-2">
+                <h4 class="text-center pb-2 pt-5">Prova teórica</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startTheoreticalExamDate" id="startTheoreticalExamDate" required onkeydown="return false" [min]="startTheoreticalExamDate" />
+                    </div>
+                    <div class="col-6">
+                    <input type="time" class="form-control" name="startTheoreticalExamTime" id="startTheoreticalExamTime" required onkeydown="return false"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Término:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endTheoreticalExamDate" id="endTheoreticalExamDate" required onkeydown="return false"  [min]="endTheoreticalExamDate" />
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="endTheoreticalExamTime" id="endTheoreticalExamTime" required onkeydown="return false"   />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 neumorphic">
+                <h4 class="text-center pb-2 pt-5">Teste de Aptidão Física</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startPhysicalAptitudeTestDate" id="startPhysicalAptitudeTestDate" required onkeydown="return false"  [min]="startPhysicalAptitudeTestDate" />
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="startPhysicalAptitudeTestTime" id="startPhysicalAptitudeTestTime" required onkeydown="return false"   />
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Término:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endPhysicalAptitudeTestDate" id="endPhysicalAptitudeTestDate" required onkeydown="return false"   [min]="endPhysicalAptitudeTestDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="endPhysicalAptitudeTestTime" id="endPhysicalAptitudeTestTime" required onkeydown="return false"   />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <h4 class="text-center pb-2 pt-5">Documentos</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startDocumentSubmissionDate" id="startDocumentSubmissionDate" required onkeydown="return false"   [min]="startDocumentSubmissionDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="startDocumentSubmissionTime" id="startDocumentSubmissionTime" required onkeydown="return false"   />
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Término:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endDocumentSubmissionDate" id="endDocumentSubmissionDate" required onkeydown="return false"  [min]="endDocumentSubmissionDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="endDocumentSubmissionTime" id="endDocumentSubmissionTime" required onkeydown="return false"  />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 neumorphic">
+                <h4 class="text-center pb-2 pt-5">Resultado final</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startFinalResultsDate" id="startFinalResultsDate" required onkeydown="return false"  [min]="startFinalResultsDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="startFinalResultsTime" id="startFinalResultsTime" required onkeydown="return false" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <h4 class="text-center pb-2 pt-5">Curso</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startCourseDate" id="startCourseDate" required onkeydown="return false"  [min]="startCourseDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="time" class="form-control" name="startCourseTime" id="startCourseTime" required onkeydown="return false"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Término período letivo:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endCourseSemesterDate" id="endCourseSemesterDate" required onkeydown="return false"  [min]="endCourseSemesterDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endCourseSemesterEndDate" id="endCourseSemesterEndDate" required onkeydown="return false"  [min]="endCourseSemesterEndDate"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Previsão término:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endCourseForecastDate" id="endCourseForecastDate" required onkeydown="return false" [min]="endCourseForecastDate" />
+                    </div>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endCourseForecastEndDate" id="endCourseForecastEndDate" required onkeydown="return false" [min]="endCourseForecastEndDate" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 neumorphic">
+                <h4 class="text-center pb-2 pt-5">Estágio Operacional</h4>
+                <div class="row">
+                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="startOperationalTrainingDate" id="startOperationalTrainingDate" required onkeydown="return false"  [min]="startOperationalTrainingDate"/>
+                    </div>
+                    <div class="col-6">
+                        <input type="date" class="form-control" name="endOperationalTrainingDate" id="endOperationalTrainingDate" required onkeydown="return false" [min]="endOperationalTrainingDate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -13,11 +13,12 @@ import { GerarDocumentosComponent } from 'src/app/content/telasCompartilhadas/ge
 import { EdicaoDocumentosComponent } from 'src/app/content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from 'src/app/content/telasCompartilhadas/logistica1/logistica1.component';
 import { PreenchimentoAutComponent } from 'src/app/content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
-import { CronogramaTreinamentoComponent } from 'src/app/content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
+import { CronogramaTreinamentoComponent } from 'src/app/content/telasEspecificas/Abertura/TreinamentoMilitar/cronograma-treinamento/cronograma-treinamento.component';
 import { DatasAberturaCivilComponent } from 'src/app/content/telasCompartilhadas/datas/datas-abertura-civil/datas-abertura-civil.component';
 import { VagasCivilComponent } from 'src/app/content/telasCompartilhadas/vagas-civil/vagas-civil.component';
 import { PromotorAtividadeEnsinoComponent } from 'src/app/content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
 import { MeiosDivulgacaoComponent } from 'src/app/content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
+import { AberturaDatasCBCComponent } from 'src/app/content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -87,6 +88,20 @@ export class CourseConfigService {
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
 
+  private aberturaCBC: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
+    { component: VagasCivilComponent, name: 'Vagas' ,validity: false, componentName:"VagasCivilComponent" },
+    { component: AberturaDatasCBCComponent, name: 'Datas' ,validity: false, componentName:"VagasCivilComponent" },    
+    { component: LocalApresentacaoComponent, name: 'Local',validity: false, componentName:"LocalApresentacaoComponent"  },
+    { component: PromotorAtividadeEnsinoComponent, name: 'Prom.Ativ',validity: false, componentName:"PromotorAtividadeEnsinoComponent"  },
+    { component: MeiosDivulgacaoComponent, name: 'Divulgação',validity: false, componentName:"MeiosDivulgacaoComponent"  },
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
+    { component: DocentesComponent, name: 'Docentes',validity: false, componentName:"DocentesComponent"  },
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+
 
   private pge: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  }
@@ -110,6 +125,8 @@ export class CourseConfigService {
         return this.aberturaTBAE;
       case 'aberturaTBC':
         return this.aberturaTBC;
+      case 'aberturaCBC':
+        return this.aberturaCBC;
       case 'pge':
         return this.pge;    
       case 'admin':

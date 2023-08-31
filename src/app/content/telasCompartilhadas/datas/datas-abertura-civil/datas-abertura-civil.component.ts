@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './datas-abertura-civil.component.html',
   styleUrls: ['./datas-abertura-civil.component.css']
 })
-export class DatasAberturaCivilComponent {
+export class DatasAberturaCivilComponent implements OnInit {
   datasForm: FormGroup;
   startInscritionMinDate: string;
   endInscritionMinDate: string;

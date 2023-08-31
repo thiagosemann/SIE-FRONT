@@ -26,11 +26,12 @@ import { GerarDocumentosComponent } from './content/telasCompartilhadas/gerar-do
 import { EdicaoDocumentosComponent } from './content/telas-admin/edicao-documentos/edicao-documentos.component';
 import { Logistica1Component } from './content/telasCompartilhadas/logistica1/logistica1.component';
 import { PreenchimentoAutComponent } from './content/telasCompartilhadas/preenchimento-aut/preenchimento-aut.component';
-import { CronogramaTreinamentoComponent } from './content/telasEspecificas/cronograma-treinamento/cronograma-treinamento.component';
+import { CronogramaTreinamentoComponent } from './content/telasEspecificas/Abertura/TreinamentoMilitar/cronograma-treinamento/cronograma-treinamento.component';
 import { DatasAberturaCivilComponent } from './content/telasCompartilhadas/datas/datas-abertura-civil/datas-abertura-civil.component';
 import { VagasCivilComponent } from './content/telasCompartilhadas/vagas-civil/vagas-civil.component';
 import { PromotorAtividadeEnsinoComponent } from './content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
 import { MeiosDivulgacaoComponent } from './content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
+import { AberturaDatasCBCComponent } from './content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 
 
 
@@ -57,6 +58,7 @@ import { MeiosDivulgacaoComponent } from './content/telasCompartilhadas/meios-di
     VagasCivilComponent,
     PromotorAtividadeEnsinoComponent,
     MeiosDivulgacaoComponent,
+    AberturaDatasCBCComponent,
   ],
   imports: [
     BrowserModule,
