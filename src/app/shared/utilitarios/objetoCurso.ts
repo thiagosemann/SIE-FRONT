@@ -73,6 +73,26 @@ export interface Curso {
   outrosMeios?:string;
   redesSociais?:string;
   totalVagas?:string;
+  startTheoreticalExamDate?:string;
+  startTheoreticalExamTime?:string;
+  divulgacaoTheoreticalExamDate?:string;
+  divulgacaoTheoreticalExamTime?:string;
+  startPhysicalAptitudeTestDate?:string;
+  startPhysicalAptitudeTestTime?:string;
+  divulgacaoPhysicalAptitudeTestDate?:string;
+  divulgacaoPhysicalAptitudeTestTime?:string;
+  startDocumentSubmissionDate?:string;
+  startDocumentSubmissionTime?:string;
+  divulgacaoDocumentSubmissionDate?:string;
+  divulgacaoDocumentSubmissionTime?:string;
+  startFinalResultsDate?:string;
+  startFinalResultsTime?:string;
+  startCourseTime?:string;
+  endCourseSemesterDate?:string;
+  endCourseForecastDate?:string;
+  endCourseForecastEndDate?:string;
+  startOperationalTrainingDate?:string;
+  endOperationalTrainingDate?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './datas-abertura-civil.component.html',
   styleUrls: ['./datas-abertura-civil.component.css']
 })
-export class DatasAberturaCivilComponent implements OnInit {
+export class DatasAberturaCivilComponent implements OnInit,AfterViewInit {
   datasForm: FormGroup;
   startInscritionMinDate: string;
   endInscritionMinDate: string;
@@ -58,13 +58,12 @@ export class DatasAberturaCivilComponent implements OnInit {
   ngOnInit() {
      this.cursoEscolhido = this.cursoService.getCursoEscolhido();
      this.user = this.authenticationService.getUser()!;
-     
     if (this.cursoEscolhido) {
       const propertiesGroup = {
         startInscritiondate: this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
         endInscritiondate: this.formatDateForSelect(this.cursoEscolhido.endInscritiondate??''),
         linkInscrition: this.cursoEscolhido.linkInscrition,
-        divulgacaoInscritiondate: this.cursoEscolhido.divulgacaoInscritiondate,
+        divulgacaoInscritiondate: this.formatDateForSelect(this.cursoEscolhido.divulgacaoInscritiondate??''),
         divulgacaoInscritiondateHorario: this.cursoEscolhido.divulgacaoInscritiondateHorario,
         processoSeletivoHorario: this.cursoEscolhido.processoSeletivoHorario,
         startInscritionHorario: this.cursoEscolhido.startInscritionHorario,
