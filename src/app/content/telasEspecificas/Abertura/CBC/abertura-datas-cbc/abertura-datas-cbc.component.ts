@@ -7,6 +7,9 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { User } from 'src/app/shared/utilitarios/user';
 import { debounceTime } from 'rxjs/operators';
+import { takeUntil  } from 'rxjs/operators';
+import { Subject  } from 'rxjs';
+
 
 @Component({
   selector: 'app-abertura-datas-cbc',
@@ -15,20 +18,41 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
   datasCBCForm: FormGroup;
-  startTheoreticalExamDate: string;
-  divulgacaoTheoreticalExamDate: string;
-  startPhysicalAptitudeTestDate: string;
-  divulgacaoPhysicalAptitudeTestDate: string;
-  startDocumentSubmissionDate: string;
-  divulgacaoDocumentSubmissionDate: string;
-  startFinalResultsDate: string;
-  iniCur: string;
-  endCourseSemesterDate: string;
-  fimCur: string;
-  endCourseForecastDate: string;
-  endCourseForecastEndDate: string;
-  startOperationalTrainingDate: string;
-  endOperationalTrainingDate: string;
+  private unsubscribe$ = new Subject<void>();
+
+  datasMinProprieties = [
+    'startInscritiondate',
+    'endInscrition',
+    'divulgacaoInscritiondate',
+    'startTheoreticalExamDate',
+    'divulgacaoTheoreticalExamDate',
+    'startPhysicalAptitudeTestDate',
+    'divulgacaoPhysicalAptitudeTestDate',
+    'startDocumentSubmissionDate',
+    'divulgacaoDocumentSubmissionDate',
+    'startFinalResultsDate',
+    'iniCur',
+    'endCourseForecastDate',
+    'startOperationalTrainingDate',
+    'endOperationalTrainingDate'
+  ];
+  datasMin = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ];
   user : User | undefined;
   cursoEscolhido : Curso | undefined;
 
@@ -47,6 +71,13 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       divulgacaoTheoreticalExamTime: null,
       startPhysicalAptitudeTestDate: null,
       startPhysicalAptitudeTestTime: null,
+      startInscritiondate: null,
+      startInscritionHorario:null,
+      endInscritiondate:null,
+      endInscritionHorario:null,
+      emailInscrition:null,
+      divulgacaoInscritiondate:null,
+      divulgacaoInscritiondateHorario:null,
       divulgacaoPhysicalAptitudeTestDate: null,
       divulgacaoPhysicalAptitudeTestTime: null,
       startDocumentSubmissionDate: null,
@@ -57,71 +88,130 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       startFinalResultsTime: null,
       iniCur: null,
       startCourseTime: null,
-      endCourseSemesterDate: null,
       fimCur: null,
       endCourseForecastDate: null,
-      endCourseForecastEndDate: null,
       startOperationalTrainingDate: null,
       endOperationalTrainingDate: null,
       anoAtual: null
     });
-    this.startTheoreticalExamDate= this.setMinDate();
-    this.divulgacaoTheoreticalExamDate= this.setMinDate();
-    this.startPhysicalAptitudeTestDate= this.setMinDate();
-    this.divulgacaoPhysicalAptitudeTestDate= this.setMinDate();
-    this.startDocumentSubmissionDate= this.setMinDate();
-    this.divulgacaoDocumentSubmissionDate= this.setMinDate();
-    this.startFinalResultsDate= this.setMinDate();
-    this.iniCur= this.setMinDate();
-    this.endCourseSemesterDate= this.setMinDate();
-    this.fimCur= this.setMinDate();
-    this.endCourseForecastDate= this.setMinDate();
-    this.endCourseForecastEndDate= this.setMinDate();
-    this.startOperationalTrainingDate= this.setMinDate();
-    this.endOperationalTrainingDate= this.setMinDate();
+
+
+      
   }
 
+
+
     ngOnInit() {
+
+      for (let i = 0; i < this.datasMin.length; i++) {
+        this.datasMin[i] = this.setMinDate();
+      }
       this.cursoEscolhido = this.cursoService.getCursoEscolhido();
       this.user = this.authenticationService.getUser()!;
-      console.log("Entrou")
      
       if (this.cursoEscolhido) {
         const propertiesGroup = {
+        startInscritiondate:            this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
+        endInscritiondate:              this.formatDateForSelect(this.cursoEscolhido.endInscritiondate??''),
+        emailInscrition:                this.cursoEscolhido.emailInscrition,
+        divulgacaoInscritiondate:       this.formatDateForSelect(this.cursoEscolhido.divulgacaoInscritiondate??''),
+        divulgacaoInscritiondateHorario:this.cursoEscolhido.divulgacaoInscritiondateHorario,
+        startInscritionHorario:         this.cursoEscolhido.startInscritionHorario,
+        endInscritionHorario:           this.cursoEscolhido.endInscritionHorario,
         startTheoreticalExamDate:       this.formatDateForSelect(this.cursoEscolhido.startTheoreticalExamDate??''),
         startTheoreticalExamTime:       this.formatDateForSelect(this.cursoEscolhido.startTheoreticalExamTime??''),
-        divulgacaoTheoreticalExamDate:         this.formatDateForSelect(this.cursoEscolhido.divulgacaoTheoreticalExamDate??''),
+        divulgacaoTheoreticalExamDate:  this.formatDateForSelect(this.cursoEscolhido.divulgacaoTheoreticalExamDate??''),
         startPhysicalAptitudeTestDate:  this.formatDateForSelect(this.cursoEscolhido.startPhysicalAptitudeTestDate??''),
-        divulgacaoPhysicalAptitudeTestDate:    this.formatDateForSelect(this.cursoEscolhido.divulgacaoPhysicalAptitudeTestDate??''),
+        divulgacaoPhysicalAptitudeTestDate:this.formatDateForSelect(this.cursoEscolhido.divulgacaoPhysicalAptitudeTestDate??''),
         startDocumentSubmissionDate:    this.formatDateForSelect(this.cursoEscolhido.startDocumentSubmissionDate??''),
-        divulgacaoDocumentSubmissionDate:      this.formatDateForSelect(this.cursoEscolhido.divulgacaoDocumentSubmissionDate??''),
+        divulgacaoDocumentSubmissionDate:this.formatDateForSelect(this.cursoEscolhido.divulgacaoDocumentSubmissionDate??''),
         startFinalResultsDate:          this.formatDateForSelect(this.cursoEscolhido.startFinalResultsDate??''),
-        endCourseSemesterDate:          this.formatDateForSelect(this.cursoEscolhido.endCourseSemesterDate??''),
         iniCur:                         this.formatDateForSelect(this.cursoEscolhido.iniCur??''),
         fimCur:                         this.formatDateForSelect(this.cursoEscolhido.fimCur??''),
         endCourseForecastDate:          this.formatDateForSelect(this.cursoEscolhido.endCourseForecastDate??''),
-        endCourseForecastEndDate:       this.formatDateForSelect(this.cursoEscolhido.endCourseForecastEndDate??''),
         startOperationalTrainingDate:   this.formatDateForSelect(this.cursoEscolhido.startOperationalTrainingDate??''),
         endOperationalTrainingDate:     this.formatDateForSelect(this.cursoEscolhido.endOperationalTrainingDate??''),
-        divulgacaoTheoreticalExamTime:         this.cursoEscolhido.divulgacaoTheoreticalExamTime,
+        divulgacaoTheoreticalExamTime:  this.cursoEscolhido.divulgacaoTheoreticalExamTime,
         startPhysicalAptitudeTestTime:  this.cursoEscolhido.startPhysicalAptitudeTestTime,
-        divulgacaoPhysicalAptitudeTestTime:    this.cursoEscolhido.divulgacaoPhysicalAptitudeTestTime,
+        divulgacaoPhysicalAptitudeTestTime:this.cursoEscolhido.divulgacaoPhysicalAptitudeTestTime,
         startDocumentSubmissionTime:    this.cursoEscolhido.startDocumentSubmissionTime,
-        divulgacaoDocumentSubmissionTime:      this.cursoEscolhido.divulgacaoDocumentSubmissionTime,
+        divulgacaoDocumentSubmissionTime:this.cursoEscolhido.divulgacaoDocumentSubmissionTime,
         startFinalResultsTime:          this.cursoEscolhido.startFinalResultsTime,
         startCourseTime:                this.cursoEscolhido.startCourseTime
         };
-        console.log(propertiesGroup)
         this.datasCBCForm.patchValue(propertiesGroup);
       }
       this.datasCBCForm.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
-        console.log('Form values changed');
         this.enviarDados();
       });
-    
 
+    // Adicione os observadores aos controles relevantes
+    const emailInscritionInput = document.getElementById('emailInscrition');
+    if (emailInscritionInput) {
+      emailInscritionInput.addEventListener('blur', (event) => {
+        const value = (event.target as HTMLInputElement).value;
+        this.chageEmailInscrtion(value);
+      });
+    }
+
+    this.datasCBCForm.get('startInscritiondate')?.valueChanges.subscribe(value => {
+     this.changeDates(0);
+    });
+
+    this.datasCBCForm.get('endInscrition')?.valueChanges.subscribe(value => {
+      this.changeDates(1);
+    });
+
+    this.datasCBCForm.get('divulgacaoInscritiondate')?.valueChanges.subscribe(value => {
+      this.changeDates(2);
+    });
+
+    this.datasCBCForm.get('startTheoreticalExamDate')?.valueChanges.subscribe(value => {
+      this.changeDates(3);
+    });
+
+    this.datasCBCForm.get('divulgacaoTheoreticalExamDate')?.valueChanges.subscribe(value => {
+      this.changeDates(4);
+    });
+
+    this.datasCBCForm.get('startPhysicalAptitudeTestDate')?.valueChanges.subscribe(value => {
+      this.changeDates(5);
+    });
+
+    this.datasCBCForm.get('divulgacaoPhysicalAptitudeTestDate')?.valueChanges.subscribe(value => {
+      this.changeDates(6);
+    });
+
+    this.datasCBCForm.get('startDocumentSubmissionDate')?.valueChanges.subscribe(value => {
+      this.changeDates(7);
+    });
+    this.datasCBCForm.get('divulgacaoDocumentSubmissionDate')?.valueChanges.subscribe(value => {
+      this.changeDates(8);
+    });
+    this.datasCBCForm.get('startFinalResultsDate')?.valueChanges.subscribe(value => {
+      this.changeDates(9);
+    });
+    this.datasCBCForm.get('iniCur')?.valueChanges.subscribe(value => {
+      this.changeDates(10);
+    });
+    this.datasCBCForm.get('endCourseForecastDate')?.valueChanges.subscribe(value => {
+      this.changeDates(11);
+    });
+    this.datasCBCForm.get('startOperationalTrainingDate')?.valueChanges.subscribe(value => {
+      this.changeDates(12);
+    });
+    this.datasCBCForm.get('endOperationalTrainingDate')?.valueChanges.subscribe(value => {
+      this.changeDates(13);
+    });
+
+
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   ngAfterViewInit(){
@@ -132,25 +222,30 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
     const today = new Date();
     const propertiesGroup = {
       startTheoreticalExamDate:         this.formatDateForPtBR(this.datasCBCForm.get('startTheoreticalExamDate')?.value),
-      divulgacaoTheoreticalExamDate:           this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoTheoreticalExamDate')?.value),
+      divulgacaoTheoreticalExamDate:    this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoTheoreticalExamDate')?.value),
       startPhysicalAptitudeTestDate:    this.formatDateForPtBR(this.datasCBCForm.get('startPhysicalAptitudeTestDate')?.value),
-      divulgacaoPhysicalAptitudeTestDate:      this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoPhysicalAptitudeTestDate')?.value),
+      divulgacaoPhysicalAptitudeTestDate:this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoPhysicalAptitudeTestDate')?.value),
       startDocumentSubmissionDate:      this.formatDateForPtBR(this.datasCBCForm.get('startDocumentSubmissionDate')?.value),
-      divulgacaoDocumentSubmissionDate:        this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoDocumentSubmissionDate')?.value),
+      divulgacaoDocumentSubmissionDate: this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoDocumentSubmissionDate')?.value),
       startFinalResultsDate:            this.formatDateForPtBR(this.datasCBCForm.get('startFinalResultsDate')?.value),
       iniCur:                           this.formatDateForPtBR(this.datasCBCForm.get('iniCur')?.value),
-      endCourseSemesterDate:            this.formatDateForPtBR(this.datasCBCForm.get('endCourseSemesterDate')?.value),
       fimCur:                           this.formatDateForPtBR(this.datasCBCForm.get('fimCur')?.value),
       endCourseForecastDate:            this.formatDateForPtBR(this.datasCBCForm.get('endCourseForecastDate')?.value),
-      endCourseForecastEndDate:         this.formatDateForPtBR(this.datasCBCForm.get('endCourseForecastEndDate')?.value),
       startOperationalTrainingDate:     this.formatDateForPtBR(this.datasCBCForm.get('startOperationalTrainingDate')?.value),
       endOperationalTrainingDate:       this.formatDateForPtBR(this.datasCBCForm.get('endOperationalTrainingDate')?.value),
+      startInscritiondate:              this.formatDateForPtBR(this.datasCBCForm.get('startInscritiondate')?.value),
+      endInscritiondate:                this.formatDateForPtBR(this.datasCBCForm.get('endInscritiondate')?.value),
+      divulgacaoInscritiondate:         this.formatDateForPtBR(this.datasCBCForm.get('divulgacaoInscritiondate')?.value),
+      divulgacaoInscritiondateHorario:  this.datasCBCForm.get('divulgacaoInscritiondateHorario')?.value,
+      startInscritionHorario:           this.datasCBCForm.get('startInscritionHorario')?.value,
+      endInscritionHorario:             this.datasCBCForm.get('endInscritionHorario')?.value,
+      emailInscrition:                  this.datasCBCForm.get('emailInscrition')?.value,
       startTheoreticalExamTime:         this.datasCBCForm.get('startTheoreticalExamTime')?.value,
-      divulgacaoTheoreticalExamTime:           this.datasCBCForm.get('divulgacaoTheoreticalExamTime')?.value,
+      divulgacaoTheoreticalExamTime:    this.datasCBCForm.get('divulgacaoTheoreticalExamTime')?.value,
       startPhysicalAptitudeTestTime:    this.datasCBCForm.get('startPhysicalAptitudeTestTime')?.value,
-      divulgacaoPhysicalAptitudeTestTime:      this.datasCBCForm.get('divulgacaoPhysicalAptitudeTestTime')?.value,
+      divulgacaoPhysicalAptitudeTestTime:this.datasCBCForm.get('divulgacaoPhysicalAptitudeTestTime')?.value,
       startDocumentSubmissionTime:      this.datasCBCForm.get('startDocumentSubmissionTime')?.value,
-      divulgacaoDocumentSubmissionTime:        this.datasCBCForm.get('divulgacaoDocumentSubmissionTime')?.value,
+      divulgacaoDocumentSubmissionTime: this.datasCBCForm.get('divulgacaoDocumentSubmissionTime')?.value,
       startFinalResultsTime:            this.datasCBCForm.get('startFinalResultsTime')?.value,
       startCourseTime:                  this.datasCBCForm.get('startCourseTime')?.value,
       anoAtual: today.getFullYear().toString()
@@ -218,5 +313,49 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
     }
     return '';
   }
+
+  chageEmailInscrtion(email: string) {
+    const validDomain = "@cbm.sc.gov.br";
+    if (!email.endsWith(validDomain) && email!=="") {
+      this.toastr.error("Insira um e-mail válido @cbm.sc.gov.br");
+  
+      this.datasCBCForm.patchValue({
+        emailInscrition: undefined,
+      });
+    }
+  
+    this.datasCBCForm.updateValueAndValidity();
+  }
+
+  changeDates(id: number) {
+    if (this.shouldApplyDateFilter()) {
+      const minDate = new Date(this.datasCBCForm.get(this.datasMinProprieties[id])?.value);
+      minDate.setDate(minDate.getDate() + 2);
+
+      // Desinscrever os observáveis antes de chamar setValue('')
+      this.unsubscribe$.next();
+
+      for (let i = id; i < this.datasMin.length; i++) {
+        console.log(this.formatDate(minDate));
+        this.datasMin[i] = this.formatDate(minDate);
+        if(i!=id){
+          this.datasCBCForm.get(this.datasMinProprieties[i])?.setValue('', { emitEvent: false });
+        }
+      }
+
+      // Reinscrever os observáveis após a alteração
+      this.subscribeToValueChanges();
+    }
+  }
+
+  private subscribeToValueChanges() {
+    this.datasCBCForm.get('startInscritiondate')?.valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(value => {
+        this.changeDates(0);
+      });
+  }
+  
+  
 
 }

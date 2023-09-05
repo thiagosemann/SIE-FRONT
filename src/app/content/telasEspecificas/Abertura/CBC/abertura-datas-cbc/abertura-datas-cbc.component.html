@@ -6,21 +6,59 @@
 <div class="container-fluid">
     <form [formGroup]="datasCBCForm" >
         <div class="row">
+            <div class="col-sm-2 neumorphic">
+                <h4 class="text-center pb-2 pt-5">Inscrições</h4>
+                <div class="row">
+                    <div class="row">
+                        <h6 class="text-center pb-2 pt-5">Início:</h6>
+                        <div class="col-6 mb-4">
+                            <input type="date" class="form-control" formControlName="startInscritiondate" id="startInscritiondate" required onkeydown="return false" [min]="datasMin[0]" />
+                        </div>
+                        <div class="col-6 mb-4">
+                            <input type="time" class="form-control" formControlName="startInscritionHorario" id="startInscritionHorario" required onkeydown="return false" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h6 class="text-center pb-1 pt-2">Término:</h6>
+                        <div class="col-6 mb-4">
+                            <input type="date" class="form-control" formControlName="endInscritiondate" id="endInscritiondate" required onkeydown="return false" [min]="datasMin[1]" />
+                        </div>
+                        <div class="col-6 mb-4">
+                            <input type="time" class="form-control" formControlName="endInscritionHorario" id="endInscritionHorario" required onkeydown="return false" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h6 class="text-center pb-1 pt-2">Email:</h6>
+                        <div class="col-12 mb-4">
+                            <input type="text" class="form-control" formControlName="emailInscrition" id="emailInscrition" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h6 class="text-center pb-1 pt-2">Divulgação:</h6>
+                        <div class="col-6 mb-4">
+                            <input type="date" class="form-control" formControlName="divulgacaoInscritiondate" id="divulgacaoInscritiondate" required onkeydown="return false" [min]="datasMin[2]"  />
+                        </div>
+                        <div class="col-6 mb-4">
+                            <input type="time" class="form-control" formControlName="divulgacaoInscritiondateHorario" id="divulgacaoInscritiondateHorario" required onkeydown="return false" />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-2">
                 <h4 class="text-center pb-2 pt-5">Prova teórica</h4>
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Início:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="startTheoreticalExamDate" id="startTheoreticalExamDate" required onkeydown="return false" [min]="startTheoreticalExamDate" />
+                        <input type="date" class="form-control" formControlName="startTheoreticalExamDate" id="startTheoreticalExamDate" required onkeydown="return false" [min]="datasMin[3]" />
                     </div>
                     <div class="col-12">
-                    <input type="time" class="form-control" formControlName="startTheoreticalExamTime" id="startTheoreticalExamTime" required onkeydown="return false"  />
+                        <input type="time" class="form-control" formControlName="startTheoreticalExamTime" id="startTheoreticalExamTime" required onkeydown="return false"  />
                     </div>
                 </div>
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Divulgação:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="divulgacaoTheoreticalExamDate" id="divulgacaoTheoreticalExamDate" required onkeydown="return false"  [min]="divulgacaoTheoreticalExamDate" />
+                        <input type="date" class="form-control" formControlName="divulgacaoTheoreticalExamDate" id="divulgacaoTheoreticalExamDate" required onkeydown="return false"  [min]="datasMin[4]" />
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="divulgacaoTheoreticalExamTime" id="divulgacaoTheoreticalExamTime" required onkeydown="return false"   />
@@ -32,7 +70,7 @@
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Início:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="startPhysicalAptitudeTestDate" id="startPhysicalAptitudeTestDate" required onkeydown="return false"  [min]="startPhysicalAptitudeTestDate" />
+                        <input type="date" class="form-control" formControlName="startPhysicalAptitudeTestDate" id="startPhysicalAptitudeTestDate" required onkeydown="return false"  [min]="datasMin[5]" />
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="startPhysicalAptitudeTestTime" id="startPhysicalAptitudeTestTime" required onkeydown="return false"   />
@@ -41,7 +79,7 @@
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Divulgação:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="divulgacaoPhysicalAptitudeTestDate" id="divulgacaoPhysicalAptitudeTestDate" required onkeydown="return false"   [min]="divulgacaoPhysicalAptitudeTestDate"/>
+                        <input type="date" class="form-control" formControlName="divulgacaoPhysicalAptitudeTestDate" id="divulgacaoPhysicalAptitudeTestDate" required onkeydown="return false"   [min]="datasMin[6]"/>
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="divulgacaoPhysicalAptitudeTestTime" id="divulgacaoPhysicalAptitudeTestTime" required onkeydown="return false"   />
@@ -53,7 +91,7 @@
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Início:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="startDocumentSubmissionDate" id="startDocumentSubmissionDate" required onkeydown="return false"   [min]="startDocumentSubmissionDate"/>
+                        <input type="date" class="form-control" formControlName="startDocumentSubmissionDate" id="startDocumentSubmissionDate" required onkeydown="return false"   [min]="datasMin[7]"/>
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="startDocumentSubmissionTime" id="startDocumentSubmissionTime" required onkeydown="return false"   />
@@ -62,7 +100,7 @@
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Divulgação:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="divulgacaoDocumentSubmissionDate" id="divulgacaoDocumentSubmissionDate" required onkeydown="return false"  [min]="divulgacaoDocumentSubmissionDate"/>
+                        <input type="date" class="form-control" formControlName="divulgacaoDocumentSubmissionDate" id="divulgacaoDocumentSubmissionDate" required onkeydown="return false"  [min]="datasMin[8]"/>
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="divulgacaoDocumentSubmissionTime" id="divulgacaoDocumentSubmissionTime" required onkeydown="return false"  />
@@ -74,7 +112,7 @@
                 <div class="row">
                     <h6 class="text-center pb-2 pt-5">Divulgação:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="startFinalResultsDate" id="startFinalResultsDate" required onkeydown="return false"  [min]="startFinalResultsDate"/>
+                        <input type="date" class="form-control" formControlName="startFinalResultsDate" id="startFinalResultsDate" required onkeydown="return false"  [min]="datasMin[9]"/>
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="startFinalResultsTime" id="startFinalResultsTime" required onkeydown="return false" />
@@ -84,42 +122,39 @@
             <div class="col-sm-2">
                 <h4 class="text-center pb-2 pt-5">Curso</h4>
                 <div class="row">
-                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <h6 class="text-center pb-2 pt-5">Início do Curso:</h6>
                     <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" required onkeydown="return false"  [min]="iniCur"/>
+                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" required onkeydown="return false"  [min]="datasMin[10]"/>
                     </div>
                     <div class="col-12">
                         <input type="time" class="form-control" formControlName="startCourseTime" id="startCourseTime" required onkeydown="return false"  />
                     </div>
                 </div>
                 <div class="row">
-                    <h6 class="text-center pb-2 pt-5">Previsão de término das aulas:</h6>
+                    <h6 class="text-center pb-1 pt-2">Previsão de término das aulas:</h6>
+                    <input type="date" class="form-control" formControlName="endCourseForecastDate" id="endCourseForecastDate" required onkeydown="return false" [min]="datasMin[11]" />
 
                     <div class="col-12">
-                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" required onkeydown="return false"  [min]="fimCur"/>
                     </div>
                 </div>
                 <div class="row">
-                    <h6 class="text-center pb-2 pt-5">Previsão término do curso:</h6>
-                    <div class="col-12 mb-4">
-                        <input type="date" class="form-control" formControlName="endCourseForecastDate" id="endCourseForecastDate" required onkeydown="return false" [min]="endCourseForecastDate" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2 neumorphic">
-                <h4 class="text-center pb-2 pt-5">Estágio Operacional</h4>
-                <div class="row">
-                    <h6 class="text-center pb-2 pt-5">Início:</h6>
+                    <h6 class="text-center pb-1 pt-2 ">Início do Estágio:</h6>
                     <div class="col-12"> <!-- Adicione a classe 'mb-2' para uma margem inferior de 2 unidades -->
-                        <input type="date" class="form-control" formControlName="startOperationalTrainingDate" id="startOperationalTrainingDate" required onkeydown="return false" [min]="startOperationalTrainingDate"/>
+                        <input type="date" class="form-control" formControlName="startOperationalTrainingDate" id="startOperationalTrainingDate" required onkeydown="return false" [min]="datasMin[12]"/>
                     </div>
-                    <h6 class="text-center pb-2 pt-5">Término:</h6>
+                    <h6 class="text-center pb-1 pt-2">Término do Estágio:</h6>
                     <div class="col-12">
-                        <input type="date" class="form-control" formControlName="endOperationalTrainingDate" id="endOperationalTrainingDate" required onkeydown="return false" [min]="endOperationalTrainingDate" />
+                        <input type="date" class="form-control" formControlName="endOperationalTrainingDate" id="endOperationalTrainingDate" required onkeydown="return false" [min]="datasMin[13]" />
                     </div>
-                    
+                </div>
+                <div class="row">
+                    <h6 class="text-center pb-1 pt-2">Previsão término do curso:</h6>
+                    <div class="col-12 mb-4">
+                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" required onkeydown="return false"  [min]="datasMin[14]"/>
+                    </div>
                 </div>
             </div>
+
         </div>
     </form>
 </div>
