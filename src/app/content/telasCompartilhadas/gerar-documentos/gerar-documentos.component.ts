@@ -52,7 +52,7 @@ export class GerarDocumentosComponent implements OnInit {
         if(type){
           if(type.includes("abertura")){
             const editalPdf = await this.pdfService.createDocument(cursoEco, type,'edital');
-            const planoPdf = await this.pdfService.createDocument(cursoEco, type,'plano');
+           // const planoPdf = await this.pdfService.createDocument(cursoEco, type,'plano');
             objeto = {
               auth: auth,
               dados: cursoEco,
@@ -65,7 +65,7 @@ export class GerarDocumentosComponent implements OnInit {
               (response) => {
                 console.log('Curso criado com sucesso:', response);
                 this.downloadFile(editalPdf as Blob, 'edital.pdf');
-                this.downloadFile(planoPdf as Blob, 'plano.pdf');
+                //this.downloadFile(planoPdf as Blob, 'plano.pdf');
               },
               (error) => {
                 console.error('Erro ao criar curso:', error);
@@ -191,6 +191,39 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "VagasCivilComponent", propertyName: "municipio2Civil", errorMessage: "O municipio 2 não está definido.",notEmpty:false },
         { component: "VagasCivilComponent", propertyName: "municipio3Civil", errorMessage: "O municipio 3 não está definido.",notEmpty:false }
       ],
+      AberturaDatasCBCComponent : [
+        { component: "AberturaDatasCBCComponent", propertyName: "startTheoreticalExamDate", errorMessage: "startTheoreticalExamDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startTheoreticalExamTime", errorMessage: "startTheoreticalExamTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoTheoreticalExamDate", errorMessage: "divulgacaoTheoreticalExamDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoTheoreticalExamTime", errorMessage: "divulgacaoTheoreticalExamTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startPhysicalAptitudeTestDate", errorMessage: "startPhysicalAptitudeTestDate",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startPhysicalAptitudeTestTime", errorMessage: "startPhysicalAptitudeTestTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startInscritiondate", errorMessage: "startInscritiondate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startInscritionHorario", errorMessage: "startInscritionHorario.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "endInscritiondate", errorMessage: "endInscritiondate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "endInscritionHorario", errorMessage: "endInscritionHorario.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "linkInscrition", errorMessage: "linkInscrition.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoInscritiondate", errorMessage: "divulgacaoInscritiondate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoInscritiondateHorario", errorMessage: "divulgacaoInscritiondateHorario.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoPhysicalAptitudeTestDate", errorMessage: "divulgacaoPhysicalAptitudeTestDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoPhysicalAptitudeTestTime", errorMessage: "divulgacaoPhysicalAptitudeTestTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startDocumentSubmissionDate", errorMessage: "startDocumentSubmissionDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startDocumentSubmissionTime", errorMessage: "startDocumentSubmissionTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoDocumentSubmissionDate", errorMessage: "divulgacaoDocumentSubmissionDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoDocumentSubmissionTime", errorMessage: "divulgacaoDocumentSubmissionTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startFinalResultsDate", errorMessage: "startFinalResultsDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startFinalResultsTime", errorMessage: "startFinalResultsTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "iniCur", errorMessage: "iniCur.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startCourseTime", errorMessage: "startCourseTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "fimCur", errorMessage: "fimCur.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "endCourseForecastDate", errorMessage: "endCourseForecastDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "startOperationalTrainingDate", errorMessage: "startOperationalTrainingDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "endOperationalTrainingDate", errorMessage: "endOperationalTrainingDate.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "anoAtual", errorMessage: "anoAtual.",notEmpty:false }
+      ],
+
+
+
 
       MeiosDivulgacaoComponent : [
         { component: "MeiosDivulgacaoComponent", propertyName: "redesSociais", errorMessage: "Insira pelo menos uma rede social.",notEmpty:false }

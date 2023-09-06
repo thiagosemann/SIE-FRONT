@@ -22,7 +22,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
 
   datasMinProprieties = [
     'startInscritiondate',
-    'endInscrition',
+    'endInscritiondate',
     'divulgacaoInscritiondate',
     'startTheoreticalExamDate',
     'divulgacaoTheoreticalExamDate',
@@ -34,9 +34,11 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
     'iniCur',
     'endCourseForecastDate',
     'startOperationalTrainingDate',
-    'endOperationalTrainingDate'
+    'endOperationalTrainingDate',
+    'fimCur'
   ];
   datasMin = [
+    '',
     '',
     '',
     '',
@@ -75,7 +77,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       startInscritionHorario:null,
       endInscritiondate:null,
       endInscritionHorario:null,
-      emailInscrition:null,
+      linkInscrition:null,
       divulgacaoInscritiondate:null,
       divulgacaoInscritiondateHorario:null,
       divulgacaoPhysicalAptitudeTestDate: null,
@@ -113,13 +115,13 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
         const propertiesGroup = {
         startInscritiondate:            this.formatDateForSelect(this.cursoEscolhido.startInscritiondate??''),
         endInscritiondate:              this.formatDateForSelect(this.cursoEscolhido.endInscritiondate??''),
-        emailInscrition:                this.cursoEscolhido.emailInscrition,
+        linkInscrition:                this.cursoEscolhido.linkInscrition,
         divulgacaoInscritiondate:       this.formatDateForSelect(this.cursoEscolhido.divulgacaoInscritiondate??''),
         divulgacaoInscritiondateHorario:this.cursoEscolhido.divulgacaoInscritiondateHorario,
         startInscritionHorario:         this.cursoEscolhido.startInscritionHorario,
         endInscritionHorario:           this.cursoEscolhido.endInscritionHorario,
         startTheoreticalExamDate:       this.formatDateForSelect(this.cursoEscolhido.startTheoreticalExamDate??''),
-        startTheoreticalExamTime:       this.formatDateForSelect(this.cursoEscolhido.startTheoreticalExamTime??''),
+        startTheoreticalExamTime:        this.cursoEscolhido.startTheoreticalExamTime,
         divulgacaoTheoreticalExamDate:  this.formatDateForSelect(this.cursoEscolhido.divulgacaoTheoreticalExamDate??''),
         startPhysicalAptitudeTestDate:  this.formatDateForSelect(this.cursoEscolhido.startPhysicalAptitudeTestDate??''),
         divulgacaoPhysicalAptitudeTestDate:this.formatDateForSelect(this.cursoEscolhido.divulgacaoPhysicalAptitudeTestDate??''),
@@ -148,9 +150,9 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       });
 
     // Adicione os observadores aos controles relevantes
-    const emailInscritionInput = document.getElementById('emailInscrition');
-    if (emailInscritionInput) {
-      emailInscritionInput.addEventListener('blur', (event) => {
+    const linkInscritionInput = document.getElementById('linkInscrition');
+    if (linkInscritionInput) {
+      linkInscritionInput.addEventListener('blur', (event) => {
         const value = (event.target as HTMLInputElement).value;
         this.chageEmailInscrtion(value);
       });
@@ -160,7 +162,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
      this.changeDates(0);
     });
 
-    this.datasCBCForm.get('endInscrition')?.valueChanges.subscribe(value => {
+    this.datasCBCForm.get('endInscritiondate')?.valueChanges.subscribe(value => {
       this.changeDates(1);
     });
 
@@ -239,7 +241,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       divulgacaoInscritiondateHorario:  this.datasCBCForm.get('divulgacaoInscritiondateHorario')?.value,
       startInscritionHorario:           this.datasCBCForm.get('startInscritionHorario')?.value,
       endInscritionHorario:             this.datasCBCForm.get('endInscritionHorario')?.value,
-      emailInscrition:                  this.datasCBCForm.get('emailInscrition')?.value,
+      linkInscrition:                   this.datasCBCForm.get('linkInscrition')?.value,
       startTheoreticalExamTime:         this.datasCBCForm.get('startTheoreticalExamTime')?.value,
       divulgacaoTheoreticalExamTime:    this.datasCBCForm.get('divulgacaoTheoreticalExamTime')?.value,
       startPhysicalAptitudeTestTime:    this.datasCBCForm.get('startPhysicalAptitudeTestTime')?.value,
@@ -253,7 +255,8 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
     };
     
     this.cursoService.setPropertyOnCursosByCursoEscolhidoID(propertiesGroup);
-    //this.cursoService.setDatasAbertura()
+    this.cursoService.setDatasAbertura();
+    this.cursoService.setDatasEspecificasCBC();
     this.isFormValid()
   }
   
@@ -320,7 +323,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       this.toastr.error("Insira um e-mail válido @cbm.sc.gov.br");
   
       this.datasCBCForm.patchValue({
-        emailInscrition: undefined,
+        linkInscrition: undefined,
       });
     }
   

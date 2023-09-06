@@ -93,6 +93,9 @@ export interface Curso {
   endCourseForecastEndDate?:string;
   startOperationalTrainingDate?:string;
   endOperationalTrainingDate?:string;
+  estagioDate?:string;
+  dataAtiviAntesDoEstagio?:string;
+  dataDocumentosExtenso?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

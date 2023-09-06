@@ -30,6 +30,8 @@ export class PdfService {
         this.executeAberturaTBAE(responseDoc.dados.documento, curso,model)
       }else if(curso.type==="aberturaTBC" ){
         this.executeAberturaTBC(responseDoc.dados.documento, curso,model)
+      }else if(curso.type==="aberturaCBC" ){
+        this.executeAberturaCBC(responseDoc.dados.documento, curso,model)
       }
       await this.generateDocumento(doc, responseDoc.dados);
     }
@@ -39,20 +41,21 @@ export class PdfService {
     });
   }
 
+  executeAberturaCBC(responeDoc:any , curso:Curso,model:string){
+    this.manageCustos(responeDoc, curso);
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+  }
   executeAberturaTBAE(responeDoc:any , curso:Curso,model:string){
-    this.replaceProperties(responeDoc, curso);
     this.manageCustos(responeDoc, curso);
     this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
   }
   executeAberturaTBC(responeDoc:any , curso:Curso,model:string){
     this.createFinalidadeAndTotalVagasTBC(curso);
-    this.replaceProperties(responeDoc, curso);
     this.manageCustos(responeDoc, curso);
     this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
     this.manageTBCItens(responeDoc,curso,model)
   }
   executeAberturaCursoMilitar(responeDoc:any , curso:Curso,model:string){
-    this.replaceProperties(responeDoc, curso);
     this.manageProcessoSeletivo(responeDoc, curso);
     this.manageRequisitos(responeDoc, curso);
     this.manageLogistica(responeDoc, curso);
@@ -66,7 +69,6 @@ export class PdfService {
     }
   }
   executeAberturaTreinamentoMilitar(responeDoc:any , curso:Curso,model:string){
-    this.replaceProperties(responeDoc, curso);
     this.manageProcessoSeletivo(responeDoc, curso);
     this.manageLogistica(responeDoc, curso);
     this.managePrescricoes(responeDoc, curso, model)

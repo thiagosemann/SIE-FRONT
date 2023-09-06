@@ -104,6 +104,21 @@ export class CursoService {
       }
     }
   }
+
+  setDatasEspecificasCBC(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      if(curso.iniCur && curso.endCourseForecastDate ){
+        curso.dataAtiviAntesDoEstagio = this.formatDateExtenso(curso.iniCur,curso.endCourseForecastDate)
+      }
+      if(curso.startOperationalTrainingDate && curso.endOperationalTrainingDate ){
+        curso.estagioDate = this.formatDateExtenso(curso.startOperationalTrainingDate,curso.endOperationalTrainingDate)
+      }
+      if(curso.startDocumentSubmissionDate && curso.divulgacaoDocumentSubmissionDate ){
+        curso.dataDocumentosExtenso = this.formatDateExtenso(curso.startDocumentSubmissionDate,curso.divulgacaoDocumentSubmissionDate)
+      }
+    }
+  }
   setLocalAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
@@ -140,7 +155,7 @@ export class CursoService {
   setpromoAtivAbertura(){
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if(curso){
-      curso.promoApresentacao = curso.promoAtiRua +", "+ curso.promoAtiNumeral +", "+ curso.promoAtiBairro +", "+ curso.promoAtiMunicipio +" - "+ curso.promoAtiNome;
+      curso.promoApresentacao = `Corpo de Bombeiros Militar de ${curso.promoAtiMunicipio}, ${curso.promoAtiRua}, ${curso.promoAtiNumeral}, ${curso.promoAtiBairro}, ${curso.promoAtiMunicipio}/SC `
     }
   }
 
