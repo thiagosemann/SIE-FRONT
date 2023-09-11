@@ -52,7 +52,7 @@ export class GerarDocumentosComponent implements OnInit {
         if(type){
           if(type.includes("abertura")){
             const editalPdf = await this.pdfService.createDocument(cursoEco, type,'edital');
-           // const planoPdf = await this.pdfService.createDocument(cursoEco, type,'plano');
+            const planoPdf = await this.pdfService.createDocument(cursoEco, type,'plano');
             objeto = {
               auth: auth,
               dados: cursoEco,
@@ -65,7 +65,7 @@ export class GerarDocumentosComponent implements OnInit {
               (response) => {
                 console.log('Curso criado com sucesso:', response);
                 this.downloadFile(editalPdf as Blob, 'edital.pdf');
-                //this.downloadFile(planoPdf as Blob, 'plano.pdf');
+                this.downloadFile(planoPdf as Blob, 'plano.pdf');
               },
               (error) => {
                 console.error('Erro ao criar curso:', error);
@@ -214,7 +214,7 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "AberturaDatasCBCComponent", propertyName: "startFinalResultsDate", errorMessage: "startFinalResultsDate.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "startFinalResultsTime", errorMessage: "startFinalResultsTime.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "iniCur", errorMessage: "iniCur.",notEmpty:false },
-        { component: "AberturaDatasCBCComponent", propertyName: "startCourseTime", errorMessage: "startCourseTime.",notEmpty:false },
+        { component: "AberturaDatasCBCComponent", propertyName: "apresentacaoHorario", errorMessage: "apresentacaoHorario.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "fimCur", errorMessage: "fimCur.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "endCourseForecastDate", errorMessage: "endCourseForecastDate.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "startOperationalTrainingDate", errorMessage: "startOperationalTrainingDate.",notEmpty:false },

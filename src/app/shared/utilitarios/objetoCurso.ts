@@ -87,7 +87,6 @@ export interface Curso {
   divulgacaoDocumentSubmissionTime?:string;
   startFinalResultsDate?:string;
   startFinalResultsTime?:string;
-  startCourseTime?:string;
   endCourseSemesterDate?:string;
   endCourseForecastDate?:string;
   endCourseForecastEndDate?:string;

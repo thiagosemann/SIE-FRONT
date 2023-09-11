@@ -89,7 +89,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       startFinalResultsDate: null,
       startFinalResultsTime: null,
       iniCur: null,
-      startCourseTime: null,
+      apresentacaoHorario: null,
       fimCur: null,
       endCourseForecastDate: null,
       startOperationalTrainingDate: null,
@@ -139,7 +139,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
         startDocumentSubmissionTime:    this.cursoEscolhido.startDocumentSubmissionTime,
         divulgacaoDocumentSubmissionTime:this.cursoEscolhido.divulgacaoDocumentSubmissionTime,
         startFinalResultsTime:          this.cursoEscolhido.startFinalResultsTime,
-        startCourseTime:                this.cursoEscolhido.startCourseTime
+        apresentacaoHorario:                this.cursoEscolhido.apresentacaoHorario
         };
         this.datasCBCForm.patchValue(propertiesGroup);
       }
@@ -249,7 +249,7 @@ export class AberturaDatasCBCComponent implements OnInit,AfterViewInit {
       startDocumentSubmissionTime:      this.datasCBCForm.get('startDocumentSubmissionTime')?.value,
       divulgacaoDocumentSubmissionTime: this.datasCBCForm.get('divulgacaoDocumentSubmissionTime')?.value,
       startFinalResultsTime:            this.datasCBCForm.get('startFinalResultsTime')?.value,
-      startCourseTime:                  this.datasCBCForm.get('startCourseTime')?.value,
+      apresentacaoHorario:                  this.datasCBCForm.get('apresentacaoHorario')?.value,
       anoAtual: today.getFullYear().toString()
 
     };

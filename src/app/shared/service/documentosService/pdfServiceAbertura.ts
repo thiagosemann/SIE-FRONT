@@ -42,7 +42,9 @@ export class PdfService {
   }
 
   executeAberturaCBC(responeDoc:any , curso:Curso,model:string){
-    this.manageCustos(responeDoc, curso);
+    if(model == 'plano'){
+      this.manageCustos(responeDoc, curso);
+    }
     this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
   }
   executeAberturaTBAE(responeDoc:any , curso:Curso,model:string){
