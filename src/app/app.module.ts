@@ -32,6 +32,7 @@ import { VagasCivilComponent } from './content/telasCompartilhadas/vagas-civil/v
 import { PromotorAtividadeEnsinoComponent } from './content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
 import { MeiosDivulgacaoComponent } from './content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
 import { AberturaDatasCBCComponent } from './content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
+import { EfetivoComponent } from './content/telas-admin/efetivo/efetivo.component';
 
 
 
@@ -59,6 +60,7 @@ import { AberturaDatasCBCComponent } from './content/telasEspecificas/Abertura/C
     PromotorAtividadeEnsinoComponent,
     MeiosDivulgacaoComponent,
     AberturaDatasCBCComponent,
+    EfetivoComponent,
   ],
   imports: [
     BrowserModule,

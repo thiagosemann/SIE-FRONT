@@ -1,0 +1,132 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Militares</h2>
+  </div>
+  <div class="container">
+    <div class="row">
+    <!-- Seção de edição de usuário -->
+    <div class="col-md-12" *ngIf="editingUser">
+      <form [formGroup]="userEditForm" (ngSubmit)="saveUser()">
+        <br>
+        <!-- Nome -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Nome:</label>
+          <input type="text" class="form-control" id="name" formControlName="name" required>
+        </div>
+
+        <!-- Graduação -->
+        <div class="mb-3">
+          <label for="graduacao" class="form-label">Graduação:</label>
+          <input type="text" class="form-control" id="graduacao" formControlName="graduacao" required>
+        </div>
+
+        <!-- Escolaridade -->
+        <div class="mb-3">
+          <label for="escolaridade" class="form-label">Escolaridade:</label>
+          <select id="escolaridade" name="escolaridade" class="form-control"  formControlName="escolaridade" >
+            <option value="ENSINO MEDIO" >ENSINO MEDIO</option>
+            <option value="ENSINO SUPERIOR" >ENSINO SUPERIOR</option>
+            <option value="POS-GRADUACAO" >POS-GRADUACAO</option>
+            <option value="MESTRADO" >MESTRADO</option>
+            <option value="DOUTORADO" >DOUTORADO</option>
+
+          </select>
+        </div>
+
+        <!-- Data de Filtro -->
+        <div class="mb-3">
+          <label for="dateFilter" class="form-label">Filtro de datas liberado?:</label>
+          <select id="role" name="role" class="form-control"  formControlName="dateFilter" required>
+            <option value="1" >Sim</option>
+            <option value="0" >Não</option>
+          </select>
+        </div>
+
+        <!-- Função -->
+        <div class="mb-3">
+          <label for="role" class="form-label">Função:</label>
+          <select id="role" name="role" class="form-control"  formControlName="role" required>
+            <option value="--" >--</option>
+            <option value="1ºBBM" >1ºBBM</option>
+            <option value="2ºBBM"   >2ºBBM</option>
+            <option value="3ºBBM" >3ºBBM</option>
+            <option value="4ºBBM" >4ºBBM</option>
+            <option value="5ºBBM"   >5ºBBM</option>
+            <option value="6ºBBM" >6ºBBM</option>
+            <option value="7ºBBM" >7ºBBM</option>
+            <option value="8ºBBM"   >8ºBBM</option>
+            <option value="9ºBBM" >9ºBBM</option>
+            <option value="10ºBBM" >10ºBBM</option>
+            <option value="11ºBBM"   >11ºBBM</option>
+            <option value="12ºBBM" >12ºBBM</option>
+            <option value="13ºBBM" >13ºBBM</option>
+            <option value="14ºBBM"   >14ºBBM</option>
+            <option value="15ºBBM" >15ºBBM</option>
+            <option value="BOA" >BOA</option>
+            <option value="CEBM"   >CEBM</option>
+            <option value="DIE" >DIE</option>
+            <option value="CPC" >CPC</option>
+            <option value="CCA"   >CCA</option>
+            <option value="CRV" >CRV</option>
+            <option value="CCE" >CCE</option>
+            <option value="admin" >admin</option>
+          </select>
+        </div>
+
+
+
+
+        <!-- Botões de ação -->
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEditing()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+      <div class="col-md-12 " *ngIf="!editingUser">
+        <br>
+        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputUsers" (input)="searchUsers()">
+        <div class="table-wrapper" (scroll)="onTableScrollUsers($event)">
+          <table class="table table-striped ">
+            <thead class="tableHeaderColor">
+              <tr>
+                <th>Mtcl</th>
+                <th>Nome</th>
+                <th>Posto/Graduação</th>
+                <th>Escolaridade</th>
+                <th>Filtro de datas</th>
+                <th>Função</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of paginatedUsers">
+                <td>{{ user.mtcl }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.graduacao }}</td>
+                <td>{{ user.escolaridade }}</td>
+                <td>{{ user.dateFilter === 1 ? "SIM" : (user.dateFilter === 0 ? "Não" : "--") }}</td>
+                <td>{{ user.role || "--" }}</td>
+                <td>
+                  <button class="btn btn-primary " (click)="startEditing(user)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-primary" (click)="deleteUser(user)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="loadingUsers">
+                <td colspan="7" class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

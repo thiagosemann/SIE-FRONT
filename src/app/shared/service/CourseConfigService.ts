@@ -19,6 +19,8 @@ import { VagasCivilComponent } from 'src/app/content/telasCompartilhadas/vagas-c
 import { PromotorAtividadeEnsinoComponent } from 'src/app/content/telasCompartilhadas/promotor-atividade-ensino/promotor-atividade-ensino.component';
 import { MeiosDivulgacaoComponent } from 'src/app/content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
 import { AberturaDatasCBCComponent } from 'src/app/content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
+import { EfetivoComponent } from 'src/app/content/telas-admin/efetivo/efetivo.component';
+
 
 export interface ComponentItem {
     component: Type<any>,
@@ -111,8 +113,8 @@ export class CourseConfigService {
 
   private admin: ComponentItem[] = [
    // { component: PreviewDocComponent, name: 'Preview',validity: false },
-    { component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
-  
+    //{ component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
+    { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }
   ];
 
   getComponents(courseType: string): ComponentItem[] {
