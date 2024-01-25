@@ -11,6 +11,7 @@
 }
 .table {
   table-layout: fixed;
+  font-size: 14px;
 }
 
 .table th,
@@ -74,4 +75,126 @@
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
+}
+
+/* Add new styles for the uploaded files display */
+.uploaded-files {
+  margin-top: 10px;
+}
+
+.uploaded-files ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.uploaded-files li {
+  display: inline-block;
+  margin-right: 10px;
+  background-color: #f8f9fa;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: relative;
+}
+
+/* Adjust existing styles for file upload container */
+.file-upload-container {
+  margin-bottom: 10px;
+}
+
+/* Adjust existing styles for clear button */
+.file-upload-clear-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 5px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  transition: background-color 0.3s;
+}
+
+.file-upload-clear-btn:hover {
+  background-color: #c82333;
+}
+
+.tableModificaoesWrapper{
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.custom-table-header {
+  background-color: #4B6199;
+  font-family: 'Lato';
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.custom-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.custom-table th,
+.custom-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.custom-table td:nth-child(5) {
+  text-align: center;
+}
+
+.custom-table th:nth-child(1),
+.custom-table td:nth-child(1),
+.custom-table th:nth-child(2),
+.custom-table td:nth-child(2),
+.custom-table th:nth-child(3),
+.custom-table td:nth-child(3) {
+  white-space: nowrap;
+}
+
+.custom-table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.highlight-cell {
+  background-color: #ffcc00; /* Highlight color for individual cells */
+}
+
+.custom-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+  margin: 0 auto; /* Centraliza horizontalmente */
+
+}
+
+.custom-checkbox input {
+  opacity: 0;
+  position: absolute;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-color: #4B6199;
+
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }

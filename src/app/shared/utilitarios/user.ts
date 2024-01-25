@@ -8,7 +8,7 @@ export interface User {
   mtcl: string;
   name: string;
   role: string;
-  vinculo: string;
+  vinculo?: string;
   }
 
 

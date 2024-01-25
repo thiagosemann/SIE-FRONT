@@ -15,11 +15,21 @@ export class UserService {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     return new HttpHeaders({ 'Authorization': 'Bearer ' + token });
   }
+  
+  addUser(user: User): Observable<User> {
+    const headers = this.getHeaders();
+    return this.http.post<User>(this.url, user, { headers });
+  }
 
   updateUser(user: User): Observable<any> {
     const headers = this.getHeaders();
     const userId = user.id; // Assuming the User object has an 'id' property
     return this.http.put(`${this.url}/${userId}`, user, { headers });
+  }
+
+  updateUsersInBatch(users: User[]): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post(`${this.url}/batch`, users, { headers });
   }
 
   getUsers(): Observable<User[]> {
