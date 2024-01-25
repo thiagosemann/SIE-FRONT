@@ -19,6 +19,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .table th:nth-child(1),
@@ -35,6 +36,7 @@
 .table td:nth-child(3) {
   white-space: nowrap;
 }
+
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.05);
@@ -145,8 +147,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.custom-table td:nth-child(5) {
   text-align: center;
 }
 

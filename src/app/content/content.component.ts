@@ -45,6 +45,10 @@ export class ContentComponent implements OnInit {
       this.courseType = 'admin';
       this.components = this.courseConfigService.getComponents(this.courseType);
     }
+    if (this.isTabActive(0) && user && user.role === '--') {
+      this.courseType = 'publico';
+      this.components = this.courseConfigService.getComponents(this.courseType);
+    }
   }
 
   isTabActive(index: number): boolean {
@@ -61,6 +65,10 @@ export class ContentComponent implements OnInit {
     if (user && user.role === 'admin') {
       this.courseType = 'admin';
     }
+    if (user && user.role === '--') {
+      this.courseType = 'publico';
+    }
+    
     this.components = this.courseConfigService.getComponents(this.courseType);
     this.resetValidity();
     this.activeTab = activeTab;

@@ -5,12 +5,13 @@ import { AuthGuardService } from './shared/service/authGuard';
 
 import { LoginComponent } from './login/login.component';
 import { ContentComponent } from './content/content.component';
+import { CursosHomologadosComponent } from './content/telas-admin/cursos-homologados/cursos-homologados.component';
 
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] },
+  { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] }
 
   // Outras rotas do seu aplicativo
 ];

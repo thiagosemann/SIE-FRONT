@@ -107,23 +107,23 @@
               <table class="table table-striped ">
                 <thead class="tableHeaderColor">
                   <tr>
-                    <th style="width: 10%;">Mtcl</th>
-                    <th style="width: 30%;">Nome</th>
-                    <th style="width: 15%;">Posto/Graduação</th>
-                    <th style="width: 25%;">Escolaridade</th>
-                    <th style="width: 5%;">Filtro de datas</th>
-                    <th style="width: 5%;">Função</th>
-                    <th style="width: 10%;">Ação</th>
+                    <th style="width: 15%;">Mtcl</th>
+                    <th style="width: 25%;">Nome</th>
+                    <th class="d-none d-md-table-cell" style="width: 15%;">Posto/Graduação</th>
+                    <th class="d-none d-md-table-cell" style="width: 20%;">Escolaridade</th>
+                    <th class="d-none d-md-table-cell" style="width: 5%;">Filtro de datas</th>
+                    <th class="d-none d-md-table-cell" style="width: 5%;">Função</th>
+                    <th style="width: 15%;">Ação</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let user of paginatedUsers">
                     <td>{{ user.mtcl }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.graduacao }}</td>
-                    <td>{{ user.escolaridade }}</td>
-                    <td>{{ user.dateFilter === 1 ? "SIM" : (user.dateFilter === 0 ? "Não" : "--") }}</td>
-                    <td>{{ user.role || "--" }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.graduacao }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.escolaridade }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.dateFilter === 1 ? "SIM" : (user.dateFilter === 0 ? "Não" : "--") }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.role || "--" }}</td>
                     <td>
                       <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(user)">
                         <i class="fas fa-edit"></i>

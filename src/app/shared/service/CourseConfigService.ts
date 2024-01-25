@@ -20,7 +20,7 @@ import { PromotorAtividadeEnsinoComponent } from 'src/app/content/telasCompartil
 import { MeiosDivulgacaoComponent } from 'src/app/content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
 import { AberturaDatasCBCComponent } from 'src/app/content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 import { EfetivoComponent } from 'src/app/content/telas-admin/efetivo/efetivo.component';
-
+import { CursosHomologadosComponent } from 'src/app/content/telas-admin/cursos-homologados/cursos-homologados.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -114,7 +114,17 @@ export class CourseConfigService {
   private admin: ComponentItem[] = [
    // { component: PreviewDocComponent, name: 'Preview',validity: false },
     //{ component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
+        { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
+
+    { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
     { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }
+    
+  ];
+
+  private publico: ComponentItem[] = [
+    //{ component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
+    { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" }
+     
   ];
 
   getComponents(courseType: string): ComponentItem[] {
@@ -132,7 +142,10 @@ export class CourseConfigService {
       case 'pge':
         return this.pge;    
       case 'admin':
-        return this.admin;  
+        return this.admin; 
+      case 'publico':
+          return this.publico; 
+             
       default:
         return [];
     }

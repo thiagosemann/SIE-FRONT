@@ -33,6 +33,7 @@ import { PromotorAtividadeEnsinoComponent } from './content/telasCompartilhadas/
 import { MeiosDivulgacaoComponent } from './content/telasCompartilhadas/meios-divulgacao/meios-divulgacao.component';
 import { AberturaDatasCBCComponent } from './content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 import { EfetivoComponent } from './content/telas-admin/efetivo/efetivo.component';
+import { CursosHomologadosComponent } from './content/telas-admin/cursos-homologados/cursos-homologados.component';
 
 
 
@@ -61,6 +62,7 @@ import { EfetivoComponent } from './content/telas-admin/efetivo/efetivo.componen
     MeiosDivulgacaoComponent,
     AberturaDatasCBCComponent,
     EfetivoComponent,
+    CursosHomologadosComponent,
   ],
   imports: [
     BrowserModule,

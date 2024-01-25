@@ -1,0 +1,157 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Cursos Homologados</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" *ngIf="telaEditAtividade">
+            <br>
+            <div class="formulario-wrapper">
+                <form [formGroup]="atividadeEditForm" (ngSubmit)="saveAtividade()" style=" padding: 20px;">     
+                    <!-- Nome -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="name" formControlName="name" required>
+                    </div>      
+                    <div class="row">
+                        <div class="col-md-3">
+                            <!-- Sigla -->
+                            <div class="mb-3">
+                                <label for="Sigla" class="form-label">Sigla:</label>
+                                <input type="text" class="form-control" id="Sigla" formControlName="sigla" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- SGPE -->
+                            <div class="mb-3">
+                                <label for="sgpe" class="form-label">SGPE:</label>
+                                <input type="text" class="form-control" id="sgpe" formControlName="sgpe" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- HA -->
+                            <div class="mb-3">
+                                <label for="ha" class="form-label">HA:</label>
+                                <input type="number" class="form-control" id="ha" formControlName="ha" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- HAI -->
+                            <div class="mb-3">
+                                <label for="hai" class="form-label">HAI:</label>
+                                <input type="number" class="form-control" id="hai" formControlName="hai" required>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-3">
+                          <!-- Tipo -->
+                          <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo:</label>
+                            <input type="text" class="form-control" id="tipo" formControlName="tipo" required>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                         <!-- Área de Conhecimento -->
+                         <div class="mb-3">
+                            <label for="areaConhecimento" class="form-label">Área de Conhecimento:</label>
+                            <input type="text" class="form-control" id="areaConhecimento" formControlName="areaConhecimento" required>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Modalidade -->
+                            <div class="mb-3">
+                                <label for="modalidade" class="form-label">Modalidade:</label>
+                                <input type="text" class="form-control" id="modalidade" formControlName="modalidade" required>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Vagas -->
+                            <div class="mb-3">
+                                <label for="vagas" class="form-label">Vagas:</label>
+                                <input type="number" class="form-control" id="vagas" formControlName="vagas" required>
+                            </div>
+                        </div>
+                    </div>    
+                    <!-- Nome -->
+                    <div class="mb-3">
+                        <label for="linkSgpe" class="form-label">Link SGPE:</label>
+                        <input type="text" class="form-control" id="linkSgpe" formControlName="linkSgpe" required>
+                    </div>   
+                    <!-- Nome -->
+                    <div class="mb-3">
+                        <label for="linkMaterial" class="form-label">Link Material Didático:</label>
+                        <input type="text" class="form-control" id="linkMaterial" formControlName="linkMaterial" required>
+                    </div>     
+                    <!-- Finalidade -->
+                    <div class="mb-3">
+                        <label for="finalidade" class="form-label">Finalidade:</label>
+                        <textarea class="form-control text-area-custom-style" id="finalidade" formControlName="finalidade" required></textarea>
+                    </div>
+
+                    <!-- Requisito Específico -->
+                    <div class="mb-3">
+                        <label for="reqEspecifico" class="form-label">Requisito Específico:</label>
+                        <textarea class="form-control text-area-custom-style" id="reqEspecifico" formControlName="reqEspecifico" required></textarea>
+                    </div>
+
+                    <!-- Processo Seletivo -->
+                    <div class="mb-3">
+                        <label for="processoSeletivo" class="form-label">Processo Seletivo:</label>
+                        <textarea class="form-control text-area-custom-style" id="processoSeletivo" formControlName="processoSeletivo" required></textarea>
+                    </div>
+
+                    <!-- Atividades Preliminares -->
+                    <div class="mb-3">
+                        <label for="atividadesPreliminares" class="form-label">Atividades Preliminares:</label>
+                        <textarea class="form-control text-area-custom-style" id="atividadesPreliminares" formControlName="atividadesPreliminares" required></textarea>
+                    </div>
+                    <!-- Botões de ação -->
+                    <div class="mb-3">
+                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin'">Salvar</button>
+                      <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role=='admin'" (click)="cancelEditing()">Cancelar</button>
+                      <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role!='admin'" (click)="cancelEditing()">Voltar</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+        <div  class="col-md-12 " *ngIf="!telaEditAtividade">
+        <br>
+        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputAtividade" (input)="searchAtividade()">
+        <div class="table-wrapper">
+            <table class="table table-striped ">
+            <thead class="tableHeaderColor">
+                <tr>
+                <th style="width: 5%;" class="d-none d-md-table-cell">SIGLA</th>
+                <th style="width: 40%;">Nome</th>
+                <th style="width: 15%;" class="d-none d-md-table-cell">SGPE</th>
+                <th style="width: 10%;" class="d-none d-md-table-cell">Mat. Didático</th>
+                <th style="width: 5%;" class="d-none d-md-table-cell">CH</th>
+                <th style="width: 5%;" class="d-none d-md-table-cell">CHI</th>
+                <th style="width: 5%;" class="d-none d-md-table-cell">Vaga Min</th>
+                <th style="width: 5%;" class="d-none d-md-table-cell">Vaga Max</th>
+                <th style="width: 10%;" >Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let atividade of filteredAtividade">
+                <td class="d-none d-md-table-cell">{{ atividade.sigla }} </td>
+                <td>{{ atividade.name }} </td>
+                <td class="d-none d-md-table-cell"> <a href="{{ atividade.linkSgpe }}" target="_blank">{{ atividade.sgpe }}</a></td>
+                <td class="d-none d-md-table-cell"> <a href="{{ atividade.linkMaterial }}" target="_blank"><i class="fa fa-book fa-lg" ></i></a></td>
+                <td class="d-none d-md-table-cell">{{ atividade.ha }} </td>
+                <td class="d-none d-md-table-cell">{{ atividade.hai }} </td>
+                <td class="d-none d-md-table-cell">Vagas </td>
+                <td class="d-none d-md-table-cell">{{ atividade.vagas }} </td>
+                <td>
+                    <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(atividade)">
+                      <i class="fas fa-edit" *ngIf="role=='admin'"></i>
+                      <i class="fas fa-info-circle"  *ngIf="role!='admin'"></i>
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div> 
+    </div> 
+</div>

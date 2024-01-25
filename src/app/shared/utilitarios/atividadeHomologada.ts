@@ -13,5 +13,7 @@ export interface AtividadeHomologada {
     reqEspecifico: string;
     processoSeletivo: string;
     atividadesPreliminares: string;
+    linkSgpe:string;
+    linkMaterial:string;
   }
   

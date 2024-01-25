@@ -1,0 +1,95 @@
+.docentesHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato'
+  }
+  
+  .tableHeaderColor{
+    background-color: #4B6199;
+    font-family: 'lato';
+    color: white;
+  }
+  .table {
+    table-layout: fixed;
+    font-size: 14px;
+  }
+  
+  .table th,
+  .table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    white-space: nowrap;
+    text-align: left;
+  }
+  
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    white-space: nowrap;
+  }
+  
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    white-space: nowrap;
+  }
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .search-input {
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  
+  .btn-primary {
+    background-color: #4B6199;
+    border-color: #4B6199;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3c507e;
+    border-color: #3c507e;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+  }
+  .table-wrapper {
+    height: 520px; /* Define a altura fixa da tabela */
+    overflow: auto; /* Adiciona uma barra de rolagem vertical */
+  }
+  .alert-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  .formulario-wrapper {
+    height: 570px; /* Define a altura máxima da tabela */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
+  }
+  /* Estilo comum para todos os campos <textarea> */
+.text-area-custom-style {
+  width: 100%;
+  height: 150px;
+  resize: vertical; /* Permite redimensionamento vertical */
+}
