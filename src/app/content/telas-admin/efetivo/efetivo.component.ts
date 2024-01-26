@@ -366,18 +366,16 @@ atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, milit
 }
 
 
-  
   compareEfetivoComInsercaoLote(): void {
-    console.log( this.efetivoCompleto)
-    console.log( this.users)
-
     for (const efetivo of this.efetivoCompleto) {
       const usuarioExistente = this.users.find(user => user.mtcl === efetivo.mtcl);
       if (usuarioExistente) {
         let userWithModifications = { ...efetivo };
+        userWithModifications.id = usuarioExistente.id;
+        userWithModifications.role = "--";
         userWithModifications.hasModifications = false;
         userWithModifications.atualizar = true;
-        
+        userWithModifications.criarUser = false;
         if (usuarioExistente.name !== efetivo.name) {
           userWithModifications.nameModified = true;
           userWithModifications.hasModifications = true;
@@ -392,6 +390,8 @@ atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, milit
         }
         if (userWithModifications.hasModifications) {
           this.usuariosComModificacoes.push(userWithModifications);
+          console.log(userWithModifications)
+
         }
       }else{
         if(efetivo.name){
@@ -418,7 +418,6 @@ atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, milit
   
   atualizarEfetivoEmLote(): void {
     this.adicionarEmLote = !this.adicionarEmLote;
-    console.log(this.usuariosComModificacoes)
     if (this.usuariosComModificacoes.length > 0) {
       // Filtra os usuários que têm a propriedade 'atualizar' como true
       const usuariosParaAtualizar = this.usuariosComModificacoes.filter(user => user.atualizar);
@@ -512,7 +511,6 @@ atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, milit
       }
     }
     this.selectedFiles = filesAux;
-    console.log(this.selectedFiles)
   }
 
   

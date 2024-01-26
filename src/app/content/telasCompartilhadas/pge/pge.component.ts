@@ -5,6 +5,8 @@ import { ContentComponent } from '../../content.component';
 import { CursoService } from '../../../shared/service/objetosCursosService'; // Importe o CursoService aqui
 import { Curso } from '../../../shared/utilitarios/objetoCurso';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/shared/utilitarios/user';
+import { AuthenticationService } from 'src/app/shared/service/authentication';
 
 
 @Component({
@@ -17,10 +19,12 @@ export class PgeComponent implements OnInit {
   filteredData: any[] = [];
   courseType = 'aberturaCursoMilitar';
   skeletonItems: any[] = Array(12).fill({}); // Adjust the number of skeleton rows as needed
+  role ='';
 
   constructor(private contentComponent: ContentComponent, 
               private cursoService: CursoService,
-              private pgeService: PgeService
+              private pgeService: PgeService,
+              private authService: AuthenticationService
               ) {}
 
   ngOnInit() {
@@ -28,6 +32,11 @@ export class PgeComponent implements OnInit {
       this.data = data;
       this.applyFilters();
     });
+    const user =  this.authService.getUser();
+    if(user && user.role =="--"){
+      this.role = user.role;
+    }
+
   }
   
   applyFilters() {
@@ -54,33 +63,51 @@ export class PgeComponent implements OnInit {
       return '';
     }
   }
+  getButtonClassPublico(situacao: string): string {
+    if (situacao === 'PREVISTO') {
+      return 'previsto-button';
+    } else if (situacao === 'AUTORIZADO') {
+      return 'autorizado-button';
+    } else if (situacao === 'ANDAMENTO') {
+      return 'andamento-button';
+    }else if (situacao === 'FINALIZADO') {
+      return 'finalizado-button';
+    }else {
+      return '';
+    }
+  }
 
   selectCourse(item: any) {
-    const firstThreeDigits = item.procNum.substr(0, 3);
-    const firstFiveDigits = item.procNum.substr(0, 5);
-    console.log(firstFiveDigits)
-    if (firstThreeDigits === '1.9') {
-      this.handleCurso(item,"TreinamentoMilitar");
-    } else if (
-      firstThreeDigits === '1.1' ||
-      firstThreeDigits === '1.2' ||
-      firstThreeDigits === '1.3' ||
-      firstThreeDigits === '1.4' ||
-      firstThreeDigits === '1.5' ||
-      firstThreeDigits === '1.6' ||
-      firstThreeDigits === '1.7' ||
-      firstThreeDigits === '1.8'
-    ) {
-      this.handleCurso(item,"CursoMilitar");
-    } else if (firstFiveDigits === '2.2.1') {
-      this.handleCurso(item,"TBAE");
-    }else if (firstFiveDigits === '2.2.2' || firstFiveDigits === '2.2.3' ) {
-      this.handleCurso(item,"TBC");
-    }else if (firstFiveDigits === '2.1.2' ) {
-      this.handleCurso(item,"CBC");
-    }else {
-      this.courseType = '';
+    if(this.role !="--"){
+      const firstThreeDigits = item.procNum.substr(0, 3);
+      const firstFiveDigits = item.procNum.substr(0, 5);
+      console.log(firstFiveDigits)
+      if (firstThreeDigits === '1.9') {
+        this.handleCurso(item,"TreinamentoMilitar");
+      } else if (
+        firstThreeDigits === '1.1' ||
+        firstThreeDigits === '1.2' ||
+        firstThreeDigits === '1.3' ||
+        firstThreeDigits === '1.4' ||
+        firstThreeDigits === '1.5' ||
+        firstThreeDigits === '1.6' ||
+        firstThreeDigits === '1.7' ||
+        firstThreeDigits === '1.8'
+      ) {
+        this.handleCurso(item,"CursoMilitar");
+      } else if (firstFiveDigits === '2.2.1') {
+        this.handleCurso(item,"TBAE");
+      }else if (firstFiveDigits === '2.2.2' || firstFiveDigits === '2.2.3' ) {
+        this.handleCurso(item,"TBC");
+      }else if (firstFiveDigits === '2.1.2' ) {
+        this.handleCurso(item,"CBC");
+      }else {
+        this.courseType = '';
+      }
     }
+
+    
+    
   }
 
 async handleCurso(item: any, name: string){

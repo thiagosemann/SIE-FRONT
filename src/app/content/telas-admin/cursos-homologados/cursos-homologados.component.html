@@ -7,7 +7,7 @@
         <div class="col-md-12" *ngIf="telaEditAtividade">
             <br>
             <div class="formulario-wrapper">
-                <form [formGroup]="atividadeEditForm" (ngSubmit)="saveAtividade()" style=" padding: 20px;">     
+                <form [formGroup]="atividadeEditForm" (ngSubmit)="atualizarAtividade()" style=" padding: 20px;">     
                     <!-- Nome -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome:</label>
@@ -21,13 +21,24 @@
                                 <input type="text" class="form-control" id="Sigla" formControlName="sigla" required>
                             </div>
                         </div>
+                          <!-- SGPE -->
                         <div class="col-md-3">
-                            <!-- SGPE -->
-                            <div class="mb-3">
-                                <label for="sgpe" class="form-label">SGPE:</label>
+                            <div class="mb-3 tooltip-container">
+                                <label for="sgpe" class="form-label">
+                                    <span class="info-icon" (mouseenter)="showTooltip=true" (mouseleave)="showTooltip=false">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span> SGPE:
+                                </label>
                                 <input type="text" class="form-control" id="sgpe" formControlName="sgpe" required>
+                                <div class="tooltip-content" *ngIf="showTooltip">
+                                    <p>Histórico de versões do SGPE:</p>
+                                    <ul *ngFor="let version of sgpeVersions">
+                                        <li>{{version.sgpe}}</li>
+                                    </ul>  
+                                </div>
                             </div>
                         </div>
+                      
                         <div class="col-md-3">
                             <!-- HA -->
                             <div class="mb-3">
@@ -86,29 +97,29 @@
                     <!-- Finalidade -->
                     <div class="mb-3">
                         <label for="finalidade" class="form-label">Finalidade:</label>
-                        <textarea class="form-control text-area-custom-style" id="finalidade" formControlName="finalidade" required></textarea>
+                        <textarea class="form-control text-area-custom-style" id="finalidade" formControlName="finalidade" ></textarea>
                     </div>
 
                     <!-- Requisito Específico -->
                     <div class="mb-3">
                         <label for="reqEspecifico" class="form-label">Requisito Específico:</label>
-                        <textarea class="form-control text-area-custom-style" id="reqEspecifico" formControlName="reqEspecifico" required></textarea>
+                        <textarea class="form-control text-area-custom-style" id="reqEspecifico" formControlName="reqEspecifico" ></textarea>
                     </div>
 
                     <!-- Processo Seletivo -->
                     <div class="mb-3">
                         <label for="processoSeletivo" class="form-label">Processo Seletivo:</label>
-                        <textarea class="form-control text-area-custom-style" id="processoSeletivo" formControlName="processoSeletivo" required></textarea>
+                        <textarea class="form-control text-area-custom-style" id="processoSeletivo" formControlName="processoSeletivo" ></textarea>
                     </div>
 
                     <!-- Atividades Preliminares -->
                     <div class="mb-3">
                         <label for="atividadesPreliminares" class="form-label">Atividades Preliminares:</label>
-                        <textarea class="form-control text-area-custom-style" id="atividadesPreliminares" formControlName="atividadesPreliminares" required></textarea>
+                        <textarea class="form-control text-area-custom-style" id="atividadesPreliminares" formControlName="atividadesPreliminares"></textarea>
                     </div>
                     <!-- Botões de ação -->
                     <div class="mb-3">
-                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin'">Salvar</button>
+                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin'">Atualizar</button>
                       <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role=='admin'" (click)="cancelEditing()">Cancelar</button>
                       <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role!='admin'" (click)="cancelEditing()">Voltar</button>
                     </div>
@@ -138,7 +149,12 @@
                 <td class="d-none d-md-table-cell">{{ atividade.sigla }} </td>
                 <td>{{ atividade.name }} </td>
                 <td class="d-none d-md-table-cell"> <a href="{{ atividade.linkSgpe }}" target="_blank">{{ atividade.sgpe }}</a></td>
-                <td class="d-none d-md-table-cell"> <a href="{{ atividade.linkMaterial }}" target="_blank"><i class="fa fa-book fa-lg" ></i></a></td>
+                <td class="d-none d-md-table-cell">
+                    <ng-container *ngIf="atividade.linkMaterial !== '--'; else noLink">
+                      <a href="{{ atividade.linkMaterial }}" target="_blank"><i class="fa fa-book fa-lg"></i></a>
+                    </ng-container>
+                    <ng-template #noLink>--</ng-template>
+                  </td>
                 <td class="d-none d-md-table-cell">{{ atividade.ha }} </td>
                 <td class="d-none d-md-table-cell">{{ atividade.hai }} </td>
                 <td class="d-none d-md-table-cell">Vagas </td>

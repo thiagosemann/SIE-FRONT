@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -73,8 +75,7 @@ import { CursosHomologadosComponent } from './content/telas-admin/cursos-homolog
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
-    AccordionModule.forRoot(),
-    
+    AccordionModule.forRoot()
 
   ],
   

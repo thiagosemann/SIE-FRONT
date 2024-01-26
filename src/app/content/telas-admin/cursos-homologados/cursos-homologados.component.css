@@ -93,3 +93,34 @@
   height: 150px;
   resize: vertical; /* Permite redimensionamento vertical */
 }
+
+.tooltip-container {
+  position: relative;
+}
+
+.info-icon {
+  cursor: help;
+  position: absolute;
+  top: 0;
+  left: 50px;
+  font-size: 16px;
+  color: #007bff; /* Cor do ícone, ajuste conforme necessário */
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  top: 30px; /* Ajuste a posição conforme necessário */
+  left: 70px;
+  width: 250px; /* Ajuste a largura conforme necessário */
+  padding: 10px;
+  background-color: #007bff; /* Cor de fundo do tooltip, ajuste conforme necessário */
+  color: #fff; /* Cor do texto do tooltip, ajuste conforme necessário */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-container:hover .tooltip-content {
+  display: block;
+}
+

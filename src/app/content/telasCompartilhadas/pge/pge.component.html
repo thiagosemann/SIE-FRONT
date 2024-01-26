@@ -42,12 +42,9 @@
               <div class="text-body-item">{{item.sigla}}</div>
               <div class="text-body-item">{{item.local}}</div>
               <div class="text-body-item">{{item.ha}}</div>
-              <div class="text-body-item" *ngIf="item.sigla !== 'CAEE'">
-                <button class="btn btn-primary" data-toggle="tab" (click)="selectCourse(item)" [ngClass]="getButtonClass(item.situacao)">{{ getActionButtonText(item.situacao) }}</button>
-              </div>
-              <div class="text-body-item" *ngIf="item.sigla == 'CAEE'">
-                <button class="btn doisbotoesPrimeiro" data-toggle="tab" (click)="selectCourse(item)" >Parcial</button>
-                <button class="btn doisbotoesSegundo"  data-toggle="tab" (click)="selectCourse(item)" >Encerrar</button>
+              <div class="text-body-item base-button" *ngIf="role == '--'"  [ngClass]="getButtonClassPublico(item.situacao)">{{item.situacao}}</div>
+              <div class="text-body-item" *ngIf="role != '--'">
+                <button class="btn btn-primary base-button" data-toggle="tab" (click)="selectCourse(item)" [ngClass]="getButtonClass(item.situacao)">{{ getActionButtonText(item.situacao) }}</button>
               </div>
             </div>
           </ng-container>

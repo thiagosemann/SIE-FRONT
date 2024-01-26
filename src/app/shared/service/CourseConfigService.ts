@@ -114,15 +114,14 @@ export class CourseConfigService {
   private admin: ComponentItem[] = [
    // { component: PreviewDocComponent, name: 'Preview',validity: false },
     //{ component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
-        { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
-
+    { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
     { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }
     
   ];
 
   private publico: ComponentItem[] = [
-    //{ component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
+    { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" }
      
   ];
