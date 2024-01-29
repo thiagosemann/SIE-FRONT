@@ -15,14 +15,13 @@ export class CursosHomologadosComponent implements OnInit {
   atividadesHomologadas: AtividadeHomologada[] = [];
   sgpeVersions: any[] = [];  // Adicione esta variável para armazenar as versões de sgpe
   filteredAtividade : AtividadeHomologada[] = [];
-
   searchInputAtividade = ''; // Variável de pesquisa para a tabela de usuários
   role ='';
   editedAtividade: AtividadeHomologada | null = null;
   telaEditAtividade = false;
   atividadeEditForm: FormGroup; // Formulário para edição de usuário
   showTooltip: boolean = false;
-
+  criarAtividade: boolean = false;
 
   constructor(private atividadeHomologadaService: AtividadeHomologadaService, private authService: AuthenticationService,private fb: FormBuilder,private toastr: ToastrService) {
     this.atividadeEditForm = this.fb.group({
@@ -100,13 +99,11 @@ export class CursosHomologadosComponent implements OnInit {
   }
 
   startEditing(atividade: AtividadeHomologada): void {
-
-    console.log(atividade)
+    this.criarAtividade = !this.criarAtividade;
     if(atividade && atividade.id){
       // Chama a função para obter todas as versões pelo ID da atividade atualmente editada
       this.atividadeHomologadaService.getAllAtividadeHomologadaVersionsById(atividade.id).subscribe(
         (versions) => {
-          console.log('Versões da atividade:', versions);
           // Faça qualquer outra coisa que você precise com as versões obtidas.
           this.sgpeVersions = versions.reverse();
           this.editedAtividade = atividade;
@@ -143,16 +140,15 @@ export class CursosHomologadosComponent implements OnInit {
     this.editedAtividade = null;
     this.atividadeEditForm.reset();
   }
-
-  deleteAtividade(atividade: AtividadeHomologada){
-
+  startAddAtividade(){
+    this.telaEditAtividade = !this.telaEditAtividade;
+    this.criarAtividade = !this.criarAtividade
+    //Usar o mesmo formulário de edição para criar uma nova.
   }
-  atualizarAtividade(): void {
-    // Verifica se há uma atividade editada
-    console.log(this.editedAtividade)
-    if (this.atividadeEditForm.valid && this.editedAtividade) {
+  addAtividade(){
+  // Verifica se há uma atividade editada
+    if(this.atividadeEditForm.valid ) {
       const atividadeHomologadaUpdate: AtividadeHomologada = {
-        id:this.editedAtividade.id,
         sigla:  this.atividadeEditForm.value.sigla,
         name: this.atividadeEditForm.value.name,
         sgpe: this.atividadeEditForm.value.sgpe,
@@ -169,27 +165,97 @@ export class CursosHomologadosComponent implements OnInit {
         linkSgpe: this.atividadeEditForm.value.linkSgpe,
         linkMaterial: this.atividadeEditForm.value.linkMaterial
       };
-    
-      // Chama a função para atualizar a atividade homologada
-      this.atividadeHomologadaService.updateAtividadeHomologada(atividadeHomologadaUpdate)
-        .subscribe({
-          next: (response) => {
-            console.log('Atividade atualizada com sucesso!', response);
-            this.obterAtividadesHomologadas();
-            this.cancelEditing();
-            // Adicione qualquer lógica adicional após a atualização, se necessário
-          },
-          error: (error) => {
-            console.error('Erro ao atualizar a atividade', error);
-            // Adicione tratamento de erro conforme necessário
-          }
-        });
-
+      console.log(atividadeHomologadaUpdate)
+      this.atividadeHomologadaService.addAtividadeHomologada(atividadeHomologadaUpdate).subscribe({
+        next: (atividadeHomologadaUpdate: AtividadeHomologada) => {
+          console.log("AtividadeHomologadaUpdate", atividadeHomologadaUpdate);
+          this.obterAtividadesHomologadas();
+          this.cancelEditing();
+          this.toastr.success("Atividade de ensino criada com sucesso!")
+        },
+        error: (error) => {
+          this.toastr.error('Erro ao adicionar o militar:', error);
+          // Trate o erro conforme necessário
+        }
+      });
+      
     }else {
       console.log(this.atividadeEditForm)
       this.toastr.error("Verifique os campos inválidos.");
     }
+
   }
+
+  deleteAtividade(): void {
+    if(this.editedAtividade && this.editedAtividade.id){
+      this.atividadeHomologadaService.deleteAtividadeHomologada(this.editedAtividade.id).subscribe({
+        next: () => {
+          console.log('Atividade homologada excluída com sucesso!');
+          this.obterAtividadesHomologadas();
+          this.cancelEditing();
+          this.toastr.success("Atividade de ensino excluída com sucesso!")
+
+        },
+        error: error => {
+          console.error('Erro ao excluir atividade homologada:', error);
+          // Trate o erro conforme necessário
+        }
+      });
+    }
+  }
+
+atualizarAtividade(): void {
+  // Verifica se há uma atividade editada
+  console.log(this.editedAtividade)
+  if (this.atividadeEditForm.valid && this.editedAtividade) {
+    const atividadeHomologadaUpdate: AtividadeHomologada = {
+      id:this.editedAtividade.id,
+      sigla:  this.atividadeEditForm.value.sigla,
+      name: this.atividadeEditForm.value.name,
+      sgpe: this.atividadeEditForm.value.sgpe,
+      ha: this.atividadeEditForm.value.ha,
+      hai: this.atividadeEditForm.value.hai,
+      tipo: this.atividadeEditForm.value.tipo,
+      areaConhecimento: this.atividadeEditForm.value.areaConhecimento,
+      modalidade: this.atividadeEditForm.value.modalidade,
+      vagas: this.atividadeEditForm.value.vagas,
+      finalidade: this.atividadeEditForm.value.finalidade,
+      reqEspecifico: this.atividadeEditForm.value.reqEspecifico,
+      processoSeletivo: this.atividadeEditForm.value.processoSeletivo,
+      atividadesPreliminares: this.atividadeEditForm.value.atividadesPreliminares,
+      linkSgpe: this.atividadeEditForm.value.linkSgpe,
+      linkMaterial: this.atividadeEditForm.value.linkMaterial
+    };
+  
+    // Chama a função para atualizar a atividade homologada
+    this.atividadeHomologadaService.updateAtividadeHomologada(atividadeHomologadaUpdate)
+      .subscribe({
+        next: (response) => {
+          console.log('Atividade atualizada com sucesso!', response);
+          this.obterAtividadesHomologadas();
+          this.cancelEditing();
+          this.toastr.success("Atividade de ensino atualizada com sucesso!")
+
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar a atividade', error);
+          // Adicione tratamento de erro conforme necessário
+        }
+      });
+
+  }else {
+    console.log(this.atividadeEditForm)
+    this.toastr.error("Verifique os campos inválidos.");
+  }
+}
+
+manageForm(): void {
+  if(this.criarAtividade){
+    this.addAtividade();
+  }else{
+    this.atualizarAtividade();
+  }
+}
   
 }
 

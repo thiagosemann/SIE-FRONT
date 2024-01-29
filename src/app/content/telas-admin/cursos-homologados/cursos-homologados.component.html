@@ -7,7 +7,7 @@
         <div class="col-md-12" *ngIf="telaEditAtividade">
             <br>
             <div class="formulario-wrapper">
-                <form [formGroup]="atividadeEditForm" (ngSubmit)="atualizarAtividade()" style=" padding: 20px;">     
+                <form [formGroup]="atividadeEditForm" (ngSubmit)="manageForm()" style=" padding: 20px;">     
                     <!-- Nome -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome:</label>
@@ -119,17 +119,27 @@
                     </div>
                     <!-- Botões de ação -->
                     <div class="mb-3">
-                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin'">Atualizar</button>
+                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin' && criarAtividade==false">Atualizar</button>
+                      <button type="submit" class="btn btn-primary" style="margin-right: 10px;" *ngIf="role=='admin' && criarAtividade==true">Criar</button>
                       <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role=='admin'" (click)="cancelEditing()">Cancelar</button>
                       <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="role!='admin'" (click)="cancelEditing()">Voltar</button>
+                      <button type="button" class="btn btn-danger" style="margin-right: 10px;" *ngIf="role=='admin' && criarAtividade==false" (click)="deleteAtividade()">Excluir</button>
+
                     </div>
                   </form>
             </div>
         </div>
         <div  class="col-md-12 " *ngIf="!telaEditAtividade">
         <br>
-        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputAtividade" (input)="searchAtividade()">
-        <div class="table-wrapper">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputAtividade" (input)="searchAtividade()">
+            </div>
+            <div style="margin-left: 30px; margin-bottom: 20px;">
+                <button class="btn btn-primary" (click)="startAddAtividade()">Adicionar Atividade</button>
+            </div>
+        </div>
+         <div class="table-wrapper">
             <table class="table table-striped ">
             <thead class="tableHeaderColor">
                 <tr>
