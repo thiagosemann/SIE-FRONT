@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleScriptService } from '../../../shared/service/googleScriptService';
-import { PgeService } from 'src/app/shared/service/pgeService';
+import { PgeService } from 'src/app/shared/service/pge_service';
 import { ContentComponent } from '../../content.component';
 import { CursoService } from '../../../shared/service/objetosCursosService'; // Importe o CursoService aqui
 import { Curso } from '../../../shared/utilitarios/objetoCurso';
@@ -24,24 +24,37 @@ export class PgeComponent implements OnInit {
   constructor(private contentComponent: ContentComponent, 
               private cursoService: CursoService,
               private pgeService: PgeService,
-              private authService: AuthenticationService
+              private authService: AuthenticationService,
+              private toastr: ToastrService
               ) {}
 
   ngOnInit() {
-    this.pgeService.getPge().subscribe(data => {
-      this.data = data;
-      this.applyFilters();
-    });
     const user =  this.authService.getUser();
-    if(user && user.role =="--"){
+    if(user){
       this.role = user.role;
     }
+    this.pgeService.getPge().subscribe(data => {
+      this.data = data;
+      if(this.role!=="admin"){
+        this.applyFilters();
+      }else{
+        this.filteredData = data;
+      }
+    });
 
   }
   
   applyFilters() {
     this.filteredData = this.data.filter(item => {
       return item.situacao !== 'FINALIZADO' && item.situacao !== 'EXCLUÍDO' && item.situacao !== 'CANCELADO' && item.situacao !== 'AUTORIZADO';
+    });
+
+    this.filteredData = this.filteredData.filter(item => {
+      return item.bbm == this.role;
+    });
+
+    this.filteredData = this.filteredData.filter(item => {
+      return !item.procNum.includes("24.000");
     });
   }
 
@@ -102,6 +115,7 @@ export class PgeComponent implements OnInit {
       }else if (firstFiveDigits === '2.1.2' ) {
         this.handleCurso(item,"CBC");
       }else {
+        this.toastr.error("Módulo ainda não criado.")
         this.courseType = '';
       }
     }

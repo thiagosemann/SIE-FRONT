@@ -21,6 +21,8 @@ import { MeiosDivulgacaoComponent } from 'src/app/content/telasCompartilhadas/me
 import { AberturaDatasCBCComponent } from 'src/app/content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 import { EfetivoComponent } from 'src/app/content/telas-admin/efetivo/efetivo.component';
 import { CursosHomologadosComponent } from 'src/app/content/telas-admin/cursos-homologados/cursos-homologados.component';
+import { HomologacaoInscricaoComponent } from 'src/app/content/telas-admin/homologacao-inscricao/homologacao-inscricao.component';
+import { AberturaProcessoComponent } from 'src/app/content/telas-admin/abertura-processo/abertura-processo.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -108,22 +110,23 @@ export class CourseConfigService {
   private pge: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  }
     //{ component: PreviewDocComponent, name: 'Preview',validity: false },
-
+  ];
+  private homologacaoInscricao: ComponentItem[] = [
+    { component: HomologacaoInscricaoComponent, name: 'Homologação',validity: false, componentName:"HomologacaoInscricaoComponent"  }
   ];
 
   private admin: ComponentItem[] = [
-   // { component: PreviewDocComponent, name: 'Preview',validity: false },
+    //{ component: PreviewDocComponent, name: 'Preview',validity: false },
     //{ component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
-    { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
     { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
-    { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }
-    
+    { component: AberturaProcessoComponent , name: 'Editais',validity: false, componentName:"AberturaProcessoComponent" },
+    { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
+    { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }  
   ];
 
   private publico: ComponentItem[] = [
     { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" }
-     
   ];
 
   getComponents(courseType: string): ComponentItem[] {
@@ -143,7 +146,9 @@ export class CourseConfigService {
       case 'admin':
         return this.admin; 
       case 'publico':
-          return this.publico; 
+          return this.publico;
+      case 'homologacaoInscricao':
+          return this.homologacaoInscricao;       
              
       default:
         return [];

@@ -9,7 +9,7 @@ import { AuthenticationService } from '../shared/service/authentication';
 })
 export class ContentComponent implements OnInit {
   public components: ComponentItem[] = [];
-  courseType = 'pge';
+  courseType = 'homologacaoInscricao';
   activeTab = 1; // Define a segunda aba como ativa
   validity = false;
   @ViewChild('componentHost', { read: ViewContainerRef, static: true }) componentHost!: ViewContainerRef;
@@ -35,7 +35,6 @@ export class ContentComponent implements OnInit {
     if (this.currentComponent) {
       this.currentComponent.destroy();
     }
-
     const component = this.components[index].component;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
     this.currentComponent = this.componentHost.createComponent(componentFactory);
@@ -44,8 +43,7 @@ export class ContentComponent implements OnInit {
     if (this.isTabActive(0) && user && user.role === 'admin') {
       this.courseType = 'admin';
       this.components = this.courseConfigService.getComponents(this.courseType);
-    }
-    if (this.isTabActive(0) && user && user.role === '--') {
+    } else if (this.isTabActive(0) && user && user.role === '--') {
       this.courseType = 'publico';
       this.components = this.courseConfigService.getComponents(this.courseType);
     }
@@ -59,6 +57,19 @@ export class ContentComponent implements OnInit {
     this.courseType = valor;
     this.changeComponents(1);
   }
+  
+  courseTypePge() {
+    this.courseType = 'pge';
+    this.components = this.courseConfigService.getComponents(this.courseType);
+    this.loadComponent(0);
+  }
+
+  courseTypeHomologacao() {
+    this.courseType = 'homologacaoInscricao';
+    this.components = this.courseConfigService.getComponents(this.courseType);
+    this.loadComponent(0);
+  }
+  
 
   changeComponents(activeTab: number) {
     const user = this.authService.getUser();

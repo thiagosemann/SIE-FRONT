@@ -1,0 +1,105 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Controle de Inscrições</h2>
+</div>
+
+<div class="container ">
+    <!-- Tabela de Processos -->
+    <div class="table-wrapper" *ngIf="telaInicial">
+        <div *ngIf="editaisHomologar.length>0">
+            <h3>Homologar Inscrições</h3>
+            <table class="table table-striped">
+                <thead class="tableHeaderColor">
+                    <tr>
+                        <th scope="col" style="width: 20%;">Número do Processo</th>
+                        <th scope="col" style="width: 10%;">Sigla</th>
+                        <th scope="col" style="width: 10%;">Status</th>
+                        <th scope="col" style="width: 20%;">Inicio Inscrição</th>
+                        <th scope="col" style="width: 10%;">Fim Inscrição</th>
+                        <th scope="col" style="width: 10%;">Qtd Inscritos</th>
+                        <th scope="col" style="width: 10%;">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let edital of editaisHomologar">
+                        <tr >
+                            <td>{{edital.numeroProcesso}}</td>
+                            <td>{{edital.sigla}}</td>
+                            <td>Pendente</td>
+                            <td>{{edital.startInscritiondate}}</td>
+                            <td>{{edital.endInscritiondate}}</td>
+                            <td>{{edital.quantidadeInscritos}}</td>
+                            <td><button class="btn btn-primary btn-sm" (click)="carregarInscricoes(edital)">Homologar</button></td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+       <div *ngIf="editaisPendencias.length>0 || editaisPendencias">
+        <h3 class="mt-4">Editais com Pendências</h3>
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 10%;">Número do Processo</th>
+                    <th scope="col" style="width: 10%;">Sigla</th>
+                    <th scope="col" style="width: 10%;">Fim Inscrição</th>
+                    <th scope="col" style="width: 70%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let edital of editaisPendencias">
+                    <tr >
+                        <td>{{edital.numeroProcesso}}</td>
+                        <td>{{edital.sigla}}</td>
+                        <td>{{edital.endInscritiondate}}</td>
+                        <td>{{edital.pendenciasMensagem}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+       </div>
+       
+    </div>
+  
+
+    <!-- Tabela de Inscrições -->
+    <div *ngIf="!telaInicial">
+        <div class="row">
+            <div class="col-md-7 mt-4">
+                <h3 >Homologar inscrições do processo {{processoSelecionado}}</h3>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 20%;">Nome</th>
+                    <th scope="col" style="width: 10%;">CPF</th>
+                    <th scope="col" style="width: 10%;">Data Nascimento</th>
+                    <th scope="col" style="width: 20%;">Status</th>
+                    <th scope="col" style="width: 10%;" >Ação</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let usuarioInscrito of usuariosInscritos">
+                    <tr >
+                        <td>{{usuarioInscrito.fullName}}</td>
+                        <td>{{usuarioInscrito.cpf}}</td>
+                        <td>{{usuarioInscrito.birthdate}}</td>
+                            <td >{{usuarioInscrito.situacao}}</td>
+                            <td  *ngIf="usuarioInscrito.situacao =='Pendente'" >
+                                <button class="btn btn-primary btn-sm" (click)="homologarInscricao(usuarioInscrito)"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-danger btn-sm" style="margin-left: 10px;" (click)="recusarInscricao(usuarioInscrito)"> <i class="fas  fa-circle-xmark"></i></button>
+                            </td>
+                            <td  *ngIf="usuarioInscrito.situacao =='Homologada'" >
+                                <button class="btn btn-danger btn-sm"> <i class="fas  fa-circle-xmark" (click)="recusarInscricao(usuarioInscrito)" ></i></button>
+                            </td>
+                            <td  *ngIf="usuarioInscrito.situacao =='Recusada'" >
+                                <button class="btn btn-primary btn-sm" (click)="homologarInscricao(usuarioInscrito)" ><i class="fas fa-check"></i></button>
+                            </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

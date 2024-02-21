@@ -18,6 +18,11 @@ export class CursoService {
     this.cursos.push(curso);
     console.log(this.cursos)
   }
+  // Método para remover todos os cursos
+  removeAllCurses(): void {
+    // Atribui um novo ID ao curso
+    this.cursos = [];
+  }
 
   // Método para obter todos os cursos
   getCursos(): Curso[] {

@@ -3,7 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
-import { GenerateCursosService } from 'src/app/shared/service/genereteCurosService';
+import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
 
 @Component({
   selector: 'app-preview-doc',
@@ -13,7 +13,7 @@ import { GenerateCursosService } from 'src/app/shared/service/genereteCurosServi
 export class PreviewDocComponent implements OnInit {
   pdfUrl: SafeResourceUrl | undefined;
   curso: Curso | undefined;
-  constructor(private pdfService: PdfService, private sanitizer: DomSanitizer,private cursoService: CursoService, private generateCursosService : GenerateCursosService ) { }
+  constructor(private pdfService: PdfService, private sanitizer: DomSanitizer,private cursoService: CursoService, private documentosCriadosService : DocumentosCriadosService ) { }
 
   ngOnInit(): void {
     this.curso = this.cursoService.getCursoEscolhido();
@@ -27,7 +27,7 @@ export class PreviewDocComponent implements OnInit {
       const pdfUrl = URL.createObjectURL(pdfBlob);
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       console.log(this.pdfUrl);
-      this.generateCursosService.createCurso(this.curso)
+      this.documentosCriadosService.createCurso(this.curso)
     }
   }
   

@@ -6,7 +6,7 @@ import { Curso } from '../utilitarios/objetoCurso'; // Certifique-se de importar
 @Injectable({
   providedIn: 'root'
 })
-export class GenerateCursosService {
+export class DocumentosCriadosService {
   private baseUrl = 'http://localhost:3333'; // Altere a URL base de acordo com a sua configuração
 
   constructor(private http: HttpClient) {}

@@ -8,20 +8,15 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav" *ngIf="role!='admin' && role!=''">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" target="blank" href="https://docs.google.com/spreadsheets/d/18M8awvGa6sXOGxvpNy9rH27NFjIj2lRHca4ltHL0T34/edit?usp=share_link">PGE 2023</a>
+          <a class="nav-link" (click)="chamarTelaPGE()" style="cursor: pointer;" >PGE</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" target="blank" href="https://docs.google.com/spreadsheets/d/18M8awvGa6sXOGxvpNy9rH27NFjIj2lRHca4ltHL0T34/edit?usp=share_link">QT</a>
+          <a class="nav-link"  (click)="chamarTelaHomologacaoInscricao()" style="cursor: pointer;">Homologação</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Relatórioss</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contato</a>
-        </li>
+
         <!-- Adicione mais itens do menu conforme necessário -->
         <li class="nav-item d-lg-none">
           <a class="nav-link" href="#">Sair</a>

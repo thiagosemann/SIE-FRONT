@@ -36,6 +36,9 @@ import { MeiosDivulgacaoComponent } from './content/telasCompartilhadas/meios-di
 import { AberturaDatasCBCComponent } from './content/telasEspecificas/Abertura/CBC/abertura-datas-cbc/abertura-datas-cbc.component';
 import { EfetivoComponent } from './content/telas-admin/efetivo/efetivo.component';
 import { CursosHomologadosComponent } from './content/telas-admin/cursos-homologados/cursos-homologados.component';
+import { InscritionComponent } from './inscrition/inscrition.component';
+import { HomologacaoInscricaoComponent } from './content/telas-admin/homologacao-inscricao/homologacao-inscricao.component';
+import { AberturaProcessoComponent } from './content/telas-admin/abertura-processo/abertura-processo.component';
 
 
 
@@ -65,6 +68,9 @@ import { CursosHomologadosComponent } from './content/telas-admin/cursos-homolog
     AberturaDatasCBCComponent,
     EfetivoComponent,
     CursosHomologadosComponent,
+    InscritionComponent,
+    HomologacaoInscricaoComponent,
+    AberturaProcessoComponent,
   ],
   imports: [
     BrowserModule,

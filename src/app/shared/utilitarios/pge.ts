@@ -9,8 +9,7 @@ export interface Pge {
     nome: string;
     coord: string;
     bbm: string;
-    vagasMin: string;
-    vagasMax: string;
+    vagas: string;
     vagasBBM1: string;
     vagasBBM2: string;
     vagasBBM3: string;

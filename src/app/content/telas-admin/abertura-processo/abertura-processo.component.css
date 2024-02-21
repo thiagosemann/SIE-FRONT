@@ -1,0 +1,87 @@
+.docentesHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato'
+  }
+  .tableHeaderColor{
+    background-color: #4B6199;
+    font-family: 'lato';
+    color: white;
+  }
+  .table {
+    table-layout: fixed;
+    font-size: 14px;
+  }
+  
+  .table th,
+  .table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    white-space: nowrap;
+    text-align: left;
+  }
+  
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    white-space: nowrap;
+  }
+  
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    white-space: nowrap;
+  }
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }  
+  .table-wrapper {
+    height: 480px; /* Define a altura fixa da tabela */
+    overflow: auto; /* Adiciona uma barra de rolagem vertical */
+  }
+
+
+  /* Adicione essas classes ao seu CSS para estilizar a pesquisa e o destaque */
+.input-group-text {
+    background-color: #4B6199;
+    color: white;
+    border: none;
+}
+
+
+.search-input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.spinner:before {
+    content: "\f110";  /* Código Unicode do ícone de spinner ou outro ícone de carregamento */
+    font-family: 'Font Awesome 5 Free';  /* Altere para a fonte real que você está usando */
+    animation: spin 1s linear infinite;  /* Adicione uma animação de rotação se necessário */
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+
+  .formulario-wrapper {
+    height: 570px; /* Define a altura máxima da tabela */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
+    padding: 10px;
+  }
+
+  .containerEdital{
+    padding:20px;
+  }
+

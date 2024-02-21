@@ -1,0 +1,249 @@
+<div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-10">
+        <div class="card" style="max-height: 95vh; overflow-y: auto;">
+          <div class="card-header bg-primary text-white" style="text-align: center;">
+            <h1 class="mb-0">Formulário de Inscrição</h1>
+            <h5 class="mb-0" >{{objetoCurso?.nomeCurso}} ({{objetoCurso?.sigla}}) - {{objetoCurso?.localAtiMunicipio}}</h5>
+            <h5 class="mb-0" >Processo Nº {{objetoCurso?.numeroProcesso}} </h5>
+            <h5 class="mb-0" >O período de inscrição será de {{objetoCurso?.periodoInscricao}} </h5>
+          </div>
+
+          <div class="card-body">
+            <p>Leia com atenção o TERMO DE USO e a POLÍTICA DE PRIVACIDADE para o Curso de Formação de Bombeiros Comunitários constados neste <a href="https://drive.google.com/file/d/1P9T4jJcg3j2W2FOCRhVWewPLxi9jPw2U/view?usp=sharing" target="_blank">link</a>.</p>
+
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="acceptTerms" formControlName="acceptTerms">
+                    <label class="form-check-label" for="acceptTerms">
+                      Aceito os TERMO DE USO e a POLÍTICA DE PRIVACIDADE para o Curso de Formação de Bombeiros Comunitários
+                    </label>
+                  </div>
+                  <hr class="mb-3 mt-3">
+      
+                  <!-- Dados Pessoais -->
+                  <div class="mb-3">
+                    <label for="fullName" class="form-label">Nome Completo (sem abreviações):</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Digite seu nome" formControlName="fullName" required>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">CPF:</label>
+                            <input type="text" class="form-control" id="cpf" placeholder="Digite seu CPF" formControlName="cpf" required>
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="birthdate" class="form-label">Data de Nascimento:</label>
+                            <input type="date" class="form-control" id="birthdate" formControlName="birthdate" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Sexo:</label>
+                            <select class="form-control" id="gender" formControlName="gender">
+                              <option value="Selecionar" selected>Selecionar</option>
+                              <option value="Masculino">Masculino</option>
+                              <option value="Feminino">Feminino</option>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+                   
+                 <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Digite seu E-mail" formControlName="email" required>
+                 </div>
+                 <div class="mb-3">
+                    <label for="confirmacaoEmail" class="form-label">Confirmação de e-mail:</label>
+                    <input type="email" class="form-control" id="confirmacaoEmail" placeholder="Digite seu e-mail" formControlName="confirmacaoEmail" required>
+                 </div>
+    
+                 <div class="mb-3">
+                    <label for="telefone" class="form-label">Telefone:</label>
+                    <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone" formControlName="telefone" required>
+                </div>
+
+                  <hr class="mb-3 mt-3">
+    
+                  <!-- Dados dos Pais -->
+                  <div class="mb-3">
+                    <label for="fatherName" class="form-label">Nome Completo do Pai (sem abreviações):</label>
+                    <input type="text" class="form-control" id="fatherName" placeholder="Digite o nome do pai" formControlName="fatherName" required>
+                  </div>
+      
+                  <div class="mb-3">
+                    <label for="motherName" class="form-label">Nome Completo da Mãe (sem abreviações):</label>
+                    <input type="text" class="form-control" id="motherName" placeholder="Digite o nome da mãe" formControlName="motherName" required>
+                  </div>
+    
+                  <hr class="mb-3 mt-3">
+    
+                  <!-- Nacionalidade -->
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="nationality" class="form-label">Nacionalidade:</label>
+                            <select class="form-control" id="nationality" formControlName="nationality">
+                              <option value="Selecionar" selected>Selecionar</option>
+                              <option value="brasileiro">Brasileiro</option>
+                              <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="birthState" class="form-label">Estado de Nascimento:</label>
+                            <select class="form-control" id="birthState" formControlName="birthState">
+                                <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nome }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="birthCity" class="form-label">Município de Nascimento:</label>
+                            <select class="form-control" id="birthCity" formControlName="birthCity">
+                                <option *ngFor="let municipio of birthCityArray" [value]="municipio.id">{{ municipio.nome }}</option>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+                  
+
+    
+                  <hr class="mb-3 mt-3">
+    
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="maritalStatus" class="form-label">Estado Civil:</label>
+                            <select class="form-control" id="maritalStatus" formControlName="maritalStatus">
+                                <option value="Selecionar" selected>Selecionar</option>
+                                <option value="solteiro">Solteiro</option>
+                                <option value="casado">Casado</option>
+                                <option value="divorciado">Divorciado</option>
+                                <option value="viuvo">Viúvo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="raca" class="form-label">Raça:</label>
+                            <select class="form-control" id="raca" formControlName="raca">
+                                <option value="Selecionar" selected>Selecionar</option>
+                                <option value="Amarela">Amarela</option>
+                                <option value="Branca">Branca</option>
+                                <option value="Não informada">Não informada</option>
+                                <option value="Negra">Negra</option>
+                                <option value="Parda">Parda</option>
+                            </select>
+                        </div>
+                    </div>
+                 </div>
+                  <hr class="mb-3 mt-3">
+                  <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="cep" class="form-label">Cep:</label>
+                            <input class="form-control" type="text" id="cep" placeholder="Digite o CEP" name="localAtiCep" mask="00000-000" (input)="consultaCEP($event)" formControlName="cep"/>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                          <label for="estado" class="form-label">Estado:</label>
+                          <select class="form-control" id="estado" formControlName="estado">
+                            <option value="Selecionar" selected disabled>Selecionar</option>
+                            <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nome }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-2">
+                        <div class="mb-3">
+                          <label for="municipio" class="form-label">Município:</label>
+                          <select class="form-control" id="municipio" formControlName="municipio">
+                            <option value="Selecionar" selected disabled>Selecionar</option>
+                            <option *ngFor="let municipio of municipios" [value]="municipio.id">{{ municipio.nome }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                      
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="numero" class="form-label">Número :</label>
+                            <input type="text" class="form-control" id="numero" placeholder="Digite o numero" formControlName="numero" required>
+                          </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label for="complemento" class="form-label">Complemento  :</label>
+                            <input type="text" class="form-control" id="complemento" placeholder="Digite seu Complemento" formControlName="complemento" required>
+                         </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="logradouro" class="form-label">Logradouro:</label>
+                    <input type="text" class="form-control" id="logradouro" formControlName="logradouro" placeholder="Digite o Logradouro"  required>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="bairro" class="form-label">Bairro:</label>
+                    <input type="text" class="form-control" id="bairro" formControlName="bairro" placeholder="Digite seu Bairro" required>
+                  </div>
+
+                 <hr class="mb-3 mt-3">
+
+                 <div class="mb-3">
+                    <label for="problemaSaudeBool" class="form-label">Possui algum problema de saúde?</label>
+                    <select class="form-control" id="problemaSaudeBool" formControlName="problemaSaudeBool" >
+                        <option value="Selecionar" selected>Selecionar</option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="problemaSaude" class="form-label">Caso possua problema de saúde, descreva-o:</label>
+                    <input type="tel" class="form-control" id="problemaSaude" placeholder="Digite aqui seu problema de saúde" formControlName="problemaSaude"  required>
+                </div>
+                <hr class="mb-3 mt-3">
+                <p>Curso Básico de Atendimento e Emergência (CBAE)</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="conclusaoCBAEBool" class="form-label">Concluiu o CBAE?</label>
+                            <select class="form-control" id="conclusaoCBAEBool" formControlName="conclusaoCBAEBool">
+                                <option value="Selecionar" selected>Selecionar</option>
+                                <option value="Sim">Sim</option>
+                                <option value="Não">Não</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="conclusaoCBAEAno" class="form-label">Qual o ano de conclusão do CBAE?</label>
+                            <select class="form-control" id="conclusaoCBAEAno" formControlName="conclusaoCBAEAno">
+                                <option value="Selecionar" selected>Selecionar</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+              <button type="submit" class="btn btn-primary">Enviar Inscrição</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  

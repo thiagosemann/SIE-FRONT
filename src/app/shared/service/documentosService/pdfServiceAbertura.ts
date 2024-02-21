@@ -106,7 +106,7 @@ export class PdfService {
     }else if(curso.sigla == "TBC-I"){
       curso.finalidade = "Proporcionar e atualizar o bombeiro comunitário em conhecimentos nas áreas de combate a incêndio, atividades técnicas, brigada de incêndio, gerenciamento de riscos, técnicas de ensino e segurança contra incêndio, bem como, habilitá-lo à promoção ao 10º Grau (BC Pleno Classe 1)."
     }
-    curso.totalVagas = curso.pge?.vagasMax;
+    curso.totalVagas = curso.pge?.vagas;
   }
   
   private manageTBCItens(objeto: any,curso: Curso,type:string){

@@ -1,0 +1,90 @@
+.docentesHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato';
+}
+
+/* Adicione estilos adicionais conforme necessário */
+.container {
+    padding: 5px;
+}
+
+.tableHeaderColor{
+    background-color: #4B6199;
+    font-family: 'lato';
+    color: white;
+  }
+  .table {
+    table-layout: fixed;
+    font-size: 14px;
+  }
+  
+  .table th,
+  .table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 0.8; /* Ajuste o valor conforme necessário */
+  }
+  
+  
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    white-space: nowrap;
+  }
+  
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    white-space: nowrap;
+  }
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }  
+  .table-wrapper {
+    height: 590px; /* Define a altura fixa da tabela */
+    overflow: auto; /* Adiciona uma barra de rolagem vertical */
+  }
+
+/* Estilo para o elemento select */
+select {
+  width: 60%; /* Reduz o tamanho do select para 60% da largura do contêiner pai */
+  padding: 8px; /* Adiciona um espaçamento interno ao redor do texto no select */
+  border: 1px solid #ccc; /* Adiciona uma borda ao redor do select */
+  border-radius: 5px; /* Adiciona bordas arredondadas ao select */
+  font-size: 14px; /* Define o tamanho da fonte do texto no select */
+  outline: none; /* Remove a borda de foco padrão do select */
+  margin: 0 auto; /* Centraliza o select na coluna */
+  display: block; /* Faz com que o select seja exibido como bloco para aplicar as margens automáticas corretamente */
+}
+
+/* Estilo para o elemento select quando estiver em foco */
+select:focus {
+  border-color: #4B6199; /* Muda a cor da borda quando o select está em foco */
+}
+
+/* Estilo para as opções dentro do select */
+select option {
+  background-color: #fff; /* Define a cor de fundo das opções */
+  color: #555; /* Define a cor do texto das opções */
+}
+
+/* Adaptação para o ícone de seta padrão no Firefox */
+select::-ms-expand {
+  display: none;
+}
+
+
+
+/* Adicione mais estilos conforme necessário */

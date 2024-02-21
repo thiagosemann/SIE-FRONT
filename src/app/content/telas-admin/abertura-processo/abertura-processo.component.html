@@ -1,0 +1,282 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Editais</h2>
+</div>
+
+<div class="containerEdital mt-4">
+    <div class="row">
+        <div class="col-md-12" *ngIf="telaEdicao">
+            <!-- Formulário de Edição -->
+            <div class="formulario-wrapper">
+                <form [formGroup]="editForm" (ngSubmit)="updateEdital()">
+                    <!-- Adicione os campos de edição conforme necessário -->
+                    <p>Estado da abertura do Edital</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusAssinatura" class="form-label">Assinatura:</label>
+                                <select class="form-control" id="statusAssinatura" formControlName="statusAssinatura">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Solicitada Assinatura">Solicitada Assinatura</option>
+                                    <option value="Assinada">Assinada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusPublicacao" class="form-label">Publicação:</label>
+                                <select class="form-control" id="statusPublicacao" formControlName="statusPublicacao">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Publicado">Publicado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusNotaEletronica" class="form-label">Nota Eletrônica:</label>
+                                <select class="form-control" id="statusNotaEletronica" formControlName="statusNotaEletronica">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Enviado">Enviada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusSgpe" class="form-label">SGPE:</label>
+                                <select class="form-control" id="statusSgpe" formControlName="statusSgpe">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Devolvido">Devolvido</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusNb" class="form-label">NB:</label>
+                                <select class="form-control" id="statusNb" formControlName="statusNb">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Confeccionada">Confeccionada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusFinalizacao" class="form-label">Finalização:</label>
+                                <select class="form-control" id="statusFinalizacao" formControlName="statusFinalizacao">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Finalizado">Finalizado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="mb-3 mt-3">
+                    <p>Dados do Processo</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="auth" class="form-label">AUTH:</label>
+                                <input type="text" class="form-control" id="auth" formControlName="auth">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="sigla" class="form-label">Sigla:</label>
+                                <input type="text" class="form-control" id="sigla" formControlName="sigla">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="numeroProcesso" class="form-label">Número do Processo:</label>
+                                <input type="text" class="form-control" id="numeroProcesso" formControlName="numeroProcesso">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="sgpe" class="form-label">SGPE:</label>
+                                <input type="text" class="form-control" id="sgpe" formControlName="sgpe">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="localAtiMunicipio" class="form-label">Local:</label>
+                                <input type="text" class="form-control" id="localAtiMunicipio" formControlName="localAtiMunicipio">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="bbm" class="form-label">BBM:</label>
+                                <input type="text" class="form-control" id="bbm" formControlName="bbm">
+                            </div>
+                        </div>                     
+                    </div>
+                    <hr class="mb-3 mt-3">
+                    <p>Datas</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="dataEntrada" class="form-label">Entrada:</label>
+                                <input type="date" class="form-control" id="dataEntrada" formControlName="dataEntrada">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="startInscritiondate" class="form-label">Início da Inscrição:</label>
+                                <input type="date" class="form-control" id="startInscritiondate" formControlName="startInscritiondate">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="endInscritiondate" class="form-label">Término da Inscrição:</label>
+                                <input type="date" class="form-control" id="endInscritiondate" formControlName="endInscritiondate">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="iniCur" class="form-label">Início do Curso:</label>
+                                <input type="date" class="form-control" id="iniCur" formControlName="iniCur">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="fimCur" class="form-label">Término do Curso:</label>
+                                <input type="date" class="form-control" id="fimCur" formControlName="fimCur">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Atualizar status</button>
+                        <button type="button" class="btn btn-secondary"   (click)="cancelEdit()">Cancelar</button>
+                    </div>
+                    
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-12" *ngIf="!telaEdicao">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon2"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control search-input" placeholder="AUTH..." [(ngModel)]="addAuth">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon3">SGPE:</span>
+                        <input type="text" class="form-control search-input"  [(ngModel)]="sgpe">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon3">Entrada SGPE</span>
+                        <input type="date" class="form-control search-input" id="dataEntrada" [(ngModel)]="dataEntrada">
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="input-group">
+                        <!-- Botão para adicionar edital -->
+                        <span class="input-group-text" style="cursor: pointer; margin-top: 4px;" (click)="addEdital()">
+                            <i class="fas fa-plus" [class.spinner]="loading"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="table table-striped">
+                    <thead class="tableHeaderColor">
+                        <tr>
+                            <th style="width: 10%;">PROC</th>
+                            <th style="width: 5%;">SIGLA</th>
+                            <th style="width: 5%;">SGPE</th>
+                            <th style="width: 10%;">CIDADE</th>
+                            <th style="width: 10%;">Assinatura</th>
+                            <th style="width: 10%;">Publicação</th>
+                            <th style="width: 10%;">Nota</th>
+                            <th style="width: 10%;">Sgpe</th>
+                            <th style="width: 10%;">NB</th>
+                            <th style="width: 10%;">Finalizado</th>
+                            <th style="width: 10%;">Selecionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let edital of editais">
+                            <tr *ngIf="edital.statusFinalizacao !== 'Finalizado'">
+                              <td class="d-none d-md-table-cell">{{edital.numeroProcesso}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.sigla}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.sgpe}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.localAtiMunicipio}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusAssinatura}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusPublicacao}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusNotaEletronica}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusSgpe}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusNb}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusFinalizacao}}</td>
+                              <td>
+                                <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(edital)">
+                                  <i class="fas fa-info-circle"></i>
+                                </button>
+                                <button class="btn btn-danger " (click)="deleteEdital(edital)">
+                                  <i class="fas fa-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </ng-container>
+                          
+                    </tbody>
+                </table>
+                <hr class="mb-3 mt-3">
+                <h4>Finalizados</h4>
+                <table class="table table-striped">
+                    <thead class="tableHeaderColor">
+                        <tr>
+                            <th style="width: 10%;">PROC</th>
+                            <th style="width: 5%;">SIGLA</th>
+                            <th style="width: 5%;">SGPE</th>
+                            <th style="width: 10%;">CIDADE</th>
+                            <th style="width: 10%;">Assinatura</th>
+                            <th style="width: 10%;">Publicação</th>
+                            <th style="width: 10%;">Nota</th>
+                            <th style="width: 10%;">Sgpe</th>
+                            <th style="width: 10%;">NB</th>
+                            <th style="width: 10%;">Finalizado</th>
+                            <th style="width: 10%;">Selecionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let edital of editais">
+                            <tr *ngIf="edital.statusFinalizacao === 'Finalizado'">
+                              <td class="d-none d-md-table-cell">{{edital.numeroProcesso}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.sigla}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.sgpe}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.localAtiMunicipio}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusAssinatura}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusPublicacao}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusNotaEletronica}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusSgpe}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusNb}}</td>
+                              <td class="d-none d-md-table-cell">{{edital.statusFinalizacao}}</td>
+                              <td>
+                                <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(edital)">
+                                  <i class="fas fa-info-circle"></i>
+                                </button>
+                                <button class="btn btn-danger " (click)="deleteEdital(edital)">
+                                  <i class="fas fa-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </ng-container>
+                          
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>

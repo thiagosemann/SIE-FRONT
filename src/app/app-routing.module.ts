@@ -2,24 +2,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './shared/service/authGuard';
 
-
 import { LoginComponent } from './login/login.component';
 import { ContentComponent } from './content/content.component';
-import { CursosHomologadosComponent } from './content/telas-admin/cursos-homologados/cursos-homologados.component';
-
-
+import { InscritionComponent } from './inscrition/inscrition.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] }
-
-  // Outras rotas do seu aplicativo
+  { path: 'inscricoes/:id', component: InscritionComponent },
+  { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' } // Rota wildcard
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { 
-
-}
+export class AppRoutingModule { }

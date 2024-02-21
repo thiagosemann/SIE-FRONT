@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ToastrService } from 'ngx-toastr';
-import { GenerateCursosService } from 'src/app/shared/service/genereteCurosService';
+import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 
 @Component({
@@ -10,7 +10,7 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
 })
 export class PreenchimentoAutComponent {
 
-  constructor(private generateCursosService: GenerateCursosService, private cursoService: CursoService,private toastr: ToastrService) {}
+  constructor(private documentosCriadosService: DocumentosCriadosService, private cursoService: CursoService,private toastr: ToastrService) {}
 
   carregarDados() {
     const codigoAutenticacao = (document.getElementById('inputGrande') as HTMLInputElement).value;
@@ -20,7 +20,7 @@ export class PreenchimentoAutComponent {
     }
 
 
-    this.generateCursosService.getCursoByAuth(codigoAutenticacao).subscribe(
+    this.documentosCriadosService.getCursoByAuth(codigoAutenticacao).subscribe(
       (resp: any) => {
         if (resp) {
           // Aqui você tem o curso correspondente com base no código de autenticação

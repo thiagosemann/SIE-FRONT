@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
-import { GenerateCursosService } from 'src/app/shared/service/genereteCurosService';
+import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { CourseConfigService, ComponentItem } from '../../../shared/service/CourseConfigService';
+import { ContentComponent } from '../../content.component';
+import { User } from 'src/app/shared/utilitarios/user';
 
 interface ComponentError {
   component: string;
@@ -24,8 +26,9 @@ export class GerarDocumentosComponent implements OnInit {
   constructor(
     private pdfService: PdfService,
     private cursoService: CursoService,
-    private generateCursosService : GenerateCursosService,
-    private courseConfigService: CourseConfigService
+    private documentosCriadosService : DocumentosCriadosService,
+    private courseConfigService: CourseConfigService,
+    private contentComponent: ContentComponent,
 
   ) {}
 
@@ -43,6 +46,7 @@ export class GerarDocumentosComponent implements OnInit {
         curso.auth = auth
         const {  atividadeHomologada,globalProfessors, ...cursoEco } = curso;
         const type = curso.type;
+        
         let objeto = {
           auth: "",
           dados: {},
@@ -61,11 +65,15 @@ export class GerarDocumentosComponent implements OnInit {
             }
             const {pge} = curso;
 
-            this.generateCursosService.createCurso(objeto).subscribe(
+            this.documentosCriadosService.createCurso(objeto).subscribe(
               (response) => {
+                console.log(objeto)
                 console.log('Curso criado com sucesso:', response);
                 this.downloadFile(editalPdf as Blob, 'edital.pdf');
                 this.downloadFile(planoPdf as Blob, 'plano.pdf');
+                this.contentComponent.courseTypePge();
+                this.cursoService.removeAllCurses();
+
               },
               (error) => {
                 console.error('Erro ao criar curso:', error);

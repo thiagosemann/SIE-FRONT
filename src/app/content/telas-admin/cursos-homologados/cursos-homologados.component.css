@@ -124,3 +124,8 @@
   display: block;
 }
 
+.input-group-text {
+  background-color: #4B6199;
+  color: white;
+  border: none;
+}

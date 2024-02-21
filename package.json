@@ -22,6 +22,7 @@
     "@syncfusion/ej2-angular-pdfviewer": "^22.1.37",
     "angular2-text-mask": "^9.0.0",
     "bootstrap": "^5.2.3",
+    "canvg": "^4.0.1",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.1",
     "jquery": "^3.7.0",

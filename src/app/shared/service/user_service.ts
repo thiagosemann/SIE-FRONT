@@ -42,4 +42,6 @@ export class UserService {
     const headers = this.getHeaders();
     return this.http.get<User>(userUrl, { headers });
   }
+
+
 }
