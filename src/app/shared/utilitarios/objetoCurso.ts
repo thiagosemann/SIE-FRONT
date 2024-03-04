@@ -95,6 +95,25 @@ export interface Curso {
   estagioDate?:string;
   dataAtiviAntesDoEstagio?:string;
   dataDocumentosExtenso?:string;
+  deRio?:string;
+  derio?:string;
+  DERIO?:string;
+  tafDateNatacao?:string;
+  tafDateCorrida?:string;
+  tafHNatacao?:string;
+  tafHCorrida?:string;
+  localNatacaoBairro?:string;
+  localNatacaoRua?:string;
+  localNatacaoNumeral?:string;
+  localNatacaoNome?:string;
+  localNatacaoMunicipio?:string;
+  localTafNatacao?:string;
+  localCorridaBairro?:string;
+  localCorridaRua?:string;
+  localCorridaNumeral?:string;
+  localCorridaNome?:string;
+  localCorridaMunicipio?:string;
+  localTafCorrida?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

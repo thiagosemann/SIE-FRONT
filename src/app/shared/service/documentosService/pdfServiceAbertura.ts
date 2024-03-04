@@ -789,6 +789,9 @@ export class PdfService {
         str = str.replace(placeholder, curso[prop]);
       }
     }
+    str = str.replace('{deRio}', curso.deRio!);
+    str = str.replace('{DERIO}', curso.DERIO!);
+    str = str.replace('{derio}', curso.derio!);
     str = str.replace('{coordPG}', curso.coordenador?.graduacao!);
     str = str.replace("{coordMtcl}", curso.coordenador?.mtcl!);
     str = str.replace("{coordNome}", curso.coordenador?.nomeCompleto!);
@@ -935,14 +938,25 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
             img.src = url;
         });
     }
-  private createChapter(doc: jsPDF, title: string,number: string, positionY: number, lineHeight: number): number {
-    positionY = this.addLine(doc,positionY,lineHeight*2);
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.text(number +" "+ title,25,positionY)
-    positionY = this.addLine(doc,positionY,lineHeight);
-    return positionY;
-  }
+    private createChapter(doc: jsPDF, title: string, number: string, positionY: number, lineHeight: number): number {
+      const chapterHeight = lineHeight * 3; // Assuming the chapter title takes up three lines
+      const spaceRequired = chapterHeight + lineHeight; // Add some extra space for safety
+      
+      // Check if adding the chapter title exceeds the page height
+      if (positionY + spaceRequired > doc.internal.pageSize.getHeight()) {
+        doc.addPage();
+        positionY = 20; // Reset the vertical position on the new page
+      }
+      
+      positionY = this.addLine(doc, positionY, lineHeight * 2);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(number + " " + title, 25, positionY);
+      positionY = this.addLine(doc, positionY, lineHeight);
+      
+      return positionY;
+    }
+    
   private createText(doc: jsPDF, title: string,number: string, positionY: number, lineHeight: number,maxWidth: number, marginLeftFirstLine:number): number {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');

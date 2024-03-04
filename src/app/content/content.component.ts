@@ -9,7 +9,7 @@ import { AuthenticationService } from '../shared/service/authentication';
 })
 export class ContentComponent implements OnInit {
   public components: ComponentItem[] = [];
-  courseType = 'homologacaoInscricao';
+  courseType = 'pge';
   activeTab = 1; // Define a segunda aba como ativa
   validity = false;
   @ViewChild('componentHost', { read: ViewContainerRef, static: true }) componentHost!: ViewContainerRef;

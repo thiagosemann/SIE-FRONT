@@ -1,0 +1,68 @@
+<div class="text-white p-3 localHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Local da Corrida</h2>
+    </div>
+</div>
+<div class="container-fluid">
+    <form [formGroup]="localForm" class="custom-form">
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaCep">CEP:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localCorridaCep" placeholder="Digite o CEP" name="localCorridaCep" mask="00000-000" (input)="consultaCEP($event)"/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaMunicipio">Município:</label>
+            <input class="form-control" type="text" id="localCorridaMunicipio" placeholder="Digite o município" name="localCorridaMunicipio" formControlName="localCorridaMunicipio" required/>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaBairro">Bairro:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localCorridaBairro" placeholder="Digite o bairro" name="localCorridaBairro" formControlName="localCorridaBairro" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaRua">Rua:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localCorridaRua" placeholder="Digite a rua" name="localCorridaRua" formControlName="localCorridaRua" required />
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-road"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaNumeral">Número:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localCorridaNumeral" placeholder="Digite o número" name="localCorridaNumeral" formControlName="localCorridaNumeral" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-sort-numeric-up"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localCorridaNome">Nome do Local:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localCorridaNome" placeholder="Digite o nome do local" name="localCorridaNome" formControlName="localCorridaNome" required />
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

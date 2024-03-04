@@ -130,6 +130,19 @@ export class CursoService {
       curso.localApresentacao = curso.localAtiRua +", "+ curso.localAtiNumeral +", "+ curso.localAtiBairro +", "+ curso.localAtiMunicipio +" - "+ curso.localAtiNome;
     }
   }
+  setLocalNatacaoAbertura(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      curso.localTafNatacao = curso.localNatacaoRua +", "+ curso.localNatacaoNumeral +", "+ curso.localNatacaoBairro +", "+ curso.localNatacaoMunicipio +" - "+ curso.localNatacaoNome;
+    }
+  }
+  setLocalCorridaAbertura(){
+    const curso = this.getCursoById(this.cursoEscolhidoId);
+    if(curso){
+      curso.localTafCorrida = curso.localCorridaRua +", "+ curso.localCorridaNumeral +", "+ curso.localCorridaBairro +", "+ curso.localCorridaMunicipio +" - "+ curso.localCorridaNome;
+    }
+  }
+  
   setVagasMunicipio() {
     const curso = this.getCursoById(this.cursoEscolhidoId);
     if (curso) {
@@ -162,6 +175,7 @@ export class CursoService {
     if(curso){
       curso.promoApresentacao = `Corpo de Bombeiros Militar de ${curso.promoAtiMunicipio}, ${curso.promoAtiRua}, ${curso.promoAtiNumeral}, ${curso.promoAtiBairro}, ${curso.promoAtiMunicipio}/SC `
     }
+
   }
 
 // ----------------------------------------------------------------Utilitários---------------------------------------------------------------------------//

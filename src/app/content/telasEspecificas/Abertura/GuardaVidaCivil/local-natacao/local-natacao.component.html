@@ -1,0 +1,68 @@
+<div class="text-white p-3 localHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Local da Natação</h2>
+    </div>
+</div>
+<div class="container-fluid">
+    <form [formGroup]="localForm" class="custom-form">
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoCep">CEP:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localNatacaoCep" placeholder="Digite o CEP" name="localNatacaoCep" mask="00000-000" (input)="consultaCEP($event)"/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoMunicipio">Município:</label>
+            <input class="form-control" type="text" id="localNatacaoMunicipio" placeholder="Digite o município" name="localNatacaoMunicipio" formControlName="localNatacaoMunicipio" required/>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoBairro">Bairro:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localNatacaoBairro" placeholder="Digite o bairro" name="localNatacaoBairro" formControlName="localNatacaoBairro" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoRua">Rua:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localNatacaoRua" placeholder="Digite a rua" name="localNatacaoRua" formControlName="localNatacaoRua" required />
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-road"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoNumeral">Número:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localNatacaoNumeral" placeholder="Digite o número" name="localNatacaoNumeral" formControlName="localNatacaoNumeral" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-sort-numeric-up"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold" for="localNatacaoNome">Nome do Local:</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="localNatacaoNome" placeholder="Digite o nome do local" name="localNatacaoNome" formControlName="localNatacaoNome" required />
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

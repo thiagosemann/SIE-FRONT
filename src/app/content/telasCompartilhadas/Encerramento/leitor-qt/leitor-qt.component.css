@@ -1,0 +1,97 @@
+.docentesHeader {
+  border-radius: 8px 8px 0 0;
+  background-color: #4b6199;
+  font-family: 'lato';
+}
+
+.uploaded-files {
+  margin-top: 10px;
+}
+
+.uploaded-files ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.uploaded-files li {
+  display: inline-block;
+  margin-right: 10px;
+  background-color: #f8f9fa;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.file-upload-container {
+  margin-bottom: 10px;
+}
+
+.file-upload-clear-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 5px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  transition: background-color 0.3s;
+}
+
+.file-upload-clear-btn:hover {
+  background-color: #c82333;
+}
+
+.tableModificaoesWrapper{
+  max-height: 450px;
+  overflow-y: auto;
+}
+.custom-table-header {
+  background-color: #4B6199;
+  font-family: 'Lato';
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.custom-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.custom-table th,
+.custom-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.custom-table th:nth-child(1),
+.custom-table td:nth-child(1),
+.custom-table th:nth-child(2),
+.custom-table td:nth-child(2),
+.custom-table th:nth-child(3),
+.custom-table td:nth-child(3) {
+  white-space: nowrap;
+}
+
+
+.custom-table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f8f9fa; /* Light gray background for odd rows */
+}
+
+.custom-table-striped tbody tr:nth-of-type(even) {
+  background-color: white; /* White background for even rows */
+}
+.tableModificaoesWrapper tbody tr:nth-of-type(odd) {
+  background-color: #f8f9fa; /* Light gray background for odd rows */
+}
+
+.tableModificaoesWrapper tbody tr:nth-of-type(even) {
+  background-color: white; /* White background for even rows */
+}
