@@ -1,6 +1,6 @@
 <div class="text-white p-3 docentesHeader text-center">
     <div class="container">
-      <h2 class="mb-0">Docentes</h2>
+      <h2 class="mb-0">Quadro de Trabalho</h2>
     </div>
   </div>
   
@@ -13,38 +13,66 @@
               <label class="custom-file-upload">
                 <input type="file" id="fileInput" class="file-upload-input" (change)="onFileSelected($event)" accept=".xlsx, .xls" multiple>
               </label>
-              <div class="uploaded-files">
-                <ul>
-                  <li *ngFor="let selectedFile of selectedFiles; let i = index">
-                    {{ selectedFile.name }}
-                    <button class="file-upload-clear-btn" (click)="deleteFile(i)">X</button>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="mb-3">
-        <div class="tableModificaoesWrapper">
-          <table class="custom-table table-striped">
-            <thead class="custom-table-header">
-              <tr>
-                <th style="width: 20%;">Mtcl</th>
-                <th style="width: 60%;">Nome</th>
-                <th style="width: 20%;">HAI</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let professor of professoresCompilado">
-                <td>{{ professor.mtcl }}</td>
-                <td>{{ professor.name }}</td>
-                <td>{{ professor.hai }}</td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="row justify-content-center"> <!-- Added justify-content-center to center the content -->
+      <div class="mb-3 textHorasDiv card-container">
+        <p class="text-center">Total de horas para esse processo: <span class="textHoras">{{objMensagem.totalHoras}}</span></p>
+        <div *ngIf="objMensagem.totalHorasUtilizadas!=''">
+          <p class="text-center" >Total de horas inseridas: <span class="textHoras">{{objMensagem.totalHorasUtilizadas}}</span></p>
+          <p class="text-center" >Horas restantes: <span class="textHoras">{{objMensagem.horasRestantes}}</span></p>   
+        </div>
+     </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3" *ngIf="fileData.length > 0">
+          <div class="tableModificaoesWrapper">
+            <table class="custom-table table-striped">
+              <thead class="custom-table-header">
+                <tr>
+                  <th style="width: 70%;">Semana</th>
+                  <th style="width: 15%;">HAI</th>
+                  <th style="width: 15%;">Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let file of fileData">
+                  <td>{{ file.file }}</td>
+                  <td>{{ file.professors.length }} </td>
+                  <td><button class="btn btn-danger btn-sm" (click)="deleteFile(file.index)"><i class="fas fa-trash"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>      </div>
+      <div class="col-md-6">
+        <div class="mb-3" *ngIf="professoresCompilado.length>0">
+          <div class="tableModificaoesWrapper">
+            <table class="custom-table table-striped">
+              <thead class="custom-table-header">
+                <tr>
+                  <th style="width: 20%;">Mtcl</th>
+                  <th style="width: 60%;">Nome</th>
+                  <th style="width: 20%;">HAI</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let professor of professoresCompilado">
+                  <td>{{ professor.mtcl }}</td>
+                  <td>{{ professor.name }}</td>
+                  <td>{{ professor.hai }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+    </div>
+
   </div>
   

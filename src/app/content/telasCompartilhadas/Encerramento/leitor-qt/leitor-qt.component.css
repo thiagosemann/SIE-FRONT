@@ -95,3 +95,40 @@
 .tableModificaoesWrapper tbody tr:nth-of-type(even) {
   background-color: white; /* White background for even rows */
 }
+.textHorasDiv{
+  font-size: 16px;
+  font-weight: 400;
+}
+.textHorasDiv p {
+  margin-bottom: 3px; /* Adjust the margin-bottom as needed */
+}
+.textHoras{
+  font-size: 20px;
+  font-weight: 700;
+}
+.card-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust shadow properties as needed */
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.textHorasDiv {
+  font-size: 16px;
+  font-weight: 500;
+  width: 50%;
+  height: 100px;
+  
+}
+
+.textHorasDiv p {
+  margin-bottom: 3px;
+  margin-top: -10px;
+}
+
+.textHoras {
+  font-size: 20px;
+  font-weight: 800;
+  color: #4B6199;
+}
