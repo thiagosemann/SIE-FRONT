@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Documento, Capitulo, Item, Subitem, Subsubitem, Tabela } from '../../../shared/utilitarios/documentoPdf';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
-import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
+import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
 import { DocumentosService } from 'src/app/shared/service/documentosService/documento.service';
 import { ToastrService } from 'ngx-toastr';
 

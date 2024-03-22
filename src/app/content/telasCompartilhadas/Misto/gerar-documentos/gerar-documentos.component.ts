@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
-import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
+import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
 import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { CourseConfigService, ComponentItem } from '../../../../shared/service/CourseConfigService';

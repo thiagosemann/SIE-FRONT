@@ -23,7 +23,9 @@ export class PdfService {
     if(curso && curso.type){
       this.replaceProperties(responseDoc.dados.documento, curso);
       if(curso.type==="aberturaCursoMilitar"){
-        this.executeAberturaCursoMilitar(responseDoc.dados.documento, curso,model);
+        this.executeEncerramentoCBC(responseDoc.dados.documento, curso,model);
+      }else if(curso.type==="encerramentoCursoMilitar" ){
+        this.executeAberturaCBC(responseDoc.dados.documento, curso,model)
       }else if(curso.type==="aberturaTreinamentoMilitar" ){
         this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="aberturaTBAE" ){
@@ -39,6 +41,10 @@ export class PdfService {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
+  }
+
+  executeEncerramentoCBC(responeDoc:any , curso:Curso,model:string){
+
   }
 
   executeAberturaCBC(responeDoc:any , curso:Curso,model:string){
@@ -830,7 +836,11 @@ private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeig
   for (const item of itens) {
       if (item.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight);
-      } else {
+      }else if(item.tipo === "tabelaRFC" || item.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTableRFC(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight,item.tipo);
+      }else if(item.tipo === "tabelaRFCSintese"){
+        positionY = this.createTableRFCSintese(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight);
+      }else {
         positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,170,25);
 
         if (item.subitens && item.subitens.length > 0) {
@@ -846,7 +856,11 @@ private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, li
   for (const subitem of subitens) {
       if (subitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
-      } else {
+      }else if(subitem.tipo === "tabelaRFC" || subitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTableRFC(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight,subitem.tipo);
+      }else if(subitem.tipo === "tabelaRFCSintese"){
+        positionY = this.createTableRFCSintese(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
+      }  else {
         positionY = this.createText(doc,subitem.texto,subitem.letra,positionY,lineHeight,170,25);
         if (subitem.subsubitens && subitem.subsubitens.length > 0) {
           positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight);
@@ -861,7 +875,11 @@ private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: numb
   for (const subsubitem of subsubitens) {
       if (subsubitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
-      } else {
+      }else if(subsubitem.tipo === "tabelaRFC" || subsubitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTableRFC(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight,subsubitem.tipo);
+      }else if(subsubitem.tipo === "tabelaRFCSintese" ){
+        positionY = this.createTableRFCSintese(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
+      }else {
         positionY = this.createText(doc,subsubitem.texto,subsubitem.letra,positionY,lineHeight,170,30);
 
         if (subsubitem.subsubsubitens && subsubitem.subsubsubitens.length > 0) {
@@ -877,7 +895,11 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
   for (const subsubsubitem of subsubsubitens) {
       if (subsubsubitem.tipo === "tabela") {
         positionY = this.createTable(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
-      } else {
+      }else if(subsubsubitem.tipo === "tabelaRFC" || subsubsubitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTableRFC(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight,subsubsubitem.tipo);
+      }else if(subsubsubitem.tipo === "tabelaRFCSintese"){
+        positionY = this.createTableRFCSintese(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
+      }else {
         positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,155,45);
       }
   }
@@ -1019,7 +1041,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
   
 
   private createTable(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number): number {
-    const startX = 25;
+    let startX = 25;
     const startY = positionY;
     const columnWidth = 81;
     const rowHeight = 9; // Altura inicial da linha
@@ -1099,6 +1121,189 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
   
     return tableBottomY;
   }
+
+  private createTableRFCSintese(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number): number {
+    let startX = 5;
+    const startY = positionY;
+    const columnWidth = 100;
+    const rowHeight = 9; // Altura inicial da linha
+    const borderWidth = 0.2;
+    const borderColor = 'black';
+    const headerFontStyle = 'bold';
+    const cellPaddingTop = 2; // Espaçamento superior da célula
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
   
+    let lastRowY = startY; // Posição vertical da última linha
+    if(startY + rowHeight > pageHeight ){
+      // Excede a altura da página, adiciona uma nova página
+      doc.addPage();
+      lastRowY = 20; // Reinicia a posição vertical na nova página
+    }
+
+    for (let i = 0; i < tableData.length; i++) {
+      const rowData = tableData[i];
+      const rowY = lastRowY; // Mantém a posição vertical da linha anterior
+  
+      // Calcula a altura necessária para a linha com base no número de linhas de texto
+      const numRows = Math.ceil(rowData.length / 3); // 3 é o número de colunas por linha
+      const numLines = rowData.reduce((count, cellText) => count + doc.splitTextToSize(cellText, columnWidth - 2 * borderWidth).length, 0);
+      const cellHeight = Math.max(rowHeight, lineHeight * numLines / numRows);
+  
+      // Atualiza a posição vertical da próxima linha com base na altura da célula
+      lastRowY += cellHeight * numRows;
+  
+      for (let j = 0; j < rowData.length; j++) {
+        const columnX = startX + (j % 3) * columnWidth; // 3 é o número de colunas por linha
+        const cellWidth = columnWidth;
+        const cellText = rowData[j];
+  
+        // Verifica se é o cabeçalho
+        const isHeader = hasHeader && i === 0;
+  
+        // Definir estilo do texto
+        const textStyle = isHeader ? headerFontStyle : 'normal';
+  
+        // Divide o texto em linhas
+        const lines = doc.splitTextToSize(cellText, cellWidth - 2 * borderWidth -4);
+  
+           // Desenha as bordas da célula
+        doc.setDrawColor(borderColor);
+        doc.setLineWidth(borderWidth);
+        doc.rect(columnX, rowY, cellWidth, cellHeight * numRows); 
+  
+        // Adicionar texto da célula
+        doc.setFont('helvetica', textStyle);
+        if (content === 'left') {
+          const marginLeft = 2; // Margem maior para tabela de síntese
+          let textY = rowY + cellHeight - 2 - (numLines - 1) * lineHeight + cellPaddingTop;
+          for (let k = 0; k < lines.length; k++) {
+            doc.text(lines[k], columnX + borderWidth + marginLeft, textY);
+            textY += lineHeight;
+          }
+        } else if (content === 'center') {
+          const textX = columnX + cellWidth / 2;
+          const textY = rowY + (cellHeight + 3) / 2;
+          doc.text(lines, textX, textY, { align: 'center', maxWidth: cellWidth - borderWidth * 2 });
+          
+        }
+      }
+  
+      // Verifica se a próxima linha excede a altura da página
+      if (lastRowY + borderWidth +20 > pageHeight) {
+        // Excede a altura da página, adiciona uma nova página
+        doc.addPage();
+        lastRowY = 20; // Reinicia a posição vertical na nova página
+      }
+    }
+  
+    const tableBottomY = lastRowY + borderWidth + lineHeight; // Posição vertical da parte inferior da tabela
+  
+    return tableBottomY;
+  }
+  
+  private createTableRFC(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number,tipo:string): number {
+    let startX = 5;
+    const startY = positionY;
+    let columnWidths=[];
+  
+    const rowHeight = 3; // Altura inicial da linha
+    const borderWidth = 0.2;
+    const borderColor = 'black';
+    const headerFontStyle = 'bold';
+    const cellPaddingTop = 2; // Espaçamento superior da célula
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    if(tipo=="tabelaRFC"){
+      columnWidths = [20, 30, 40, 40, 15, 15, 20, 20]; 
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7); // Tamanho da fonte alterado para 6
+  
+    }else {
+      columnWidths = [16, 30, 40, 25, 19, 13, 19, 19, 19];
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6); // Tamanho da fonte alterado para 6
+    }
+
+
+    let lastRowY = startY; // Posição vertical da última linha
+    if (startY + rowHeight > pageHeight) {
+        // Excede a altura da página, adiciona uma nova página
+        doc.addPage();
+        lastRowY = 20; // Reinicia a posição vertical na nova página
+    }
+
+    for (let i = 0; i < tableData.length; i++) {
+        const rowData = tableData[i];
+        const rowY = lastRowY; // Mantém a posição vertical da linha anterior
+
+        // Calcula a altura necessária para a linha com base no número de linhas de texto
+        let maxCellHeight = 0;
+        for (const cellText of rowData) {
+            for (let j = 0; j < columnWidths.length; j++) {
+                const lines = doc.splitTextToSize(cellText, columnWidths[j] - 2 * borderWidth);
+                const numLines = lines.length;
+                const cellHeight = Math.max(rowHeight, 4 * numLines);
+                maxCellHeight = Math.max(maxCellHeight, cellHeight);
+            }
+        }
+
+        // Atualiza a posição vertical da próxima linha com base na altura da célula
+        lastRowY += maxCellHeight;
+
+        for (let j = 0; j < rowData.length; j++) {
+            const columnX = startX + columnWidths.slice(0, j).reduce((acc, curr) => acc + curr, 0); // Calcula a posição horizontal da coluna
+            const cellWidth = columnWidths[j];
+            const cellText = rowData[j];
+
+            // Verifica se é o cabeçalho
+            const isHeader = hasHeader && i === 0;
+
+            // Definir estilo do texto
+            const textStyle = isHeader ? headerFontStyle : 'normal';
+
+            // Divide o texto em linhas
+            const lines = doc.splitTextToSize(cellText, cellWidth - 2 * borderWidth - 4);
+
+            // Desenha as bordas da célula
+            doc.setDrawColor(borderColor);
+            doc.setLineWidth(borderWidth);
+            doc.rect(columnX, rowY, cellWidth, maxCellHeight);
+
+            // Adicionar texto da célula
+            doc.setFont('helvetica', textStyle);
+            if (content === 'left') {
+                const marginLeft = 2; // Margem maior para tabela de síntese
+                let textY = rowY + maxCellHeight - 2 - (lines.length - 1) * lineHeight + cellPaddingTop;
+                for (let k = 0; k < lines.length; k++) {
+                    doc.text(lines[k], columnX + borderWidth + marginLeft, textY);
+                    textY += lineHeight;
+                }
+            } else if (content === 'center') {
+                const textX = columnX + cellWidth / 2;
+                const textY = rowY + (maxCellHeight + 3) / 2;
+                doc.text(lines, textX, textY, { align: 'center', maxWidth: cellWidth - borderWidth * 2 });
+            }
+        }
+
+        // Verifica se a próxima linha excede a altura da página
+        if (lastRowY + borderWidth + 20 > pageHeight) {
+            // Excede a altura da página, adiciona uma nova página
+            doc.addPage();
+            lastRowY = 20; // Reinicia a posição vertical na nova página
+        }
+    }
+
+    const tableBottomY = lastRowY + borderWidth + lineHeight; // Posição vertical da parte inferior da tabela
+
+    return tableBottomY;
+}
+
+
+
+
+
   
 }

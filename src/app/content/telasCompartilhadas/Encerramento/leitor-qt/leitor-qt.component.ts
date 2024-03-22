@@ -165,7 +165,7 @@ export class LeitorQTComponent implements OnInit {
   processWorksheet(jsonData: any[][], professorsAux: any[]): any {
     let errorArquivo = {status:false,message:"Sem erros"};
     const dias = this.excelSerialToDate(jsonData[3][2])
-
+    let errorAux=false;
     const indexes = [6, 8, 10, 12, 14];
     var regex = /\b\d+(\.\d+)+\b/;
     var numeroProcesso = jsonData[0][0].match(regex);
@@ -183,7 +183,12 @@ export class LeitorQTComponent implements OnInit {
         
         indexes.forEach(index => {
           if (row[index]) {
-            errorArquivo = this.addOrUpdateProfessor(index, row, dia, professorsAux);
+            if(!errorAux){
+              errorArquivo = this.addOrUpdateProfessor(index, row, dia, professorsAux);
+              if(errorArquivo.status){
+                errorAux = true;
+              }
+            }
           }
         });
       }
@@ -201,6 +206,7 @@ addOrUpdateProfessor(mtclIndex: number, row: any, dia: string, professoresAux: a
 
   const verificacaoProfessor = professoresAux.find(professor => professor.mtcl === mtcl && professor.dia === dia && professor.hora === hora);
   if(!row[1]){
+    console.log("Entrou1")
     errorArquivo.status = true;
     errorArquivo.message = "O QT contém uma linha sem hora definida.";
     return errorArquivo;
@@ -213,6 +219,11 @@ addOrUpdateProfessor(mtclIndex: number, row: any, dia: string, professoresAux: a
   if(!row[4]){
     errorArquivo.status = true;
     errorArquivo.message = "O QT contém uma linha sem sintese definida.";
+    return errorArquivo;
+  }
+  if(!row[5] && row[5]!="0"){
+    errorArquivo.status = true;
+    errorArquivo.message = "O QT contém uma linha sem faltas definidas.";
     return errorArquivo;
   }
   if (!verificacaoProfessor) {

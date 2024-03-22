@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
-import { PdfService } from 'src/app/shared/service/documentosService/pdfServiceAbertura';
+import { PdfService } from 'src/app/shared/service/documentosService/pdfService';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
 
@@ -22,7 +22,7 @@ export class PreviewDocComponent implements OnInit {
 
   async generatePdf(): Promise<void> {
     if (this.curso) {
-      const pdfBlob = await this.pdfService.createDocument(this.curso, this.curso.type!,'edital');
+      const pdfBlob = await this.pdfService.createDocument(this.curso, this.curso.type!,'relatorio');
       const pdfUrl = URL.createObjectURL(pdfBlob);
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       this.documentosCriadosService.createCurso(this.curso)
