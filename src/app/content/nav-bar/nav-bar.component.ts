@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../shared/service/authentication';
 import { User } from 'src/app/shared/utilitarios/user';
 import { ContentComponent } from '../content.component';
+import { RoleService } from 'src/app/shared/service/roles_service';
+import { Role } from 'src/app/shared/utilitarios/role';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,13 +13,31 @@ import { ContentComponent } from '../content.component';
 export class NavBarComponent implements OnInit {
   user: User | null = null;
   role="";
-  constructor(private authService: AuthenticationService,private contentComponent: ContentComponent) {}
+  roles:Role[]=[];
+
+  constructor(private authService: AuthenticationService,private contentComponent: ContentComponent,private roleService: RoleService  ) {}
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
-    if(this.user && this.user.role!=""){
-      this.role = this.user.role;
-    }
+    this.roleService.getRoles().subscribe(
+      (roles: Role[]) => {
+        this.roles = roles;
+        const role = this.getUserRole();
+        this.user = this.authService.getUser();
+        if(role!=""){
+          this.role = role;
+        }
+        
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+
+  }
+  getUserRole():string{
+    const user = this.authService.getUser();
+    const role = this.roles.filter(role => user?.role_id === role.id);
+    return role[0].nome
   }
 
   logout(): void {

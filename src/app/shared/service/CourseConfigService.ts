@@ -60,6 +60,8 @@ export class CourseConfigService {
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
     { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
 
     //{ component: PreviewDocComponent, name: 'Preview',validity: false },

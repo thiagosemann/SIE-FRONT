@@ -88,7 +88,7 @@ export class CursoService {
     if (cursoEscolhido) {
       cursoEscolhido.coordenador = properties.coordenador;
       cursoEscolhido.coordenadorContato = `Telefones: ${properties.coordenador?.telefoneFunc ?? ''},  ${properties.coordenador?.telefoneOBM ?? ''} ${properties.coordenador?.email ?? ''}`;
-      cursoEscolhido.coordenadorDescricao = `${this.formatarGraduacao(properties.coordenador?.graduacao ?? '',"Abreviar") } BM MTCL ${properties.coordenador?.mtcl ?? ''} ${properties.coordenador?.nomeCompleto ?? ''}`;
+      cursoEscolhido.coordenadorDescricao = `${properties.coordenador?.graduacao } BM MTCL ${properties.coordenador?.mtcl ?? ''} ${properties.coordenador?.nomeCompleto ?? ''}`;
     }
   }
 
@@ -291,23 +291,6 @@ export class CursoService {
     return ""
   } 
 
-  formatarGraduacao(posto:string,formato:string){
-    const postoName = ["SOLDADO 3ª CLASSE NQ","SOLDADO 3ª CLASSE","SOLDADO 2ª CLASSE","SOLDADO 1ª CLASSE","CABO","ALUNO SARGENTO","3º SARGENTO ALUNO","2º SARGENTO ALUNO","3º SARGENTO","2º SARGENTO","1º SARGENTO","SUBTENENTE","2º TENENTE","1º TENENTE","CAPITAO","MAJOR","TENENTE CORONEL","CORONEL","CHEFE DO ESTADO-MAIOR GERAL DO CORPO DE BOMBEIROS MILITAR","COMANDANTE-GERAL DO CBMSC","SUBCOMANDANTE-GERAL DOCORPO DE BOMBEIROS MILITAR"];
-    const postoAbbreviations = ["SD","SD","SD","SD","CB","ALSGT","ALSGT","ALSGT","SGT","SGT","SGT","ST","TEN","TEN","CAP","MAJ","TC","CEL","CHEFE DO EM","CMD GERAL","SUB CMD GERAL"];
-    const postoAbbreviationsTableDoc = ["SD 3ºC","SD 3ºC","SD 2ºC","SD 1ºC","CB","AL SGT","3º SGT AL","2º SGT AL","3º SGT","2º SGT","1º SGT","ST","2º TEN","1º TEN","CAP","MAJ","TC","CEL","CHEFE DO EM","CMD GERAL","SUB CMD GERAL"];
-    const postoToLowerCase = ["Soldado","Soldado","Soldado","Soldado","Cabo","Aluno Sargento","3º Sargento Aluno","2º Sargento Aluno","3º Sargento","2º Sargento","1º Sargento","Subtenente","2º Tenente","1º Tenente","Capitão","Major","Tenente Coronel","Coronel","Chefe do Estado Maior","Comandante Geral","Sub Comandante Geral"];
-   
-    let postoComFormatacao;
-    if (formato === "Abreviar") {
-      postoComFormatacao = postoAbbreviations;
-    } else if (formato === "AbreviarTableDocentes") {
-      postoComFormatacao = postoAbbreviationsTableDoc;
-    } else if (formato === "AbreviarLowerCase") {
-      postoComFormatacao = postoToLowerCase;
-    }
-    const index = postoName.indexOf(posto);
-    return index === -1 || !postoComFormatacao ? "" : postoComFormatacao[index];
 
-  }
 
 }

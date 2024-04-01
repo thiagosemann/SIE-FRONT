@@ -8,6 +8,8 @@ import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { ContentComponent } from '../../../content.component';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { User } from 'src/app/shared/utilitarios/user';
+import { GraduacaoService } from 'src/app/shared/service/graduacao_service';
+import { Graduacao } from 'src/app/shared/utilitarios/graduacao';
 
 @Component({
   selector: 'app-coordenador',
@@ -21,12 +23,14 @@ export class CoordenadorComponent implements OnInit {
   user: User | undefined;
   coordenadorForm: FormGroup;
   cursoEscolhido: Curso | undefined;
+  graduacoes: Graduacao[] = [];
 
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
     private cursoService: CursoService,
-    private contentComponent : ContentComponent
+    private contentComponent : ContentComponent,
+    private graduacaoService: GraduacaoService
 
   ) {
     this.coordenadorForm = this.formBuilder.group({
@@ -60,6 +64,15 @@ export class CoordenadorComponent implements OnInit {
       this.enviarDados();
     });
 
+    this.graduacaoService.getGraduacoes().subscribe(
+      (graduacoes: Graduacao[]) => {
+        this.graduacoes = graduacoes;
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+
   }
 
   ngAfterViewInit(){
@@ -67,6 +80,7 @@ export class CoordenadorComponent implements OnInit {
   }
 
   enviarDados(nomeCompleto?: string) {
+    const graduacao = this.graduacoes.find(graduacao => graduacao.id === this.user?.graduacao_id);
     const coordenador: Coordenador = {
       id: this.user?.id,
       mtcl: this.coordenadorForm.get('mtcl')?.value,
@@ -75,7 +89,8 @@ export class CoordenadorComponent implements OnInit {
       telefoneFunc: this.coordenadorForm.get('telefoneFunc')?.value,
       telefoneOBM: this.coordenadorForm.get('telefoneOBM')?.value,
       ldap: this.user?.ldap,
-      graduacao: this.user?.graduacao
+      graduacao_id: this.user?.graduacao_id,
+      graduacao:graduacao?.nome
     };
     const properties: Partial<Curso> = {
       coordenador: coordenador

@@ -221,9 +221,9 @@ export class EdicaoDocumentosComponent implements OnInit {
     const curso: Curso = { id: 1 };
 
     if (curso) {
-      const pdfBlob = await this.pdfService.edicaoDocument(this.documento.dados);
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+   //   const pdfBlob = await this.pdfService.edicaoDocument(this.documento.dados);
+    //  const pdfUrl = URL.createObjectURL(pdfBlob);
+  //    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
     }
   }
 

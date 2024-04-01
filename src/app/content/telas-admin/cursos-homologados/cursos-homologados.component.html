@@ -135,7 +135,7 @@
             <div class="input-group mb-3">
                 <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputAtividade" (input)="searchAtividade()">
             </div>
-            <div style="margin-left: 30px; margin-bottom: 20px;">
+            <div style="margin-left: 30px; margin-bottom: 20px;" *ngIf="role =='admin'">
                 <button class="btn btn-primary" (click)="startAddAtividade()">Adicionar Atividade</button>
             </div>
         </div>

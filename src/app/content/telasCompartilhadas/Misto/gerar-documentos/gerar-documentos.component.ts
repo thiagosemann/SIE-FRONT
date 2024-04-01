@@ -81,7 +81,27 @@ export class GerarDocumentosComponent implements OnInit {
               }
             );
           }else if(type.includes("encerramento")){
-  
+            const rfcPdf = await this.pdfService.createDocument(cursoEco, type,'rfc');
+            objeto = {
+              auth: auth,
+              dados: cursoEco,
+              tipo: type,
+              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+            }
+            const {pge} = curso;
+
+            this.documentosCriadosService.createCurso(objeto).subscribe(
+              (response) => {
+                console.log(objeto)
+                console.log('Curso criado com sucesso:', response);
+                this.downloadFile(rfcPdf as Blob, 'rfc.pdf');
+                this.contentComponent.courseTypePge();
+                this.cursoService.removeAllCurses();
+              },
+              (error) => {
+                console.error('Erro ao criar curso:', error);
+              }
+            );
           }
         }
       } else {
@@ -199,6 +219,9 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "VagasCivilComponent", propertyName: "municipio1Civil", errorMessage: "O municipio 1 não está definido.",notEmpty:false },
         { component: "VagasCivilComponent", propertyName: "municipio2Civil", errorMessage: "O municipio 2 não está definido.",notEmpty:false },
         { component: "VagasCivilComponent", propertyName: "municipio3Civil", errorMessage: "O municipio 3 não está definido.",notEmpty:false }
+      ],
+      LeitorQTComponent : [
+        { component: "LeitorQTComponent", propertyName: "qtsFiles", errorMessage: "Insira pelo menos 1 arquivo de QTS.",notEmpty:false },
       ],
       AberturaDatasCBCComponent : [
         { component: "AberturaDatasCBCComponent", propertyName: "startTheoreticalExamDate", errorMessage: "startTheoreticalExamDate.",notEmpty:false },

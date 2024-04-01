@@ -1,6 +1,8 @@
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, Type, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CourseConfigService, ComponentItem } from '../shared/service/CourseConfigService';
 import { AuthenticationService } from '../shared/service/authentication';
+import { Role } from '../shared/utilitarios/role';
+import { RoleService } from '../shared/service/roles_service';
 
 @Component({
   selector: 'app-content',
@@ -12,6 +14,7 @@ export class ContentComponent implements OnInit {
   courseType = 'pge';
   activeTab = 1; // Define a segunda aba como ativa
   validity = false;
+  roles:Role[]=[];
   @ViewChild('componentHost', { read: ViewContainerRef, static: true }) componentHost!: ViewContainerRef;
 
   private currentComponent?: ComponentRef<any>;
@@ -20,11 +23,21 @@ export class ContentComponent implements OnInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     private courseConfigService: CourseConfigService,
     private authService: AuthenticationService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private roleService: RoleService
+
   ) {}
 
   ngOnInit() {
-    this.changeComponents(0);
+    this.roleService.getRoles().subscribe(
+      (role: Role[]) => {
+        this.roles = role;
+        this.changeComponents(0);
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
   }
 
   ngAfterContentChecked() {
@@ -39,16 +52,20 @@ export class ContentComponent implements OnInit {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
     this.currentComponent = this.componentHost.createComponent(componentFactory);
     this.activeTab = index;
-    const user = this.authService.getUser();
-    if (this.isTabActive(0) && user && user.role === 'admin') {
+    const role = this.getUserRole();
+    if (this.isTabActive(0) && role === 'admin') {
       this.courseType = 'admin';
       this.components = this.courseConfigService.getComponents(this.courseType);
-    } else if (this.isTabActive(0) && user && user.role === '--') {
+    } else if (this.isTabActive(0) && role === '--') {
       this.courseType = 'publico';
       this.components = this.courseConfigService.getComponents(this.courseType);
     }
   }
-
+  getUserRole():string{
+    const user = this.authService.getUser();
+    const role = this.roles.filter(role => user?.role_id === role.id);
+    return role[0].nome
+  }
   isTabActive(index: number): boolean {
     return this.activeTab === index;
   }
@@ -72,11 +89,11 @@ export class ContentComponent implements OnInit {
   
 
   changeComponents(activeTab: number) {
-    const user = this.authService.getUser();
-    if (user && user.role === 'admin') {
+    const role = this.getUserRole();
+    if (role === 'admin') {
       this.courseType = 'admin';
     }
-    if (user && user.role === '--') {
+    if (role === '--') {
       this.courseType = 'publico';
     }
     

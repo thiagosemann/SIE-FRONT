@@ -4,6 +4,8 @@ import { AuthenticationService } from 'src/app/shared/service/authentication';
 import { AtividadeHomologada } from 'src/app/shared/utilitarios/atividadeHomologada';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { RoleService } from 'src/app/shared/service/roles_service';
+import { Role } from 'src/app/shared/utilitarios/role';
 
 
 @Component({
@@ -22,8 +24,9 @@ export class CursosHomologadosComponent implements OnInit {
   atividadeEditForm: FormGroup; // Formulário para edição de usuário
   showTooltip: boolean = false;
   criarAtividade: boolean = false;
+  roles:Role[]=[];
 
-  constructor(private atividadeHomologadaService: AtividadeHomologadaService, private authService: AuthenticationService,private fb: FormBuilder,private toastr: ToastrService) {
+  constructor(private atividadeHomologadaService: AtividadeHomologadaService, private authService: AuthenticationService,private fb: FormBuilder,private toastr: ToastrService,private roleService: RoleService) {
     this.atividadeEditForm = this.fb.group({
       sigla: ['', Validators.required],
       name: ['', Validators.required],
@@ -49,12 +52,20 @@ export class CursosHomologadosComponent implements OnInit {
   ngOnInit() {
     this.obterAtividadesHomologadas();
     this.searchAtividade();
-  
-    const user = this.authService.getUser();
-    
-    if (user && user.role) {
-      this.role = user.role;
-    }
+    this.roleService.getRoles().subscribe(
+      (roles: Role[]) => {
+        this.roles = roles;
+        const role = this.getUserRole();
+        if(role!=""){
+          this.role = role;
+        }
+        
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+
   
     if (this.role !== "admin") {
       // Certifique-se de que o formulário está definido antes de tentar acessá-lo
@@ -70,7 +81,12 @@ export class CursosHomologadosComponent implements OnInit {
     
     
   }
-  
+
+  getUserRole():string{
+    const user = this.authService.getUser();
+    const role = this.roles.filter(role => user?.role_id === role.id);
+    return role[0].nome
+  }
 
   obterAtividadesHomologadas() {
     this.atividadeHomologadaService.getAtividade().subscribe(

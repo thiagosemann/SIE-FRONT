@@ -3,9 +3,11 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
 import { EditalService } from 'src/app/shared/service/editais_service';
 import { InscricaoService } from 'src/app/shared/service/inscrition_service';
+import { RoleService } from 'src/app/shared/service/roles_service';
 import { UserCivilService } from 'src/app/shared/service/usersCivil_service';
 import { Edital } from 'src/app/shared/utilitarios/edital';
 import { Inscricao } from 'src/app/shared/utilitarios/inscricao';
+import { Role } from 'src/app/shared/utilitarios/role';
 import { UserCivil } from 'src/app/shared/utilitarios/userCivil';
 
 @Component({
@@ -22,6 +24,7 @@ export class HomologacaoInscricaoComponent implements OnInit {
     telaInicial:boolean= true;
     todayDate: Date = new Date();
     usuariosInscritos: any[] = [];
+    roles:Role[]=[];
 
     opcoesSituacao = ['Pendente', 'Homologada', 'Recusada'];
 
@@ -30,8 +33,8 @@ export class HomologacaoInscricaoComponent implements OnInit {
       private toastr: ToastrService,
       private inscritionService: InscricaoService,
       private userCivilService: UserCivilService,
-      private authService: AuthenticationService
-
+      private authService: AuthenticationService,
+      private roleService: RoleService
 
       ) { }
 
@@ -39,6 +42,14 @@ export class HomologacaoInscricaoComponent implements OnInit {
 
     ngOnInit(): void {
       this.getEditais();
+      this.roleService.getRoles().subscribe(
+        (roles: Role[]) => {
+          this.roles = roles;
+        },
+        (error) => {
+          console.log('Erro ao obter a lista de usuários:', error);
+        }
+      );
     }
 
      // Método para carregar inscrições ao selecionar um processo
@@ -82,11 +93,16 @@ export class HomologacaoInscricaoComponent implements OnInit {
         }
       });
     }
-       
+    getUserRole():string{
+      const user = this.authService.getUser();
+      const role = this.roles.filter(role => user?.role_id === role.id);
+      return role[0].nome
+    }
+  
     getEditais(): void {
-      const user =  this.authService.getUser();
-      if(user && user.role){
-        this.editalService.getEditaisByBBM(user.role).subscribe({
+      const role =  this.getUserRole();
+      if(role){
+        this.editalService.getEditaisByBBM(role).subscribe({
           next: (editais: Edital[]) => {
             // Map each edital to an observable and subscribe to each one
             editais.forEach(edital => {

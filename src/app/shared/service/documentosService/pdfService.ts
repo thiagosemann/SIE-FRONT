@@ -22,10 +22,13 @@ export class PdfService {
     const responseDoc = await this.getDocument(model+ type).toPromise();
     if(curso && curso.type){
       this.replaceProperties(responseDoc.dados.documento, curso);
+
+      // Alterações especificas para cada tipo de curso.
       if(curso.type==="aberturaCursoMilitar"){
-        this.executeEncerramentoCBC(responseDoc.dados.documento, curso,model);
+        this.executeAberturaCursoMilitar(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="encerramentoCursoMilitar" ){
-        this.executeAberturaCBC(responseDoc.dados.documento, curso,model)
+        this.executeEncerramentoCursoMilitar(responseDoc.dados.documento, curso,model);
+
       }else if(curso.type==="aberturaTreinamentoMilitar" ){
         this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="aberturaTBAE" ){
@@ -35,32 +38,32 @@ export class PdfService {
       }else if(curso.type==="aberturaCBC" ){
         this.executeAberturaCBC(responseDoc.dados.documento, curso,model)
       }
-      await this.generateDocumento(doc, responseDoc.dados);
+      await this.generateDocumento(doc, responseDoc.dados,model);
     }
     return new Promise<Blob>((resolve) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
   }
-
-  executeEncerramentoCBC(responeDoc:any , curso:Curso,model:string){
-
+  executeEncerramentoCursoMilitar(responeDoc:any , curso:Curso,model:string){
+    this.manageDocentesQTS(responeDoc, curso)
   }
+
 
   executeAberturaCBC(responeDoc:any , curso:Curso,model:string){
     if(model == 'plano'){
       this.manageCustos(responeDoc, curso);
     }
-    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)")
   }
   executeAberturaTBAE(responeDoc:any , curso:Curso,model:string){
     this.manageCustos(responeDoc, curso);
-    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") 
   }
   executeAberturaTBC(responeDoc:any , curso:Curso,model:string){
     this.createFinalidadeAndTotalVagasTBC(curso);
     this.manageCustos(responeDoc, curso);
-    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+    this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") 
     this.manageTBCItens(responeDoc,curso,model)
   }
   executeAberturaCursoMilitar(responeDoc:any , curso:Curso,model:string){
@@ -71,7 +74,7 @@ export class PdfService {
     if(model == 'plano'){
       this.manageCustos(responeDoc, curso);
       this.manageVagasPlanoCapacitacao(responeDoc, curso);
-      this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") // DOCENTES
+      this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)")
     }else{
       this.manageVagasEditalCapacitacao(responeDoc, curso);
     }
@@ -89,15 +92,7 @@ export class PdfService {
       this.manageVagasEditalCapacitacao(responeDoc, curso);
     }
   }
-  async edicaoDocument(data: any): Promise<Blob> {
-    const doc = new jsPDF();
-    await this.generateDocumento(doc, data);
-    return new Promise<Blob>((resolve, reject) => {
-      const pdfBlob = doc.output('blob');
-      resolve(pdfBlob);
-    });
-  }
-
+ 
   getDocument(curseName:string): Observable<any> {
     return this.documentoService.getDocumentoByNome(curseName).pipe(
       map((plano: Documento) => {
@@ -732,6 +727,31 @@ export class PdfService {
     }
   }
 
+//--------------------------------------------------------------FUNÇOES RELATÓRIO FINAL DE CURSO-----------------------------------------------------------------------------------//
+//--------------------------------------------------------------FUNÇOES RELATÓRIO FINAL DE CURSO-----------------------------------------------------------------------------------//
+
+
+  private manageDocentesQTS(objeto: any,curso: Curso) {
+    const documento = objeto;
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo") {
+        for (const item of capitulo.itens) {
+
+          if (item.numero === "4.1") {
+            console.log("curso.docentesQTS",curso.docentesQTS)
+            console.log(item)
+            if(curso.docentesQTS && curso.docentesQTS.length>0){
+              item.subitens[0].dados = curso.docentesQTS;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+
   private replaceProperties(objeto: any, curso: Curso) {
     const percorrerElementos = (elementos: any[]) => {
       for (let i = 0; i < elementos.length; i++) {
@@ -798,7 +818,7 @@ export class PdfService {
     str = str.replace('{deRio}', curso.deRio!);
     str = str.replace('{DERIO}', curso.DERIO!);
     str = str.replace('{derio}', curso.derio!);
-    str = str.replace('{coordPG}', curso.coordenador?.graduacao!);
+    str = str.replace('{coordPG}', curso.coordenador?.graduacao?.toString()!);
     str = str.replace("{coordMtcl}", curso.coordenador?.mtcl!);
     str = str.replace("{coordNome}", curso.coordenador?.nomeCompleto!);
 
@@ -807,11 +827,15 @@ export class PdfService {
 //--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO-----------------------------------------------------------------------------------//
 //--------------------------------------------------------------FUNÇOES PARA CRIAÇÃO DO DOCUMENTO--------------------------------------------------------------------------------//
 
-private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
+private async generateDocumento(doc: jsPDF, editalCapacitacao: any, model:string) {
   const capituloTitleFontSize = 11;
   const lineHeight = 6;
   let positionY = 7;
+  let startX = 5;
 
+  if(model=="rfc"){
+    startX = 5;
+  }
   positionY = await this.addHeader(doc, positionY, lineHeight);
 
   for (const capitulo of editalCapacitacao.documento) {
@@ -820,31 +844,31 @@ private async generateDocumento(doc: jsPDF, editalCapacitacao: any) {
           positionY = this.addPreamble(doc, positionY, lineHeight, capitulo.data);
           break;
         case "intro":
-          positionY = this.addIntro(doc, positionY, lineHeight, capitulo.texto);
+          positionY = this.addIntro(doc, positionY, lineHeight, capitulo.texto,startX);
           break;
         case "capitulo":
-          positionY = this.createChapter(doc,capitulo.texto,capitulo.numero,positionY,lineHeight);
+          positionY = this.createChapter(doc,capitulo.texto,capitulo.numero,positionY,lineHeight,startX);
           if (capitulo.itens && capitulo.itens.length > 0) {
-            positionY = await this.processItens(doc, capitulo.itens, positionY, lineHeight);
+            positionY = await this.processItens(doc, capitulo.itens, positionY, lineHeight,startX);
           }
           break;
       }
   }
 }
 
-private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeight: number) {
+private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeight: number,startX:number) {
   for (const item of itens) {
       if (item.tipo === "tabela") {
-        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight);
-      }else if(item.tipo === "tabelaRFC" || item.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight,25,81);
+      }else if(item.tipo === "tabelaRFC"){
         positionY = this.createTableRFC(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight,item.tipo);
       }else if(item.tipo === "tabelaRFCSintese"){
-        positionY = this.createTableRFCSintese(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight);
+        positionY = this.createTable(doc,positionY,item.dados,item.hasHeader,item.content,lineHeight,5,100);
       }else {
-        positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,170,25);
+        positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,startX);
 
         if (item.subitens && item.subitens.length > 0) {
-          positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight);
+          positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight,startX+5);
         }
       }
   }
@@ -852,18 +876,19 @@ private async processItens(doc: jsPDF, itens: any[], positionY: number, lineHeig
   return positionY;
 }
 
-private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, lineHeight: number) {
+private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, lineHeight: number,startX:number) {
   for (const subitem of subitens) {
       if (subitem.tipo === "tabela") {
-        positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
-      }else if(subitem.tipo === "tabelaRFC" || subitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight,25,81);
+
+      }else if(subitem.tipo === "tabelaRFC"){
         positionY = this.createTableRFC(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight,subitem.tipo);
       }else if(subitem.tipo === "tabelaRFCSintese"){
-        positionY = this.createTableRFCSintese(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight);
+        positionY = this.createTable(doc,positionY,subitem.dados,subitem.hasHeader,subitem.content,lineHeight,5,100);
       }  else {
-        positionY = this.createText(doc,subitem.texto,subitem.letra,positionY,lineHeight,170,25);
+        positionY = this.createText(doc,subitem.texto,subitem.letra,positionY,lineHeight,startX);
         if (subitem.subsubitens && subitem.subsubitens.length > 0) {
-          positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight);
+          positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight,startX+10);
         }
       }
   }
@@ -871,19 +896,19 @@ private async processSubItens(doc: jsPDF, subitens: any[], positionY: number, li
   return positionY;
 }
 
-private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: number, lineHeight: number) {
+private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: number, lineHeight: number,startX:number) {
   for (const subsubitem of subsubitens) {
       if (subsubitem.tipo === "tabela") {
-        positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
-      }else if(subsubitem.tipo === "tabelaRFC" || subsubitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight,25,81);
+      }else if(subsubitem.tipo === "tabelaRFC"){
         positionY = this.createTableRFC(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight,subsubitem.tipo);
       }else if(subsubitem.tipo === "tabelaRFCSintese" ){
-        positionY = this.createTableRFCSintese(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight);
+        positionY = this.createTable(doc,positionY,subsubitem.dados,subsubitem.hasHeader,subsubitem.content,lineHeight,5,100);
       }else {
-        positionY = this.createText(doc,subsubitem.texto,subsubitem.letra,positionY,lineHeight,170,30);
+        positionY = this.createText(doc,subsubitem.texto,subsubitem.letra,positionY,lineHeight,startX);
 
         if (subsubitem.subsubsubitens && subsubitem.subsubsubitens.length > 0) {
-          positionY = await this.processSubSubSubItens(doc, subsubitem.subsubsubitens, positionY, lineHeight);
+          positionY = await this.processSubSubSubItens(doc, subsubitem.subsubsubitens, positionY, lineHeight,startX);
         }
       }
   }
@@ -891,16 +916,16 @@ private async processSubSubItens(doc: jsPDF, subsubitens: any[], positionY: numb
   return positionY;
 }
 
-private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY: number, lineHeight: number) {
+private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY: number, lineHeight: number,startX:number) {
   for (const subsubsubitem of subsubsubitens) {
       if (subsubsubitem.tipo === "tabela") {
-        positionY = this.createTable(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
-      }else if(subsubsubitem.tipo === "tabelaRFC" || subsubsubitem.tipo === "tabelaRFCDespesas"){
+        positionY = this.createTable(doc, positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content, lineHeight,25,81);     
+      }else if(subsubsubitem.tipo === "tabelaRFC"){
         positionY = this.createTableRFC(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight,subsubsubitem.tipo);
       }else if(subsubsubitem.tipo === "tabelaRFCSintese"){
-        positionY = this.createTableRFCSintese(doc,positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content,lineHeight);
+        positionY = this.createTable(doc, positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content, lineHeight,5,100);
       }else {
-        positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,155,45);
+        positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,startX+15);
       }
   }
 
@@ -934,9 +959,9 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
     return positionYAux
   }
 
-  private addIntro(doc: jsPDF,positionY:number,lineHeight:number,data:string):number {
+  private addIntro(doc: jsPDF,positionY:number,lineHeight:number,data:string,startX:number):number {
     let positionYAux = positionY+lineHeight;
-    positionYAux = this.addText(doc,positionYAux,data,170,25)
+    positionYAux = this.addText(doc,positionYAux,data,startX)
     return positionYAux
   }
 
@@ -960,7 +985,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
             img.src = url;
         });
     }
-    private createChapter(doc: jsPDF, title: string, number: string, positionY: number, lineHeight: number): number {
+    private createChapter(doc: jsPDF, title: string, number: string, positionY: number, lineHeight: number,startX:number): number {
       const chapterHeight = lineHeight * 3; // Assuming the chapter title takes up three lines
       const spaceRequired = chapterHeight + lineHeight; // Add some extra space for safety
       
@@ -973,19 +998,19 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
       positionY = this.addLine(doc, positionY, lineHeight * 2);
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.text(number + " " + title, 25, positionY);
+      doc.text(number + " " + title, startX, positionY);
       positionY = this.addLine(doc, positionY, lineHeight);
       
       return positionY;
     }
     
-  private createText(doc: jsPDF, title: string,number: string, positionY: number, lineHeight: number,maxWidth: number, marginLeftFirstLine:number): number {
+  private createText(doc: jsPDF, title: string,number: string, positionY: number, lineHeight: number, startX:number): number {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
     if(number !==""){
-        positionY = this.addText(doc,positionY,number +" "+ title,maxWidth,marginLeftFirstLine);
+        positionY = this.addText(doc,positionY,number +" "+ title,startX);
     }else{
-        positionY = this.addText(doc,positionY,title,maxWidth,marginLeftFirstLine);
+        positionY = this.addText(doc,positionY,title,startX);
     }
     return positionY;
   }
@@ -1000,15 +1025,15 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
     return positionY + size;
   }
 
-  private addText(doc: jsPDF, positionY: number, data: string, maxWidth: number, marginLeftFirstLine: number): number {
+  private addText(doc: jsPDF, positionY: number, data: string, startX: number): number {
     const paragraphText = data;
     const paragraphY = positionY;
     const lineHeight = 5;
-  
+    const widthMax =  doc.internal.pageSize.getWidth();
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
-  
-    const lines = doc.splitTextToSize(paragraphText, maxWidth);
+
+    const lines = doc.splitTextToSize(paragraphText, widthMax-startX-10);
   
     let lastLineY = paragraphY; // Posição vertical da última linha
   
@@ -1027,9 +1052,9 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
         lastLineY = 20; // Reinicia a posição vertical na nova página
       }
   
-      const marginLeft = index === 0 ? marginLeftFirstLine : 25; // Define a margem para a primeira linha
+      const marginLeft = index === 0 ? startX+5 : startX; // Define a margem para a primeira linha
   
-      doc.text(line, marginLeft, lastLineY, { align: 'justify' });
+      doc.text(line, marginLeft, lastLineY, { align: 'left' });
   
       lastLineY += lineHeight; // Atualiza a posição vertical da última linha
     }
@@ -1038,94 +1063,10 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
   
     return paragraphBottomY;
   }
-  
 
-  private createTable(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number): number {
-    let startX = 25;
+
+  private createTable(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number, startX: number, columnWidth: number): number {
     const startY = positionY;
-    const columnWidth = 81;
-    const rowHeight = 9; // Altura inicial da linha
-    const borderWidth = 0.2;
-    const borderColor = 'black';
-    const headerFontStyle = 'bold';
-    const cellPaddingTop = 2; // Espaçamento superior da célula
-    const pageHeight = doc.internal.pageSize.getHeight();
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-  
-    let lastRowY = startY; // Posição vertical da última linha
-    if(startY + rowHeight > pageHeight ){
-      // Excede a altura da página, adiciona uma nova página
-      doc.addPage();
-      lastRowY = 20; // Reinicia a posição vertical na nova página
-    }
-
-    for (let i = 0; i < tableData.length; i++) {
-      const rowData = tableData[i];
-      const rowY = lastRowY; // Mantém a posição vertical da linha anterior
-  
-      // Calcula a altura necessária para a linha com base no número de linhas de texto
-      const numRows = Math.ceil(rowData.length / 3); // 3 é o número de colunas por linha
-      const numLines = rowData.reduce((count, cellText) => count + doc.splitTextToSize(cellText, columnWidth - 2 * borderWidth).length, 0);
-      const cellHeight = Math.max(rowHeight, lineHeight * numLines / numRows);
-  
-      // Atualiza a posição vertical da próxima linha com base na altura da célula
-      lastRowY += cellHeight * numRows;
-  
-      for (let j = 0; j < rowData.length; j++) {
-        const columnX = startX + (j % 3) * columnWidth; // 3 é o número de colunas por linha
-        const cellWidth = columnWidth;
-        const cellText = rowData[j];
-  
-        // Verifica se é o cabeçalho
-        const isHeader = hasHeader && i === 0;
-  
-        // Definir estilo do texto
-        const textStyle = isHeader ? headerFontStyle : 'normal';
-  
-        // Divide o texto em linhas
-        const lines = doc.splitTextToSize(cellText, cellWidth - 2 * borderWidth -4);
-  
-           // Desenha as bordas da célula
-        doc.setDrawColor(borderColor);
-        doc.setLineWidth(borderWidth);
-        doc.rect(columnX, rowY, cellWidth, cellHeight * numRows); 
-  
-        // Adicionar texto da célula
-        doc.setFont('helvetica', textStyle);
-        if (content === 'left') {
-          const marginLeft = 2; // Margem maior para tabela de síntese
-          let textY = rowY + cellHeight - 2 - (numLines - 1) * lineHeight + cellPaddingTop;
-          for (let k = 0; k < lines.length; k++) {
-            doc.text(lines[k], columnX + borderWidth + marginLeft, textY);
-            textY += lineHeight;
-          }
-        } else if (content === 'center') {
-          const textX = columnX + cellWidth / 2;
-          const textY = rowY + (cellHeight + 3) / 2;
-          doc.text(lines, textX, textY, { align: 'center', maxWidth: cellWidth - borderWidth * 2 });
-          
-        }
-      }
-  
-      // Verifica se a próxima linha excede a altura da página
-      if (lastRowY + borderWidth +20 > pageHeight) {
-        // Excede a altura da página, adiciona uma nova página
-        doc.addPage();
-        lastRowY = 20; // Reinicia a posição vertical na nova página
-      }
-    }
-  
-    const tableBottomY = lastRowY + borderWidth + lineHeight; // Posição vertical da parte inferior da tabela
-  
-    return tableBottomY;
-  }
-
-  private createTableRFCSintese(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number): number {
-    let startX = 5;
-    const startY = positionY;
-    const columnWidth = 100;
     const rowHeight = 9; // Altura inicial da linha
     const borderWidth = 0.2;
     const borderColor = 'black';
@@ -1208,7 +1149,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
     let startX = 5;
     const startY = positionY;
     let columnWidths=[];
-  
+    
     const rowHeight = 3; // Altura inicial da linha
     const borderWidth = 0.2;
     const borderColor = 'black';
@@ -1216,11 +1157,10 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
     const cellPaddingTop = 2; // Espaçamento superior da célula
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    if(tipo=="tabelaRFC"){
+    if(tableData[0].length==8){
       columnWidths = [20, 30, 40, 40, 15, 15, 20, 20]; 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7); // Tamanho da fonte alterado para 6
-  
     }else {
       columnWidths = [16, 30, 40, 25, 19, 13, 19, 19, 19];
       doc.setFont('helvetica', 'normal');

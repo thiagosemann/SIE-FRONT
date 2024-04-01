@@ -4,6 +4,10 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import { CursoService } from 'src/app/shared/service/objetosCursosService';
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
+import { ContentComponent } from 'src/app/content/content.component';
+import { UserService } from 'src/app/shared/service/user_service';
+import { EscolaridadeService } from 'src/app/shared/service/escolaridade_service';
+import { Escolaridade } from 'src/app/shared/utilitarios/escolaridade';
 
 @Component({
   selector: 'app-leitor-qt',
@@ -13,7 +17,7 @@ import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 export class LeitorQTComponent implements OnInit {
   professores: any[] = []; // Array para armazenar os professores
   fileData: { file: string,index:number, professors: any[],error:any }[] = []; // Array to store file and professors data
-
+  escolaridades: Escolaridade[] = [];
   professoresCompilado: any[] = []; // Array para armazenar os professores
   cursoEscolhido: Curso | undefined ; 
   selectedFiles: File[] = [];
@@ -24,7 +28,11 @@ export class LeitorQTComponent implements OnInit {
   };
   exceededLimit = false;
 
-  constructor(private toastr: ToastrService, private cursoService: CursoService) {}
+  constructor(private toastr: ToastrService, 
+    private cursoService: CursoService,
+    private contentComponent: ContentComponent, 
+    private userService: UserService,
+    private escolaridadeService:EscolaridadeService) {}
 
   onFileSelected(event: any): void {
     const files: FileList = event.target.files;
@@ -47,7 +55,32 @@ export class LeitorQTComponent implements OnInit {
   ngOnInit(): void {
     this.cursoEscolhido = this.cursoService.getCursoEscolhido();
     this.objMensagem.totalHoras = this.cursoEscolhido?.haiCurso;
+    if(this.cursoEscolhido && this.cursoEscolhido.qtsFiles && this.cursoEscolhido.qtsFiles.length>0){
+      this.selectedFiles = this.cursoEscolhido.qtsFiles;
+      this.readFiles();
+    }
+    this.escolaridadeService.getEscolaridades().subscribe(
+      (escolaridades: Escolaridade[]) => {
+        this.escolaridades = escolaridades;
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+
   }
+  ngAfterViewInit() {
+    this.isFormValid();
+  }
+
+  isFormValid(): void {
+    if (this.professoresCompilado.length > 0) {
+      this.contentComponent.changeValidityByComponentName(LeitorQTComponent, true);
+    } else {
+      this.contentComponent.changeValidityByComponentName(LeitorQTComponent, false);
+    }
+  }
+
 
 
   deleteFile(index: number): void {
@@ -71,7 +104,6 @@ export class LeitorQTComponent implements OnInit {
         // Use Promise.all to wait for all promises to be resolved
         Promise.all(promises).then(() => {
           // All promises are resolved
-          console.log(this.fileData);
           
           let soma = 0;
           this.professoresCompilado = [];
@@ -109,7 +141,7 @@ export class LeitorQTComponent implements OnInit {
             }
           }
           this.objMensagem.totalHorasUtilizadas = soma;
-          
+          this.enviarDadosCursoEscolhido();
           if( this.objMensagem.totalHoras - soma<0){
             this.toastr.error("Removido último QT pois a quantidade de horas ultrapassa a quantidade restante!");
             this.deleteFile(this.fileData.length-1);
@@ -206,7 +238,6 @@ addOrUpdateProfessor(mtclIndex: number, row: any, dia: string, professoresAux: a
 
   const verificacaoProfessor = professoresAux.find(professor => professor.mtcl === mtcl && professor.dia === dia && professor.hora === hora);
   if(!row[1]){
-    console.log("Entrou1")
     errorArquivo.status = true;
     errorArquivo.message = "O QT contém uma linha sem hora definida.";
     return errorArquivo;
@@ -252,5 +283,66 @@ createProfessorObj(mtclIndex: number, row: any, dia: string): any {
 }
 
 
+enviarDadosCursoEscolhido(){
+  let arrayAux:any[] =[];
+  let objAux:any[] =[];
+  
+  let cabecalho=["Posto/Grad","Mtcl/Cpf","Nome completo","Escolaridade","D.M Valor","H/A Qtd","H/A Valor","Alimentação","Soma"];
+  arrayAux.push(cabecalho)
+  for (const professor of this.professoresCompilado) {
+    this.userService.getUserByMtcl(professor.mtcl).subscribe(
+      (professorAux) => {
+        const escolaridade = this.escolaridades.find(escolaridade => escolaridade.id === professorAux.escolaridade_id);
+        if(escolaridade){
+          arrayAux.push(this.createProfessorArray(professorAux,professor,escolaridade)); 
+          objAux.push(this.createObjForBD(professorAux,professor,escolaridade))
+        }
+      },
+      (error) => {
+        console.error('Erro ao obter usuário:', error);
+      }
+    );
+  }
+
+  this.cursoService.setAtributoByCursoEscolhidoID('docentesQTS',arrayAux)
+  this.cursoService.setAtributoByCursoEscolhidoID('docentesQTSObj',objAux)
+  this.cursoService.setAtributoByCursoEscolhidoID('qtsFiles',this.selectedFiles)
+  
+}
+createObjForBD(professorAux:any,professor:any,escolaridade:Escolaridade): any {
+  const alimentacao =0;
+  const diariaMilitar =0;
+  let resp:any={};
+
+  if(escolaridade.valor ){
+    resp={
+      usersId:professorAux.id,
+      diariaMilitar:diariaMilitar,
+      horaAulaQtd:professor.hai,
+      horaAulaValor:professor.hai*escolaridade.valor,
+      alimentacao:alimentacao
+    }
+  }
+  console.log(resp)
+  return resp
+}
+
+createProfessorArray(professorAux:any,professor:any,escolaridade:Escolaridade): any {
+  let resp:any[]=[];
+  if(escolaridade.valor ){
+    resp=[
+      professorAux.graduacao,
+      professorAux.mtcl,
+      professorAux.name,
+      escolaridade.nome,
+      "R$ 0,00",
+      professor.hai,
+      (professor.hai*escolaridade.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      "R$ 0,00",
+      (professor.hai*escolaridade.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })  
+    ];
+  }
+  return resp
+}
   
 }

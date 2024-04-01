@@ -114,6 +114,9 @@ export interface Curso {
   localCorridaNome?:string;
   localCorridaMunicipio?:string;
   localTafCorrida?:string;
+  docentesQTS?: any[];
+  docentesQTSObj?: any[];
+  qtsFiles?:File[];
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

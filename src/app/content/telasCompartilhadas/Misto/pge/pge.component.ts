@@ -7,6 +7,8 @@ import { Curso } from '../../../../shared/utilitarios/objetoCurso';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/shared/utilitarios/user';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
+import { RoleService } from 'src/app/shared/service/roles_service';
+import { Role } from 'src/app/shared/utilitarios/role';
 
 
 @Component({
@@ -20,28 +22,45 @@ export class PgeComponent implements OnInit {
   courseType = 'aberturaCursoMilitar';
   skeletonItems: any[] = Array(12).fill({}); // Adjust the number of skeleton rows as needed
   role ='';
+  roles:Role[]=[];
 
   constructor(private contentComponent: ContentComponent, 
               private cursoService: CursoService,
               private pgeService: PgeService,
               private authService: AuthenticationService,
-              private toastr: ToastrService
+              private toastr: ToastrService,
+              private roleService: RoleService
+
               ) {}
 
   ngOnInit() {
-    const user =  this.authService.getUser();
-    if(user){
-      this.role = user.role;
-    }
-    this.pgeService.getPge().subscribe(data => {
-      this.data = data;
-      if(this.role!=="admin"){
-        this.applyFilters();
-      }else{
-        this.filteredData = data;
-      }
-    });
 
+    this.roleService.getRoles().subscribe(
+      (roles: Role[]) => {
+        this.roles = roles;
+        const role = this.getUserRole();
+        this.role = role;
+        this.pgeService.getPge().subscribe(data => {
+          this.data = data;
+          if(this.role!=="admin"){
+            this.applyFilters();
+          }else{
+            this.filteredData = data;
+          }
+        });
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+
+
+  }
+
+  getUserRole():string{
+    const user = this.authService.getUser();
+    const role = this.roles.filter(role => user?.role_id === role.id);
+    return role[0].nome
   }
   
   applyFilters() {

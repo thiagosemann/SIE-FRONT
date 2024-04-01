@@ -5,6 +5,12 @@ import { UserService } from 'src/app/shared/service/user_service';
 import { User } from 'src/app/shared/utilitarios/user';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import * as XLSX from 'xlsx';
+import { EscolaridadeService } from 'src/app/shared/service/escolaridade_service';
+import { Escolaridade } from 'src/app/shared/utilitarios/escolaridade';
+import { Graduacao } from 'src/app/shared/utilitarios/graduacao';
+import { GraduacaoService } from 'src/app/shared/service/graduacao_service';
+import { Role } from 'src/app/shared/utilitarios/role';
+import { RoleService } from 'src/app/shared/service/roles_service';
 
 @Component({
   selector: 'app-efetivo',
@@ -32,6 +38,10 @@ export class EfetivoComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFiles: File[] = [];
   adicionarEmLote=true;
+  escolaridades: Escolaridade[] = [];
+  graduacoes: Graduacao[] = [];
+  roles:Role[]=[];
+
   filesObj = {
     ["Ensino Fundamental"]: { nome: "Ensino Fundamental.XLS", order: 1, enviado: false },
     ["Ensino Medio"]: { nome: "Ensino Medio.XLS", order: 2, enviado: false },
@@ -42,7 +52,14 @@ export class EfetivoComponent implements OnInit {
   };
   efetivoCompleto : any[] = [];
 
-  constructor(private userService: UserService, private fb: FormBuilder,private toastr: ToastrService) {
+  constructor(
+     private userService: UserService, 
+     private fb: FormBuilder,
+     private toastr: ToastrService,
+     private escolaridadeService: EscolaridadeService,
+     private graduacaoService: GraduacaoService,
+     private roleService: RoleService
+     ) {
     this.userEditForm = this.fb.group({
       name: ['', Validators.required],
       graduacao: ['', Validators.required],
@@ -61,9 +78,34 @@ export class EfetivoComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
     this.getUsers();
     this.searchUsers();
+    this.escolaridadeService.getEscolaridades().subscribe(
+      (escolaridades: Escolaridade[]) => {
+        this.escolaridades = escolaridades.sort((a, b) => b.peso - a.peso);
+
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+    this.graduacaoService.getGraduacoes().subscribe(
+      (graduacoes: Graduacao[]) => {
+        this.graduacoes = graduacoes.sort((a, b) => b.peso - a.peso);
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+    this.roleService.getRoles().subscribe(
+      (role: Role[]) => {
+        this.roles = role;
+        console.log(this.roles)
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
   }
 
   getUsers(): void {
@@ -76,6 +118,31 @@ export class EfetivoComponent implements OnInit {
         this.toastr.error("Erro ao obter a lista de usuários:",error)
       }
     );
+  }
+
+  getEscolaridade(id:number | undefined){
+    const escolaridade = this.escolaridades.find(escolaridade => escolaridade.id === id);
+    let resp="";
+    if(escolaridade && escolaridade.nome){
+      resp =escolaridade.nome     
+    }
+    return resp
+  }
+  getRole(id:number | undefined){
+    const role = this.roles.find(role => role.id === id);
+    let resp="";
+    if(role && role.nome){
+      resp =role.nome     
+    }
+    return resp
+  }
+  getGraduacao(id:number | undefined){
+    const graduacao = this.graduacoes.find(graduacao => graduacao.id === id);
+    let resp="";
+    if(graduacao && graduacao.nome){
+      resp =graduacao.nome     
+    }
+    return resp
   }
 
   searchUsers(): void {
@@ -129,13 +196,14 @@ export class EfetivoComponent implements OnInit {
   }
 
   startEditing(user: User): void {
+    console.log(user)
     this.editedUser = user;
     this.userEditForm.patchValue({
       name: user.name,
-      graduacao: user.graduacao,
-      escolaridade: user.escolaridade,
+      graduacao: user.graduacao_id,
+      escolaridade: user.escolaridade_id,
       dateFilter: user.dateFilter,
-      role: user.role
+      role: user.role_id
       // Adicione os campos conforme necessário
     });
     this.manageTelas("telaEditUser")
@@ -153,12 +221,12 @@ export class EfetivoComponent implements OnInit {
         id: this.editedUser.id,
         cpf: this.editedUser.cpf, // Preencha com os valores corretos ou deixe em branco se não aplicável
         dateFilter: parseInt(this.userEditForm.value.dateFilter),
-        escolaridade: this.userEditForm.value.escolaridade,
-        graduacao: this.userEditForm.value.graduacao,
+        escolaridade_id: this.userEditForm.value.escolaridade,
+        graduacao_id: this.userEditForm.value.graduacao_id,
         ldap: this.editedUser.ldap, // Preencha com os valores corretos ou deixe em branco se não aplicável
         mtcl:  this.editedUser.mtcl, // Preencha com os valores corretos ou deixe em branco se não aplicável
         name: this.userEditForm.value.name,
-        role: this.userEditForm.value.role,
+        role_id: this.userEditForm.value.role_id,
         vinculo: '' // Preencha com os valores corretos ou deixe em branco se não aplicável
         // Adicione outras propriedades conforme necessário
       };
@@ -198,18 +266,19 @@ export class EfetivoComponent implements OnInit {
     this.manageTelas("telaAdicionarUser")
   }
   addMilitar() {
+    console.log(this.userAddForm)
     if (this.userAddForm.valid) {
       const userAdd: User = {
         cpf: "",
         dateFilter: this.userAddForm.value.dateFilter,
-        escolaridade: this.userAddForm.value.escolaridade,
-        graduacao: this.userAddForm.value.graduacao,
+        escolaridade_id: this.userAddForm.value.escolaridade,
+        graduacao_id: this.userAddForm.value.graduacao,
         ldap: "",
         mtcl:  this.userAddForm.value.mtcl,
         name:  this.userAddForm.value.name,
-        role:  this.userAddForm.value.role
+        role_id:  this.userAddForm.value.role
       };
-
+      console.log(userAdd)
       this.userService.addUser(userAdd).subscribe(
         (addedUser: User) => {
           this.toastr.success("Militar adicionado com sucesso!");
@@ -321,15 +390,16 @@ criarEfetivoAux(array: any[], efetivoAux: any[]): void {
 
 // Função para criar objeto User
 criarObjetoUser(militar: any): User {
+  const escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === militar[4]);
   return {
     cpf: "",
     dateFilter: 0,
-    escolaridade: militar[4],
-    graduacao: militar[2],
+    escolaridade_id: escolaridadeAux?.id,
+    graduacao_id: militar[2],
     ldap: "",
     mtcl: militar[0],
     name: militar[1],
-    role: ""
+    role_id: 27
   };
 }
 
@@ -350,23 +420,32 @@ atualizarEfetivoCompleto(file: File, efetivoAux: any[]): void {
 
 // Função para atualizar escolaridade em efetivoCompleto
 atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, militar: any): void {
-  switch (file.name) {
-    case "Doutorado.XLS":
-      this.efetivoCompleto[indiceEncontrado].escolaridade = "DOUTORADO";
-      break;
-    case "Mestrado.XLS":
-      this.efetivoCompleto[indiceEncontrado].escolaridade = "MESTRADO";
-      break;
-    case "Pos Graduacao.XLS":
-      this.efetivoCompleto[indiceEncontrado].escolaridade = "POS-GRADUACAO";
-      break;
-    default:
-      this.efetivoCompleto[indiceEncontrado].escolaridade = militar.escolaridade;
+  let escolaridadeAux;
+
+  if (file.name === "Doutorado.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "DOUTORADO");
+  } else if (file.name === "Mestrado.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "MESTRADO");
+  } else if (file.name === "Pos Graduacao.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "POS-GRADUACAO");
+  } else if (file.name === "Ensino Medio.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "ENSINO MEDIO");
+  } else if (file.name === "Ensino Superior.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "ENSINO SUPERIOR");
+  } else if (file.name === "Ensino Fundamental.XLS") {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === "ENSINO FUNDAMENTAL");
+  } else {
+    escolaridadeAux = this.escolaridades.find(escolaridade => escolaridade.nome === militar.escolaridade);
+  }
+
+  if (escolaridadeAux && escolaridadeAux.id) {
+    this.efetivoCompleto[indiceEncontrado].escolaridade_id = escolaridadeAux.id;
   }
 }
 
 
   compareEfetivoComInsercaoLote(): void {
+    console.log(this.efetivoCompleto)
     for (const efetivo of this.efetivoCompleto) {
       const usuarioExistente = this.users.find(user => user.mtcl === efetivo.mtcl);
       if (usuarioExistente) {
@@ -380,17 +459,17 @@ atualizarEscolaridadeEfetivoCompleto(file: File, indiceEncontrado: number, milit
           userWithModifications.nameModified = true;
           userWithModifications.hasModifications = true;
         }
-        if (usuarioExistente.graduacao !== efetivo.graduacao) {
+        if (usuarioExistente.graduacao_id !== efetivo.graduacao_id) {
           userWithModifications.graduacaoModified = true;
           userWithModifications.hasModifications = true;
-        }
-        if (usuarioExistente.escolaridade !== efetivo.escolaridade) {
+        }       
+        if (usuarioExistente.escolaridade_id !== efetivo.escolaridade_id) {
           userWithModifications.escolaridadeModified = true;
           userWithModifications.hasModifications = true;
         }
         if (userWithModifications.hasModifications) {
           this.usuariosComModificacoes.push(userWithModifications);
-          console.log(userWithModifications)
+        //  console.log(userWithModifications)
 
         }
       }else{
