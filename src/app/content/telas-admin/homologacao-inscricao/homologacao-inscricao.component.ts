@@ -21,11 +21,12 @@ export class HomologacaoInscricaoComponent implements OnInit {
     processoSelecionado: any; // Variável para armazenar o processo selecionado
     editaisHomologar: Edital[] = [];
     editaisPendencias: Edital[] = [];
+    editaisFinalizados: Edital[] = [];
     telaInicial:boolean= true;
     todayDate: Date = new Date();
     usuariosInscritos: any[] = [];
     roles:Role[]=[];
-
+    
     opcoesSituacao = ['Pendente', 'Homologada', 'Recusada'];
 
     constructor(
@@ -38,13 +39,12 @@ export class HomologacaoInscricaoComponent implements OnInit {
 
       ) { }
 
-   
 
     ngOnInit(): void {
-      this.getEditais();
       this.roleService.getRoles().subscribe(
         (roles: Role[]) => {
           this.roles = roles;
+          this.getEditais();
         },
         (error) => {
           console.log('Erro ao obter a lista de usuários:', error);
@@ -115,6 +115,9 @@ export class HomologacaoInscricaoComponent implements OnInit {
                   } 
                   if (edital.pendenciasInscricoes == "Pendencia")  {
                     this.editaisPendencias.push(edital);
+                  } 
+                  if (edital.pendenciasInscricoes == "Finalizado")  {
+                    this.editaisFinalizados.push(edital);
                   } 
                 },
                 error: (error: any) => {

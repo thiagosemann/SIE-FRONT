@@ -1,0 +1,48 @@
+<div class="text-white p-3 notasHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Notas</h2>
+    </div>
+</div>
+<div class="container-docentes">
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 10%;">Mtcl/Cpf</th>
+                    <th scope="col" style="width: 10%;">Posto/Grad</th>
+                    <th scope="col" style="width: 30%;">Nome</th>
+                    <th scope="col" style="width: 10%;">Nota</th>
+                    <th scope="col" style="width: 10%;">Exame</th>
+                    <th scope="col" style="width: 10%;">Faltas</th>
+                    <th scope="col" style="width: 20%;">Situacao</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aluno of alunos">
+                    <td>{{ aluno.mtcl || aluno.cpf }}</td>
+                    <td>{{ aluno.graduacao || "EXTERNO"}}</td>
+                    <td>{{ aluno.name }}</td>
+                    <ng-container *ngIf="!aluno.excluido && !aluno.desistente">
+                    <td>
+                        <input type="number" [(ngModel)]="aluno.nota" class="form-control custom-input" (change)="changeInput(aluno, 'nota')">
+                    </td>
+                    <td>
+                        <input type="number" [(ngModel)]="aluno.exame" class="form-control custom-input" (change)="changeInput(aluno, 'exame')" [disabled]="aluno.nota>=7 || aluno.nota==undefined ">
+                    </td>
+                    <td> 
+                        <input type="number" [(ngModel)]="aluno.faltas" class="form-control custom-input" (change)="changeInput(aluno, 'faltas')">
+                    </td>
+                    </ng-container>
+                    <ng-container *ngIf="aluno.excluido || aluno.desistente">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </ng-container>
+                    <td> 
+                        {{aluno.situacao}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

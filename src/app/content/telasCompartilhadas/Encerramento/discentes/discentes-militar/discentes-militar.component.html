@@ -1,0 +1,93 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Alunos Militares</h2>
+  </div>
+  <div class="container-docentes">
+    <div class="row">
+      <div class="col-md-4 ">
+        <h2>Lista</h2>
+        <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputUsers" (input)="searchUsers()">
+        <div class="table-wrapper" (scroll)="onTableScrollUsers($event)">
+          <table class="table table-striped ">
+            <thead class="tableHeaderColor">
+              <tr>
+                <th>Mtcl</th>
+                <th>Nome</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of paginatedUsers">
+                <td>{{ user.mtcl }}</td>
+                <td>{{ user.name }}</td>
+                <td>
+                  <button class="btn btn-primary" (click)="addDiscente(user)">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="loadingUsers">
+                <td colspan="3" class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <h2>Alunos Selecionados</h2>
+        <p class="alert-message" *ngIf="selectedDiscentes.length === 0">Selecione um aluno.</p>
+        <div *ngIf="selectedDiscentes.length !== 0">
+          <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchInputDiscentes" (input)="searchDiscentesSelecionados()">
+          <div class="table-wrapper">
+            <table class="table table-striped">
+              <thead class="tableHeaderColor">
+                <tr>
+                  <th scope="col" style="width: 10%;">Mtcl</th>
+                  <th scope="col" style="width: 20%;">Nome</th>
+                  <th scope="col" style="width: 10%;">Excluído</th>
+                  <th scope="col" style="width: 20%;">Motivo Exclusão</th>
+                  <th scope="col" style="width: 10%;">Desistente</th>
+                  <th scope="col" style="width: 20%;">Motivo Desistencia</th>
+                  <th scope="col" style="width: 10%;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let professor of paginatedDiscentesSelecionados">
+                  <td style="font-size: 13px;">{{ professor.mtcl }}</td>
+                  <td style="font-size: 13px;">{{ professor.name }}</td>
+                  <td >                   
+                    <label class="custom-checkbox">
+                        <input type="checkbox" [(ngModel)]="professor.excluido" (change)="clearValueIfDisabled(professor)">
+                        <span class="checkmark"></span>
+                    </label>
+                </td>
+                <td >
+                    <select id="role" name="role" class="form-control" [(ngModel)]="professor.motivoExcluido" [disabled]="!professor.excluido" required>
+                      <option value="Falecimento">Falecimento</option>
+                      <option value="Disciplinar">Disciplinar</option>
+                    </select>  
+                </td>
+                <td >
+                    <label class="custom-checkbox">
+                        <input type="checkbox" [(ngModel)]="professor.desistente"  (change)="clearValueIfDisabled(professor)">
+                        <span class="checkmark"></span>
+                    </label>
+                </td>
+                <td style="font-size: 13px; font-weight: bold;" >{{ professor.motivoDesistente }}</td>
+                  <td>
+                    <button class="btn btn-danger" (click)="removeDiscente(professor)" >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

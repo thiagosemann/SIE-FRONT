@@ -1,0 +1,92 @@
+<div class="text-white p-3 dicentesHeader text-center">
+    <div class="container">
+      <h2 class="mb-0">Alunos</h2>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <ng-container *ngIf="editalPendenciaVew">
+        <h1>Edital com Pendências nas inscrições</h1>
+        <span>{{pendencia}}</span>
+    </ng-container>
+    <ng-container *ngIf="!editalPendenciaVew">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary"  style="margin-left: 10px;" (click)="trocarAlunos(true)">Alunos homologados </button>  
+            <button type="button" class="btn btn-naoHomologados"  style="margin-left: 10px;" (click)="trocarAlunos(false)">Alunos não homologados </button>  
+       
+        </div>
+        <ng-container *ngIf="alunosHomologadosView">
+            <h4>Alunos inscritos no curso</h4>
+            <div class="table-wrapper">
+                <table class="table table-striped">
+                    <thead class="tableHeaderColor">
+                        <tr>
+                            <th scope="col" style="width: 20%;">Nome</th>
+                            <th scope="col" style="width: 10%;">CPF</th>
+                            <th scope="col" style="width: 10%;">Data Nascimento</th>
+                            <th scope="col" style="width: 10%;">Excluído</th>
+                            <th scope="col" style="width: 20%;">Motivo Exclusão</th>
+                            <th scope="col" style="width: 10%;">Desistente</th>
+                            <th scope="col" style="width: 20%;">Motivo Desistencia</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let user of discentes">
+                            <tr >
+                                <td>{{user.name}}</td>
+                                <td>{{user.cpf}}</td>
+                                <td>{{user.birthdate}}</td>
+                                <td >                   
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" [(ngModel)]="user.excluido" (change)="clearValueIfDisabled(user)">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td >
+                                    <select id="role" name="role" class="form-control" [(ngModel)]="user.motivoExcluido" [disabled]="!user.excluido" required>
+                                      <option value="Falecimento">Falecimento</option>
+                                      <option value="Disciplinar">Disciplinar</option>
+                                    </select>  
+                                </td>
+                                <td >
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" [(ngModel)]="user.desistente"  (change)="clearValueIfDisabled(user)">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td style="font-size: 13px; font-weight: bold;" >{{ user.motivoDesistente }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!alunosHomologadosView">
+            <h4>Alunos com inscrições recusadas ou pendentes</h4>
+            <div class="table-wrapper">
+                <table class="table table-striped">
+                    <thead class="tableHeaderColor2">
+                        <tr>
+                            <th scope="col" style="width: 20%;">Nome</th>
+                            <th scope="col" style="width: 10%;">CPF</th>
+                            <th scope="col" style="width: 10%;">Data Nascimento</th>
+                            <th scope="col" style="width: 15%;">Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let user of usuariosComPendencias">
+                            <tr >
+                                <td>{{user.name}}</td>
+                                <td>{{user.cpf}}</td>
+                                <td>{{user.birthdate}}</td>
+                                <td >{{user.situacao}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

@@ -43,6 +43,11 @@ import { AberturaDatasGuardaVidasCivilComponent } from './content/telasEspecific
 import { LocalNatacaoComponent } from './content/telasEspecificas/Abertura/GuardaVidaCivil/local-natacao/local-natacao.component';
 import { LocalCorridaComponent } from './content/telasEspecificas/Abertura/GuardaVidaCivil/local-corrida/local-corrida.component';
 import { LeitorQTComponent } from './content/telasCompartilhadas/Encerramento/leitor-qt/leitor-qt.component';
+import { DiscentesComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentesAutoInscricao/discentes.component';
+import { NotasAprovadoReprovadoComponent } from './content/telasCompartilhadas/Encerramento/notas-aprovado-reprovado/notas-aprovado-reprovado.component';
+import { NotasNumericaComponent } from './content/telasCompartilhadas/Encerramento/notas-numerica/notas-numerica.component';
+import { DiscentesMilitarComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentes-militar/discentes-militar.component';
+import { DiscentesVinculadosComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
 
 
 
@@ -78,7 +83,12 @@ import { LeitorQTComponent } from './content/telasCompartilhadas/Encerramento/le
     AberturaDatasGuardaVidasCivilComponent,
     LocalNatacaoComponent,
     LocalCorridaComponent,
-    LeitorQTComponent
+    LeitorQTComponent,
+    DiscentesComponent,
+    NotasAprovadoReprovadoComponent,
+    NotasNumericaComponent,
+    DiscentesMilitarComponent,
+    DiscentesVinculadosComponent
   ],
   imports: [
     BrowserModule,

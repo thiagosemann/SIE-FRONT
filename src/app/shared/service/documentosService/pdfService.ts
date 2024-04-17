@@ -47,6 +47,7 @@ export class PdfService {
   }
   executeEncerramentoCursoMilitar(responeDoc:any , curso:Curso,model:string){
     this.manageDocentesQTS(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
   }
 
 
@@ -396,7 +397,7 @@ export class PdfService {
           if (item.numero === itemNumero && item.texto === itemTexto ) {
             for (const subitem of item.subitens) {
               if (subitem.letra === subItemLetra ) {
-                subitem.subsubitens = curso.professoresSelecionados;
+                subitem.subsubitens = curso.professoresSelecionadosAbertura;
               }
             }
           }
@@ -736,10 +737,7 @@ export class PdfService {
     for (const capitulo of documento) {
       if (capitulo.tipo === "capitulo") {
         for (const item of capitulo.itens) {
-
           if (item.numero === "4.1") {
-            console.log("curso.docentesQTS",curso.docentesQTS)
-            console.log(item)
             if(curso.docentesQTS && curso.docentesQTS.length>0){
               item.subitens[0].dados = curso.docentesQTS;
             }
@@ -749,6 +747,38 @@ export class PdfService {
     }
   }
 
+  private manageDicentes(objeto: any,curso: Curso) {
+    const militaresAux:any[]=[];
+    militaresAux.push([
+      "Class",
+      "Posto/Grad",
+      "Mtcl/Cpf",
+      "Nome completo",
+      "Faltas",
+      "Nota",
+      "Exame Final",
+      "Situação"
+      ])
+      if(curso.alunosFinalArray){
+        for(let i=0;i<curso.alunosFinalArray.length;i++){
+          militaresAux.push(curso.alunosFinalArray[i])
+        }
+      }
+
+      const documento = objeto;
+      for (const capitulo of documento) {
+        if (capitulo.tipo === "capitulo") {
+          for (const item of capitulo.itens) {
+            if (item.numero === "3.1") {
+
+              if(militaresAux.length>0){
+                item.subitens[0].dados = militaresAux;
+              }
+            }
+          }
+        }
+      }
+    }
 
 
 
@@ -1150,17 +1180,17 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
     const startY = positionY;
     let columnWidths=[];
     
-    const rowHeight = 3; // Altura inicial da linha
-    const borderWidth = 0.2;
+    const rowHeight = 10; // Altura inicial da linha
+    const borderWidth = 0.3;
     const borderColor = 'black';
     const headerFontStyle = 'bold';
     const cellPaddingTop = 2; // Espaçamento superior da célula
     const pageHeight = doc.internal.pageSize.getHeight();
 
     if(tableData[0].length==8){
-      columnWidths = [20, 30, 40, 40, 15, 15, 20, 20]; 
+      columnWidths = [10, 30, 40, 50, 15, 15, 20, 20]; 
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7); // Tamanho da fonte alterado para 6
+      doc.setFontSize(6); // Tamanho da fonte alterado para 6
     }else {
       columnWidths = [16, 30, 40, 25, 19, 13, 19, 19, 19];
       doc.setFont('helvetica', 'normal');
@@ -1185,7 +1215,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
             for (let j = 0; j < columnWidths.length; j++) {
                 const lines = doc.splitTextToSize(cellText, columnWidths[j] - 2 * borderWidth);
                 const numLines = lines.length;
-                const cellHeight = Math.max(rowHeight, 4 * numLines);
+                const cellHeight = Math.max(rowHeight, 3 * numLines);
                 maxCellHeight = Math.max(maxCellHeight, cellHeight);
             }
         }
@@ -1215,7 +1245,7 @@ private async processSubSubSubItens(doc: jsPDF, subsubsubitens: any[], positionY
             // Adicionar texto da célula
             doc.setFont('helvetica', textStyle);
             if (content === 'left') {
-                const marginLeft = 2; // Margem maior para tabela de síntese
+                const marginLeft = 2; 
                 let textY = rowY + maxCellHeight - 2 - (lines.length - 1) * lineHeight + cellPaddingTop;
                 for (let k = 0; k < lines.length; k++) {
                     doc.text(lines[k], columnX + borderWidth + marginLeft, textY);

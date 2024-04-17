@@ -29,6 +29,11 @@ import { AberturaProcessoComponent } from 'src/app/content/telas-admin/abertura-
 import { LocalNatacaoComponent } from 'src/app/content/telasEspecificas/Abertura/GuardaVidaCivil/local-natacao/local-natacao.component';
 import { LocalCorridaComponent } from 'src/app/content/telasEspecificas/Abertura/GuardaVidaCivil/local-corrida/local-corrida.component';
 import { LeitorQTComponent } from 'src/app/content/telasCompartilhadas/Encerramento/leitor-qt/leitor-qt.component';
+import { DiscentesComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentesAutoInscricao/discentes.component';
+import { NotasAprovadoReprovadoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/notas-aprovado-reprovado/notas-aprovado-reprovado.component';
+import { NotasNumericaComponent } from 'src/app/content/telasCompartilhadas/Encerramento/notas-numerica/notas-numerica.component';
+import { DiscentesMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentes-militar/discentes-militar.component';
+import { DiscentesVinculadosComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -56,12 +61,15 @@ export class CourseConfigService {
   ];
   
   private encerramentoCursoMilitar: ComponentItem[] = [
-    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
-    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
-    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
     { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiscentesMilitarComponent, name: 'Alunos M.',validity: false, componentName:"DiscentesMilitarComponent"},
+    { component: DiscentesVinculadosComponent, name: 'Alunos C.',validity: false, componentName:"DiscentesVinculadosComponent"},
+    
+    { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
-
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
 
     //{ component: PreviewDocComponent, name: 'Preview',validity: false },

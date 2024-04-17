@@ -1,8 +1,10 @@
 import { AtividadeHomologada } from "./atividadeHomologada";
 import { Coordenador } from "./coordenador";
+import { Discente } from "./discente";
 import { Subitem,Item, Subsubitem } from "./documentoPdf";
 import { Pge } from "./pge";
 import { User } from "./user";
+import { UserCivil } from "./userCivil";
 
 export interface Curso {
   id: number;
@@ -43,8 +45,8 @@ export interface Curso {
   coordenador?: Coordenador;
   coordenadorDescricao?:string;
   coordenadorContato?:string;
-  selectedProfessors?: User[]; 
-  professoresSelecionados?:Subsubitem[]
+  selectedProfessorsAbertura?: User[]; 
+  professoresSelecionadosAbertura?:Subsubitem[]
   requisitoComplementar?: Subitem[];
   requisitoEspecifico?:Subitem[];
   reqEspecificoBool?:boolean;
@@ -117,6 +119,15 @@ export interface Curso {
   docentesQTS?: any[];
   docentesQTSObj?: any[];
   qtsFiles?:File[];
+  discentesCivisExternos?:Discente[];
+  discentesCivisBCeGVC?:Discente[];
+  discentesMilitares?:Discente[];
+  alunosFinalObj?:any[];
+  alunosFinalArray?:any[];
+  selectedDiscentesMilitaresEncerramento?:User[];
+  selectedDiscentesCivisBCeGVCEncerramento?:UserCivil[];
+  selectedDiscentesCivisExternoCEncerramento?:UserCivil[];
+  
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

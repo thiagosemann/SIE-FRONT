@@ -33,5 +33,16 @@ export class UserCivilService {
     const headers = this.getHeaders();
     return this.http.get<UserCivil>(inscricaoUrl, { headers });
   }
+  getUserCivilByCPF(cpf: string): Observable<UserCivil> { // Alterado para string
+    const cpfUrl = `${this.url}/cpf/${cpf}`; // Atualizado para refletir a nova rota
+    const headers = this.getHeaders();
+    return this.http.get<UserCivil>(cpfUrl, { headers });
+  }
+
+  getUsersWithBCorGVC(): Observable<UserCivil[]> {
+    const bcOrGvcUrl = `${this.url}/BCorGVC`;
+    const headers = this.getHeaders();
+    return this.http.get<UserCivil[]>(bcOrGvcUrl, { headers });
+  }
 
 }

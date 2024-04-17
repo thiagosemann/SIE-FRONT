@@ -28,7 +28,7 @@ export class DocentesComponent implements OnInit {
     const cursoEscolhido = this.cursoService.getCursoEscolhido();
   
     if (cursoEscolhido) {
-      this.selectedProfessors = cursoEscolhido.selectedProfessors || [];
+      this.selectedProfessors = cursoEscolhido.selectedProfessorsAbertura || [];
 
     } 
     this.getUsers();

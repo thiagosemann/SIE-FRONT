@@ -1,4 +1,5 @@
 export interface UserCivil {
+    id?:number;
     acceptTerms: boolean;
     fullName: string;
     cpf: string;
@@ -25,5 +26,7 @@ export interface UserCivil {
     problemaSaude: string;
     conclusaoCBAEBool: boolean;
     conclusaoCBAEAno: string;
+    BC: number;
+    GVC: number;
   }
   

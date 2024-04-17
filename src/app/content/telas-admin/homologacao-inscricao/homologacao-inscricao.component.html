@@ -34,6 +34,29 @@
                 </tbody>
             </table>
         </div>
+       <div *ngIf="editaisFinalizados.length>0 || editaisFinalizados">
+        <h3 class="mt-4">Editais Finalizados</h3>
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 10%;">Número do Processo</th>
+                    <th scope="col" style="width: 10%;">Sigla</th>
+                    <th scope="col" style="width: 10%;">Fim Inscrição</th>
+                    <th scope="col" style="width: 70%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let edital of editaisFinalizados">
+                    <tr >
+                        <td>{{edital.numeroProcesso}}</td>
+                        <td>{{edital.sigla}}</td>
+                        <td>{{edital.endInscritiondate}}</td>
+                        <td>{{edital.pendenciasMensagem}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+       </div>
        <div *ngIf="editaisPendencias.length>0 || editaisPendencias">
         <h3 class="mt-4">Editais com Pendências</h3>
         <table class="table table-striped">
@@ -57,7 +80,6 @@
             </tbody>
         </table>
        </div>
-       
     </div>
   
 
