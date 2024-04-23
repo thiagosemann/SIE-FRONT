@@ -1,0 +1,35 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <div class="container">
+      <h2 class="mb-0">Diária Militar</h2>
+    </div>
+</div>
+<div class="container-docentes"  *ngIf="professores.length==0">
+    <div class="card text-center">
+        <div class="card-body">
+            <span class="spanInserir">Insira pelo menos um quadro de trabalho.</span>
+        </div>
+    </div>
+</div>
+
+<div class="container-docentes" *ngIf="professores.length>0">
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 20%;">Mtcl</th>
+                    <th scope="col" style="width: 20%;">Posto/Grad</th>
+                    <th scope="col" style="width: 40%;">Nome</th>
+                    <th scope="col" style="width: 20%;">Diária Militar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let professor of professores">
+                    <td>{{ professor.mtcl }}</td>
+                    <td>{{ professor.graduacao}}</td>
+                    <td>{{ professor.name }}</td>
+                    <td>R$ <input type="text" class="custom-input" [(ngModel)]="professor.diariaMilitar" (change)="createProfessorArray()"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

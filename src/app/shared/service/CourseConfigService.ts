@@ -34,6 +34,8 @@ import { NotasAprovadoReprovadoComponent } from 'src/app/content/telasCompartilh
 import { NotasNumericaComponent } from 'src/app/content/telasCompartilhadas/Encerramento/notas-numerica/notas-numerica.component';
 import { DiscentesMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentes-militar/discentes-militar.component';
 import { DiscentesVinculadosComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
+import { DiariaDeCursoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
+import { DiariaMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -65,10 +67,12 @@ export class CourseConfigService {
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
     { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
     { component: DiscentesMilitarComponent, name: 'Alunos M.',validity: false, componentName:"DiscentesMilitarComponent"},
     { component: DiscentesVinculadosComponent, name: 'Alunos C.',validity: false, componentName:"DiscentesVinculadosComponent"},
-    
     { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
+    { component: DiariaDeCursoComponent, name: 'D.Curso',validity: false, componentName:"DiariaDeCursoComponent"},
+    
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
 

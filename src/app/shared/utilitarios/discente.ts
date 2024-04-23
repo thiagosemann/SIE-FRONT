@@ -1,5 +1,6 @@
 export interface Discente {
-    id?: number;  
+    id?: number; 
+    classificacao?:number; 
     user_id?:number;
     userCivil_id?:number;
     name?:string;
@@ -19,6 +20,10 @@ export interface Discente {
     desistente:boolean;
     motivoDesistente:string;
     type?:string;
+    diariaDeCurso?:number;
+    diariaMilitar?:number;
+    diariaDeCursoQtd?:number;
+    escolaridade?:string
     }
   
   

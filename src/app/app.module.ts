@@ -48,6 +48,8 @@ import { NotasAprovadoReprovadoComponent } from './content/telasCompartilhadas/E
 import { NotasNumericaComponent } from './content/telasCompartilhadas/Encerramento/notas-numerica/notas-numerica.component';
 import { DiscentesMilitarComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentes-militar/discentes-militar.component';
 import { DiscentesVinculadosComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
+import { DiariaDeCursoComponent } from './content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
+import { DiariaMilitarComponent } from './content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 
 
 
@@ -88,7 +90,9 @@ import { DiscentesVinculadosComponent } from './content/telasCompartilhadas/Ence
     NotasAprovadoReprovadoComponent,
     NotasNumericaComponent,
     DiscentesMilitarComponent,
-    DiscentesVinculadosComponent
+    DiscentesVinculadosComponent,
+    DiariaDeCursoComponent,
+    DiariaMilitarComponent
   ],
   imports: [
     BrowserModule,

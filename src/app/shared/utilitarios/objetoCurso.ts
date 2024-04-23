@@ -118,6 +118,7 @@ export interface Curso {
   localTafCorrida?:string;
   docentesQTS?: any[];
   docentesQTSObj?: any[];
+  diariaDeCursoArray?:any[];
   qtsFiles?:File[];
   discentesCivisExternos?:Discente[];
   discentesCivisBCeGVC?:Discente[];
@@ -127,7 +128,12 @@ export interface Curso {
   selectedDiscentesMilitaresEncerramento?:User[];
   selectedDiscentesCivisBCeGVCEncerramento?:UserCivil[];
   selectedDiscentesCivisExternoCEncerramento?:UserCivil[];
-  
+  alunosMatriculados?:number;
+  alunosAprovados?:number;
+  alunosReprovados?:number;
+  alunosInaptos?:number;
+  alunosDesistentes?:number;
+  alunosExcluidos?:number;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

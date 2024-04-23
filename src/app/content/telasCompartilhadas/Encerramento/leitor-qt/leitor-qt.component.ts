@@ -8,6 +8,8 @@ import { ContentComponent } from 'src/app/content/content.component';
 import { UserService } from 'src/app/shared/service/user_service';
 import { EscolaridadeService } from 'src/app/shared/service/escolaridade_service';
 import { Escolaridade } from 'src/app/shared/utilitarios/escolaridade';
+import { GraduacaoService } from 'src/app/shared/service/graduacao_service';
+import { Graduacao } from 'src/app/shared/utilitarios/graduacao';
 
 @Component({
   selector: 'app-leitor-qt',
@@ -18,6 +20,7 @@ export class LeitorQTComponent implements OnInit {
   professores: any[] = []; // Array para armazenar os professores
   fileData: { file: string,index:number, professors: any[],error:any }[] = []; // Array to store file and professors data
   escolaridades: Escolaridade[] = [];
+  graduacoes: Graduacao[]=[];
   professoresCompilado: any[] = []; // Array para armazenar os professores
   cursoEscolhido: Curso | undefined ; 
   selectedFiles: File[] = [];
@@ -32,7 +35,10 @@ export class LeitorQTComponent implements OnInit {
     private cursoService: CursoService,
     private contentComponent: ContentComponent, 
     private userService: UserService,
-    private escolaridadeService:EscolaridadeService) {}
+    private escolaridadeService:EscolaridadeService,
+    private graduacaoService:GraduacaoService,
+  
+  ) {}
 
   onFileSelected(event: any): void {
     const files: FileList = event.target.files;
@@ -62,6 +68,14 @@ export class LeitorQTComponent implements OnInit {
     this.escolaridadeService.getEscolaridades().subscribe(
       (escolaridades: Escolaridade[]) => {
         this.escolaridades = escolaridades;
+      },
+      (error) => {
+        console.log('Erro ao obter a lista de usuários:', error);
+      }
+    );
+    this.graduacaoService.getGraduacoes().subscribe(
+      (graduacao: Graduacao[]) => {
+        this.graduacoes = graduacao;
       },
       (error) => {
         console.log('Erro ao obter a lista de usuários:', error);
@@ -293,9 +307,11 @@ enviarDadosCursoEscolhido(){
     this.userService.getUserByMtcl(professor.mtcl).subscribe(
       (professorAux) => {
         const escolaridade = this.escolaridades.find(escolaridade => escolaridade.id === professorAux.escolaridade_id);
-        if(escolaridade){
-          arrayAux.push(this.createProfessorArray(professorAux,professor,escolaridade)); 
-          objAux.push(this.createObjForBD(professorAux,professor,escolaridade))
+        const graduacao = this.graduacoes.find(graduacao => graduacao.id === professorAux.graduacao_id);
+        
+        if(escolaridade && graduacao){
+          arrayAux.push(this.createProfessorArray(professorAux,professor,escolaridade,graduacao)); 
+          objAux.push(this.createObjForBD(professorAux,professor,escolaridade,graduacao))
         }
       },
       (error) => {
@@ -309,7 +325,7 @@ enviarDadosCursoEscolhido(){
   this.cursoService.setAtributoByCursoEscolhidoID('qtsFiles',this.selectedFiles)
   
 }
-createObjForBD(professorAux:any,professor:any,escolaridade:Escolaridade): any {
+createObjForBD(professorAux:any,professor:any,escolaridade:Escolaridade,graduacao:Graduacao): any {
   const alimentacao =0;
   const diariaMilitar =0;
   let resp:any={};
@@ -318,6 +334,10 @@ createObjForBD(professorAux:any,professor:any,escolaridade:Escolaridade): any {
     resp={
       usersId:professorAux.id,
       diariaMilitar:diariaMilitar,
+      mtcl: professorAux.mtcl,
+      name: professorAux.name,
+      escolaridade:escolaridade.nome,
+      graduacao:graduacao.abreviacao2,
       horaAulaQtd:professor.hai,
       horaAulaValor:professor.hai*escolaridade.valor,
       alimentacao:alimentacao
@@ -327,11 +347,11 @@ createObjForBD(professorAux:any,professor:any,escolaridade:Escolaridade): any {
   return resp
 }
 
-createProfessorArray(professorAux:any,professor:any,escolaridade:Escolaridade): any {
+createProfessorArray(professorAux:any,professor:any,escolaridade:Escolaridade,graduacao:Graduacao): any {
   let resp:any[]=[];
   if(escolaridade.valor ){
     resp=[
-      professorAux.graduacao,
+      graduacao.abreviacao2,
       professorAux.mtcl,
       professorAux.name,
       escolaridade.nome,

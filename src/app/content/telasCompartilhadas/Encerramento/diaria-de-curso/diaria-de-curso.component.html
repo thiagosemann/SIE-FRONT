@@ -1,0 +1,42 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <div class="container">
+      <h2 class="mb-0">Gastos com Alunos</h2>
+    </div>
+</div>
+<div class="container-docentes"  *ngIf="alunos.length==0">
+    <div class="card text-center">
+        <div class="card-body">
+            <span class="spanInserir">Somente liberado após a distribuição da nota.</span>
+        </div>
+    </div>
+</div>
+
+<div class="container-docentes" *ngIf="alunos.length>0">
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 15%;">Mtcl</th>
+                    <th scope="col" style="width: 10%;">Posto/Grad</th>
+                    <th scope="col" style="width: 30%;">Nome</th>
+                    <th scope="col" style="width: 15%;">Diária D.Curso QTD</th>
+                    <th scope="col" style="width: 15%;">Diária D.Curso Valor</th>
+                    <th scope="col" style="width: 15%;">Diária Militar</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aluno of alunos">
+                    <ng-container *ngIf="aluno.type =='militar'">
+                        <td>{{ aluno.mtcl }}</td>
+                        <td>{{ aluno.graduacao}}</td>
+                        <td>{{ aluno.name }}</td>
+                        <td><input type="number" class="custom-input" [(ngModel)]="aluno.diariaDeCursoQtd" (change)="createArrayDiariaDeCurso()" ></td> 
+                        <td>{{aluno.diariaDeCurso}}</td> 
+                        <td>R$ <input type="number" class="custom-input" [(ngModel)]="aluno.diariaMilitar" (change)="createArrayDiariaDeCurso()" ></td> 
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -49,9 +49,9 @@ export class DiscentesMilitarComponent {
 
   isFormValid(): void {
     if (this.selectedDiscentes.length > 0) {
-      this.contentComponent.changeValidityByComponentName(DocentesComponent, true);
+      this.contentComponent.changeValidityByComponentName(DiscentesMilitarComponent, true);
     } else {
-      this.contentComponent.changeValidityByComponentName(DocentesComponent, false);
+      this.contentComponent.changeValidityByComponentName(DiscentesMilitarComponent, false);
     }
   }
 

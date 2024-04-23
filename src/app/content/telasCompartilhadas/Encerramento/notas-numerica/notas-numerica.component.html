@@ -3,7 +3,14 @@
         <h2 class="mb-0">Notas</h2>
     </div>
 </div>
-<div class="container-docentes">
+<div class="container-docentes" *ngIf="alunos.length==0">
+    <div class="card text-center">
+        <div class="card-body">
+            <span class="spanInserir">Insira alunos para atribuir notas.</span>
+        </div>
+    </div>
+</div>
+<div class="container-docentes" *ngIf="alunos.length>0">
     <div class="table-wrapper">
         <table class="table table-striped">
             <thead class="tableHeaderColor">

@@ -189,8 +189,6 @@ export class DiscentesVinculadosComponent implements OnInit {
   enviarDadosCursoEscolhido(){
     this.cursoService.setAtributoByCursoEscolhidoID('selectedDiscentesCivisBCeGVCEncerramento',this.selectedDiscentes)
     this.cursoService.setAtributoByCursoEscolhidoID('discentesCivisBCeGVC',this.selectedDiscentesResp);
-
-    
   }
   
 

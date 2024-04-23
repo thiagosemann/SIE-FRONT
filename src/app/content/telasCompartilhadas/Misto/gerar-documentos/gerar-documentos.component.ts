@@ -6,6 +6,7 @@ import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { CourseConfigService, ComponentItem } from '../../../../shared/service/CourseConfigService';
 import { ContentComponent } from '../../../content.component';
 import { User } from 'src/app/shared/utilitarios/user';
+import { NotasNumericaComponent } from '../../Encerramento/notas-numerica/notas-numerica.component';
 
 interface ComponentError {
   component: string;
@@ -222,6 +223,9 @@ export class GerarDocumentosComponent implements OnInit {
       ],
       LeitorQTComponent : [
         { component: "LeitorQTComponent", propertyName: "qtsFiles", errorMessage: "Insira pelo menos 1 arquivo de QTS.",notEmpty:false },
+      ],
+      NotasNumericaComponent : [
+        { component: "NotasNumericaComponent", propertyName: "alunosFinalArray", errorMessage: "Insira pelo menos 1 aluno.",notEmpty:false },
       ],
       AberturaDatasCBCComponent : [
         { component: "AberturaDatasCBCComponent", propertyName: "startTheoreticalExamDate", errorMessage: "startTheoreticalExamDate.",notEmpty:false },
