@@ -46,7 +46,7 @@ export class PdfService {
     });
   }
   executeEncerramentoCursoMilitar(responeDoc:any , curso:Curso,model:string){
-    this.manageDocentesQTSeDiariaDeCurso(responeDoc, curso)
+    this.manageItem4RFC(responeDoc, curso)
     this.manageDicentes(responeDoc,curso)
   }
 
@@ -508,7 +508,37 @@ export class PdfService {
 //--------------------------------------------------------------FUNÇOES RELATÓRIO FINAL DE CURSO-----------------------------------------------------------------------------------//
 
 
-  private manageDocentesQTSeDiariaDeCurso(objeto: any,curso: Curso) {
+  private manageItem4RFC(objeto: any,curso: Curso) {
+    let diariaMilitar = 0;
+    let diariaDeCursoQtd = 0;
+    let diariaDeCurso = 0;
+    let horaAulaQtd = 0;
+    let horaAulaValor = 0;
+    let valorTotal = 0;
+    let alimentacao = 0;
+  
+    // Verificando se curso.docentesQTSObj existe antes de iterar
+    if (curso.docentesQTSObj) {
+      curso.docentesQTSObj.forEach(docente => {
+        diariaMilitar += Number(docente.diariaMilitar) || 0;
+        horaAulaQtd += Number(docente.horaAulaQtd) || 0;
+        horaAulaValor += Number(docente.horaAulaValor) || 0;
+        alimentacao += Number(docente.alimentacao) || 0; // Corrigindo a coleta de valores para alimentação
+      });
+    }
+  
+    // Verificando se curso.alunosFinalObj existe antes de iterar
+    if (curso.alunosFinalObj) {
+      curso.alunosFinalObj.forEach(discente => {
+        diariaMilitar += Number(discente.diariaMilitar) || 0;
+        diariaDeCursoQtd += Number(discente.diariaDeCursoQtd) || 0;
+        diariaDeCurso += Number(discente.diariaDeCurso) || 0;
+        alimentacao += Number(discente.alimentacao) || 0; // Corrigindo a coleta de valores para alimentação
+      });
+    }
+    console.log("alunosFinalObj",curso.alunosFinalObj)
+    valorTotal = diariaMilitar + horaAulaValor + alimentacao + diariaDeCurso;
+  
     const documento = objeto;
     for (const capitulo of documento) {
       if (capitulo.tipo === "capitulo") {
@@ -521,6 +551,18 @@ export class PdfService {
           if (item.numero === "4.2") {
             if(curso.diariaDeCursoArray && curso.diariaDeCursoArray.length>0){
               item.subitens[0].dados = curso.diariaDeCursoArray;
+            }
+          }
+          if (item.numero === "4.3") {
+            if (curso.docentesQTSObj && curso.docentesQTSObj.length > 0) {
+              const subitens = [
+                this.pdfUtil.criarSubitem(`Diária militar: ${diariaMilitar.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, 'a)'),
+                this.pdfUtil.criarSubitem(`Diária de curso: ${diariaDeCurso.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, 'b)'),
+                this.pdfUtil.criarSubitem(`Hora aula indenizável: ${horaAulaValor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, 'c)'),
+                this.pdfUtil.criarSubitem(`Alimentação:${alimentacao.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, 'd)'),
+                this.pdfUtil.criarSubitem(`Total gasto nesta atividade de ensino: ${valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, 'e)')
+              ];
+              item.subitens.push(...subitens);
             }
           }
         }
@@ -561,10 +603,5 @@ export class PdfService {
         }
       }
     }
-
-
-
-
-  
-  
+    
 }

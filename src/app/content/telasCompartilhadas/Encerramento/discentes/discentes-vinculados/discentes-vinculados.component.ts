@@ -119,7 +119,7 @@ export class DiscentesVinculadosComponent implements OnInit {
 
   addDiscente(aluno: UserCivil): void {
     const discenteAux :Discente = {
-      user_id:aluno.id,
+      userCivil_id:aluno.id,
       name:aluno.fullName,
       cpf:aluno.cpf,
       excluido:false,
@@ -144,10 +144,10 @@ export class DiscentesVinculadosComponent implements OnInit {
     this.enviarDadosCursoEscolhido();
   }
   removeDiscente(aluno: Discente): void {
-    const userToRemove = this.selectedDiscentes.find(user => user.id === aluno.user_id);
+    const userToRemove = this.selectedDiscentes.find(user => user.id === aluno.userCivil_id);
     if (userToRemove) {
         const index = this.selectedDiscentes.indexOf(userToRemove);
-        const index2 = this.selectedDiscentesResp.findIndex(discente => discente.user_id === aluno.user_id);
+        const index2 = this.selectedDiscentesResp.findIndex(discente => discente.userCivil_id === aluno.userCivil_id);
         if (index2 !== -1) {
             this.selectedDiscentesResp.splice(index2, 1);
         }

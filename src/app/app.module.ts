@@ -50,6 +50,7 @@ import { DiscentesMilitarComponent } from './content/telasCompartilhadas/Encerra
 import { DiscentesVinculadosComponent } from './content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
 import { DiariaDeCursoComponent } from './content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
 import { DiariaMilitarComponent } from './content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
+import { DataEncerramentoComponent } from './content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
 
 
 
@@ -92,7 +93,8 @@ import { DiariaMilitarComponent } from './content/telasCompartilhadas/Encerramen
     DiscentesMilitarComponent,
     DiscentesVinculadosComponent,
     DiariaDeCursoComponent,
-    DiariaMilitarComponent
+    DiariaMilitarComponent,
+    DataEncerramentoComponent
   ],
   imports: [
     BrowserModule,

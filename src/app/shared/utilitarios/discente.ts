@@ -6,14 +6,16 @@ export interface Discente {
     name?:string;
     cpf?:string;
     mtcl?:string;
-    escolaridade_id?:number;
-    graduacao_id?:number;
-    graduacao?:string;
+    escolaridade_id?:number; //vincular com o id da tabela escolaridade
+    graduacao_id?:number; //vincular com o id da tabela graduacao
+    graduacao?:string;   
     birthdate?:string;
     situacaoInscricao?:string;
     situacao?:string;
     pesoGraduacao?:number;
     nota?:number;
+    mediaFinal?:number;
+    exame?:number;
     faltas?:number;
     excluido:boolean;
     motivoExcluido:string;

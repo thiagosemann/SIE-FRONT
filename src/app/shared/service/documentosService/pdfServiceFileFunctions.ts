@@ -223,10 +223,11 @@ export class PDFHelper {
         }, 0);
     
         const extraSpace = widthMax - totalWordWidth;
-    
-        if (extraSpace > 0 && words.length > 1 && line.length > 50) {
+        const marginLeft = index === 0 ? startX + 5 : startX; // Define a margem para a primeira linha
+
+        if (extraSpace > 0 && words.length > 1 && line.length > 100) {
           const spaceBetweenWords = extraSpace / (words.length - 1);
-          let currentX = startX;
+          let currentX = marginLeft;
     
           for (let i = 0; i < words.length; i++) {
             const wordWidth = doc.getStringUnitWidth(words[i]) * fontSize / doc.internal.scaleFactor;
@@ -234,7 +235,6 @@ export class PDFHelper {
             currentX += wordWidth + spaceBetweenWords;
           }
         } else {
-          const marginLeft = index === 0 ? startX + 5 : startX; // Define a margem para a primeira linha
           doc.text(line, marginLeft, lastLineY, { align: 'left' });
         }
     
@@ -260,7 +260,7 @@ export class PDFHelper {
 
      createTable(doc: jsPDF, positionY: number, tableData: string[][], hasHeader: boolean, content: string, lineHeight: number, startX: number, columnWidth: number): number {
       const startY = positionY;
-      const rowHeight = 9; // Altura inicial da linha
+      const rowHeight = 5; // Altura inicial da linha
       const borderWidth = 0.2;
       const borderColor = 'black';
       const headerFontStyle = 'bold';
@@ -268,7 +268,7 @@ export class PDFHelper {
       const pageHeight = doc.internal.pageSize.getHeight();
   
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(11);
+      doc.setFontSize(10);
     
       let lastRowY = startY; // Posição vertical da última linha
       if(startY + rowHeight > pageHeight ){

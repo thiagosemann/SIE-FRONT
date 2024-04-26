@@ -85,7 +85,7 @@ export class DiariaDeCursoComponent {
           aluno.name,
           "--",
           "R$ 0,00",
-          "10",
+          "0",
           "R$ 0,00",
           "R$ 0,00",
           "R$ 0,00"

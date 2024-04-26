@@ -42,10 +42,7 @@ export class NotasNumericaComponent implements OnInit {
   
       if (cursoEscolhido.discentesCivisExternos && cursoEscolhido.discentesCivisExternos.length > 0) {
         this.adicionarAlunos(cursoEscolhido.discentesCivisExternos);
-      }
-       
-      this.organizarArrayAlunos();
-  
+      }  
     }
     this.escolaridadeService.getEscolaridades().subscribe(
       (escolaridades: Escolaridade[]) => {
@@ -69,24 +66,22 @@ export class NotasNumericaComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Limpa a subscrição ou outros recursos
+    console.log("Entrou")
     this.organizarArrayAlunos();
   }
   
   private adicionarAlunos(discentes: any[]): void {
     for (let i = 0; i < discentes.length; i++) {
-      let alunoExistente = this.alunos.find(alunoAux=>alunoAux.user_id === discentes[i].user_id);
-      if(!alunoExistente){
-        discentes[i].faltas = 0;
-        if (discentes[i].excluido) {
-          discentes[i].situacao = `Excluído: ${discentes[i].motivoExcluido}`;
-        } else if (discentes[i].desistente) {
-          discentes[i].situacao = `Desistente: ${discentes[i].motivoDesistente}`;
-        } else {
-          discentes[i].situacao = "Reprovado";
-        }
-        this.alunos.push(discentes[i]);
+      discentes[i].faltas = 0;
+      if (discentes[i].excluido) {
+        discentes[i].situacao = `Excluído: ${discentes[i].motivoExcluido}`;
+      } else if (discentes[i].desistente) {
+        discentes[i].situacao = `Desistente: ${discentes[i].motivoDesistente}`;
+      } else {
+        discentes[i].situacao = "Reprovado";
       }
-
+      this.alunos.push(discentes[i]);
+    
     }
   }
   
@@ -147,6 +142,9 @@ export class NotasNumericaComponent implements OnInit {
     this.alunos.forEach((aluno, index) => {
       aluno.classificacao = index + 1;
     });
+        
+    this.createArrayAlunos();
+    this.enviarDadosCursoEscolhido();
 
   }
   
@@ -155,30 +153,25 @@ export class NotasNumericaComponent implements OnInit {
 
   changeInput(aluno: any, campo: string): void {
     this.limitarValor(aluno, campo);
-    
+    aluno.mediaFinal = aluno.nota;
     // Verifica situação do aluno
     if (this.verificarReprovacaoPorFalta(aluno)) {
-      this.createArrayAlunos();
       this.enviarDadosCursoEscolhido();
       return;
     }
   
     if (this.verificarAprovacaoPorNota(aluno)) {
-      this.createArrayAlunos();
       this.enviarDadosCursoEscolhido();
       return;
     }
   
     if (this.verificarAprovacaoPorExame(aluno)) {
-      this.createArrayAlunos();
       this.enviarDadosCursoEscolhido();
       return;
     }
-  
+
     aluno.situacao = "Reprovado por nota";
-    
-    this.createArrayAlunos();
-    this.enviarDadosCursoEscolhido();
+
   }
   createArrayAlunos():void{
     this.alunosArray=[];
@@ -189,7 +182,7 @@ export class NotasNumericaComponent implements OnInit {
       // Cria o array com as informações dos militares
       this.alunos?.forEach(aluno => {
         this.alunosArray.push([
-          "--",
+          aluno.classificacao,
           aluno.graduacao || "EXTERNO",
           aluno.mtcl || aluno.cpf,
           aluno.name,

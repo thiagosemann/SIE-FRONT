@@ -5,8 +5,6 @@ import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriad
 import { Curso } from 'src/app/shared/utilitarios/objetoCurso';
 import { CourseConfigService, ComponentItem } from '../../../../shared/service/CourseConfigService';
 import { ContentComponent } from '../../../content.component';
-import { User } from 'src/app/shared/utilitarios/user';
-import { NotasNumericaComponent } from '../../Encerramento/notas-numerica/notas-numerica.component';
 
 interface ComponentError {
   component: string;
@@ -23,6 +21,7 @@ interface ComponentError {
 export class GerarDocumentosComponent implements OnInit {
   hasPendingDocuments: boolean = false;
   cursoErrors: string[] = [];
+  curso:Curso| undefined;
   public components: ComponentItem[] = [];
   constructor(
     private pdfService: PdfService,
@@ -35,25 +34,26 @@ export class GerarDocumentosComponent implements OnInit {
 
   ngOnInit(): void {
     // Lógica para verificar as pendências do usuário
+    this.curso = this.cursoService.getCursoEscolhido();
+
     this.hasPendingDocuments = this.checkPendingDocuments();
 
   }
 
   async downloadDocumentos(): Promise<void> {
     try {
-      const curso = this.cursoService.getCursoEscolhido();
-      if (curso) {
+      if (this.curso) {
         const auth = this.generateRandomHash(15);
-        curso.auth = auth
-        curso.linkInscrition = "http://localhost:4200/inscricoes/"+auth;
-        const {  atividadeHomologada,globalProfessors, ...cursoEco } = curso;
-        const type = curso.type;
+        this.curso.auth = auth
+        this.curso.linkInscrition = "http://localhost:4200/inscricoes/"+auth;
+        const {  atividadeHomologada,globalProfessors, ...cursoEco } = this.curso;
+        const type = this.curso.type;
         
         let objeto = {
           auth: "",
           dados: {},
           tipo: type,
-          id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+          id_pge: this.curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
         }
         if(type){
           if(type.includes("abertura")){
@@ -63,9 +63,9 @@ export class GerarDocumentosComponent implements OnInit {
               auth: auth,
               dados: cursoEco,
               tipo: type,
-              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+              id_pge: this.curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
             }
-            const {pge} = curso;
+            const {pge} = this.curso;
 
             this.documentosCriadosService.createCurso(objeto).subscribe(
               (response) => {
@@ -87,9 +87,9 @@ export class GerarDocumentosComponent implements OnInit {
               auth: auth,
               dados: cursoEco,
               tipo: type,
-              id_pge: curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+              id_pge: this.curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
             }
-            const {pge} = curso;
+            const {pge} = this.curso;
 
             this.documentosCriadosService.createCurso(objeto).subscribe(
               (response) => {
@@ -299,5 +299,7 @@ export class GerarDocumentosComponent implements OnInit {
     }
     return randomHash;
   }
+
+
 }
 

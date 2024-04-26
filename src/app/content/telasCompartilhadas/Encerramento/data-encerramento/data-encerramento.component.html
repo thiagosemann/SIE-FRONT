@@ -1,0 +1,38 @@
+<div class="text-white p-3 datasHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Data</h2>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <form [formGroup]="datasForm">
+        <div class="row">
+            <div class="col-sm-3 "></div>
+            <div class="col-sm-6 neumorphic">
+                <h3 class="text-center pb-2 pt-5">Atividade de ensino</h3>
+                <p style="text-align: justify;">A data de início e fim da atividade de ensino está vinculado automaticamente a data inserida no edital de abertura do processo. Caso a data tenha sido alterada, é necessário uma justificativa.</p>
+                <div class="custom-checkbox-container">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" (change)="toggleDisabled()">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label style="margin-left: 10px;">Houve alteração de data?</label>
+                    <!-- Adicione a classe condicionalmente com base no estado isTextareaDisabled -->
+                    <textarea formControlName="justificativaDataEncerramento" [class.disabled]="isTextareaDisabled"></textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <label for="iniCur" class="form-label">Data de início:</label>
+                        <input type="date" class="form-control" formControlName="iniCur" id="iniCur" onkeydown="return false" required />
+                    </div>
+                    <div class="col-6">
+                        <label for="fimCur" class="form-label">Data de término:</label>
+                        <input type="date" class="form-control" formControlName="fimCur" id="fimCur" onkeydown="return false" required />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

@@ -36,6 +36,7 @@ import { DiscentesMilitarComponent } from 'src/app/content/telasCompartilhadas/E
 import { DiscentesVinculadosComponent } from 'src/app/content/telasCompartilhadas/Encerramento/discentes/discentes-vinculados/discentes-vinculados.component';
 import { DiariaDeCursoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
 import { DiariaMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
+import { DataEncerramentoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
 
 export interface ComponentItem {
     component: Type<any>,
@@ -66,6 +67,7 @@ export class CourseConfigService {
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
+    { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
     { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
     { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
     { component: DiscentesMilitarComponent, name: 'Alunos M.',validity: false, componentName:"DiscentesMilitarComponent"},

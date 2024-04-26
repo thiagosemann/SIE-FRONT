@@ -23,26 +23,23 @@
     text-overflow: ellipsis;
   }
   .table td{
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
 
   }
 
   .table th:nth-child(1),
   .table td:nth-child(1) {
-    width: 25%; /* Defina a largura da primeira coluna conforme necessário */
     white-space: nowrap;
   }
   
   .table th:nth-child(2),
   .table td:nth-child(2) {
-    width: 60%; /* Defina a largura da segunda coluna conforme necessário */
     white-space: nowrap;
   }
 
   .table th:nth-child(3),
   .table td:nth-child(3) {
-    width: 15%; /* Defina a largura da segunda coluna conforme necessário */
     white-space: nowrap;
   }
 

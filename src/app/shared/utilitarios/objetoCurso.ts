@@ -134,6 +134,7 @@ export interface Curso {
   alunosInaptos?:number;
   alunosDesistentes?:number;
   alunosExcluidos?:number;
+  justificativaDataEncerramento?:string;
   [key: string]: any; // Assinatura de índice para aceitar propriedades adicionais
 
 }

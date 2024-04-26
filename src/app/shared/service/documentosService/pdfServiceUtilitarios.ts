@@ -111,4 +111,64 @@ export class PDFUtilitarios {
       
         return letter;
       }
+
+      organizarArrayAlunos(alunos:any[]): void {
+        // Ordenar alunos
+        alunos.sort((a, b) => {
+          // Primeiro critério de ordenação: alunos excluídos ou desistentes ficam por último
+          if (a.excluido || a.desistente) {
+            return 1; // a é considerado maior
+          } else if (b.excluido || b.desistente) {
+            return -1; // b é considerado maior
+          }
+      
+          // Segundo critério de ordenação: alunos aprovados ficam primeiro
+          if (a.situacao === "Aprovado" && b.situacao !== "Aprovado") {
+            return -1; // a é considerado menor
+          } else if (a.situacao !== "Aprovado" && b.situacao === "Aprovado") {
+            return 1; // b é considerado menor
+          }
+      
+          // Terceiro critério de ordenação: alunos com maior a.nota ficam primeiro entre aprovados
+          if (a.situacao === "Aprovado" && b.situacao === "Aprovado") {
+            if (a.nota !== b.nota) {
+              return b.nota - a.nota; // ordem decrescente por nota
+            } else {
+              return b.pesoGraduacao - a.pesoGraduacao; // ordem decrescente por pesoGraduacao
+            }
+          }
+      
+          // Quarto critério de ordenação: alunos com maior a.nota ficam primeiro entre reprovados por nota
+          if (a.situacao.includes("Reprovado") && b.situacao.includes("Reprovado")) {
+            if (a.nota !== b.nota) {
+              return b.nota - a.nota; // ordem decrescente por nota
+            } else {
+              return b.pesoGraduacao - a.pesoGraduacao; // ordem decrescente por pesoGraduacao
+            }
+          }
+      
+          // Quinto critério de ordenação: alunos reprovados por falta são ordenados pelo pesoGraduacao
+          if (a.situacao === "Reprovado por falta" && b.situacao === "Reprovado por falta") {
+            return b.pesoGraduacao - a.pesoGraduacao; // ordem decrescente por pesoGraduacao
+          }
+      
+          // Sexto critério de ordenação: alunos excluídos são ordenados pelo pesoGraduacao
+          if (a.excluido && b.excluido) {
+            return b.pesoGraduacao - a.pesoGraduacao; // ordem decrescente por pesoGraduacao
+          }
+      
+          // Sétimo critério de ordenação: alunos desistentes são ordenados pelo pesoGraduacao
+          if (a.desistente && b.desistente) {
+            return b.pesoGraduacao - a.pesoGraduacao; // ordem decrescente por pesoGraduacao
+          }
+      
+          return 0; // a e b são considerados iguais
+        });
+    
+          // Definir classificação para cada aluno
+        alunos.forEach((aluno, index) => {
+          aluno.classificacao = index + 1;
+        });
+    
+      }
 }

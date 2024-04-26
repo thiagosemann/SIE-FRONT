@@ -49,4 +49,9 @@ export class EditalService {
     const bbmUrl = `${this.url}/bbm/${bbm}`;
     return this.http.get<Edital[]>(bbmUrl, { headers });
   }
+  getEditaisByProcNum(numeroProcesso: string): Observable<Edital[]> {
+    const headers = this.getHeaders();
+    const bbmUrl = `${this.url}/numeroProcesso/${numeroProcesso}`;
+    return this.http.get<Edital[]>(bbmUrl, { headers });
+  }
 }
