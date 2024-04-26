@@ -109,6 +109,19 @@ export class CourseConfigService {
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
+  private encerramentoTBAE: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
+    { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
+    { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
+    { component: DiscentesComponent, name: 'Alunos',validity: false, componentName:"DiscentesComponent"},
+    { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+  
 
   private aberturaTBC: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
@@ -231,6 +244,8 @@ export class CourseConfigService {
         return this.aberturaTreinamentoMilitar;
       case 'aberturaTBAE':
         return this.aberturaTBAE;
+      case 'encerramentoTBAE':
+        return this.encerramentoTBAE;
       case 'aberturaTBC':
         return this.aberturaTBC;
       case 'aberturaCBC':

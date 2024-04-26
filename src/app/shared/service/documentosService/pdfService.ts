@@ -32,6 +32,8 @@ export class PdfService {
         this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="aberturaTBAE" ){
         this.executeAberturaTBAE(responseDoc.dados.documento, curso,model)
+      }else if(curso.type==="encerramentoTBAE" ){
+        this.executeEncerramentoTBAE(responseDoc.dados.documento, curso,model);
       }else if(curso.type==="aberturaTBC" ){
         this.executeAberturaTBC(responseDoc.dados.documento, curso,model)
       }else if(curso.type==="aberturaCBC" ){
@@ -61,6 +63,12 @@ export class PdfService {
     this.manageCustos(responeDoc, curso);
     this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") 
   }
+
+  executeEncerramentoTBAE(responeDoc:any , curso:Curso,model:string){
+    this.manageItem4RFC(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
+  }
+
   executeAberturaTBC(responeDoc:any , curso:Curso,model:string){
     this.createFinalidadeAndTotalVagasTBC(curso);
     this.manageCustos(responeDoc, curso);

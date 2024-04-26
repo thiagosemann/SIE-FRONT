@@ -204,7 +204,7 @@ export class PDFHelper {
       const paragraphText = data;
       const paragraphY = positionY;
       const lineHeight = 5;
-      const widthMax = doc.internal.pageSize.getWidth() - startX - 10;
+      const widthMax = doc.internal.pageSize.getWidth() -5;
       let fontSize = 11;
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(fontSize);
@@ -221,11 +221,11 @@ export class PDFHelper {
           const wordWidth = doc.getStringUnitWidth(word) * fontSize / doc.internal.scaleFactor;
           return acc + wordWidth;
         }, 0);
-    
-        const extraSpace = widthMax - totalWordWidth;
         const marginLeft = index === 0 ? startX + 5 : startX; // Define a margem para a primeira linha
 
-        if (extraSpace > 0 && words.length > 1 && line.length > 100) {
+        const extraSpace = widthMax - totalWordWidth - marginLeft;
+
+        if (extraSpace > 0 && words.length > 1 && line.length > 90) {
           const spaceBetweenWords = extraSpace / (words.length - 1);
           let currentX = marginLeft;
     
