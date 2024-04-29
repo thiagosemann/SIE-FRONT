@@ -26,6 +26,7 @@ export interface Discente {
     diariaMilitar?:number;
     diariaDeCursoQtd?:number;
     escolaridade?:string
+    conceito?:string;
     }
   
   

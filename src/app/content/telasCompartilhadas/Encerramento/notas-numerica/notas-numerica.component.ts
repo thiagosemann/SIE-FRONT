@@ -29,20 +29,22 @@ export class NotasNumericaComponent implements OnInit {
     this.ha = Number(cursoEscolhido?.haCurso);
     this.alunos = [];
     if (cursoEscolhido) {
-      if(cursoEscolhido.alunosFinalObj){
+      if(cursoEscolhido.alunosFinalObj && cursoEscolhido.alunosFinalObj.length > 0 ){
         this.alunos = cursoEscolhido.alunosFinalObj;
+      }else{
+        if (cursoEscolhido.discentesMilitares && cursoEscolhido.discentesMilitares.length > 0) {
+          this.adicionarAlunos(cursoEscolhido.discentesMilitares);
+        }
+    
+        if (cursoEscolhido.discentesCivisBCeGVC && cursoEscolhido.discentesCivisBCeGVC.length > 0) {
+          this.adicionarAlunos(cursoEscolhido.discentesCivisBCeGVC);
+        }
+    
+        if (cursoEscolhido.discentesCivisExternos && cursoEscolhido.discentesCivisExternos.length > 0) {
+          this.adicionarAlunos(cursoEscolhido.discentesCivisExternos);
+        }  
       }
-      if (cursoEscolhido.discentesMilitares && cursoEscolhido.discentesMilitares.length > 0) {
-        this.adicionarAlunos(cursoEscolhido.discentesMilitares);
-      }
-  
-      if (cursoEscolhido.discentesCivisBCeGVC && cursoEscolhido.discentesCivisBCeGVC.length > 0) {
-        this.adicionarAlunos(cursoEscolhido.discentesCivisBCeGVC);
-      }
-  
-      if (cursoEscolhido.discentesCivisExternos && cursoEscolhido.discentesCivisExternos.length > 0) {
-        this.adicionarAlunos(cursoEscolhido.discentesCivisExternos);
-      }  
+
     }
     this.escolaridadeService.getEscolaridades().subscribe(
       (escolaridades: Escolaridade[]) => {

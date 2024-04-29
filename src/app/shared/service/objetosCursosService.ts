@@ -66,6 +66,7 @@ export class CursoService {
  async inserirPropriedadesHomologadoCursoEscolhido(){
   const curso = this.cursos.find(curso => curso.id === this.cursoEscolhidoId);
     if (curso && curso.sigla) {
+      console.log(curso)
         const atividade = await this.getAtividade(curso.sigla);
         if (atividade && Object.keys(atividade).length > 0) {
           curso.atividadeHomologada = atividade;

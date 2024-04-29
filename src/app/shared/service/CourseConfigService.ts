@@ -117,7 +117,7 @@ export class CourseConfigService {
     { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
     { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
     { component: DiscentesComponent, name: 'Alunos',validity: false, componentName:"DiscentesComponent"},
-    { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
+    { component: NotasAprovadoReprovadoComponent, name: 'Nota',validity: false, componentName:"NotasAprovadoReprovadoComponent"},
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];

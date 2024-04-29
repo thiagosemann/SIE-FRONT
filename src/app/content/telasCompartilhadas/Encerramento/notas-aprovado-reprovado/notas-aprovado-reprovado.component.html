@@ -1,1 +1,56 @@
-<p>notas-aprovado-reprovado works!</p>
+<div class="text-white p-3 notasHeader text-center">
+    <div class="container">
+        <h2 class="mb-0">Notas</h2>
+    </div>
+</div>
+<div class="container-docentes" *ngIf="alunos.length==0">
+    <div class="card text-center">
+        <div class="card-body">
+            <span class="spanInserir">Insira alunos para atribuir notas.</span>
+        </div>
+    </div>
+</div>
+<div class="container-docentes" *ngIf="alunos.length>0">
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th scope="col" style="width: 10%;">Mtcl/Cpf</th>
+                    <th scope="col" style="width: 10%;">Posto/Grad</th>
+                    <th scope="col" style="width: 30%;">Nome</th>
+                    <th scope="col" style="width: 20%;">Conceito</th>
+                    <th scope="col" style="width: 10%;">Faltas</th>
+                    <th scope="col" style="width: 20%;">Situacao</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aluno of alunos">
+                    <td>{{ aluno.mtcl || aluno.cpf }}</td>
+                    <td>{{ aluno.graduacao || "EXTERNO"}}</td>
+                    <td>{{ aluno.name }}</td>
+                    <ng-container *ngIf="!aluno.excluido && !aluno.desistente">
+                    <td>
+                        <select class="custom-select"  (change)="changeSelect(aluno)"  [(ngModel)]="aluno.conceito" >
+                
+                            <option value="Aprovado">Aprovado</option>
+                            <option value="Reprovado por conceito">Reprovado</option>
+                        </select>
+                    </td>
+
+                    <td> 
+                        <input type="number" [(ngModel)]="aluno.faltas" class="form-control custom-input" (change)="changeInput(aluno)">
+                    </td>
+                    </ng-container>
+                    <ng-container *ngIf="aluno.excluido || aluno.desistente">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </ng-container>
+                    <td> 
+                        {{aluno.situacao}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

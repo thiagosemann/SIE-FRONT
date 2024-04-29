@@ -1,0 +1,80 @@
+.notasHeader {
+    border-radius: 8px 8px 0 0;
+    background-color: #4b6199;
+    font-family: 'lato';
+}
+.container-docentes{
+    padding: 10px;
+  }
+
+  .tableHeaderColor{
+    background-color: #4B6199;
+    font-family: 'lato';
+    color: white;
+  }
+  .table {
+    table-layout: fixed;
+  }
+  
+  .table th,
+  .table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .table td{
+    font-size: 12px;
+    font-weight: bold;
+
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    white-space: nowrap;
+  }
+  
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    white-space: nowrap;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  .table-wrapper {
+    height: 570px; /* Define a altura fixa da tabela */
+    overflow: auto; /* Adiciona uma barra de rolagem vertical */
+  }
+
+  .custom-input{
+    width: 70%;
+    font-size: 20px;
+  }
+  .custom-select{
+    width: 70%;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  .spanInserir{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.card-body {
+    padding: 20px;
+}
