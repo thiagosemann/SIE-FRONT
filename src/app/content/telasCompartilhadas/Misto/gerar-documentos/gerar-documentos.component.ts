@@ -55,6 +55,62 @@ export class GerarDocumentosComponent implements OnInit {
           tipo: type,
           id_pge: this.curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
         }
+        if (type) {
+          let pdfTypes: any[] = [];
+          let pdfNames: any[] = [];
+      
+          if (type.includes("abertura")) {
+              pdfTypes.push('edital');
+              pdfTypes.push('plano');
+      
+              pdfNames.push('edital.pdf');
+              pdfNames.push('plano.pdf');
+      
+          } else if (type.includes("encerramento")) {
+              pdfTypes.push('rfc');
+              pdfNames.push('rfc.pdf');
+          } else if (type === 'parcial') {
+              pdfTypes.push('');
+              pdfNames.push('parcial.pdf');
+          }
+      
+          if (pdfTypes.length > 0) {
+              const pdfs: any[] = [];
+              for (const pdfType of pdfTypes) {
+                  const pdf = await this.pdfService.createDocument(cursoEco, type, pdfType);
+                  pdfs.push(pdf);
+              }
+              const objeto = {
+                  auth: auth,
+                  dados: cursoEco,
+                  tipo: type,
+                  id_pge: this.curso.pge?.id
+              };
+      
+              const { pge } = this.curso;
+      
+              this.documentosCriadosService.createCurso(objeto).subscribe(
+                  (response) => {
+                      console.log(objeto);
+                      console.log('Curso criado com sucesso:', response);
+                      pdfs.forEach((pdf, i) => {
+                          this.downloadFile(pdf as Blob, pdfNames[i]);
+                      });
+      
+                      this.contentComponent.courseTypePge();
+                      this.cursoService.removeAllCurses();
+                  },
+                  (error) => {
+                      console.error('Erro ao criar curso:', error);
+                  }
+              );
+          }
+      }
+      
+
+        
+
+/*
         if(type){
           if(type.includes("abertura")){
             const editalPdf = await this.pdfService.createDocument(cursoEco, type,'edital');
@@ -103,8 +159,31 @@ export class GerarDocumentosComponent implements OnInit {
                 console.error('Erro ao criar curso:', error);
               }
             );
+          }else if(type=='parcial'){
+            const rfcPdf = await this.pdfService.createDocument(cursoEco, type,'');
+            objeto = {
+              auth: auth,
+              dados: cursoEco,
+              tipo: type,
+              id_pge: this.curso.pge?.id // Aqui estamos obtendo o id_pge da propriedade pge do curso
+            }
+            const {pge} = this.curso;
+
+            this.documentosCriadosService.createCurso(objeto).subscribe(
+              (response) => {
+                console.log(objeto)
+                console.log('Curso criado com sucesso:', response);
+                this.downloadFile(rfcPdf as Blob, 'parcial.pdf');
+                this.contentComponent.courseTypePge();
+                this.cursoService.removeAllCurses();
+              },
+              (error) => {
+                console.error('Erro ao criar curso:', error);
+              }
+            );
           }
         }
+        */
       } else {
         console.error('Curso não selecionado.');
       }
@@ -184,7 +263,6 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "DatasAberturaCivilComponent", propertyName: "startInscritionHorario", errorMessage: "O horário de início das inscrições não está definido.",notEmpty:false },
         { component: "DatasAberturaCivilComponent", propertyName: "endInscritiondate", errorMessage: "A data de término das inscrições não está definida.",notEmpty:false },
         { component: "DatasAberturaCivilComponent", propertyName: "endInscritionHorario", errorMessage: "O horário de término das inscrições não está definido.",notEmpty:false },
-        { component: "DatasAberturaCivilComponent", propertyName: "linkInscrition", errorMessage: "O link de inscrição não está definido.",notEmpty:false },
         { component: "DatasAberturaCivilComponent", propertyName: "divulgacaoInscritiondate", errorMessage: "A data de divulgação da inscrição não está definida.",notEmpty:false },
         { component: "DatasAberturaCivilComponent", propertyName: "divulgacaoInscritiondateHorario", errorMessage: "O horário de divulgação da inscrição não está definida.",notEmpty:false },
         { component: "DatasAberturaCivilComponent", propertyName: "iniCur", errorMessage: "O início do curso não está definido.",notEmpty:false },
@@ -238,7 +316,6 @@ export class GerarDocumentosComponent implements OnInit {
         { component: "AberturaDatasCBCComponent", propertyName: "startInscritionHorario", errorMessage: "startInscritionHorario.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "endInscritiondate", errorMessage: "endInscritiondate.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "endInscritionHorario", errorMessage: "endInscritionHorario.",notEmpty:false },
-        { component: "AberturaDatasCBCComponent", propertyName: "linkInscrition", errorMessage: "linkInscrition.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoInscritiondate", errorMessage: "divulgacaoInscritiondate.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoInscritiondateHorario", errorMessage: "divulgacaoInscritiondateHorario.",notEmpty:false },
         { component: "AberturaDatasCBCComponent", propertyName: "divulgacaoPhysicalAptitudeTestDate", errorMessage: "divulgacaoPhysicalAptitudeTestDate.",notEmpty:false },

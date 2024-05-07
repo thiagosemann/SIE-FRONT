@@ -22,7 +22,16 @@ export class PreviewDocComponent implements OnInit {
 
   async generatePdf(): Promise<void> {
     if (this.curso) {
-      const pdfBlob = await this.pdfService.createDocument(this.curso, this.curso.type!,'rfc');
+      console.log(this.curso)
+      let string=""
+      if(this.curso.type?.includes('abertura')){
+        string="edital";
+      }else if(this.curso.type?.includes('encerramento')){
+        string="rfc";
+      }else{
+        string="";
+      }
+      const pdfBlob = await this.pdfService.createDocument(this.curso, this.curso.type!,string);
       const pdfUrl = URL.createObjectURL(pdfBlob);
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       this.documentosCriadosService.createCurso(this.curso)

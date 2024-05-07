@@ -37,12 +37,16 @@ import { DiscentesVinculadosComponent } from 'src/app/content/telasCompartilhada
 import { DiariaDeCursoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
 import { DiariaMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 import { DataEncerramentoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
+import { RelatorioFinalCursoComponent } from 'src/app/content/telas-admin/relatorio-final-curso/relatorio-final-curso.component';
 
 export interface ComponentItem {
     component: Type<any>,
     name: string,
     validity : boolean,
     componentName: string
+}
+interface ComponentMap {
+  [key: string]: ComponentItem[];
 }
 
 @Injectable({
@@ -68,17 +72,14 @@ export class CourseConfigService {
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
     { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
-    { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
     { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
     { component: DiscentesMilitarComponent, name: 'Alunos M.',validity: false, componentName:"DiscentesMilitarComponent"},
     { component: DiscentesVinculadosComponent, name: 'Alunos C.',validity: false, componentName:"DiscentesVinculadosComponent"},
     { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
     { component: DiariaDeCursoComponent, name: 'D.Curso',validity: false, componentName:"DiariaDeCursoComponent"},
-    
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
-
-    //{ component: PreviewDocComponent, name: 'Preview',validity: false },
   ];
 
   private aberturaTreinamentoMilitar: ComponentItem[] = [
@@ -95,6 +96,21 @@ export class CourseConfigService {
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" },
   ];
 
+  private encerramentoTreinamentoMilitar: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
+    { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
+    { component: DiscentesMilitarComponent, name: 'Alunos M.',validity: false, componentName:"DiscentesMilitarComponent"},
+    { component: DiscentesVinculadosComponent, name: 'Alunos C.',validity: false, componentName:"DiscentesVinculadosComponent"},
+    { component: NotasNumericaComponent, name: 'Nota',validity: false, componentName:"NotasNumericaComponent"},
+    { component: DiariaDeCursoComponent, name: 'D.Curso',validity: false, componentName:"DiariaDeCursoComponent"},
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+
 
   private aberturaTBAE: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
@@ -109,12 +125,13 @@ export class CourseConfigService {
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
+
   private encerramentoTBAE: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
     { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
-    { component: LeitorQTComponent, name: 'QT',validity: false, componentName:"LeitorQTComponent"  },
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
     { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
     { component: DiscentesComponent, name: 'Alunos',validity: false, componentName:"DiscentesComponent"},
     { component: NotasAprovadoReprovadoComponent, name: 'Nota',validity: false, componentName:"NotasAprovadoReprovadoComponent"},
@@ -122,7 +139,6 @@ export class CourseConfigService {
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
   
-
   private aberturaTBC: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
@@ -133,6 +149,19 @@ export class CourseConfigService {
     { component: MeiosDivulgacaoComponent, name: 'Divulgação',validity: false, componentName:"MeiosDivulgacaoComponent"  },
     { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"  },
     { component: DocentesComponent, name: 'Docentes',validity: false, componentName:"DocentesComponent"  },
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+
+  private encerramentoTBC: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
+    { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
+    { component: DiscentesVinculadosComponent, name: 'Alunos C.',validity: false, componentName:"DiscentesVinculadosComponent"},
+    { component: NotasAprovadoReprovadoComponent, name: 'Nota',validity: false, componentName:"NotasAprovadoReprovadoComponent"},
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
@@ -165,6 +194,21 @@ export class CourseConfigService {
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
+
+  private encerramentoCGVCV: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: CoordenadorComponent, name: 'Coordenador',validity: false, componentName:"CoordenadorComponent"},
+    { component: DataEncerramentoComponent, name: 'Data',validity: false, componentName:"DataEncerramentoComponent"},
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
+    { component: DiscentesComponent, name: 'Alunos',validity: false, componentName:"DiscentesComponent"},
+    { component: NotasAprovadoReprovadoComponent, name: 'Nota',validity: false, componentName:"NotasAprovadoReprovadoComponent"},
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+  
+
   private aberturaCRGVCV: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
@@ -179,6 +223,7 @@ export class CourseConfigService {
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
+
   private aberturaCGVCVRio: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
@@ -193,6 +238,7 @@ export class CourseConfigService {
     { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
+
   private aberturaCRGVCVRio: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  },
     { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent" },
@@ -208,9 +254,15 @@ export class CourseConfigService {
     { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
   ];
 
-
-
-
+  private parcial: ComponentItem[] = [
+    { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"},
+    { component: PreenchimentoAutComponent, name: 'P.Aut' ,validity: false, componentName:"PreenchimentoAutComponent"},
+    { component: LeitorQTComponent, name: 'Professores',validity: false, componentName:"LeitorQTComponent"  },
+    { component: DiariaMilitarComponent, name: 'D.Militar',validity: false, componentName:"DiariaMilitarComponent"},
+    { component: GerarDocumentosComponent, name: 'Gerar',validity: false, componentName:"GerarDocumentosComponent" },
+    { component: PreviewDocComponent, name: 'Preview',validity: false, componentName:"PreviewDocComponent" }
+  ];
+  
 
   private pge: ComponentItem[] = [
     { component: PgeComponent, name: 'Cursos BBM',validity: false, componentName:"PgeComponent"  }
@@ -225,6 +277,8 @@ export class CourseConfigService {
     //{ component: EdicaoDocumentosComponent, name: 'Edicao',validity: false, componentName:"EdicaoDocumentosComponent" },
     { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
     { component: AberturaProcessoComponent , name: 'Editais',validity: false, componentName:"AberturaProcessoComponent" },
+    { component: RelatorioFinalCursoComponent , name: 'RFC',validity: false, componentName:"RelatorioFinalCursoComponent" },
+    
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
     { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }  
   ];
@@ -234,41 +288,32 @@ export class CourseConfigService {
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" }
   ];
 
+  
+
   getComponents(courseType: string): ComponentItem[] {
-    switch(courseType) {
-      case 'aberturaCursoMilitar':
-        return this.aberturaCursoMilitar;
-      case 'encerramentoCursoMilitar':
-        return this.encerramentoCursoMilitar;
-      case 'aberturaTreinamentoMilitar':
-        return this.aberturaTreinamentoMilitar;
-      case 'aberturaTBAE':
-        return this.aberturaTBAE;
-      case 'encerramentoTBAE':
-        return this.encerramentoTBAE;
-      case 'aberturaTBC':
-        return this.aberturaTBC;
-      case 'aberturaCBC':
-        return this.aberturaCBC;
-      case 'aberturaCGVCV':
-        return this.aberturaCGVCV;
-      case 'aberturaCRGVCV':
-        return this.aberturaCRGVCV;
-      case 'aberturaCGVCVRio':
-        return this.aberturaCGVCVRio;
-      case 'aberturaCRGVCVRio':
-        return this.aberturaCRGVCVRio;
-      case 'pge':
-        return this.pge;    
-      case 'admin':
-        return this.admin; 
-      case 'publico':
-          return this.publico;
-      case 'homologacaoInscricao':
-          return this.homologacaoInscricao;       
-             
-      default:
-        return [];
-    }
+
+    const componentMap: ComponentMap = {
+      'aberturaCursoMilitar': this.aberturaCursoMilitar,
+      'encerramentoCursoMilitar': this.encerramentoCursoMilitar,
+      'aberturaTreinamentoMilitar': this.aberturaTreinamentoMilitar,
+      'encerramentoTreinamentoMilitar': this.encerramentoTreinamentoMilitar,
+      'aberturaTBAE': this.aberturaTBAE,
+      'encerramentoTBAE': this.encerramentoTBAE,
+      'aberturaTBC': this.aberturaTBC,
+      'encerramentoTBC': this.encerramentoTBC,
+      'aberturaCBC': this.aberturaCBC,
+      'aberturaCGVCV': this.aberturaCGVCV,
+      'encerramentoCGVCV': this.encerramentoCGVCV,
+      'aberturaCRGVCV': this.aberturaCRGVCV,
+      'aberturaCGVCVRio': this.aberturaCGVCVRio,
+      'aberturaCRGVCVRio': this.aberturaCRGVCVRio,
+      'pge': this.pge,
+      'admin': this.admin,
+      'publico': this.publico,
+      'homologacaoInscricao': this.homologacaoInscricao,
+      'parcial': this.parcial,
+      
+    };
+    return componentMap[courseType] || [];
   }
 }

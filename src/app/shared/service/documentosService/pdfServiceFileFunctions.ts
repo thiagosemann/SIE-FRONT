@@ -43,7 +43,7 @@ export class PDFHelper {
           positionY = this.createText(doc,item.texto,item.numero,positionY,lineHeight,startX);
   
           if (item.subitens && item.subitens.length > 0) {
-            positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight,startX+5);
+            positionY = await this.processSubItens(doc, item.subitens, positionY, lineHeight,startX);
           }
         }
     }
@@ -63,7 +63,7 @@ export class PDFHelper {
         }  else {
           positionY = this.createText(doc,subitem.texto,subitem.letra,positionY,lineHeight,startX);
           if (subitem.subsubitens && subitem.subsubitens.length > 0) {
-            positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight,startX+10);
+            positionY = await this.processSubSubItens(doc, subitem.subsubitens, positionY, lineHeight,startX);
           }
         }
     }
@@ -100,7 +100,7 @@ export class PDFHelper {
         }else if(subsubsubitem.tipo === "tabelaRFCSintese"){
           positionY = this.createTable(doc, positionY,subsubsubitem.dados,subsubsubitem.hasHeader,subsubsubitem.content, lineHeight,5,100);
         }else {
-          positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,startX+15);
+          positionY = this.createText(doc,subsubsubitem.texto,subsubsubitem.letra,positionY,lineHeight,startX);
         }
     }
   
@@ -116,7 +116,7 @@ export class PDFHelper {
       doc.text('ESTADO DE SANTA CATARINA', 25, positionY + lineHeight);
       doc.text('CORPO DE BOMBEIROS MILITAR DE SANTA CATARINA', 25, positionY + lineHeight * 2);
       doc.text('DIRETORIA DE INSTRUÇÃO E ENSINO (Florianópolis)', 25, positionY + lineHeight * 3);
-      return positionY + lineHeight * 4;
+      return positionY + lineHeight * 3;
     }
   
     // Adiciona o preambulo
@@ -124,13 +124,13 @@ export class PDFHelper {
       let positionYAux = positionY+lineHeight*2;
       doc.setFont('helvetica', 'bold');
       doc.text(data[0], doc.internal.pageSize.getWidth() / 2, positionYAux, { align: 'center' });
-      positionYAux = positionYAux+lineHeight*2;
+      positionYAux = positionYAux+lineHeight*1.2;
       doc.setFont('helvetica', 'normal');
       doc.text(data[1], doc.internal.pageSize.getWidth() / 2,positionYAux , { align: 'center' });
-      positionYAux = positionYAux+lineHeight*2;
+      positionYAux = positionYAux+lineHeight*1.2;
       doc.setFont('helvetica', 'bold');
       doc.text(data[2], doc.internal.pageSize.getWidth() / 2, positionYAux, { align: 'center' });
-      positionYAux = positionYAux+lineHeight;
+      positionYAux = positionYAux+lineHeight*1.2;
       return positionYAux
     }
   

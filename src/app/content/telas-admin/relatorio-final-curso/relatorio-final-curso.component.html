@@ -1,0 +1,68 @@
+<div class="text-white p-3 docentesHeader text-center">
+    <h2 class="mb-0">Relatório Final de Curso</h2>
+</div>
+<div class="containerEdital mt-4">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control search-input" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon2"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control search-input" placeholder="AUTH..." [(ngModel)]="addAuth">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon3">Entrada SGPE</span>
+                <input type="date" class="form-control search-input" id="dataEntrada" [(ngModel)]="dataEntrada">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="input-group">
+                <span class="input-group-text" style="cursor: pointer; margin-top: 4px;"  (click)="addRFC()">
+                    <i class="fas fa-plus" [class.spinner]="loading"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead class="tableHeaderColor">
+                <tr>
+                    <th>Número do Processo</th>
+                    <th>Sigla</th>
+                    <th>Auth</th>
+                    <th>Data de Entrada</th>
+                    <th>Status Certificado</th>
+                    <th>Status Drive</th>
+                    <th>Status NB</th>
+                    <th>Status de Finalização</th>
+                    <th>Compilado Hora Aula</th>
+                    <th>Compilado Diária Curso </th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let rfc of rfcs" >
+                    <tr>
+                        <td>{{rfc.numeroProcesso}}</td>
+                        <td>{{rfc.sigla}}</td>
+                        <td>{{rfc.auth}}</td>
+                        <td>{{rfc.dataEntrada}}</td>
+                        <td>{{rfc.statusCertificado}}</td>
+                        <td>{{rfc.statusDrive}}</td>
+                        <td>{{rfc.statusNb}}</td>
+                        <td>{{rfc.statusFinalizacao}}</td>
+                        <td>{{rfc.compiladoHoraAulaNr}}</td>
+                        <td>{{rfc.compiladoDiariaCursoNr}}</td>
+                        <td>{{rfc.observacoes}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

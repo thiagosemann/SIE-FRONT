@@ -51,6 +51,7 @@ import { DiscentesVinculadosComponent } from './content/telasCompartilhadas/Ence
 import { DiariaDeCursoComponent } from './content/telasCompartilhadas/Encerramento/diaria-de-curso/diaria-de-curso.component';
 import { DiariaMilitarComponent } from './content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 import { DataEncerramentoComponent } from './content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
+import { RelatorioFinalCursoComponent } from './content/telas-admin/relatorio-final-curso/relatorio-final-curso.component';
 
 
 
@@ -94,7 +95,8 @@ import { DataEncerramentoComponent } from './content/telasCompartilhadas/Encerra
     DiscentesVinculadosComponent,
     DiariaDeCursoComponent,
     DiariaMilitarComponent,
-    DataEncerramentoComponent
+    DataEncerramentoComponent,
+    RelatorioFinalCursoComponent
   ],
   imports: [
     BrowserModule,

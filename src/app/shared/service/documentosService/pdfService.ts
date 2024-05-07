@@ -6,6 +6,10 @@ import { PDFHelper } from './pdfServiceFileFunctions';
 import { PDFUtilitarios } from './pdfServiceUtilitarios';
 import { DocumentosService } from './documento.service';
 
+interface ExecutionMap {
+  [key: string]: (responeDoc: any, curso: Curso, model: string) => void;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,36 +26,29 @@ export class PdfService {
     const responseDoc = await this.pdfUtil.getDocument(model+ type).toPromise();
     if(curso && curso.type){
       this.pdfUtil.replaceProperties(responseDoc.dados.documento, curso);
-
-      // Alterações especificas para cada tipo de curso.
-      if(curso.type==="aberturaCursoMilitar"){
-        this.executeAberturaCursoMilitar(responseDoc.dados.documento, curso,model);
-      }else if(curso.type==="encerramentoCursoMilitar" ){
-        this.executeEncerramentoCursoMilitar(responseDoc.dados.documento, curso,model);
-      }else if(curso.type==="aberturaTreinamentoMilitar" ){
-        this.executeAberturaTreinamentoMilitar(responseDoc.dados.documento, curso,model);
-      }else if(curso.type==="aberturaTBAE" ){
-        this.executeAberturaTBAE(responseDoc.dados.documento, curso,model)
-      }else if(curso.type==="encerramentoTBAE" ){
-        this.executeEncerramentoTBAE(responseDoc.dados.documento, curso,model);
-      }else if(curso.type==="aberturaTBC" ){
-        this.executeAberturaTBC(responseDoc.dados.documento, curso,model)
-      }else if(curso.type==="aberturaCBC" ){
-        this.executeAberturaCBC(responseDoc.dados.documento, curso,model)
+      const executionMap: ExecutionMap = {
+        'aberturaCursoMilitar': this.executeAberturaCursoMilitar,
+        'aberturaTreinamentoMilitar': this.executeAberturaTreinamentoMilitar,
+        'aberturaTBAE': this.executeAberturaTBAE,
+        'aberturaTBC': this.executeAberturaTBC,
+        'aberturaCBC': this.executeAberturaCBC,
+        'encerramentoCGVCV': this.executeEncerramentoCGVCV,
+        'encerramentoCursoMilitar': this.executeEncerramentoCursoMilitar,
+        'encerramentoTBAE': this.executeEncerramentoTBAE,
+        'encerramentoTBC': this.executeEncerramentoTBC,
+        'parcial':this.executeParcial
+      };
+      const executionFunction = executionMap[curso.type] ;
+      if (executionFunction) {
+          executionFunction.call(this, responseDoc.dados.documento, curso, model);
+          await this.pdfHelper.generateDocumento(doc, responseDoc.dados, model);
       }
-      
-      await this.pdfHelper.generateDocumento(doc, responseDoc.dados,model);
     }
     return new Promise<Blob>((resolve) => {
       const pdfBlob = doc.output('blob');
       resolve(pdfBlob);
     });
   }
-  executeEncerramentoCursoMilitar(responeDoc:any , curso:Curso,model:string){
-    this.manageItem4RFC(responeDoc, curso)
-    this.manageDicentes(responeDoc,curso)
-  }
-
 
   executeAberturaCBC(responeDoc:any , curso:Curso,model:string){
     if(model == 'plano'){
@@ -63,12 +60,6 @@ export class PdfService {
     this.manageCustos(responeDoc, curso);
     this.managesubsubitens(responeDoc, curso,"ADMINISTRAÇÃO","3.2","Corpo docente","b)") 
   }
-
-  executeEncerramentoTBAE(responeDoc:any , curso:Curso,model:string){
-    this.manageItem4RFC(responeDoc, curso)
-    this.manageDicentes(responeDoc,curso)
-  }
-
   executeAberturaTBC(responeDoc:any , curso:Curso,model:string){
     this.createFinalidadeAndTotalVagasTBC(curso);
     this.manageCustos(responeDoc, curso);
@@ -101,7 +92,31 @@ export class PdfService {
       this.manageVagasEditalCapacitacao(responeDoc, curso);
     }
   }
+
+  executeEncerramentoCursoMilitar(responeDoc:any , curso:Curso,model:string){
+    this.manageItem4RFC(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
+  }
+  executeEncerramentoCGVCV(responeDoc:any , curso:Curso,model:string){
+    this.manageItem4RFC(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
+  }
+  executeEncerramentoTBC(responeDoc:any , curso:Curso,model:string){
+    this.manageItem4RFC(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
+  }
+  executeEncerramentoTBAE(responeDoc:any , curso:Curso,model:string){
+    this.manageItem4RFC(responeDoc, curso)
+    this.manageDicentes(responeDoc,curso)
+  }
+  executeParcial(responeDoc:any , curso:Curso,model:string){
+    this.manageItem2Parcial(responeDoc, curso)
+  }
  
+
+  //--------------------------------------------------FUNÇÕES EXTRAS----------------------------------------------------------------------------------------//
+ //---------------------------------------------------FUNÇÕES EXTRAS----------------------------------------------------------------------------------------//
+
 
 
   private createFinalidadeAndTotalVagasTBC(curso: Curso){
@@ -514,7 +529,21 @@ export class PdfService {
 
 //--------------------------------------------------------------FUNÇOES RELATÓRIO FINAL DE CURSO-----------------------------------------------------------------------------------//
 //--------------------------------------------------------------FUNÇOES RELATÓRIO FINAL DE CURSO-----------------------------------------------------------------------------------//
+  private manageItem2Parcial(objeto: any,curso: Curso){
+    const documento = objeto;
+    for (const capitulo of documento) {
+      if (capitulo.tipo === "capitulo") {
+        for (const item of capitulo.itens) {
+          if (item.numero === "2.1") {
+            if(curso.docentesQTS && curso.docentesQTS.length>0){
+              item.subitens[0].dados = curso.docentesQTS;
+            }
+          }
 
+        }
+      }
+    }
+  }
 
   private manageItem4RFC(objeto: any,curso: Curso) {
     let diariaMilitar = 0;

@@ -138,6 +138,9 @@ export class InscritionComponent implements OnInit {
           const confirmacaoEmail = this.registrationForm.value.confirmacaoEmail;
           if (email === confirmacaoEmail) {
             const userCivilData: UserCivil = this.registrationForm.value as UserCivil;
+            userCivilData.BC=0;
+            userCivilData.GVC=0;
+            
             this.userCivilService.createUserCivil(userCivilData).subscribe(
               (response: any) => {
                 this.createInscricao(response.userId); // Cria a inscrição após a atualização ou criação do usuário
@@ -174,7 +177,7 @@ export class InscritionComponent implements OnInit {
           documentosCriadosId: this.documentId,
           userCivilId: userId,
           situacao: 'Pendente',
-          classificacao:999
+          mensagem:""
         };
         this.inscritionService.addInscricao(inscricaoData).subscribe(
           (inscricaoResponse: any) => {

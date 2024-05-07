@@ -126,10 +126,12 @@ export class AberturaProcessoComponent implements OnInit {
           this.loading = false;
           return;
         }
-  
+        console.log(novoEdital)
+
         // Chamar o serviço para criar o edital
         this.editalService.createEdital(novoEdital).subscribe({
           next: (editalCriado: any) => {
+            console.log(editalCriado)
             novoEdital.id = editalCriado.insertId;
             this.editais.push(novoEdital);
             this.toastr.success('Edital criado com sucesso!');
@@ -223,6 +225,7 @@ export class AberturaProcessoComponent implements OnInit {
         this.telaEdicao = false;
         this.toastr.success("Edital atualizado!")
         const index = this.editais.findIndex(edital => edital.id === this.editedEditalId);
+        console.log(index)
         this.editais[index].statusAssinatura = updatedEditalData.statusAssinatura;
         this.editais[index].statusPublicacao = updatedEditalData.statusPublicacao;
         this.editais[index].statusNotaEletronica = updatedEditalData.statusNotaEletronica;

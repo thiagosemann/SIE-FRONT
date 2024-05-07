@@ -43,9 +43,23 @@
               <div class="text-body-item">{{item.local}}</div>
               <div class="text-body-item">{{item.ha}}</div>
               <div class="text-body-item base-button" *ngIf="role == '--'"  [ngClass]="getButtonClassPublico(item.situacao)">{{item.situacao}}</div>
-              <div class="text-body-item" *ngIf="role != '--'">
-                <button class="btn btn-primary base-button" data-toggle="tab" (click)="selectCourse(item)" [ngClass]="getButtonClass(item.situacao)">{{ getActionButtonText(item.situacao) }}</button>
-              </div>
+              <ng-container *ngIf="role != '--'">
+                <ng-container *ngIf="item.situacao == 'PREVISTO'">
+                  <div class="text-body-item" >
+                    <button class="btn btn-primary base-button abrir-button" data-toggle="tab" (click)="selectCourse(item,'Abrir')" >Abrir</button>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="item.situacao == 'ANDAMENTO'">
+                  <div class="text-body-item" >
+                    <ng-container *ngIf="item.parcial">
+                      <button class="btn btn-primary base-button parcial-button" data-toggle="tab" (click)="selectCourse(item,'Parcial')" >Parcial</button>
+                    </ng-container>
+                    <ng-container *ngIf="!item.parcial">
+                      <button class="btn btn-primary base-button encerrar-button" data-toggle="tab" (click)="selectCourse(item,'Encerrar')">Encerrar</button>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </ng-container>
             </div>
           </ng-container>
         </ng-template>
