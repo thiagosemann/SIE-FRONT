@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DocumentosCriadosService } from 'src/app/shared/service/documentosCriados_service';
+import { PgeService } from 'src/app/shared/service/pge_service';
 import { RFCService } from 'src/app/shared/service/rfc_service';
 import { RFC } from 'src/app/shared/utilitarios/rfc';
 
@@ -15,7 +17,34 @@ export class RelatorioFinalCursoComponent implements OnInit  {
   loading: boolean = false;  // Variável para controlar o estado de carregamento
   dataEntrada: string = ''; 
   rfcs:RFC[]=[];
-  constructor(private rfcService:RFCService, private toastr: ToastrService, private documentosCriadosService: DocumentosCriadosService  ){}
+  telaEdicao: boolean = false;
+  editForm: FormGroup;
+  editedRFCId: number | undefined;
+  editedRFCNumeroProcesso: string | undefined;
+  editedRFCPgeId :number | undefined;
+  editedDocumentoCriadoId :number | undefined;
+
+
+  constructor(private rfcService:RFCService, private toastr: ToastrService, private documentosCriadosService: DocumentosCriadosService,private formBuilder: FormBuilder,private pgeService: PgeService  )
+  {
+    this.editForm = this.formBuilder.group({
+      auth: ['', Validators.required],
+      numeroProcesso: ['', Validators.required],
+      statusCertificado: ['', Validators.required],
+      statusDrive: ['', Validators.required],
+      statusNb: ['', Validators.required],
+      statusFinalizacao: ['', Validators.required],
+      sgpe: ['', Validators.required],
+      haCurso: ['', Validators.required],
+      haiCurso: ['', Validators.required],
+      dataEntrada: ['', Validators.required],
+      sigla: ['', Validators.required],
+      bbm: ['', Validators.required],
+      iniCur: ['', Validators.required],
+      fimCur: ['', Validators.required],
+ 
+    });
+  }
 
   ngOnInit(): void {
     this.getRFCs();
@@ -68,7 +97,7 @@ export class RelatorioFinalCursoComponent implements OnInit  {
           this.loading = false;
           return;
         }
-        
+        console.log(resp)
        const novoRFC : RFC={
           documentosCriadosId: resp.id,
           numeroProcesso: resp.dados.numeroProcesso,
@@ -88,6 +117,11 @@ export class RelatorioFinalCursoComponent implements OnInit  {
           compiladoHoraAulaNr: 0,
           compiladoDiariaCurso: false,
           compiladoDiariaCursoNr: 0,
+          iniCur: resp.dados.iniCur,
+          fimCur: resp.dados.fimCur,
+          haCurso:resp.dados.haCurso,
+          haiCurso:resp.dados.haiCurso,
+          bbm:resp.dados.bbm,
           observacoes: ""
         }
         // Chamar o serviço para criar o edital
@@ -123,4 +157,111 @@ export class RelatorioFinalCursoComponent implements OnInit  {
     return `${dia}/${mes}/${ano}`
 
   }
+  formatDateForInput(date: string): string {
+    const parts = date.split('/');
+    if (parts.length === 3) {
+        // Rearrange the parts to match the YYYY-MM-DD format accepted by the input type="date"
+        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        return formattedDate;
+    } else {
+        // Handle invalid date format
+        console.error('Invalid date format. Expected format: DD/MM/YYYY');
+        return '';
+    }
+  }
+
+  startEditing(rfc: any): void {
+    console.log(rfc)
+    this.telaEdicao = true;
+    this.editedRFCId = rfc.id;
+    this.editedRFCNumeroProcesso = rfc.numeroProcesso;
+    this.editedRFCPgeId = rfc.pgeId;
+    this.editedDocumentoCriadoId = rfc.documentosCriadosId;
+
+    console.log(rfc)
+    this.editForm.patchValue({
+      auth: rfc.auth,
+      numeroProcesso: rfc.numeroProcesso,
+      statusCertificado: rfc.statusCertificado,
+      statusDrive: rfc.statusDrive,
+      statusNb: rfc.statusNb,
+      statusFinalizacao: rfc.statusFinalizacao,
+      sigla: rfc.sigla,
+      bbm: rfc.bbm,
+      dataEntrada: this.formatDateForInput(rfc.dataEntrada),
+      iniCur: this.formatDateForInput(rfc.iniCur),
+      fimCur: this.formatDateForInput(rfc.fimCur),
+      haCurso: rfc.haCurso,
+      haiCurso: rfc.haiCurso
+    });
+    this.editForm.disable();
+    this.editForm.get('statusCertificado')?.enable(); 
+    this.editForm.get('statusDrive')?.enable(); 
+    this.editForm.get('statusNb')?.enable(); 
+    this.editForm.get('statusFinalizacao')?.enable(); 
+
+  }
+
+  cancelEdit(): void {
+    // Volte para a tela principal sem salvar as alterações
+    this.telaEdicao = false;
+  }
+
+
+  updateRFC():void{
+    const updatedRFCData = this.editForm.value;
+    updatedRFCData.id = this.editedRFCId;
+    updatedRFCData.numeroProcesso = this.editedRFCNumeroProcesso;
+    this.rfcService.updateRFC(updatedRFCData).subscribe({
+      next: (result: any) => {
+        
+      },
+      error: (error: any) => {
+        console.error('Erro ao atualizar edital:', error);
+        this.toastr.error('Erro ao atualizar edital');
+      },
+      complete: () => {
+        // Reset the form and toggle the editing state
+        this.editForm.reset();
+        this.telaEdicao = false;
+        this.toastr.success("RFC atualizado!")
+        const index = this.rfcs.findIndex(rfc => rfc.id === this.editedRFCId);
+        console.log(index)
+        this.rfcs[index].statusCertificado = updatedRFCData.statusCertificado;
+        this.rfcs[index].statusDrive = updatedRFCData.statusDrive;
+        this.rfcs[index].statusNb = updatedRFCData.statusNb;
+        this.rfcs[index].statusFinalizacao = updatedRFCData.statusFinalizacao;
+        const pgeObj = {
+          situacao: "",
+          editalId: this.editedRFCId,
+          documentoCriadoId: this.editedDocumentoCriadoId,
+        };
+        console.log(this.editedRFCPgeId)
+        if(updatedRFCData.statusFinalizacao =="Finalizado" ){
+          console.log(pgeObj)
+          this.updatePgeOnServer(this.rfcs[index].numeroProcesso,"FINALIZADO")
+        }else{
+
+          this.updatePgeOnServer(this.rfcs[index].numeroProcesso,"ANDAMENTO")
+        }
+       
+      }
+    });
+
+  }
+  updatePgeOnServer(procNum:string,situacao:any): void {
+    this.pgeService.updatePgeByProcNum(procNum, {situacao:situacao}).subscribe({
+      next: (pgeResult: any) => {
+        // Handle PGE update success
+        console.log(pgeResult)
+      },
+      error: (pgeError: any) => {
+        console.error('Erro ao atualizar PGE:', pgeError);
+        this.toastr.error('Erro ao atualizar PGE');
+      }
+    });
+  }
+
+
+   
 }

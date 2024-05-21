@@ -189,6 +189,7 @@
                 </div>
             </div>
             <div class="table-wrapper">
+                <h4>Editais com pendências</h4>
                 <table class="table table-striped">
                     <thead class="tableHeaderColor">
                         <tr>
@@ -222,9 +223,7 @@
                                 <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(edital)">
                                   <i class="fas fa-info-circle"></i>
                                 </button>
-                                <button class="btn btn-danger " (click)="deleteEdital(edital)">
-                                  <i class="fas fa-trash"></i>
-                                </button>
+                    
                               </td>
                             </tr>
                           </ng-container>
@@ -232,49 +231,56 @@
                     </tbody>
                 </table>
                 <hr class="mb-3 mt-3">
-                <h4>Finalizados</h4>
-                <table class="table table-striped">
-                    <thead class="tableHeaderColor">
-                        <tr>
-                            <th style="width: 10%;">PROC</th>
-                            <th style="width: 5%;">SIGLA</th>
-                            <th style="width: 5%;">SGPE</th>
-                            <th style="width: 10%;">CIDADE</th>
-                            <th style="width: 10%;">Assinatura</th>
-                            <th style="width: 10%;">Publicação</th>
-                            <th style="width: 10%;">Nota</th>
-                            <th style="width: 10%;">Sgpe</th>
-                            <th style="width: 10%;">NB</th>
-                            <th style="width: 10%;">Finalizado</th>
-                            <th style="width: 10%;">Selecionar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor="let edital of editais">
-                            <tr *ngIf="edital.statusFinalizacao === 'Finalizado'">
-                              <td class="d-none d-md-table-cell">{{edital.numeroProcesso}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.sigla}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.sgpe}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.localAtiMunicipio}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusAssinatura}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusPublicacao}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusNotaEletronica}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusSgpe}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusNb}}</td>
-                              <td class="d-none d-md-table-cell">{{edital.statusFinalizacao}}</td>
-                              <td>
-                                <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(edital)">
-                                  <i class="fas fa-info-circle"></i>
-                                </button>
-                                <button class="btn btn-danger " (click)="deleteEdital(edital)">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                              </td>
+                <div class="mb-3 colapsable-wrapper">
+                    <label class="font-weight-bold labelFinalizados expand-icon" (click)="showFinalizados()">Finalizados</label>
+                    <div class="expand-icon" (click)="showFinalizados()">
+                      <i class="fas" [ngClass]="finalizadosBool ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                    </div>
+                  </div>
+                <ng-container *ngIf="finalizadosBool">
+
+                    <table class="table table-striped">
+                        <thead class="tableHeaderColor">
+                            <tr>
+                                <th style="width: 10%;">PROC</th>
+                                <th style="width: 5%;">SIGLA</th>
+                                <th style="width: 5%;">SGPE</th>
+                                <th style="width: 10%;">CIDADE</th>
+                                <th style="width: 10%;">Assinatura</th>
+                                <th style="width: 10%;">Publicação</th>
+                                <th style="width: 10%;">Nota</th>
+                                <th style="width: 10%;">Sgpe</th>
+                                <th style="width: 10%;">NB</th>
+                                <th style="width: 10%;">Finalizado</th>
+                                <th style="width: 10%;">Selecionar</th>
                             </tr>
-                          </ng-container>
-                          
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let edital of editais">
+                                <tr *ngIf="edital.statusFinalizacao === 'Finalizado'">
+                                  <td class="d-none d-md-table-cell">{{edital.numeroProcesso}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.sigla}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.sgpe}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.localAtiMunicipio}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusAssinatura}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusPublicacao}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusNotaEletronica}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusSgpe}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusNb}}</td>
+                                  <td class="d-none d-md-table-cell">{{edital.statusFinalizacao}}</td>
+                                  <td>
+                                    <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(edital)">
+                                      <i class="fas fa-info-circle"></i>
+                                    </button>
+    
+                                  </td>
+                                </tr>
+                              </ng-container>
+                              
+                        </tbody>
+                    </table>
+                </ng-container>
+                
             </div>
             
         </div>

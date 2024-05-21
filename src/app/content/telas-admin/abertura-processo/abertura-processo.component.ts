@@ -24,6 +24,7 @@ export class AberturaProcessoComponent implements OnInit {
   editedEditalNumeroProcesso: string | undefined;
   editedEditalPgeId :number | undefined;
   editedDocumentoCriadoId :number | undefined;
+  finalizadosBool: boolean = false;
 
   constructor(private formBuilder: FormBuilder, 
               private documentosCriadosService: DocumentosCriadosService,
@@ -164,13 +165,8 @@ export class AberturaProcessoComponent implements OnInit {
       }
       
       if(edital.pgeId){
-        const pgeObj = {
-          situacao: "PREVISTO",
-          editalId: null,
-          documentoCriadoId: null,
-        };
   
-        this.pgeService.updatePgeById(edital.pgeId, pgeObj).subscribe({
+        this.pgeService.updatePgeByProcNum(edital.numeroProcesso, {situacao:"PREVISTO"}).subscribe({
           next: (pgeResult: any) => {
             // Handle PGE update success
             if(edital && edital.id){
@@ -238,22 +234,20 @@ export class AberturaProcessoComponent implements OnInit {
           documentoCriadoId: this.editedDocumentoCriadoId,
         };
 
-        if(this.editedEditalPgeId){
-          if(updatedEditalData.statusFinalizacao =="Finalizado" ){
-            pgeObj.situacao = "AUTORIZADO";
-            this.updatePgeOnServer(this.editedEditalPgeId,pgeObj)
-          }else{
-            pgeObj.situacao = "PREVISTO";
-            this.updatePgeOnServer(this.editedEditalPgeId,pgeObj)
-          }
+        if(updatedEditalData.statusFinalizacao =="Finalizado" ){
+          pgeObj.situacao = "AUTORIZADO";
+          this.updatePgeOnServer(this.editais[index].numeroProcesso,"AUTORIZADO")
+        }else{
+          pgeObj.situacao = "PREVISTO";
+          this.updatePgeOnServer(this.editais[index].numeroProcesso,"PREVISTO")
         }
+        
         
       }
     });
   }
-  updatePgeOnServer(pgeId:number,pgeObj:any): void {
-
-    this.pgeService.updatePgeById(pgeId, pgeObj).subscribe({
+  updatePgeOnServer(procNum:string,situacao:string): void {
+    this.pgeService.updatePgeByProcNum(procNum, {situacao:situacao}).subscribe({
       next: (pgeResult: any) => {
         // Handle PGE update success
         console.log(pgeResult)
@@ -338,6 +332,9 @@ export class AberturaProcessoComponent implements OnInit {
 
   }
 
+  showFinalizados():void{
+    this.finalizadosBool = !this.finalizadosBool;
+  }
 
   
 

@@ -22,9 +22,9 @@ export class PgeService {
     return this.http.get<Pge[]>(this.url, { headers });
   }
 
-  updatePgeById(id: number, updatedPge: any): Observable<any> {
+  updatePgeByProcNum(procNum: string, situacao: any): Observable<any> {
     const headers = this.getHeaders();
-    const apiUrl = `${this.url}/${id}`; // Assuming the API endpoint for updating includes the ID in the URL
-    return this.http.put(apiUrl, updatedPge, { headers });
+    const apiUrl = `${this.url}/${procNum}`; // Assuming the API endpoint for updating includes the ID in the URL
+    return this.http.put(apiUrl, situacao, { headers });
   }
 }

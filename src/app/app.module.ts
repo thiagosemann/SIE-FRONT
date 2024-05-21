@@ -52,6 +52,8 @@ import { DiariaDeCursoComponent } from './content/telasCompartilhadas/Encerramen
 import { DiariaMilitarComponent } from './content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 import { DataEncerramentoComponent } from './content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
 import { RelatorioFinalCursoComponent } from './content/telas-admin/relatorio-final-curso/relatorio-final-curso.component';
+import { RelatorioParcialCursoComponent } from './content/telas-admin/relatorio-parcial-curso/relatorio-parcial-curso.component';
+import { PagamentoComponent } from './content/telas-admin/pagamento/pagamento.component';
 
 
 
@@ -96,7 +98,9 @@ import { RelatorioFinalCursoComponent } from './content/telas-admin/relatorio-fi
     DiariaDeCursoComponent,
     DiariaMilitarComponent,
     DataEncerramentoComponent,
-    RelatorioFinalCursoComponent
+    RelatorioFinalCursoComponent,
+    RelatorioParcialCursoComponent,
+    PagamentoComponent
   ],
   imports: [
     BrowserModule,

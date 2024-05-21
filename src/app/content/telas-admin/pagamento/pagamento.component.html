@@ -1,0 +1,129 @@
+<div class="text-white p-3 pagamentoHeader text-center">
+    <h2 class="mb-0">Compilação do Pagamento</h2>
+</div>
+
+<!-- Informações sobre a soma de HAI e o valor total -->
+<div class="containerPagamento ">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="card-title">Detalhes Hora Aula</span>
+                            <div class="col-md-12">
+                                <span class="card-detail">Qtd de professores: <span class="card-value">{{ qtdProfessores }}</span></span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="card-detail">Total de HAI: <span class="card-value">{{ totalHai }}</span></span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="card-detail">Valor Total: <span class="card-value">{{ valorTotalHaiFormatado }}</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="card-title">Detalhes Diária de curso</span>
+                            <div class="col-md-12">
+                                <span class="card-detail">Qtd de alunos: <span class="card-value">{{ qtdAlunos }}</span></span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="card-detail">Total de D.C: <span class="card-value">{{ totalDC }}</span></span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="card-detail">Valor Total: <span class="card-value">{{ valorTotalDCFormatado }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="card-title">Compilados</span>
+                    <select id="compiladosSelect" class="form-control compilado-select" (change)="changeSelectCompilado($event)">
+                      <option *ngFor="let compilado of compilados" [value]="compilado.id">{{ compilado.name }}</option>
+                    </select>
+                  </div>
+                  <ng-container *ngIf="compiladoSelected && compiladoSelected.date =='new'">
+                    <div class="col-md-6 mt-4">
+                      <button class="btn btn-primary btn-download" (click)="generateCompilado()">
+                        <i class="fas fa-download"></i> Gerar
+                      </button>
+                    </div>
+                  </ng-container>
+                  <div class="col-md-6 mt-4">
+                    <button class="btn btn-primary btn-download">
+                      <i class="fas fa-download"></i> Preview
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    </div>
+
+<div class="row ">
+    <div class="col-md-6">
+        <span class="compilado-Text">Compilado Hora Aula</span>
+        <div class="table-sticky">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Processo</th>
+                        <th>Sigla</th>
+                        <th>Tipo</th>
+                        <th>Prof.</th>
+                        <th>HAI</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let processo of processos">
+                        <td>{{ processo.numeroProcesso }}</td>
+                        <td>{{ processo.sigla }}</td>
+                        <td>{{ processo.tipo }}</td>
+                        <td>{{ processo.qtdProfessores }}</td>
+                        <td>{{ processo.hai }}</td>
+                        <td>{{ processo.haiValor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <span class="compilado-Text">Compilado Diária de Curso</span>
+        <div class="table-sticky">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Processo</th>
+                        <th>Sigla</th>
+                        <th>Tipo</th>
+                        <th>Alunos.</th>
+                        <th>D.C</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let processo of processos" >
+                        <tr *ngIf="processo.qtdDC > 0" >
+                            <td>{{ processo.numeroProcesso }}</td>
+                            <td>{{ processo.sigla }}</td>
+                            <td>{{ processo.tipo }}</td>
+                            <td>{{ processo.qtdAlunos }}</td>
+                            <td>{{ processo.qtdDC }}</td>
+                            <td>{{ processo.qtdDCValor }}</td>
+                        </tr>
+                    </ng-container>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

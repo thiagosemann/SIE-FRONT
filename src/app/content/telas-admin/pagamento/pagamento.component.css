@@ -1,0 +1,125 @@
+.pagamentoHeader {
+    border-radius: 0px 10px 0 0;
+    background-color: #4B6199;
+    font-family: 'lato'
+  }
+
+  .containerPagamento{
+    padding:20px;
+  }
+
+  /* Estilos para os cards */
+.card {
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+  color: #4B6199;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.card-text {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.card-detail {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(114, 110, 110);
+}
+.card-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color:black;
+}
+
+/* Estilos para as tabelas */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+/* Estilos para tornar o cabeçalho da tabela fixo */
+.table-sticky thead {
+  position: sticky;
+  top: 0;
+  background-color: #4B6199;
+  z-index: 1;
+}
+
+/* Estilos para o conteúdo da tabela */
+.table-sticky tbody {
+  display: block;
+  max-height: 250px; /* Defina a altura máxima desejada */
+  overflow-y: auto;
+}
+
+/* Estilos para as células da tabela */
+.table-sticky td, .table-sticky th {
+  padding: 8px;
+}
+
+/* Estilos para as linhas da tabela */
+.table-sticky tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  box-sizing: border-box;
+}
+
+/* Estilos para as células do cabeçalho */
+.table-sticky th {
+  background-color: #4B6199;
+  color: white;
+  font-weight: bold;
+}
+
+
+
+.table th, .table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+  background-color: #4B6199;
+  color: #fff;
+  font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+
+/* Estilos para o botão de download */
+.btn-download {
+  width: 100%;
+  background-color: #4B6199;
+}
+
+.btn-download:hover {
+  background-color: #4b6199da;
+}
+
+.compilado-select{
+  color:#4B6199;
+  font-weight: 900;
+}
+.compilado-Text{
+  color:#4B6199;
+  font-weight: 900;
+  font-size:25px;
+}
+

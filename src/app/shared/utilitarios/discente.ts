@@ -27,6 +27,8 @@ export interface Discente {
     diariaDeCursoQtd?:number;
     escolaridade?:string
     conceito?:string;
+    documentosCriadosId?:number;
+    
     }
   
   

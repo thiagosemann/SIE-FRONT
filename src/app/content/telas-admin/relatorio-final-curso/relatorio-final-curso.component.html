@@ -2,7 +2,133 @@
     <h2 class="mb-0">Relatório Final de Curso</h2>
 </div>
 <div class="containerEdital mt-4">
-    <div class="row mb-3">
+    <div class="row">
+        <div class="col-md-12" *ngIf="telaEdicao">
+           <div class="formulario-wrapper">
+                <form [formGroup]="editForm" (ngSubmit)="updateRFC()">
+                    <!-- Adicione os campos de edição conforme necessário -->
+                    <p>Estado do Relatório Final de Curso (RFC)</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusCertificado" class="form-label">Certificado:</label>
+                                <select class="form-control" id="statusCertificado" formControlName="statusCertificado">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Solicitada Assinatura">Solicitada Assinatura</option>
+                                    <option value="Assinada">Assinado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusDrive" class="form-label">Drive:</label>
+                                <select class="form-control" id="statusDrive" formControlName="statusDrive">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Publicado">Inserido</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusNb" class="form-label">NB:</label>
+                                <select class="form-control" id="statusNb" formControlName="statusNb">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Confeccionada">Confeccionada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusFinalizacao" class="form-label">Finalização:</label>
+                                <select class="form-control" id="statusFinalizacao" formControlName="statusFinalizacao">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Finalizado">Finalizado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="mb-3 mt-3">
+                    <p>Dados do Processo</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="numeroProcesso" class="form-label">Número do Processo:</label>
+                                <input type="text" class="form-control" id="numeroProcesso" formControlName="numeroProcesso">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="auth" class="form-label">AUTH:</label>
+                                <input type="text" class="form-control" id="auth" formControlName="auth">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="bbm" class="form-label">BBM:</label>
+                                <input type="text" class="form-control" id="bbm" formControlName="bbm">
+                            </div>
+                        </div>     
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="sigla" class="form-label">Sigla:</label>
+                                <input type="text" class="form-control" id="sigla" formControlName="sigla">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="sgpe" class="form-label">SGPE:</label>
+                                <input type="text" class="form-control" id="sgpe" formControlName="sgpe">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="mb-3">
+                                <label for="haCurso" class="form-label">Hora Aula:</label>
+                                <input type="text" class="form-control" id="haCurso" formControlName="haCurso">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="mb-3">
+                                <label for="haiCurso" class="form-label">Hora Aula Ind:</label>
+                                <input type="text" class="form-control" id="haiCurso" formControlName="haiCurso">
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-3 mt-3">
+                    <p>Datas</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="dataEntrada" class="form-label">Entrada:</label>
+                                <input type="date" class="form-control" id="dataEntrada" formControlName="dataEntrada">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="iniCur" class="form-label">Início do Curso:</label>
+                                <input type="date" class="form-control" id="iniCur" formControlName="iniCur">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="fimCur" class="form-label">Término do Curso:</label>
+                                <input type="date" class="form-control" id="fimCur" formControlName="fimCur">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Atualizar status</button>
+                        <button type="button" class="btn btn-secondary"   (click)="cancelEdit()">Cancelar</button>
+                    </div>
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3" *ngIf="!telaEdicao">
         <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
@@ -37,18 +163,19 @@
                     <th>Sigla</th>
                     <th>Auth</th>
                     <th>Data de Entrada</th>
-                    <th>Status Certificado</th>
-                    <th>Status Drive</th>
-                    <th>Status NB</th>
-                    <th>Status de Finalização</th>
-                    <th>Compilado Hora Aula</th>
-                    <th>Compilado Diária Curso </th>
+                    <th>Certificado</th>
+                    <th>Drive</th>
+                    <th>NB</th>
+                    <th>Finalização</th>
+                    <th>Hora Aula</th>
+                    <th>Diária Curso </th>
                     <th>Observações</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container *ngFor="let rfc of rfcs" >
-                    <tr>
+                    <tr *ngIf="rfc.statusFinalizacao !== 'Finalizado'">
                         <td>{{rfc.numeroProcesso}}</td>
                         <td>{{rfc.sigla}}</td>
                         <td>{{rfc.auth}}</td>
@@ -57,12 +184,60 @@
                         <td>{{rfc.statusDrive}}</td>
                         <td>{{rfc.statusNb}}</td>
                         <td>{{rfc.statusFinalizacao}}</td>
-                        <td>{{rfc.compiladoHoraAulaNr}}</td>
-                        <td>{{rfc.compiladoDiariaCursoNr}}</td>
+                        <td>{{rfc.compiladoHoraAulaNr || "--"}}</td>
+                        <td>{{rfc.compiladoDiariaCursoNr || "--"}}</td>
                         <td>{{rfc.observacoes}}</td>
+                        <td>
+                            <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(rfc)">
+                              <i class="fas fa-info-circle"></i>
+                            </button>
+                        </td>
                     </tr>
                 </ng-container>
             </tbody>
         </table>
+        <hr class="mb-3 mt-3">
+        <h4>Finalizados</h4>
+        <div class="table-wrapper">
+            <table class="table table-striped">
+                <thead class="tableHeaderColor">
+                    <tr>
+                        <th>Número do Processo</th>
+                        <th>Sigla</th>
+                        <th>Auth</th>
+                        <th>Data de Entrada</th>
+                        <th>Certificado</th>
+                        <th>Drive</th>
+                        <th>NB</th>
+                        <th>Finalização</th>
+                        <th>Hora Aula</th>
+                        <th>Diária Curso</th>
+                        <th>Observações</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let rfc of rfcs" >
+                        <tr *ngIf="rfc.statusFinalizacao === 'Finalizado'">
+                            <td>{{rfc.numeroProcesso}}</td>
+                            <td>{{rfc.sigla}}</td>
+                            <td>{{rfc.auth}}</td>
+                            <td>{{rfc.dataEntrada}}</td>
+                            <td>{{rfc.statusCertificado}}</td>
+                            <td>{{rfc.statusDrive}}</td>
+                            <td>{{rfc.statusNb}}</td>
+                            <td>{{rfc.statusFinalizacao}}</td>
+                            <td>{{rfc.compiladoHoraAulaNr || "--"}}</td>
+                            <td>{{rfc.compiladoDiariaCursoNr || "--"}}</td>
+                            <td>{{rfc.observacoes}}</td>
+                            <td>
+                                <button class="btn btn-primary " style="margin-right: 10px;" (click)="startEditing(rfc)">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
     </div>
 </div>

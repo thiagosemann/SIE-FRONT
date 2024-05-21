@@ -38,6 +38,9 @@ import { DiariaDeCursoComponent } from 'src/app/content/telasCompartilhadas/Ence
 import { DiariaMilitarComponent } from 'src/app/content/telasCompartilhadas/Encerramento/diaria-militar/diaria-militar.component';
 import { DataEncerramentoComponent } from 'src/app/content/telasCompartilhadas/Encerramento/data-encerramento/data-encerramento.component';
 import { RelatorioFinalCursoComponent } from 'src/app/content/telas-admin/relatorio-final-curso/relatorio-final-curso.component';
+import { RelatorioParcialCursoComponent } from 'src/app/content/telas-admin/relatorio-parcial-curso/relatorio-parcial-curso.component';
+import { PagamentoComponent } from 'src/app/content/telas-admin/pagamento/pagamento.component';
+
 
 export interface ComponentItem {
     component: Type<any>,
@@ -278,6 +281,8 @@ export class CourseConfigService {
     { component: PgeComponent , name: 'PGE',validity: false, componentName:"PgeComponent" },
     { component: AberturaProcessoComponent , name: 'Editais',validity: false, componentName:"AberturaProcessoComponent" },
     { component: RelatorioFinalCursoComponent , name: 'RFC',validity: false, componentName:"RelatorioFinalCursoComponent" },
+    { component: RelatorioParcialCursoComponent , name: 'RPC',validity: false, componentName:"RelatorioParcialCursoComponent" },
+    { component: PagamentoComponent , name: 'Pagamento',validity: false, componentName:"PagamentoComponent" },
     
     { component: CursosHomologadosComponent , name: 'Cursos Homologados',validity: false, componentName:"CursosHomologadosComponent" },
     { component: EfetivoComponent , name: 'Efetivo',validity: false, componentName:"EfetivoComponent" }  

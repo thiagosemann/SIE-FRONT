@@ -42,6 +42,11 @@ export class UserService {
     const headers = this.getHeaders();
     return this.http.get<User>(userUrl, { headers });
   }
+  getUserById(id: number): Observable<User> {
+    const userUrl = `${this.url}/id/${id}`;
+    const headers = this.getHeaders();
+    return this.http.get<User>(userUrl, { headers });
+  }
 
 
 }

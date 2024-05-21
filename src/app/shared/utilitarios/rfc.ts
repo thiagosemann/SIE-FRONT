@@ -18,5 +18,10 @@ export interface RFC {
     compiladoHoraAulaNr: number;
     compiladoDiariaCurso: boolean;
     compiladoDiariaCursoNr: number;
+    fimCur: string;
+    iniCur: string;
+    haCurso: string;
+    haiCurso: string;
+    bbm: string;
     observacoes: string;
 }
