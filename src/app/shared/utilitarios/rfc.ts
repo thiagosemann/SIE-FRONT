@@ -15,7 +15,7 @@ export interface RFC {
     statusFinalizacao: string;
     sigla: string;
     compiladoHoraAula: boolean;
-    compiladoHoraAulaNr: number;
+    compilado_id?: number;
     compiladoDiariaCurso: boolean;
     compiladoDiariaCursoNr: number;
     fimCur: string;

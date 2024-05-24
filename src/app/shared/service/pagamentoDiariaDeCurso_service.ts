@@ -42,4 +42,10 @@ export class PagamentoDiariaDeCursoService {
     const headers = this.getHeaders();
     return this.http.delete(`${this.url}/${id}`, { headers });
   }
+  
+  getPagamentoByCompiladoId(compiladoId: number): Observable<PagamentoDiariaDeCurso[]> {
+    const pagamentoDiariaDeCursoUrl = `${this.url}/compilado/${compiladoId}`;
+    const headers = this.getHeaders();
+    return this.http.get<PagamentoDiariaDeCurso[]>(pagamentoDiariaDeCursoUrl, { headers });
+  }
 }

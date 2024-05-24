@@ -114,7 +114,7 @@ export class RelatorioFinalCursoComponent implements OnInit  {
           statusFinalizacao: "Pendente",
           sigla: resp.dados.sigla,
           compiladoHoraAula: false,
-          compiladoHoraAulaNr: 0,
+          compilado_id: 0,
           compiladoDiariaCurso: false,
           compiladoDiariaCursoNr: 0,
           iniCur: resp.dados.iniCur,

@@ -98,7 +98,7 @@ export class RelatorioParcialCursoComponent implements OnInit {
           dataEntrada:  this.formatDateFromInput(this.dataEntrada),
           sigla: resp.dados.sigla,
           compiladoHoraAula: false,
-          compiladoHoraAulaNr: 0,
+          compilado_id: 0,
           bbm:resp.dados.bbm,
           observacoes: ""
         }

@@ -44,6 +44,7 @@ export class PagamentoComponent implements OnInit {
   compiladoSelected:CompiladoPagamento | undefined;
   uniqueProfessors: any[]=[];
   uniqueAlunos: any[]=[];
+
   
 
 
@@ -60,12 +61,28 @@ export class PagamentoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getRpcAndRFC()
+    this.getCompilados();
+  }
+
+  getRpcAndRFC():void{
+    this.rpcs=[];
+    this.rfcs=[];
     this.rpcService.getRpcs().subscribe({
       next: (rpcs: RPC[]) => {
-        this.rpcs = rpcs;
+        rpcs.forEach(rpc=>{
+          if(!rpc.compilado_id){
+            this.rpcs.push(rpc);
+          }
+        })
         this.rfcService.getRFCs().subscribe({
           next: (rfcs: RFC[]) => {
-            this.rfcs = rfcs;
+            rfcs.forEach(rfc=>{
+              if(!rfc.compilado_id && rfc.statusFinalizacao=="Finalizado"){
+                this.rfcs.push(rfc);
+              }
+            })
+         
             this.combineProcessos();
           },
           error: (error: any) => {
@@ -79,14 +96,11 @@ export class PagamentoComponent implements OnInit {
         this.toastr.error('Erro ao obter RFCs');
       }
     });
-
-    this.getCompilados();
   }
 
-
   combineProcessos(): void {
-    const rfcsMapped = this.rfcs.map(rfc => ({ numeroProcesso: rfc.numeroProcesso, sigla: rfc.sigla, tipo: 'RFC', auth:rfc.auth,documentosCriadosId:rfc.documentosCriadosId }));
-    const rpcsMapped = this.rpcs.map(rpc => ({ numeroProcesso: rpc.numeroProcesso, sigla: rpc.sigla, tipo: 'RPC', auth:rpc.auth,documentosCriadosId:rpc.documentosCriadosId }));
+    const rfcsMapped = this.rfcs.map(rfc => ({ numeroProcesso: rfc.numeroProcesso, sigla: rfc.sigla, tipo: 'RFC', auth:rfc.auth,documentosCriadosId:rfc.documentosCriadosId, rfc_id:rfc.id }));
+    const rpcsMapped = this.rpcs.map(rpc => ({ numeroProcesso: rpc.numeroProcesso, sigla: rpc.sigla, tipo: 'RPC', auth:rpc.auth,documentosCriadosId:rpc.documentosCriadosId, rpc_id:rpc.id }));
     this.processos = [...rfcsMapped, ...rpcsMapped];
     this.getInfoProcessos();
     console.log(this.rfcs)
@@ -161,33 +175,72 @@ export class PagamentoComponent implements OnInit {
       const today = new Date();
       const formattedDate = today.toISOString().split('T')[0];
       // Pegar o nome do compilado
-      const name = this.compilados[this.compilados.length-1].name ;
-      // Criar o novo compilado
-        //const compilado_id = await this.createCompilado(name, formattedDate);
-      // Formatar as váriavies pagamentoDiariaDeCurso e pagamentoHoraAula
-      this.formatarPagamentoHoraAula(0);
-      this.formatarDiariaDeCurso(0);
-      // Inserir os dados nas planilhas pagamentoDiariaDeCurso e pagamentoHoraAula
-        //this.insertPagamentoHoraAula();
-        //this.insertPagamentoDiariaDeCurso();
-
-      // Criar variavies com somatório para o XLS
-      const sumUniqueProfessors$ = this.sumUniqueProfessors();
-      const sumUniqueAlunos$ = this.sumUniqueAlunos();
-
-      // Esperar até que as funções sumUniqueProfessors() e sumUniqueAlunos() sejam concluídas
-      forkJoin({ sumUniqueProfessors$ }).subscribe(() => {
-        // Após a conclusão das funções, fazer o download do arquivo em XLS
-        this.downloadXls();
-      });
-      // Inserir o compilado nos RFC e RPC
+      const name = this.compilados[0].name ;
       
+      // Criar o novo compilado
+      const compilado_id = await this.createCompilado(name, formattedDate);
+
+      // Formatar as váriavies pagamentoDiariaDeCurso e pagamentoHoraAula
+      this.formatarPagamentoHoraAula(compilado_id);
+      this.formatarDiariaDeCurso(compilado_id);
+
+      // Inserir os dados nas planilhas pagamentoDiariaDeCurso e pagamentoHoraAula
+      this.insertPagamentoHoraAula();
+      this.insertPagamentoDiariaDeCurso();
+
+      // Inserir o compilado_id nos processos que foram compilados para pagamento
+      this.rfcs.forEach(rfc=>{
+        rfc.compilado_id = compilado_id;
+        this.rfcService.updateRFC(rfc).subscribe(
+          () => {
+            this.toastr.success("Usuário atualizado com sucesso!")
+          },
+          (error) => {
+            this.toastr.error('Erro ao atualizar o RFC:',error)
+            // Trate o erro conforme necessário
+          }
+        );
+      })
+      this.rpcs.forEach(rpc=>{
+        rpc.compilado_id = compilado_id;
+        this.rpcService.updateRpc(rpc).subscribe(
+          () => {
+            this.toastr.success("Usuário atualizado com sucesso!")
+          },
+          (error) => {
+            this.toastr.error('Erro ao atualizar o RFC:',error)
+            // Trate o erro conforme necessário
+          }
+        );
+      })  
+
+      this.clearValores();  
+      this.getCompilados();
     } catch (error) {
       console.error('Erro ao gerar o compilado de pagamento:', error);
       this.toastr.error('Erro ao gerar o compilado de pagamento');
     }
   }
+
+
   
+  clearValores():void{
+    this.processos= [];
+    this.alunos= [];
+    this.docentes= [];
+    this.totalHai= 0;
+    this.valorTotalHai= 0;
+    this.valorTotalHaiFormatado= "";
+    this.totalDC= 0;
+    this.valorTotalDC= 0;
+    this.valorTotalDCFormatado= "";
+    this.pagamentoHoraAula=[];
+    this.pagamentoDiariaDeCurso=[];
+    this.qtdProfessores= 0;;
+    this.qtdAlunos= 0;
+    this.uniqueProfessors=[];
+    this.uniqueAlunos=[];
+  }
 
   sumUniqueProfessors(): Observable<void> {
     return new Observable<void>((observer) => {
@@ -243,28 +296,49 @@ export class PagamentoComponent implements OnInit {
   }
 
   downloadXls(): void {
-    // Criação das planilhas a partir dos dados
-    const wsPagamentoHoraAula: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.uniqueProfessors);
-    const wsPagamentoDiariaDeCurso: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.pagamentoDiariaDeCurso);
-  
-    // Criação do livro de trabalho e adição das planilhas
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, wsPagamentoHoraAula, 'Rubrica01-0147');
-    XLSX.utils.book_append_sheet(wb, wsPagamentoDiariaDeCurso, 'Rubrica01-0257');
-  
-    // Gerar o arquivo XLSX e fazer o download
-    const wbout: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-  
-    // Criar um blob para o arquivo
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
-  
-    // Criar um link para download e clicar nele programaticamente
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'compilado_pagamentos.xlsx';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    if(this.pagamentoHoraAula.length==0 && this.pagamentoDiariaDeCurso.length==0){
+      this.formatarDiariaDeCurso(0);
+      this.formatarPagamentoHoraAula(0);
+    }
+
+    if(this.pagamentoHoraAula.length==0){
+      this.toastr.error("Esse compilado não apresenta professores para pagamento!")
+      return
+    }
+    if(this.pagamentoDiariaDeCurso.length==0){
+      this.toastr.error("Esse compilado não apresenta professores para pagamento!")
+      this.formatarDiariaDeCurso(0);
+      return
+    }
+    // Criar variavies com somatório para o XLS
+    const sumUniqueProfessors$ = this.sumUniqueProfessors();
+    const sumUniqueAlunos$ = this.sumUniqueAlunos();
+    // Esperar até que as funções sumUniqueProfessors() e sumUniqueAlunos() sejam concluídas
+    forkJoin({ sumUniqueProfessors$ }).subscribe(() => {          
+      // Criação das planilhas a partir dos dados
+      const wsPagamentoHoraAula: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.uniqueProfessors);
+      const wsPagamentoDiariaDeCurso: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.pagamentoDiariaDeCurso);
+    
+      // Criação do livro de trabalho e adição das planilhas
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, wsPagamentoHoraAula, 'Rubrica01-0147');
+      XLSX.utils.book_append_sheet(wb, wsPagamentoDiariaDeCurso, 'Rubrica01-0257');
+    
+      // Gerar o arquivo XLSX e fazer o download
+      const wbout: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    
+      // Criar um blob para o arquivo
+      const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    
+      // Criar um link para download e clicar nele programaticamente
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'compilado_pagamentos.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+   
   }
   
   
@@ -297,6 +371,9 @@ export class PagamentoComponent implements OnInit {
         id:this.compilados[this.compilados.length-1].id!+1
        }
        this.compilados.push(compiladoAux)
+       //Mudar o select para o compiladoAux]
+       this.compilados.reverse();
+       this.compiladoSelected = compiladoAux
       },
       error: (error: any) => {
         console.error('Erro ao obter RFCs:', error);
@@ -383,11 +460,63 @@ export class PagamentoComponent implements OnInit {
   }
 
   changeSelectCompilado(event: Event): void {
-    const selectedId = (event.target as HTMLSelectElement).value;
-    console.log((event.target as HTMLSelectElement).value)
-    this.compiladoSelected = this.compilados.find(compilado => compilado.id === parseInt(selectedId, 10));
+
+    const selectedId = Number((event.target as HTMLSelectElement).value);
+    console.log((event.target as HTMLSelectElement).value);
+    this.compiladoSelected = this.compilados.find(compilado => compilado.id === selectedId);
     console.log('Compilado selecionado:', this.compiladoSelected);
+    this.clearValores();
+    // Chamada ao serviço de pagamento de diária de curso
+    this.pagamentoDiariaDeCursoService.getPagamentoByCompiladoId(selectedId).subscribe(
+      pagamentosDiariaDeCurso => {
+        // Lógica para tratar os pagamentos de diária de curso recebidos
+        console.log('Pagamentos de diária de curso:', pagamentosDiariaDeCurso);
+        this.pagamentoDiariaDeCurso = pagamentosDiariaDeCurso
+      },
+      error => {
+        console.error('Erro ao obter pagamentos de diária de curso:', error);
+      }
+    );
+  
+    // Chamada ao serviço de pagamento de hora/aula
+    this.pagamentoHoraAulaService.getPagamentoByCompiladoId(selectedId).subscribe(
+      pagamentosHoraAula => {
+        // Lógica para tratar os pagamentos de hora/aula recebidos
+        console.log('Pagamentos de hora/aula:', pagamentosHoraAula);
+        this.pagamentoHoraAula = pagamentosHoraAula
+      },
+      error => {
+        console.error('Erro ao obter pagamentos de hora/aula:', error);
+      }
+    );
+
+    // Chamada ao serviço de rfc
+    this.rfcService.getRFCByCompiladoId(selectedId).subscribe(
+      rfcs => {
+        // Lógica para tratar os pagamentos de hora/aula recebidos
+        console.log('rfcs:', rfcs);
+        this.rfcs = rfcs
+        // Chamada ao serviço de rfc
+        this.rpcService.getRPCByCompiladoId(selectedId).subscribe(
+          rpcs => {
+            // Lógica para tratar os pagamentos de hora/aula recebidos
+            console.log('rfcs:', rpcs);
+            this.rpcs = rpcs
+            this.combineProcessos();
+
+          },
+          error => {
+            console.error('Erro ao obter pagamentos de hora/aula:', error);
+          }
+        );
+      },
+      error => {
+        console.error('Erro ao obter pagamentos de hora/aula:', error);
+      }
+    );
   }
+
+
   
 
 }

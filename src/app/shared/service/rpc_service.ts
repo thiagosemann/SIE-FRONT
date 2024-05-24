@@ -42,4 +42,9 @@ export class rpcService {
     const headers = this.getHeaders();
     return this.http.delete(`${this.url}/${id}`, { headers });
   }
+  getRPCByCompiladoId(compiladoId: number): Observable<RPC[]> {
+    const rpcUrl = `${this.url}/compilado/${compiladoId}`;
+    const headers = this.getHeaders();
+    return this.http.get<RPC[]>(rpcUrl, { headers });
+  }
 }

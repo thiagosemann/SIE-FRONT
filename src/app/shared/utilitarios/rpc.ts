@@ -6,7 +6,7 @@ export interface RPC {
     dataEntrada: string;
     sigla: string;
     compiladoHoraAula: boolean;
-    compiladoHoraAulaNr: number;
+    compilado_id: number;
     bbm: string;
     observacoes: string;
 }

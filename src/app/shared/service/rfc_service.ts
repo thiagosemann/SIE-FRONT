@@ -42,4 +42,9 @@ export class RFCService {
     const headers = this.getHeaders();
     return this.http.delete(`${this.url}/${id}`, { headers });
   }
+  getRFCByCompiladoId(compiladoId: number): Observable<RFC[]> {
+    const rfcUrl = `${this.url}/compilado/${compiladoId}`;
+    const headers = this.getHeaders();
+    return this.http.get<RFC[]>(rfcUrl, { headers });
+  }
 }

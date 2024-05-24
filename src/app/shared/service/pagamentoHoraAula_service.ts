@@ -41,4 +41,9 @@ export class PagamentoHoraAulaService {
     const headers = this.getHeaders();
     return this.http.delete(`${this.url}/${id}`, { headers });
   }
+  getPagamentoByCompiladoId(compiladoId: number): Observable<PagamentoHoraAula[]> {
+    const pagamentoHoraAulaUrl = `${this.url}/compilado/${compiladoId}`;
+    const headers = this.getHeaders();
+    return this.http.get<PagamentoHoraAula[]>(pagamentoHoraAulaUrl, { headers });
+  }
 }
